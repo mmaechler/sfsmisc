@@ -35,7 +35,7 @@ hatMat(x, trace= FALSE,
   Chapman \& Hall.
 }
 \author{Martin Maechler \email{maechler@stat.math.ethz.ch}}
-\seealso{\code{\link[modreg]{smooth.spline}}, etc}
+\seealso{\code{\link{smooth.spline}}, etc}
 \examples{
 require(modreg) # for smooth.spline() or loess()
 
