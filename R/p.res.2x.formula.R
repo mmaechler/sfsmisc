@@ -1,4 +1,6 @@
-g.res2x <-
+if(FALSE) ##: This is not yet ready for prime time
+p.res.2x.formula <-  ## Change the name ;  no 'lm'
+    ## take graphics:::mosaicplot.formula() as example
 function(formula = ~., data, restricted = NULL, size = 1,
          slwd = 1, scol = 2,
          xlab = NULL, ylab = NULL, xlim = NULL, ylim = NULL, ...)
