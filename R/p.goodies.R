@@ -617,6 +617,7 @@ p.profileTraces <- function(x, cex=1)
   ## Purpose: Zeichnet die Profilspuren und die t-Profil-Plots.
   ## Arguments: x = Resultat von der R/S-Funktion profile()
   ## Author: Andreas Ruckstuhl, Date: Nov 93
+  ##         R port by Isabelle Flückiger and Marcel Wolbers 
   ## -------------------------------------------------------------------------
   nx <- names(x)
   np <- length(x)
@@ -638,7 +639,7 @@ p.profileTraces <- function(x, cex=1)
           if(is.R()) { ## mtext(outer = TRUE, at= <NICHT "usr" Koord>):
             mtext(side = 1, line = 0.8, at = -1/(2*np)+i/np, 
                   text = nx[j] , outer = TRUE, cex = cex)
-            mtext(side = 2, line = 0.8, at = -1/(2*np)+i/np, 
+            mtext(side = 2, line = 0.8, at = 1+1/(2*np)-i/np, 
                   text = nx[i], outer = TRUE, cex = cex)
           }
           else {
