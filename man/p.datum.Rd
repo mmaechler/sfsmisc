@@ -6,11 +6,12 @@
   margin of your plot.date
 }
 \usage{
-p.datum(outer=FALSE, ...)
+p.datum(outer = FALSE, cex = 0.75, ...)
 }
 \arguments{
   \item{outer}{logical; passed to \code{\link{mtext}}.}
-  \item{\dots}{Any arguments to \code{\link{u.Datumvonheute}}.}
+  \item{cex}{non-negative; passed to \code{\link{mtext}}.}
+  \item{\dots}{any arguments to \code{\link{u.Datumvonheute}}.}
 }
 \seealso{\code{\link{u.date}}, \code{\link{date}}.}
 \examples{
