@@ -12,7 +12,7 @@
 Sys.PID(ps.cmd = Sys.ps.cmd())
 Sys.ps.cmd()
 
-Sys.ps(process=Sys.PID(),
+Sys.ps(process=Sys.PID(ps.cmd),
        fields= c("pid", "pcpu", "time", "vsz", "comm"),
        usefile = length(fields) > 10,
        ps.cmd  = Sys.ps.cmd(),
