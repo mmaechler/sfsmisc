@@ -4,9 +4,9 @@
 require(tcltk) || stop("tcltk support is absent")
 
 tkdensity <- function(y, n = 1024, log.bw = TRUE, showvalue = TRUE, 
-                       from.fac = 1/1000, to.fac = 2)
+                      from.fac = 1/1000, to.fac = 2)
 {
-    ## Purpose:
+    ## Purpose: as density() but with  scrollbar - bandwidth selection
     ## -----------------------------------------------------------------------
     ## Arguments:
     ## -----------------------------------------------------------------------
@@ -45,14 +45,17 @@ tkdensity <- function(y, n = 1024, log.bw = TRUE, showvalue = TRUE,
     base <- tktoplevel()
     tkwm.title(base, "Density")
 
-    spec.frm <- tkframe(base,borderwidth = 2)
-    frm.bw <- tkframe(spec.frm)
-    frm.k <- tkframe(spec.frm)
+    base.frame <- tkframe(base, borderwidth = 2)
+    frm.bw <- tkframe(base.frame) # bandwidth
+    frm.k  <- tkframe(base.frame) # kernel
+    q.but <- tkbutton(base,text = "Quit", command = function()tkdestroy(base))
 
-    bw.frame <- tkframe(frm.bw, relief = "groove", borderwidth = 2)
+    tkpack(base.frame, q.but)
+
+    ## Bandwith Frame :
+    bw.frame <- tkframe(frm.bw, relief = "groove", borderwidth = 3)
     tkpack(tklabel (bw.frame,
                     text = if(log.bw)"log10(Bandwidth)" else "Bandwidth"))
-## fixme: Consider using  log(bandwidth)  or bandwith ^ 1/5
     tkpack(tkscale (bw.frame, command = replot.maybe,
                     from = if(log.bw) lbw0 - log10(from.fac)
                            else bw0 * from.fac,
@@ -62,24 +65,19 @@ tkdensity <- function(y, n = 1024, log.bw = TRUE, showvalue = TRUE,
                     resolution = if(log.bw) lbw0/20 else bw0/4 * from.fac,
                     orient = "horiz"))
 
+    ## Kernel Frame :
     kern.frame <- tkframe(frm.k, relief = "groove", borderwidth = 2)
     tkpack(tklabel(kern.frame, text = "Kernel"))
-    for (i in eval(formals(density)$kernel)) {
-        tmp <- tkradiobutton(kern.frame, command = replot,
-                             text = i, value = i, variable = "kernel")
-        tkpack(tmp, anchor = "w")
-    }
+    for (k.name in eval(formals(density)$kernel))
+        tkpack(tkradiobutton(kern.frame, command = replot,
+                             text = k.name, value = k.name, variable="kernel"),
+               anchor = "w")
 
     tkpack( bw.frame, kern.frame, fill = "y")
     ##tkpack(frame1, kern.frame, fill="x")
     ##tkpack(frame3, bw.frame, fill="x")
 
     tkpack(frm.k, frm.bw, anchor = "n")
-
-    q.but <- tkbutton(base,text = "Quit",
-                      command = function()tkdestroy(base))
-
-    tkpack(spec.frm, q.but)
 
     tclvar$size  <- size
     tclvar$bw <- bw
