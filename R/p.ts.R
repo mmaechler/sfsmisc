@@ -52,11 +52,16 @@ p.ts <-
         if(!is.ts(x)) x <- as.ts(x)
         ##-  do.dates <- !is.null(class(x)) && class(x) == "cts"
         ##-  if(do.dates) x <- as.rts(x)# dates() as below fails [S+ 3.4]
-        scal <- (end(x)[1] - (t1 <- start(x)[1])) / (n-1)
+        ## NB: end() and start() are of length 1 _or_ 2 (!)
+        scal <- (end(x) - (t1 <- start(x))) / (n-1)
         nk <- n %/% nrplots
         if(is.null(ylim))
             ylim <- range(pretty(range(x, na.rm = TRUE)))
         ##    --------
+        if(!quiet)
+            Form <- function(x)
+                paste("(",paste(formatC(x, digits=6, width=1), collapse=", "),
+                      ")",sep='')
         pp <- mult.fig(mfrow=c(nrplots,1), main = main.tit, quiet= TRUE,
                        mgp = mgp, marP = c(-1,-1,-2,0))
         on.exit(par(pp $ old.par))
@@ -66,8 +71,8 @@ p.ts <-
             st <- t1 + scal*i0 ##; if(do.dates) st <- dates(st)
             en <- t1 + scal*in1 ##; if(do.dates) en <- dates(en)
             if(!quiet)
-                cat(sprintf("%2d -- start{%d}= %f; end{%d}= %f\n",
-                            i, i0,st, in1, en))
+                cat(sprintf("%2d -- start{%d}= %s; end{%d}= %s\n",
+                            i, i0,Form(st), in1, Form(en)))
         if(has.date.x) {
             plot(date.x[1+ i0:in1], window(x, start= st, end = en),
                  ..., ylim = ylim, type = 'l',
