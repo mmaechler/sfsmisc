@@ -27,6 +27,24 @@ table(pcl, cl)## 0 + 1 + 2 misclassified
 stopifnot(pcl == diagDA(train,cl, test, pool = FALSE))
                                         # i.e. quadratic identical here
 
+### Test 'NA' in predict dat.fr
+set.seed(753)
+itr <- sample(n, 0.9 * n)
+lrn <- m.iris[ itr,]
+tst <- m.iris[-itr,]
+dd <- dDA(lrn, cl.true[itr])
+pd0 <- predict(dd, tst)
+
+i.NA <- c(3:5,7,11)
+j.NA <- sample(1:ncol(tst), size=length(i.NA), replace=TRUE)
+tst[cbind(i.NA, j.NA)] <- NA
+pdd <- predict(dd, tst)
+pcl <- diagDA(lrn, cl.true[itr],  tst)
+stopifnot(length(pdd) == nrow(tst),
+          identical(pdd, pcl),
+          pdd[-i.NA] == pd0[-i.NA],
+          which(is.na(pdd)) == i.NA)
+
 ## Now do some (randomized) CV :
 ## for each observation, count how often it's misclassified
 M <- 200
@@ -42,6 +60,7 @@ for(m in 1:M) {
 }
 missCl ; mean(missCl) / M
 
+## The "same" with  'pool=FALSE' :
 missCl <- integer(n)
 for(m in 1:M) {
     itr <- sample(n, 0.9 * n)
