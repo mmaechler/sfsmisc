@@ -48,24 +48,25 @@ C.weekday <- c("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
 ##>>> Please: Forget the following !!  it is =====  S function  date() !!
 ##>>> "u.datum"<- function() unix("date")
 
-u.datumdecode <- function(d = 8710230920)
+u.datumdecode <-
+    function(d, YMDHMnames = c("Jahr", "Monat", "Tag", "Std", "Min"))
 {
-  ## Ziel: Daten der Form 8710230920 aufspalten in Jahr, Monat, Tag, Std, Min
-  ## ----------------------------------------------------------------------
-  ## Bemerkungen: Dies scheint mir nicht das richtige Konzept.
-  ##	Wenn man numerische Datuemer will, soll man doch julianische
-  ##	Daten verwenden !! Dann hat man auch eine richtige Zeit-Skala
-  ##	Diese Funktionen sind in library(examples) und (verbessert) in
-  ##	/u/maechler/s/date.Data !! (Martin Maechler)
-  ##=======================================================================
-  z <- rep(NA, 5)
-  for(j in 5:1) {
-    h <- d %/% 100
-    z[j] <- d - 100 * h
-    d <- h
-  }
-  names(z) <- c("Jahr", "Monat", "Tag", "Std", "Min")
-  return(z)
+    ## Ziel: Daten der Form 8710230920 aufspalten in Jahr, Monat, Tag, Std, Min
+    ## ----------------------------------------------------------------------
+    ## Bemerkungen: Dies scheint mir nicht das richtige Konzept.
+    ##	Wenn man numerische Datuemer will, soll man doch julianische
+    ##	Daten verwenden !! Dann hat man auch eine richtige Zeit-Skala
+    ##	Diese Funktionen sind in library(examples) und (verbessert) in
+    ##	/u/maechler/s/date.Data !! (Martin Maechler)
+    ##=======================================================================
+    if(length(YMDHMnames) != 5 || !is.character(YMDHMnames))
+        stop("invalid `YMDHMnames': must be character(5)")
+    n <- length(d)
+    z <- matrix(NA, n, 5, dimnames = list(names(d), YMDHMnames))
+    for(j in 5:1) {
+        h <- d %/% 100
+        z[, j] <- d - 100 * h
+        d <- h
+    }
+    drop(z)# vector if `d' was a scalar (length 1)
 }
-
-
