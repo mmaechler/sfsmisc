@@ -1,43 +1,20 @@
 \name{p.datum}
 \alias{p.datum}
-%- Also NEED an `\alias' for EACH other topic documented here.
-\title{ ~~function to do ... ~~}
+\title{Plot `Datum' (deutsch!) unten rechts}
 \description{
- ~~ A concise (1-5 lines) description of what the function does. ~~
+  Plot the date (& time, if required) in German, at the lower right hand
+  margin of your plot.date
 }
 \usage{
 p.datum(outer=FALSE, ...)
 }
-%- maybe also `usage' for other objects documented here.
 \arguments{
- \item{outer}{ ~~Describe \code{outer} here~~ }
- \item{\dots}{ ~~Describe \code{\dots} here~~ }
+  \item{outer}{logical; passed to \code{\link{mtext}}.}
+  \item{\dots}{Any arguments to \code{\link{u.Datumvonheute}}.}
 }
-\details{
- ~~ If necessary, more details than the __description__  above ~~
-}
-\value{
-  ~Describe the value returned
-  If it is a LIST, use
-  \item{comp1 }{Description of `comp1'}
-  \item{comp2 }{Description of `comp2'}
-  ...
-}
-\references{ ~put references to the literature/web site here ~ }
-\author{ ~~who you are~~ }
-\note{ ~~further notes~~ }
-
- ~Make other sections like WARNING with \section{WARNING }{....} ~
-
-\seealso{ ~~objects to SEE ALSO as \code{\link{~~fun~~}}, ~~~ }
-
+\seealso{\code{\link{u.date}}, \code{\link{date}}.}
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	     or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (outer = FALSE, ...) 
-mtext(u.Datumvonheute(...), 4, cex = 0.6, adj = 0, outer = outer)
+plot(1)
+p.datum()
 }
-\keyword{ ~keyword }%-- one or more ...
+\keyword{hplot}%-- one or more ...
