@@ -1,4 +1,4 @@
-#### $Id: misc-goodies.R,v 1.27 2004/01/12 13:46:54 maechler Exp $
+#### $Id: misc-goodies.R,v 1.28 2004/01/31 19:00:02 maechler Exp $
 #### misc-goodies.R
 #### ~~~~~~~~~~~~~~  SfS - R - goodies that are NOT in
 ####		"/u/sfs/R/SfS/R/u.goodies.R"
@@ -35,17 +35,12 @@ last <- function(x, length.out = 1, na.rm = FALSE)
 
 empty.dimnames <- function(a)
 {
-  ## 'Remove' all dimension names from an array for compact printing.
-  d <- list(); l <- 0
-  for(i in dim(a)) d[[l <- l + 1]] <- rep("", i)
-  dimnames(a) <- d
-  a
+    ## 'Remove' all dimension names from an array for compact printing.
+    n <- length(da <- dim(a))
+    if(n == 0) return(a)
+    dimnames(a) <- lapply(1:n, function(i) rep("", da[i]))
+    a
 }
-
-## unname <- function(obj)     is in standard R, since version 0.90.1
-
-## which() <- function(x,...)  is in standard R !!
-
 
 
 ##-#### Plot / Devices  related stuff        ########
