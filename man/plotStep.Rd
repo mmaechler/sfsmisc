@@ -6,9 +6,10 @@
 \title{Plot a Step Function}
 \description{
   Plots a step function
-  f(x)= sum\{ y[i] * 1_[ t[i-1], t[i] ) (x) \},
-  i.e., a piecewise constant function of one variable.
-  With one argument, plots "THE" empirical cumulative distribution function.
+  f(x)= \eqn{\sum_i  y_i  1_[ t_{i-1}, t_i ](x) }{sum(i; y[i] *
+    Ind[t[i-1], t[i])(x))}, i.e., a piecewise constant function of one variable.
+  With one argument, plots \bold{the} empirical cumulative distribution
+  function. 
 }
 \usage{
 plot.step(ti, y,
@@ -21,45 +22,42 @@ plot.step(ti, y,
           main=NULL, \dots)
 }
 \arguments{
-\item{ti}{Numeric Vector = X[1:N] or  t[0:n]}
-\item{y}{Numeric Vector y[1:n]; if omitted take y = k/N  for empirical CDF
-}
-\item{cad.lag}{
-Logical: Draw 'cad.lag', i.e., "continue a droite, limite a gauche". Default = T
-}
-\item{verticals}{Logical: Draw vertical lines?  Default= ! cad.lag}
-\item{left.points}{Logical: Draw left points?     Default= cad.lag}
-\item{right.points}{Logical: Draw right points?    Default= FALSE}
-\item{end.points}{Logical: Draw 2 end points?    Default= FALSE}
-\item{add}{Logical: Add to existing plot?    Default= FALSE
-
-  Any arguments to \code{plot(..)}; the following are treated specially:
-}
-\item{pch}{The plotting character for points}
-\item{xlab}{Label of x-axis}
-\item{ylab}{Label of y-axis}
-\item{main}{Main Title; Default = 'call'; if you do not want a title,
-  use 'main=""'.}
-\item{...}{Any valid argument to plot(..), e.g.,
-  main = "This is the Main Title", lty=3. 
-}
+  \item{ti}{numeric vector = \code{X[1:N]} or  \code{t[0:n]}.}
+  \item{y}{numeric vector \code{y[1:n]}; if omitted take y = k/N
+    for empirical CDF.  }
+  \item{cad.lag}{
+    logical: Draw 'cad.lag', i.e., "continue a droite, limite a
+    gauche". Default = TRUE.}
+  \item{verticals}{logical: Draw vertical lines?  Default= ! cad.lag}
+  \item{left.points}{logical: Draw left points?     Default= cad.lag}
+  \item{right.points}{logical: Draw right points?    Default= FALSE}
+  \item{end.points}{logical: Draw 2 end points?    Default= FALSE}
+  \item{add}{logical: Add to existing plot?    Default= FALSE}
+  \item{pch}{The plotting character for points}
+  \item{xlab}{Label of x-axis}
+  \item{ylab}{Label of y-axis}
+  \item{main}{Main title; Default = 'call'; if you do not want a title,
+    use 'main=""'.}
+  \item{\dots}{Any valid argument to plot(..), e.g.,
+    main = "This is the Main Title", lty=3.}
 }
 \value{
 [INVISIBLY:]  List with components \code{t} and \code{y}.
 }
 \section{Side Effects}{
-Calls plot(..), points(..),  segments(..) appropriately
-and plots on current graphics device.
-
-
-NOTE:
+  Calls plot(..), points(..),  segments(..) appropriately
+  and plots on current graphics device.
 }
 \author{
-Martin Maechler, Seminar for Statistics, ETH Zurich, Switzerland;
-\email{maechler@stat.math.ethz.ch}
+  Martin Maechler, Seminar for Statistics, ETH Zurich, Switzerland;
+  \email{maechler@stat.math.ethz.ch}
 }
 \seealso{
-plot, segments, approx(\dots{}, method = "constant")
+  \code{\link[stepfun]{plot.ecdf}} and
+  \code{\link[stepfun]{plot.stepfun}} in \R which are conceptually nicer.
+
+  \code{\link{plot}},
+  \code{\link{segments}(\dots, method = "constant")}. 
 }
 \examples{
 ##-- Draw an Empirical CDF  (and see the default title ..)
