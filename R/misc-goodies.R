@@ -1,4 +1,4 @@
-#### $Id: misc-goodies.R,v 1.15 2002/09/30 17:33:46 sfs Exp $
+#### $Id: misc-goodies.R,v 1.16 2002/11/02 14:31:18 maechler Exp $
 #### misc-goodies.R
 #### ~~~~~~~~~~~~~~  SfS - R - goodies that are NOT in
 ####		"/u/sfs/R/SfS/R/u.goodies.R"
@@ -155,18 +155,21 @@ boxplot.matrix <- function(x, cols = TRUE, ...)
 }
 
 cum.Vert.funkt <- function(x, Quartile = TRUE, titel = TRUE, Datum = TRUE,
-                           rang.axis = TRUE, xlab = "", main = "", ...)
+                           rang.axis = n <= 20, xlab = "", main = "", ...)
 {
   ## Ziel: Kumulative Verteilung von x aufzeichnen, auf Wunsch auch Median
   ##       und Quartile
-  op <- par(xaxs = "r", yaxs = "r"); on.exit(par(op))# is the default anyway
-  plot.step(x, xlab = xlab, main = main, ...)
+  op <- par(xaxs = "r", yaxs = "r", las = 1)# the default anyway
+  on.exit(par(op))
+  r <- plotStep(x, xlab = xlab, main = main, ...)
   #### FIXME : Use  package "stepfun" instead
   n <- length(x)
-  if(rang.axis) axis(4, pos = par("usr")[1], at = (0:n)/n, labels = 0:n)
+  if(rang.axis)
+      axis(4, at = (0:n)/n, labels = 0:n, pos = par("usr")[1])#, las = 1)
   if(titel) mtext("Kumulative Verteilungsfunktion", 3, line = 0.5)
   if(Quartile) for(i in 1:3) abline(h = i/4, lty = 2)
   if(Datum) p.datum()
+  invisible(r)
 }
 
 
@@ -586,29 +589,23 @@ pmin.sa <- function(scalar, arr)
     }
 }
 
-diag.ex <- function(n)
+## diag.ex <- function(n)  --- now renamed :
+diagX <- function(n)
 {
   ## Purpose: Returns "the other diagonal" matrix
-  ## Author: Martin Maechler, Date:  Tue Jan 14 09:40:36 1992
+  ## Author: Martin Maechler, Date: Tue Jan 14 1992; Nov.2002
   ## ----------------------------------------------------------------
   ## Arguments: n: integer dimension of matrix
   ## ----------------------------------------------------------------
-  e <- e1 <- rep.int(0, n-1)
-  e[n-1] <- 1
-  e <- c(0, rep.int(e,n), e1)
-  dim(e) <- c(n,n)
-  e
+    m <- numeric(n * n)
+    m[1+ (n-1)* (1:n)] <- 1
+    dim(m) <- c(n,n)
+    m
 }
 
 xy.grid <- function(x,y)
 {
   ## Purpose: Produce the grid used by  persp, contour, .. as  N x 2 matrix
-  ## -------------------------------------------------------------------------
-  ## Arguments: x,y : any vectors of same mode
-  ## -------------------------------------------------------------------------
-  ## Author: Martin Maechler, Date: 26 Oct 94, 10:40
-  ## Example:  plot(xy.grid(1:7, 10*(0:4)))
-  ##
   nx <- length(x)
   ny <- length(y)
   cbind(rep(x,rep.int(ny,nx)),	rep(y,nx))
@@ -703,35 +700,38 @@ u.log <- function(x, c = 1)
   r
 }
 
-xy.unique.x <- function(x,y,w, fun.mean = mean)
+xy.unique.x <- function(x,y, w, fun.mean = mean)
 {
-  ## Purpose: given 'smoother data' (x_i, y_i) [and maybe weight  w_i]
-  ##	      with multiple x_i, use unique x's, replacing y's by their mean
-  ## -------------------------------------------------------------------------
-  ## Arguments:
-  ## -------------------------------------------------------------------------
-  ## Author: Martin Maechler, Date:  8 Mar 93, 16:36
-  ##--*--*--*--*--*--*--*--*--*-- x,y,w  treatment --*--*--*--*--*--*--*--*--
-  if(missing(x)) x <- time(y)  else
-  if(missing(y)) {
-    if(is.list(x)) {
-      if(any(is.na(match(c("x", "y"), names(x)))))
-	stop("cannot find x and y in list")
-      y <- x$y; x <- x$x; if(!is.null(x$w)) w <- x$w
-    } else if(is.complex(x)) { y <- Im(x); x <- Re(x)
-    } else if(is.matrix(x) && ncol(x) == 2) { y <- x[, 2];            x <- x[, 1]
-    } else if(is.matrix(x) && ncol(x) == 3) { y <- x[, 2]; w <- x[, 3]; x <- x[, 1]
-    } else { y <- x; x <- time(x)
+    ## Purpose: given 'smoother data' (x_i, y_i) [and maybe weight  w_i]
+    ##	      with multiple x_i, use unique x's, replacing y's by their mean
+    ## -------------------------------------------------------------------------
+    ## Author: Martin Maechler, Date:  8 Mar 93, 16:36
+    ##--*--*--*--*--*--*--*--*--*-- x,y,w  treatment --*--*--*--*--*--*--*--*--
+    if(missing(x)) x <- time(y)  else
+    if(missing(y)) {
+        if(is.list(x)) {
+            if(any(is.na(match(c("x", "y"), names(x)))))
+                stop("cannot find x and y in list")
+            y <- x$y; x <- x$x; if(!is.null(x$w)) w <- x$w
+        } else if(is.complex(x)) {
+            y <- Im(x); x <- Re(x)
+        } else if(is.matrix(x) && ncol(x) == 2) {
+            y <- x[, 2]; x <- x[, 1]
+        } else if(is.matrix(x) && ncol(x) == 3) {
+            y <- x[, 2]; w <- x[, 3]; x <- x[, 1]
+        } else {
+            y <- x; x <- time(x)
+        }
     }
-  }
-  n <- length(x);  if(n != length(y)) stop("lengths of x and y must match")
-  if(missing(w))  w <- rep(1,n)
+    n <- length(x)
+    if(n != length(y)) stop("lengths of x and y must match")
+    if(missing(w))  w <- rep(1,n)
     else if(n != length(w)) stop("lengths of x and w must match")
-  ##--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--
-  gr <- match(x,unique(x))
-  cbind(x = unique(x),
-	y = tapply(y, gr, FUN = fun.mean),
-	w = tapply(w, gr, FUN = sum))
+    ##--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--
+    gr <- match(x,unique(x))
+    cbind(x = unique(x),
+          y = tapply(y, gr, FUN = fun.mean),
+          w = tapply(w, gr, FUN = sum))
 }
 
 
@@ -813,29 +813,17 @@ code2n <- function(ncod, ndig = 1, dec.codes = c("","d","c","k"))
 nr.sign.chg <- function(y)
 {
   ## Purpose:  Compute number of sign changes in sequence
-  ## -------------------------------------------------------------------------
-  ## Arguments: y:  numeric sequence
-  ## -------------------------------------------------------------------------
-  ## Author: Martin Maechler, Date: 17 Feb 93, 18:04
-
   ## Be careful with y[i] that were 0 !!
-  y <- sign(c(y)); y <- y[y != 0]
-  sum(y[-1] != y[-length(y)])
+  y <- sign(c(y))
+  y <- y[y != 0]
+  sum(as.integer(y[-1] != y[-length(y)]))
 }
 
 unif <- function(n, round.dig = 1 + trunc(log10(n)))
 {
-  ## Purpose: Give regular points on [-c,c] with
-  ##	      mean 0 (exact) and variance ~= 1  (very close for EVEN n)
-  ## -------------------------------------------------------------------------
-  ## Arguments: n: number of points,   round.dig: to many digits AFTER "."
-  ## -------------------------------------------------------------------------
-  ## Author: Martin Maechler, ~ 1990  (TESTING: in "~/S/unif.S" !)
-  ##
-  ## NOTE: It is easy to prove that   Var(1,2,...,n) = n(n+1)/12
-  if(0 == n %% 2) {
-    if(n == 0) NULL
-      else round((2 * 1:n - (n + 1)) * sqrt(3/(n * (n + 1))), round.dig)
+  ## Purpose: Give regular points on [-c,c] with mean 0 and variance ~= 1
+  if(n %% 2 == 0) {
+    if(n > 0) round((2 * 1:n - (n + 1)) * sqrt(3/(n * (n + 1))), round.dig)
   } else {
     m <- n %/% 2 #--> m+1 = (n+1)/2
     ( - m:m) * round(sqrt(6/((m + 1) * n)), round.dig)
