@@ -1,17 +1,16 @@
 \name{TA.plot}
 \alias{TA.plot}
-\title{Tukey-Anscombe plot (residual ~ fitted) of a linear model fit.
-}
+\title{Tukey-Anscombe Plot (residual vs. fitted) of a Linear Model. }
 \description{
-From a linear (or glm) model fitted, produce the so-called Tukey-Anscombe
-plot.  Useful (optional) additions include:   0-line, lowess smooth, 
-2sigma lines,  and automatic labeling of observations.
+  From a linear (or glm) model fitted, produce the so-called Tukey-Anscombe
+  plot.  Useful (optional) additions include:   0-line, lowess smooth, 
+  2sigma lines,  and automatic labeling of observations.
 }
 \usage{
 TA.plot(lm.res, 
-          fit= fitted(lm.res), res= residuals(lm.res, "pearson"),
-          labels= NULL, main= mk.main(), draw.smooth= n >= 10,
-          show.call= T, show.2sigma= T, lo.iter = NULL, lo.cex=0.8, \dots)
+        fit= fitted(lm.res), res= residuals(lm.res, "pearson"),
+        labels= NULL, main= mk.main(), draw.smooth= n >= 10,
+        show.call= T, show.2sigma= T, lo.iter = NULL, lo.cex=0.8, \dots)
 }
 \arguments{
   \item{lm.res}{Result of lm(..), aov(..), glm(..) or a similar object.}
@@ -42,10 +41,10 @@ TA.plot(lm.res,
   The above mentioned plot is produced on the current graphic device.
 }
 \author{
-Martin Maechler, Seminar fuer Statistik, ETH Zurich, Switzerland;
-\email{maechler@stat.math.ethz.ch}
+  Martin Maechler, Seminar fuer Statistik, ETH Zurich, Switzerland;
+  \email{maechler@stat.math.ethz.ch}
 }
-\seealso{\code{\link{plot.lm}}
+\seealso{\code{\link{plot.lm}} which also does a QQ normal plot and more.
 }
 \examples{
 data(stackloss)
