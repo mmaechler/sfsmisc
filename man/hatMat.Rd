@@ -1,70 +1,63 @@
 \name{hatMat}
 \alias{hatMat}
-%- Also NEED an `\alias' for EACH other topic documented here.
-\title{ ~~function to do ... ~~ }
+\title{Hat Matrix of a Smoother}
 \description{
-  ~~ A concise (1-5 lines) description of what the function does. ~~
+  Compute the hat matrix or smoother matrix, of `any' (linear) smoother,
+  smoothing splines, by default.
 }
 \usage{
-hatMat(x, trace=FALSE, pred.sm=function(x, y, ...) predict(smooth.spline(x, y, ...), x = x)$y, ...)
+hatMat(x, trace= FALSE,
+       pred.sm = function(x, y, ...)
+                 predict(smooth.spline(x, y, ...), x = x)$y,
+       \dots)
 }
-%- maybe also `usage' for other objects documented here.
 \arguments{
-  \item{x}{ ~~Describe \code{x} here~~ }
-  \item{trace}{ ~~Describe \code{trace} here~~ }
-  \item{pred.sm}{ ~~Describe \code{pred.sm} here~~ }
-  \item{\dots}{ ~~Describe \code{\dots} here~~ }
-}
-\details{
-  ~~ If necessary, more details than the __description__  above ~~
+  \item{x}{numeric vector}
+  \item{trace}{logical indicating if the whole hat matrix, or only its
+    trace, i.e. the sum of the diagonal values should be computed.}
+  \item{pred.sm}{a function of at least two arguments \code{(x,y)}
+    which returns fitted values, i.e. \eqn{\hat{y}}{y.hat}, of the same
+    length as \code{x} (and \code{y}).}
+  \item{\dots}{optionally further arguments to the smoother function
+    \code{pred.sm}.}
 }
 \value{
-  ~Describe the value returned
-  If it is a LIST, use
-  \item{comp1 }{Description of `comp1'}
-  \item{comp2 }{Description of `comp2'}
-  ...
+  The hat matrix \eqn{H} (if \code{trace = FALSE} as per default) or 
+  a number, \eqn{tr(H)}, the \emph{trace} of \eqn{H}, i.e.,
+  \eqn{\sum_i H_{ii}}{sum(i) H[i,i]}.
+
+  Note that \code{dim(H) == c(n, n)} where \code{n <- length(x)} also in
+  the case where some x values are duplicated (aka \emph{ties}).
 }
-\references{ ~put references to the literature/web site here ~ }
-\author{ ~~who you are~~ }
-\note{ ~~further notes~~ }
-
- ~Make other sections like WARNING with \section{WARNING }{....} ~
-
-\seealso{ ~~objects to SEE ALSO as \code{\link{~~fun~~}}, ~~~ }
-
+\references{
+  Hastie and Tibshirani (1990).
+  \emph{Generalized Additive Models}.
+  Chapman \& Hall.
+}
+\author{Martin Maechler \email{maechler@stat.math.ethz.ch}}
+\seealso{\code{\link[modreg]{smooth.spline}}, etc}
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	     or do  help(data=index)  for the standard data sets.
+require(modreg) # for smooth.spline() or loess()
 
-## The function is currently defined as
-function(x, trace = FALSE,
-                   pred.sm = function(x,y,...)
-                   predict(smooth.spline(x,y, ...), x = x)$y,
-                   ...)
-{
-    ## Purpose: Return Hat matrix of a smoother -- very general (but slow)
-    ## -------------------------------------------------------------------------
-    ## Arguments: x: the design points
-    ##		trace: if TRUE, only the trace of the matrix is returned, i.e.,
-    ##			sum(diag( <matrix> ))
-    ##		pred.sm: a function(x,y,..), predict(smoother(x,y,...))
-    ##		....   : smoothing parameters, for the pred.sm() function.
-    ## -------------------------------------------------------------------------
-    ## Author: Martin Maechler, Date:  7 Mar 2001, 11:12
-    n <- length(x)
-    y <- pred.sm(x, numeric(n), ...)
-    if(!is.numeric(y) || length(y) !=n)
-        stop("`pred.sm' does not return a numeric length n vector")
-    H <- if(trace) 0 else matrix(as.numeric(NA), n,n)
-    for (i in 1:n) {
-        y <- numeric(n) ; y[i] <- 1
-        y <- pred.sm(x, y, ...)
-        if(trace) H <- H + y[i] else H[,i] <- y
-    }
-    H
-  }
+x1 <- c(1:4, 7:12)
+H1 <- hatMat(x1, spar = 0.5)
+ 
+matplot(x1, H1, type = "l", main = "columns of smoother hat matrix")
+
+## Example `pred.sm' arguments for hatMat() :
+pspl <- function(x,y,...) predict(smooth.spline(x,y, ...), x = x)$y
+ploes <-function(x,y,...) predict(loess(y ~ x, ...))
+pksm <- function(x,y,...) ksmooth(x,y,"normal", x.points=x, ...)$y
+pRmean <- function(x,y,...) run.mean(y, ...)
+pRline <- function(x,y,...) run.line(x,y, ...)$y
+
+all.equal(sum(diag((hatMat(c(1:4, 7:12), df = 4)))),
+                    hatMat(c(1:4, 7:12), df = 4, trace = TRUE), tol = 1e-12)
+## TRUE
+
+%% should also show the above functions
+
+%% should test these also for x with ties
 }
-\keyword{ ~kwd1 }% at least one, from doc/KEYWORDS
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{smooth}
+\keyword{regression}
