@@ -8,7 +8,7 @@
 }
 \usage{
 tkdensity(y, n = 1024, log.bw = TRUE, showvalue = TRUE,
-          xlim = NULL,
+          xlim = NULL, do.rug = size < 1000,
           from.f = if (log.bw) -2 else 1/1000,
           to.f   = if (log.bw) +2.2 else 2,
           col = 2)
@@ -22,6 +22,8 @@ tkdensity(y, n = 1024, log.bw = TRUE, showvalue = TRUE,
   \item{showvalue}{logical; if true, the value of the current (log)
     bandwidth is shown on top of the scrollbar.}
   \item{xlim}{initial \code{xlim} for plotting, see \code{\link{plot.default}}.}
+  \item{do.rug}{logical indicating if \code{\link{rug}(y)} should be
+    added to each plot.  This is too slow for really large sample sizes.}
   \item{from.f, to.f}{numeric giving the left and right limit of the
     bandwidth scrollbar.}
   \item{col}{color to be used for the density curve.}
@@ -36,7 +38,7 @@ tkdensity(y, n = 1024, log.bw = TRUE, showvalue = TRUE,
 }
 \value{
   none.\cr
-  (How could this be done?  \code{tcltk} widgets run as separate processes!) 
+  (How could this be done?  \code{tcltk} widgets run as separate processes!)
 }
 \author{Martin Maechler, building on \code{demo(tkdensity)}.}
 
