@@ -1,4 +1,4 @@
-#### $Id: misc-goodies.R,v 1.20 2003/02/15 22:14:29 maechler Exp $
+#### $Id: misc-goodies.R,v 1.21 2003/10/24 08:18:23 maechler Exp $
 #### misc-goodies.R
 #### ~~~~~~~~~~~~~~  SfS - R - goodies that are NOT in
 ####		"/u/sfs/R/SfS/R/u.goodies.R"
@@ -10,6 +10,9 @@
 ###==================================================================
 ###  Functions <<<<<<<< Please use a few subsections  like "Plotting"...
 ###==================================================================
+
+### ___Note___ we have some of these headers __MESS__
+### But we leave it because of RCS {rather dismantle everything into 4-6 pieces
 
 ##-#### Vector, Matrix (or higher Array) stuff ########
 ##-###  -------------------------------------- ########
@@ -324,6 +327,12 @@ AsciiToInt <- ichar <- function(strings) unname(unlist(strcodes(strings)))
 
 ##-#### "Miscellaneous" (not any other category) ########
 ##-###   ============= ------------------------- ########
+
+ununique <- function(x, isuniq = !duplicated(x)) {
+    ## return list(ix, uniq)
+    ## such that   all(x == uniq[ix])  and (of course)  uniq == x[isuniq]
+    list(ix = as.integer(cumsum(isuniq)), uniq = x[isuniq])
+}
 
 table.mat <- function(mat, order.rows = TRUE)
 {
