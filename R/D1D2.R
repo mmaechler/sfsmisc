@@ -16,9 +16,17 @@ D1D2 <- function(x, y, xout = x, fudge.fact = 10, deriv = 1:2, spl.spar=NULL)
     sp <-
         if(is.null(spl.spar)) {
             sp <- smooth.spline(x,y)
-            smooth.spline(x,y, spar = fudge.fact * sp $ spar)
+            smooth.spline(x,y,
+                          spar = if(is.R() && {v <- R.version;
+                                               v$major <= 1 && v$minor < 3})
+                          sp$ spar + 1/3 * log(fudge.fact, 2) / 8
+                          ## because lambda = r * 256 ^ (3 * spar - 1)
+                          else # S compatible
+                          fudge.fact * sp$ spar
+                          )
         } else smooth.spline(x,y, spar = spl.spar)
-    c(list(D1 = if(any(deriv==1)) predict(sp, xout, deriv = 1) $ y,
+    c(list(x = x,
+           D1 = if(any(deriv==1)) predict(sp, xout, deriv = 1) $ y,
            D2 = if(any(deriv==2)) predict(sp, xout, deriv = 2) $ y),
       sp[c("spar", "df")])
 }
