@@ -1,4 +1,4 @@
-#### $Id: misc-goodies.R,v 1.26 2004/01/12 13:22:44 maechler Exp $
+#### $Id: misc-goodies.R,v 1.27 2004/01/12 13:46:54 maechler Exp $
 #### misc-goodies.R
 #### ~~~~~~~~~~~~~~  SfS - R - goodies that are NOT in
 ####		"/u/sfs/R/SfS/R/u.goodies.R"
@@ -200,7 +200,6 @@ paste.vec <- function(name, digits = options()$digits)
 {
   ## Purpose: Utility for "showing vectors"
   ## -------------------------------------------------------------------------
-  ## Author: Martin Maechler, ~ 1992 -- old name `str.vec()'
   ## Example: x <- 1:4;  paste.vec(x)   ##->  "x = 1 2 3 4"
   paste(paste(deparse(substitute(name))), "=",
 	paste(format(name, digits = digits), collapse = " "))
@@ -502,40 +501,9 @@ rot2 <- function(xy, phi)
   xy %*% t( matrix(c(co,s, -s, co), 2,2) )
 }
 
-list2mat <- function(x, check = TRUE)
-{
-  ## Purpose:  list -> matrix
-  ## -------------------------------------------------------------------------
-  ## Arguments: x a list whose first 2 el.  MUST be equal length vectors
-  ##		check: if T, check if lengths are ok.   F: "quick & dirty"
-  ## -------------------------------------------------------------------------
-  ## Author: Martin Maechler, Date: 19 May 93, 09:46
-  if(!is.list(x)) stop("Argument must be list !")
-  p <- length(x) #--> number of columns
-  n <- length(x[[1]])
-  if( !is.vector(unname(x[[1]])) ||
-     (p > 1 && (!is.vector(unname(x[[2]])) || n != length(x[[2]]))))
-    stop("First 2 list entries must be equal length vectors")
-  if(check) { #-- carefully check ... --
-    len <- unlist(lapply(x,length))
-    err <- len != n
-    if(any(err)) {
-      warning(paste("Wrong lengths of list elements",
-		    paste(which(err),collapse = " "), "  --> eliminated."))
-      p <- length(x <- x[ !err ])
-    }
-  }
-  nuet <- "" == (collabs <- names(x))
-  if(any(nuet)) collabs[nuet] <- paste("L", which(nuet), sep = ".")
-  x <- matrix(unlist(x), n,p)
-  dimnames(x) <- list(NULL, collabs)
-  class(x) <- "matrix"
-  x
-}
-
 tapplySimpl <- function(X, INDEX, FUN, ...)
 {
-  ## Purpose: Nicer result for tapply(..) when Function returns numeric
+  ## Purpose: Nicer result for tapply(..) when Function returns
   ## 	      vector AND there is >= 2 "INDEX", i.e., categories.
   ## -------------------------------------------------------------------------
   ## Arguments: as for tapply,
@@ -543,8 +511,6 @@ tapplySimpl <- function(X, INDEX, FUN, ...)
   ##	      [num/char]   EVEN for  NULL and NA !
   ## -------------------------------------------------------------------------
   ## Author: Martin Maechler, Date: 14 Jun 93, 17:34
-  ## -------------------------------------------------------------------------
-  ## Example: tapplySimpl(X, list(cat1, cat2), range)
   rl <- tapply(X, INDEX, FUN, ..., simplify = TRUE)
   if (is.list(rl)) { #-- when  >=2 indices  AND  length(FUN(x)) > 1  ---
     if(any(Nas <- unlist(lapply(rl, is.null))))
