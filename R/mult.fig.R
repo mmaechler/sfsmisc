@@ -18,12 +18,17 @@ nrpl.2.mfrow <- function(nr.plots)
 mult.fig <-
 function(nr.plots, mfrow, mfcol, marP = rep(0,4), mgp = c(1.5,.6,0),
          mar = marP + .1 + c(4,4,2,1),
-         main = NULL, quiet = .Device == "postscript",
-         tit.wid = if (is.null(main)) 0 else 4, cex.main = 1.25, ...)
+         main = NULL,
+         tit.wid = if (is.null(main)) 0 else 1 + 1.5*cex.main,
+         quiet = .Device == "postscript",
+         cex.main = par("cex.main"),
+         col.main = par("col.main"),
+         font.main = par("font.main"),
+         ...)
 {
   ## Purpose: 'MULTiple FIGures' incl. TITLE and other good defaults
   ## -------------------------------------------------------------------------
-  ## Arguments: tit.wid : heigth in 'cex' of title; use 4*k
+  ## Arguments: 
   ##             -- Either ONE of the first 3 arguments --
   ## -------------------------------------------------------------------------
   ## Author: Martin Maechler, 1990 (UW, Seattle) -- 1995
@@ -36,11 +41,12 @@ function(nr.plots, mfrow, mfcol, marP = rep(0,4), mgp = c(1.5,.6,0),
         stop("must either specify 'nr.plots', 'mfrow' or 'mfcol' !")
       else  mfrow <- nrpl.2.mfrow (nr.plots)
     }
-  Nrow <- (if(use.row) mfrow else mfcol)[1]
-  if(Nrow > 2) { #-- Then R uses a much smaller character size --
-    if(!is.null(main)) cex.main <- cex.main * 1.5
-    tit.wid <- tit.wid * 1.5
-  }
+##-- This was for R versions <= 0.90 :
+##-  Nrow <- (if(use.row) mfrow else mfcol)[1]
+##-   if(Nrow > 2) { #-- Then R uses a much smaller character size --
+##-     if(!is.null(main)) cex.main <- cex.main * 1.5
+##-     tit.wid <- tit.wid * 1.5
+##-   }
   oma <- c(0, 0, tit.wid, 0)
   old.par <<-
     if(use.row) par(mfrow = mfrow, oma= oma, mar = mar, mgp= mgp)
@@ -50,8 +56,10 @@ function(nr.plots, mfrow, mfcol, marP = rep(0,4), mgp = c(1.5,.6,0),
   ## nomore in R : frame()
   if (!is.null(main)) {# Do title *before* first plot!
       plot.new()
-      mtext(main, side = 3, line = tit.wid-4, cex = cex.main, outer = TRUE,
-            font = par("font.main"), ...)
+      mtext(main, side = 3, outer = TRUE,
+            line = cex.main, # was tit.wid - 4,
+            cex = cex.main,
+            font = font.main, col = col.main, ...)
       par(new=TRUE)# reverse `plot.new()' above
   }
   invisible(list(new.par = par(c("mfrow","mfcol","oma","mar","mgp")),
