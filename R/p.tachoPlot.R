@@ -1,6 +1,6 @@
 p.tachoPlot <- function(x, y, z, angle= c(pi/4,3*pi/4), size,
                         method= c("robust", "sensitive", "rank"),
-                        legend=TRUE, show.method=TRUE,
+                        legend = TRUE, show.method= legend,
                         xlab= deparse(substitute(x)),
                         ylab= deparse(substitute(y)), xlim, ylim, ...)
 {
@@ -70,10 +70,10 @@ p.tachoPlot <- function(x, y, z, angle= c(pi/4,3*pi/4), size,
   yd <- size*sin(pi-alpha)*diff(usr[3:4])/pcm[2]
 
   ## -- draw symbols
-  if(method.name=="robust"){
+  if(method == "robust"){
     out <- z<Min | z>Max
     segments((x+xd)[!out],(y+yd)[!out], (x-xd)[!out], (y-yd)[!out], lty=1)
-    if(any(out,na.rm=TRUE)){
+    if(any(out,na.rm=TRUE)) {
       segments((x+xd)[out],(y+yd)[out], (x-xd)[out], (y-yd)[out], lty=2,col=2)
     }
   }
@@ -89,10 +89,10 @@ p.tachoPlot <- function(x, y, z, angle= c(pi/4,3*pi/4), size,
     x <- usr[2] - 3*cxy[1] - x2
     y <- cxy[2] + usr[4]
     lines(c(x+x1,x,x+x2), c(y+y1,y,y+y2), lty=1, xpd=TRUE)
-    text(x+x2, y, labels=formatC(Max), adj=0, cex=0.7*par("cex"))
-    text(x+x1, y, labels=formatC(Min), adj=1, cex=0.7*par("cex"))
+    text(x+x2, y, labels=formatC(Max), adj=0, cex=0.8*par("cex"), xpd=TRUE)
+    text(x+x1, y, labels=formatC(Min), adj=1, cex=0.8*par("cex"), xpd=TRUE)
   }
   if(show.method)  ## -- print method name
-    mtext(paste("method =",method.name),line=0, adj=1, cex=0.7*par("cex"))
+    mtext(paste("method =",method),line=0, adj=1, cex=0.8*par("cex"))
   invisible()
 }
