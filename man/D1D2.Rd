@@ -6,7 +6,7 @@
 \description{
   Compute numerical derivatives of \eqn{f()} given observations
   \code{(x,y)}, using cubic smoothing splines with GCV, see
-  \code{\link[modreg]{smooth.spline}}.  In other words, estimate \eqn{f'()}
+  \code{\link[stats]{smooth.spline}}.  In other words, estimate \eqn{f'()}
   and/or \eqn{f''()} for the model
   \deqn{Y_i = f(x_i) + E_i, \ \ i = 1,\dots n,}
 }
@@ -54,7 +54,7 @@ D1D2(x, y, xout = x, spar.offset = 0.1384, deriv = 1:2, spl.spar = NULL)
 \author{Martin Maechler, in 1992 (for S).}
 \seealso{\code{\link{D2ss}} which calls \code{smooth.spline} twice,
   first on \code{y}, then on the \eqn{f'(x_i)} values;
-  \code{\link[modreg]{smooth.spline}} on which it relies completely.
+  \code{\link[stats]{smooth.spline}} on which it relies completely.
 }
 \examples{
  set.seed(8840)
@@ -63,7 +63,6 @@ D1D2(x, y, xout = x, spar.offset = 0.1384, deriv = 1:2, spl.spar = NULL)
 
  op <- par(mfrow = c(2,1))
  plot(x,y)
- require(modreg)# for sm..spline
  lines(ss <- smooth.spline(x,y), col = 4)
  str(ss[c("df", "spar")])
  if(is.R()) plot(cos, 0, 10, ylim = c(-1.5,1.5), lwd=2) else { # Splus
