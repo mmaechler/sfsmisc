@@ -1,29 +1,33 @@
 \name{ps.latex}
+\alias{ps.do}
 \alias{ps.latex}
-\title{Ghostview Device Driver and ``LaTeX Plots'' Utilities}
+\title{PostScript Preview Device with Optional ``LaTeX'' Touch}
 \usage{
+ps.do(file, width=-1, height=-1, onefile=FALSE, horizontal=FALSE,
+      iso.latin1=is.R(), do.color=NULL, colors=NULL,
+      image.colors=NULL, \dots)
+
 ps.latex(file, height = 5 + main.space * 1.25,  width = 9.5,
-         iso.latin1=is.R(),  paper = "special",
          main.space=FALSE, lab.space = main.space,
+         iso.latin1=is.R(),  paper = "special",
          lab=c(10, 10, 7), mgp.lab=c(1.6, 0.7, 0), mar=c(4, 4, 0.9, 1.1),
          \dots)
 }
-%%>>>> put ps.do()  here as well !!
-%%
 \arguments{
-  \item{file,...}{see \code{\link{ps.do}}.}
+  \item{file}{character giving the PostScript file name to be written.}
   \item{height}{device height in \emph{inches}, \code{height * 2.54} are
-    \emph{cm}.  The default is 5 plus 1.25 iff main.space.}
-  \item{width}{device width in \emph{inches}. ~~Describe \code{width} here~~ }
-  \item{iso.latin1}{always true for \R.}
-  \item{paper}{character, see \code{\link{postscript}}.  Only if this is
-    \code{"special"} are your choices of \code{width} and \code{height}
-    completely honored (and this may lead to files that can't print on
-    A4) with resizing.}
+    \emph{cm}.  The default is 5 plus 1.25 iff \code{main.space}.}
+  \item{width}{device width in \emph{inches}; for this and
+    \code{height}, see \code{\link{postscript}}.}
   \item{main.space}{logical; if true, leave space for a main title
     (unusual for LaTeX figures!).}
   \item{lab.space}{logical; if true, leave space for x- and y- labels
     (by \emph{not} subtracting from \code{mar}).}
+  \item{iso.latin1}{unused for \R (always \code{TRUE}).}
+  \item{paper}{character, see \code{\link{postscript}}.  Only if this is
+    \code{"special"} are your choices of \code{width} and \code{height}
+    completely honored (and this may lead to files that can't print on
+    A4) with resizing.}
   \item{lab}{integer of length 3, \code{lab[1:2]} are desired number of
     tick marks on x- and y- axis, see \code{\link{par}(lab=)}.}
   \item{mgp.lab}{three decreasing numbers determining space for axis
@@ -31,28 +35,39 @@ ps.latex(file, height = 5 + main.space * 1.25,  width = 9.5,
     than usual.}
   \item{mar}{four numbers, indicating marginal space, see
     \code{\link{par}(mar=)}, the default is here smaller than usual.}
- \item{\dots}{further arguments to \code{\link{ps.do}()}.}
+  \item{do.color, colors, image.colors}{are all unused (currently) for \R.}
+  \item{\dots}{arguments passed to \code{\link{ps.do}()} from
+    \code{ps.latex}} and to \code{\link{ps.options}} from \code{ps.do}.}
 }
 \description{
-  The \LaTeX flavor of \code{\link{ps.do}()} which is an interactive
-  PostScript device driver, using \file{gv} (improved \file{ghostview}).
+  Both functions start a ``Pseudo PostScript Preview'' device, using
+  \code{\link{postscript}}, and further registering the file name for
+  subsequent calls to \code{\link{ps.end}}.
 }
 \details{
-  After \code{\link{ps.do}(..)} is called, the graphical parameters
-  \code{c("mar", "mgp", "lab")} are reset (to values that typically are
-  better than the defaults for LaTeX figures.
+  \code{ps.latex} has an additional \LaTeX flavor, and just differs by
+  some extra \code{\link{par}} settings: After \code{\link{ps.do}(..)}
+  is called, the graphical parameters \code{c("mar", "mgp", "lab")} are
+  reset (to values that typically are better than the defaults for LaTeX
+  figures).
 }
 \value{
   A list with components
   \item{old.par}{containing the old \code{par} values}
   \item{new.par}{containing the newly set \code{par} values}
 }
-\seealso{Underlying function \code{\link{ps.do}} and \code{\link{ps.end}}.
+\author{Martin Maechler}
+\seealso{\code{\link{ps.end}}, \code{\link{postscript}},
+  \code{\link{dev.print}}.
 }
 \examples{
 ps.latex("ps.latex-ex.ps", main= TRUE)
  data(sunspots)
  plot(sunspots,main=paste("Sunspots Data, n=",length(sunspots)),col="red")
 ps.end()
+
+ps.do("ps_do_ex.ps")
+  example(plot.function)
+ps.end()
 }
-\keyword{devices}
+\keyword{device}
