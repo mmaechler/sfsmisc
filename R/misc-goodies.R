@@ -1,4 +1,4 @@
-#### $Id: misc-goodies.R,v 1.11 2001/12/20 17:12:45 sfs Exp $
+#### $Id: misc-goodies.R,v 1.12 2002/06/24 16:13:02 sfs Exp $
 #### misc-goodies.R
 #### ~~~~~~~~~~~~~~  SfS - R - goodies that are NOT in
 ####		"/u/sfs/R/SfS/R/u.goodies.R"
@@ -422,68 +422,32 @@ if(!exists('rep.int', mode = 'function')) ## R
   rep.int <- rep #.Alias(rep)
 
 if(!is.R()) {
-new.seed <- function()
-{
-  ## Purpose: Randomize the seed for Random numbers.
-  ## ------- this mainly for teaching / demo:
-  ##         To make sure that each user will use DIFFERENT random numbers,
-  ##	add a 'new.seed()'  to each  .First  (or have them type 'new.seed()' !)
-  ## -------------------------------------------------------------------------
-  ## Author: Martin Maechler, Date:  4 Oct 95, 10:33
-  ## -------------------------------------------------------------------------
-  rU1 <- as.numeric(unix("date +%S%M.%H%j"))/5959 # in [0,1]
-  rU2 <- (as.numeric(unix("echo $$")) %% 17)/16
-  if(!exists("ichar", mode = "function"))
-    ichar <- function(x) { ##-- from   library(examples)
-	x <- as.vector(x, mode = "character")
-	.C("ichar", as.character(x), length(x),
-	   codes = integer(sum(nchar(x))))$codes 
-}
-  rU3 <- mean(ichar(getenv("USER")))/255 # such that each user is different
-  rU <- rU1 * rU2 * rU3
-  ##-- last digits :
-  rU <- mean(c(rU1, rU2, rU3, 1024 * (rU - floor(1024 * rU)/1024)))
-  ## this 'rU' has an approximate mean(4 uniform)  distribution on [0,1]
-  invisible(set.seed(as.integer(1000 * rU)))
-}
+  new.seed <- function()
+    {
+      ## Purpose: Randomize the seed for Random numbers.
+      ## ------- this mainly for teaching / demo:
+      ##         To make sure that each user will use DIFFERENT random numbers,
+      ##	add a 'new.seed()'  to each  .First  (or have them type 'new.seed()' !)
+      ## -------------------------------------------------------------------------
+      ## Author: Martin Maechler, Date:  4 Oct 95, 10:33
+      ## -------------------------------------------------------------------------
+      rU1 <- as.numeric(unix("date +%S%M.%H%j"))/5959 # in [0,1]
+      rU2 <- (as.numeric(unix("echo $$")) %% 17)/16
+      if(!exists("ichar", mode = "function"))
+        ichar <- function(x) { ##-- from   library(examples)
+          x <- as.vector(x, mode = "character")
+          .C("ichar", as.character(x), length(x),
+             codes = integer(sum(nchar(x))))$codes 
+        }
+      rU3 <- mean(ichar(getenv("USER")))/255 # such that each user is different
+      rU <- rU1 * rU2 * rU3
+      ##-- last digits :
+      rU <- mean(c(rU1, rU2, rU3, 1024 * (rU - floor(1024 * rU)/1024)))
+      ## this 'rU' has an approximate mean(4 uniform)  distribution on [0,1]
+      invisible(set.seed(as.integer(1000 * rU)))
+    }
 }
 
-print.tbl <- function(table2, digit = 3)
-{
-  ##-- 2-weg Kontingenztafel mit allem zusammen ... -- ruft  cat.con(.)  auf
-  ##-- Urspruneglich fuer NDK-Uebungen 1992
-  ##-- Verbessert und Fehler korrigiert! : M.Maechler, Feb.1993
-  d <- dim(table2)
-  if(length(d) != 2)
-    stop("Argument muss numerische Matrix sein: Die (2-Weg) Kontingenz Tafel")
-  N <- sum(table2)
-  cat("\nKontingenz-Tafel mit Randsummen:\n")
-  cat.con (table2, 0)
-  cat("\nGemeinsame Verteilung mit Randverteilungen:\n")
-  I <- d[1];  J <- d[2];  df <- (I-1)*(J-1)
-  r <- cat.con (table2/N, digit)
-  joint <- r[1:I, 1:J]
-  xrand <- r[I+1, 1:J]
-  yrand <- r[1:I, J+1]
-  condy <- joint/yrand
-  condx <- t(t(joint)/xrand)
-  cat("Bedingte Verteilung gegen y:\n"); print(round(condy,digit)); cat("\n")
-  cat("Bedingte Verteilung gegen x:\n"); print(round(condx,digit)); cat("\n")
-  exp.ind <- N * outer(yrand,xrand)#- Expected under INDEPendence: n * p_i * p_j
-  cat("Freiheitsgrade: df =",df,"\n")
-  cat("Chi^2 - Annahmebereich: [0,", round(qchisq(0.95,df),1),
-      "] (alpha=0.05)\n\n\n", sep = "")
-  test.chisq <- sum((as.matrix(table2)-exp.ind)^2/exp.ind)
-  cat("Testwerte unter der Unabhaengigkeitshypothese:\n")
-  cat("  Test mit Chi^2: ",format(round(test.chisq,2)),
-      " (P-Wert: ",round(1-pchisq(test.chisq,df),4),")\n",sep = "")
-  is.pos <- table2 != 0
-  test.deviance <- 2*sum(table2[is.pos]*log(table2[is.pos]/exp.ind[is.pos]))
-  cat("  Test mit Devianz:  ",format(round(test.deviance,2)),
-      " (P-Wert: ",round(1-pchisq(test.deviance,df),4),")\n\n",sep = "")
-  invisible(list(p.condx = condx, p.condy = condy, expected.indep = exp.ind,
-		 df = df, chisq.test = test.chisq, deviance = test.deviance))
-}
 
 table.mat <- function(mat, order.rows = TRUE)
 {
@@ -530,23 +494,6 @@ table.mat <- function(mat, order.rows = TRUE)
     mat.use <- mat.use[do.call("order", mat.use),  ]
   row.names(mat.use) <- paste(1:dim(mat.use)[1])
   mat.use
-}
-
-cat.con <- function(mat, digi = 3)
-{
-  ##-- "CAT CONtingency table"  mit RAND-SUMMEN + "Verzierung"
-  ##-- Korrigiert fuer UNsymmetr. Kont.tafeln und stark vereinfacht: M.Maechler
-  ## Gibt Resultat zurueck !
-  ##>>> Hilfsfunktion fuer 'print.tbl' <<<
-  mat <- as.matrix(mat)
-  d <- dim(mat);  N <- d[1];  M <- d[2]
-  mat <- rbind(cbind(mat, mat %*% rep(1, M)),
-	       c(rep(1,N) %*% mat,  sum(mat)))
-  out <- format(round(mat, digi))
-  "--" <- paste(rep("-", max(nchar(out))), collapse = "")
-  out <- cbind(rbind(out, get("--")), "|")
-  print(out[c(1:N,N+2,N+1), c(1:M,M+2,M+1)], quote = FALSE)
-  invisible(mat)			#--- die erweiterte Matrix --
 }
 
 ###
