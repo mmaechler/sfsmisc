@@ -1,4 +1,4 @@
-#### misc-goodies.R
+#### misc-goodies.R-- $Id$
 #### ~~~~~~~~~~~~~~  SfS - R - goodies that are NOT in
 ####		"/u/sfs/R/SfS/R/f.goodies.R"
 ####		"/u/sfs/R/SfS/R/u.goodies.R"
@@ -166,7 +166,7 @@ nna <- function(data)
 
 subtit <- function(t) mtext(t, side = 3, line = 0)
 
-errbar <- function(x, y, yplus, yminus, cap=.015,
+errbar <- function(x, y, yplus, yminus, cap= 0.015,
                    xlab= deparse(substitute(x)),
                    ylab= deparse(substitute(y)), ... )
 {
@@ -183,7 +183,6 @@ errbar <- function(x, y, yplus, yminus, cap=.015,
   smidge <- cap * ( xcoord[2] - xcoord[1] ) / 2
   segments( x - smidge, yminus, x + smidge, yminus )
   segments( x - smidge, yplus, x + smidge, yplus )
-
 }
 ## C.Monatsname , etc..  sind jetzt bei der zugehoerigen Funktion
 ##		u.Datumvonheute  in  /u/sfs/S/u.goodies.S
@@ -420,7 +419,7 @@ digits.v <- function(nvec, base = 2, num.bits = 1 + floor(log(max(nvec),base)))
 if(!exists('rep.int', mode='function')) ## R
   if(is.R()) rep.int <- .Alias(rep) else rep.int <- rep
 
-if(!is.R()) { 
+if(!is.R()) {
 new.seed <- function()
 {
   ## Purpose: Randomize the seed for Random numbers.
