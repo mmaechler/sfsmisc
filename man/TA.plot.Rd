@@ -11,7 +11,11 @@ TA.plot(lm.res,
         fit= fitted(lm.res), res= residuals(lm.res, "pearson"),
         labels= NULL, main= mk.main(), xlab = "Fitted values",
         draw.smooth= n >= 10, show.call = TRUE, show.2sigma= TRUE,
-        lo.iter = NULL, lo.cex= NULL, \dots)
+        lo.iter = NULL, lo.cex= NULL, 
+        par0line  = list(lty = 2, col = 2),
+        parSmooth = list(lwd = 1.5, lty = 4, col = 3),
+        parSigma  = list(lwd = 1.2, lty = 3, col = 4),
+        \dots)
 }
 \arguments{
   \item{lm.res}{Result of \code{\link{lm}(..)}, \code{\link{aov}(..)},
@@ -35,10 +39,19 @@ TA.plot(lm.res,
   \item{show.2sigma}{logical; if \code{TRUE}, draw horizontal lines at
     \eqn{\pm 2\sigma}{+- 2 sigma} where \eqn{\sigma} is \code{mad(resid)}.}
   \item{lo.iter}{positive integer, giving the number of lowess
-    robustness iterations.}
+    robustness iterations. The default depends on the model and
+    is \code{0} for non Gaussian \code{\link{glm}}'s.}
   \item{lo.cex}{character expansion ("cex") for lowess and other
     marginal texts.}
-  \item{\dots}{further graphical parameters are passed to \code{n.plot(.)}.}
+  \item{par0line}{a list of arguments (with reasonable defaults) to be passed to
+    \code{\link{abline}(.)} when drawing the x-axis, i.e.,
+    the \eqn{y = 0} line.}
+  \item{parSmooth, parSigma}{each a list of arguments (with reasonable
+    default) for drawing the smooth curve (if \code{draw.smooth} is
+    true), or the horizontal sigma boundaries (if \code{show.2sigma} is
+    true) respectively.}
+  \item{\dots}{further graphical parameters are passed to
+    \code{\link{n.plot}(.)}.}
 }
 \section{Side Effects}{
   The above mentioned plot is produced on the current graphic device.
