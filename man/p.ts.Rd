@@ -10,9 +10,10 @@
   (with different defaults).
 }
 \usage{
-p.ts(x, nrplots = max(1, min(8, n \%/\% 400)), overlap = nk \%/\% 16, 
-     main.tit = NULL, ylim = NULL, ylab = "", quiet = FALSE,
-     mgp = c(1.25, .5, 0),\dots)
+p.ts(x, nrplots = max(1, min(8, n \%/\% 400)), overlap = nk \%/\% 16,
+     date.x = NULL, do.x.axis = !is.null(date.x), ax.format,
+     main.tit = NULL, ylim = NULL, ylab = "", xlab = "Time", quiet = FALSE,
+     mgp = c(1.25, .5, 0), \dots)
 }
 \arguments{
   \item{x}{timeseries (possibly multivariate) or numeric vector.}
@@ -37,15 +38,16 @@ p.ts(x, nrplots = max(1, min(8, n \%/\% 400)), overlap = nk \%/\% 16,
 \author{Martin Maechler, \email{maechler@stat.math.ethz.ch}; July 1994
   (for S).}
 }
-\seealso{\code{\link{plot.ts}}, \code{\link{plot}}.
+\seealso{\code{p.ts()} calls \code{\link{mult.fig}()} for setup.
+  Further, \code{\link{plot.ts}} and \code{\link{plot}}.
 }
 \examples{
-require(ts) # package
+require(stats) # package
 
 data(sunspots)
 p.ts(sunspots, nr=1) # == usual  plot.ts(..)
-p.ts(sunspots)	
-p.ts(sunspots, nr=3, col=2)	
+p.ts(sunspots)
+p.ts(sunspots, nr=3, col=2)
 
 ## multivariate :
 data(EuStockMarkets)
@@ -53,4 +55,3 @@ p.ts(log10(EuStockMarkets), col = 2:5)
 }
 \keyword{hplot}
 \keyword{ts}
-
