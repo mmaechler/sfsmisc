@@ -1,6 +1,6 @@
 #### PostScript Goodies für R --- `a la /u/sfs/S/ps.goodies.S
 ####
-#### $Id: ps.goodies.R,v 1.8 2003/12/15 15:38:00 maechler Exp $
+#### $Id: ps.goodies.R,v 1.9 2003/12/15 15:45:10 maechler Exp $
 ####
 
 ps.latex <- function(file, height= 5+ main.space*1.25, width= 9.5,
@@ -83,7 +83,7 @@ ps.do <- function(file, width = -1, height = -1,
              onefile = onefile, title = title, print.it = FALSE, ...)
 }
 
-ps.end <- function(call.gv = NULL, command = "gview",
+ps.end <- function(call.gv = NULL, command = getOption("eps_view"),
                    debug = getOption("verbose"))
 {
   ## Purpose:  A "ghostview" device driver (almost).
