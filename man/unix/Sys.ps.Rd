@@ -12,14 +12,14 @@
 Sys.PID(ps.cmd = Sys.ps.cmd())
 Sys.ps.cmd()
 
-Sys.ps(process=Sys.PID(ps.cmd),
-       fields= c("pid", "pcpu", "time", "vsz", "comm"),
+Sys.ps(process= Sys.getpid(),
+       fields = c("pid", "pcpu", "time", "vsz", "comm"),
        usefile = length(fields) > 10,
        ps.cmd  = Sys.ps.cmd(),
        verbose = getOption("verbose"),
        warn.multi = verbose || any(fields != "ALL"))
 
-Sys.sizes(process = Sys.PID(ps.cmd), ps.cmd = Sys.ps.cmd())
+Sys.sizes(process = Sys.getpid(), ps.cmd = Sys.ps.cmd())
 }
 \arguments{
   \item{process}{the process id, an integer.}
@@ -32,6 +32,10 @@ Sys.sizes(process = Sys.PID(ps.cmd), ps.cmd = Sys.ps.cmd())
   \item{warn.multi}{logical ...}
 }
 \details{
+  Note that our \code{Sys.PID(ps.cmd)} is only left for historical
+  reason since \R 1.7.0, where \code{\link{Sys.getpid}()} was
+  introduced.  It may be modified to find other process ID.
+
   Use \code{man ps} on your respective Unix system, to see what fields are
   supported exactly.  Unix dialects \emph{do} differ here, and,
   SunOS-Solaris even has more than one ps command\dots
@@ -466,10 +470,11 @@ Sys.sizes(process = Sys.PID(ps.cmd), ps.cmd = Sys.ps.cmd())
   ``common'' to Solaris and Linux.
 }
 \author{Martin Maechler}
-\seealso{\code{\link{Sys.info}},\code{\link{proc.time}}.}
-
+\seealso{\code{\link{Sys.info}}, \code{\link{Sys.getpid}},
+  \code{\link{proc.time}}.
+}
 \examples{
-(.pid <- Sys.PID()) ## of current process
+(.pid <- Sys.getpid()) ## process ID of current process
 Sys.sizes(.pid)
 }
 \keyword{utilities}%-- one or more ...
