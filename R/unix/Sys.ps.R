@@ -23,14 +23,14 @@ Sys.ps.cmd <- function() {
 Sys.PID <- function(ps.cmd = Sys.ps.cmd()) {
     ## Return the PID of the R process :
     if(paste(R.version$major, R.version$minor, sep=".") >= 1.7)
-        warning("please use the base function Sys.getpid() instead!"
+	warning("please use the base function Sys.getpid() instead!")
 
     if(!is.null(tp <- attr(ps.cmd,"type")) && tp == "BSD")
-        as.integer(system(paste(ps.cmd,
-                                "| fgrep R.bin| fgrep -v grep| sed 's/ .*//'"),
-                          intern = TRUE))
+	as.integer(system(paste(ps.cmd,
+				"| fgrep R.bin| fgrep -v grep| sed 's/ .*//'"),
+			  intern = TRUE))
     else
-        as.integer(system(paste(ps.cmd,"-o pid"), intern = TRUE)[2])
+	as.integer(system(paste(ps.cmd,"-o pid"), intern = TRUE)[2])
 }
 ## For R versions < 1.7:
 if(!exists("Sys.getpid", mode="function"))
