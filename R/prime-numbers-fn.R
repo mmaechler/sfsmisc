@@ -301,106 +301,60 @@ DIV <- function(N) {
 }
 
 
-From owner-s-news@wubios.wustl.edu Fri Sep 11 15:48 MET 1998
-Return-Path: owner-s-news@wubios.wustl.edu
-Reply-To: Frank E Harrell Jr <fharrell@virginia.edu>
-From: Frank E Harrell Jr <fharrell@virginia.edu>
-To: bramley.m@pg.com, s-news <s-news@wubios.wustl.edu>
-MMDF-Warning:  Parse error in original version of preceding line at mail.virginia.edu
-Subject: Re: Re[4]: [S] factors (divisors ) of an integer
-Date: Fri, 11 Sep 1998 09:43:23 -0400
-Sender: owner-s-news@wubios.wustl.edu
 
-How about doing most of the job with
 
-factorize <- function(n)
+##- From: "Frank E Harrell Jr" <fharrell@virginia.edu>
+##- To: "s-news" <s-news@wubios.wustl.edu>
+##- Subject: [S] An improved factorize()
+##- Date: Sat, 12 Sep 1998 22:34:05 -0400
+##-
+##- Here is a modification of Michael Bramley's (bramley.m@pg.com) factorize
+##- function with memory usage of approx. the square root of the original.
+
+divisors <- function(n)
 {
- p <- n/(w <- c(1:trunc(sqrt(n)),n))
- w[trunc(p) == p]
-}
-
--------------------------------------------------------------------------------------------
-Frank E Harrell Jr
-Professor of Biostatistics and Statistics
-Division of Biostatistics and Epidemiology
-Department of Health Evaluation Sciences
-University of Virginia School of Medicine
-hesweb1.med.virginia.edu/biostatistics.html
--
-
------------------------------------------------------------------------
-This message was distributed by s-news@wubios.wustl.edu.  To unsubscribe
-send e-mail to s-news-request@wubios.wustl.edu with the BODY of the
-message:  unsubscribe s-news
-
-
-From owner-s-news@wubios.wustl.edu Sun Sep 13 04:38 MET 1998
-MIME-Version: 1.0
-From: "Frank E Harrell Jr" <fharrell@virginia.edu>
-To: "s-news" <s-news@wubios.wustl.edu>
-Subject: [S] An improved factorize()
-Date: Sat, 12 Sep 1998 22:34:05 -0400
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-MimeOLE: Produced By Microsoft MimeOLE V4.72.3110.3
-Sender: owner-s-news@wubios.wustl.edu
-Content-Type: text/plain;
-	charset="iso-8859-1"
-Content-Length: 818
-
-Here is a modification of Michael Bramley's (bramley.m@pg.com) factorize
-function with memory usage of approx. the square root of the original.
-
-factorize <- function(n)
-{
+ ## Frank E Harrell Jr -- called this "factorize()"
  p <- n/(z <- 1:ceiling(sqrt(n)))
  z <- z[trunc(p) == p]
  unique(c(z, rev(n/z)))
 }
 
----------------------------------------------------------------------------
-Frank E Harrell Jr
-Professor of Biostatistics and Statistics
-Director, Division of Biostatistics and Epidemiology
-Dept of Health Evaluation Sciences
-University of Virginia School of Medicine
-http://hesweb1.med.virginia.edu/biostatistics.html
+##- From: Paul A Tukey <paul@bellcore.com>
+##- Date: Wed, 16 Sep 1998 18:27:15 -0400 (EDT)
+##- To: fharrell@virginia.edu, lifer@fuse.net, s-news@wubios.wustl.edu
+##- Subject: Re: [S] Prime divisors
 
+##- This discussion has been fun. 
 
------------------------------------------------------------------------
-This message was distributed by s-news@wubios.wustl.edu.  To unsubscribe
-send e-mail to s-news-request@wubios.wustl.edu with the BODY of the
-message:  unsubscribe s-news
+##- Seems to me we've been gradually heading toward
+##- computing the prime factorization of a number.
+##- That is, a collection of prime numbers (with possible
+##- duplication) whose product is the given number.
 
+##- A recursive layer on top of Frank Harrell's factorize() does
+##- it -- but the code below uses a slightly shortened version
+##- of factorize() that only returns the smallest divisor > 1.
 
-From owner-s-news@wubios.wustl.edu Mon Sep 14 00:01 MET 1998
-MIME-Version: 1.0
-X-Sender: nadas@frontiernet.net
-Disposition-Notification-To: <nadas@frontiernet.net>
-Date: Sun, 13 Sep 1998 17:58:39 -0400
-To: "s-news" <s-news@wubios.wustl.edu>
-From: Arthur Nadas <nadas@frontiernet.net>
-Subject: [S] Re: An improved factorize()  
-X-MIME-Autoconverted: from quoted-printable to 8bit by wubios.wustl.edu id QAA09132
-Sender: owner-s-news@wubios.wustl.edu
-X-MIME-Autoconverted: from 8bit to quoted-printable by wubios.wustl.edu id QAA09366
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Length: 524
+fac <- function(n) {
+        p <- n/(z <- 1:floor(sqrt(n)))
+        z <- z[trunc(p) == p]
+        c(z, rev(n/z))[2]
+}
 
-Frank Harrell's "factorize()" is neat but might better be called
-"divisors()". It'd be nice to have a similarly neat program for prime
-divisors only!
+pfac <- function(n, nn = 0)
+{
+        if(nn == 0)
+                pfac(n, fac(n))
+        else if(n <= nn)
+                nn
+        else c(nn, pfac(n/nn))
+}
 
+##- Note that prod(pfac(n)) == n.
 
-Arthur Nádas
-506 Bull Road
-Rock Tavern, NY 12575
-VOICE:    914-496-3003
-FAX:        914-351-3492
-EMAIL:   nadas@frontiernet.net
------------------------------------------------------------------------
-This message was distributed by s-news@wubios.wustl.edu.  To unsubscribe
-send e-mail to s-news-request@wubios.wustl.edu with the BODY of the
-message:  unsubscribe s-news
+##- Now I'm sure someone can write a more elegant version.
+##- Also, recursion is probably neither memory-efficient
+##- nor CPU-efficient in Splus.
 
-
+##-   -- Paul Tukey
+##-      Bellcore
