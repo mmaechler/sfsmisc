@@ -19,6 +19,8 @@ ps.latex(file, height = 5 + main.space * 1.25,  width = 9.5,
     \emph{cm}.  The default is 5 plus 1.25 iff \code{main.space}.}
   \item{width}{device width in \emph{inches}; for this and
     \code{height}, see \code{\link{postscript}}.}
+  \item{onefile, horizontal}{logicals passed to
+    \code{\link{postscript}(..)}, most probably to be left alone.}
   \item{main.space}{logical; if true, leave space for a main title
     (unusual for LaTeX figures!).}
   \item{lab.space}{logical; if true, leave space for x- and y- labels
