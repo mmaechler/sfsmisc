@@ -1,0 +1,16 @@
+rrange <- function(x, range = 1, coef = 1.5)
+{
+  ## Purpose: `Robust RANGE', using Tukey's notion of robust boxplot range
+  ## -------------------------------------------------------------------------
+  ## Arguments: [as with boxplot:] x: numeric data,
+  ##		range: (default=1): Multiplier for ``1.5*(interquartile range)''
+  ## -------------------------------------------------------------------------
+  ## Author: Martin Maechler, 1990
+
+  if(!missing(range)) {
+    if(!missing(coef)) stop("Must use either `range' or `coef'")
+    coef <- 1.5 * range
+  }
+  ## S: (boxplot(..., plot = FALSE)$stats)[c(5, 1)]
+  boxplot.stats(x, coef=coef, do.conf = FALSE, do.out = FALSE)$stats[c(1,5)]
+}
