@@ -1,3 +1,5 @@
+## For compatibility :
+p.lm.hyperb <- # .Alias(linesHyperb.lm)
 linesHyperb.lm <-
   function(object, c.prob = .95, confidence = FALSE,
            k = if(confidence) Inf else 1,
@@ -26,5 +28,3 @@ linesHyperb.lm <-
   lines(xs, ys + pred.err, col=col, lty=lty)
 }
 
-## For compatibility :
-p.lm.hyperb <- .Alias(linesHyperb.lm)
