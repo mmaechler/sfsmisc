@@ -9,10 +9,11 @@ printTable2 <- function(table2, digits = 3)
     stop("Argument muss numerische Matrix sein: Die (2-Weg) Kontingenz Tafel")
   N <- sum(table2)
   cat("\nKontingenz-Tafel mit Randsummen:\n")
-  catCon (table2, 0)
+  print(margin2table(table2), digits=0)
   cat("\nGemeinsame Verteilung mit Randverteilungen:\n")
   I <- d[1];  J <- d[2];  df <- (I-1)*(J-1)
-  r <- catCon (table2/N, digits)
+  r <- margin2table(table2/N)
+  print(r, digits)
   joint <- r[1:I, 1:J]
   xrand <- r[I+1, 1:J]
   yrand <- r[1:I, J+1]
@@ -36,19 +37,29 @@ printTable2 <- function(table2, digits = 3)
 		 df = df, chisq.test = test.chisq, deviance = test.deviance))
 }
 
-catCon <- function(mat, digits = 3)
+### The original catCon() function did compute and print;
+### now separated :
+
+margin2table <- function(x, totName = "sum") {
+    x <- as.matrix(x)
+    r <- rowSums(x)
+    r <- rbind(cbind(x, r), c(colSums(x), sum(r)))
+    dimnames(r) <-
+        if(!is.null(dnx <- dimnames(x))) {
+            list(if(!is.null(dnx[[1]])) c(dnx[[1]], totName),
+                 if(!is.null(dnx[[2]])) c(dnx[[2]], totName))
+        } ## else NULL
+    class(r) <- "margin2table"
+    r
+}
+
+print.margin2table <- function(x, digits = 3, ...)
 {
-  ##-- "CAT CONtingency table"  mit RAND-SUMMEN + "Verzierung"
-  ##-- Korrigiert fuer UNsymmetr. Kont.tafeln und stark vereinfacht: M.Maechler
-  ## Gibt Resultat zurueck !
-  ##>>> Hilfsfunktion fuer 'printTable2' <<<
-  mat <- as.matrix(mat)
-  d <- dim(mat);  N <- d[1];  M <- d[2]
-  mat <- rbind(cbind(mat, mat %*% rep(1, M)),
-	       c(rep(1,N) %*% mat,  sum(mat)))
-  out <- format(round(mat, digits))
-  "--" <- paste(rep("-", max(nchar(out))), collapse = "")
-  out <- cbind(rbind(out, get("--")), "|")
-  print(out[c(1:N,N+2,N+1), c(1:M,M+2,M+1)], quote = FALSE)
-  invisible(mat) #--- die erweiterte Matrix --
+  if(is.null(d <- dim(x)) || length(d <- d - 1) !=2)
+      stop("'x' is not a matrix")
+  N <- d[1];  M <- d[2]
+  cx <- format(round(x, digits))
+  cx <- cbind(rbind(cx, paste(rep("-", max(nchar(cx))), collapse = "")), "|")
+  print(cx[c(1:N,N+2,N+1), c(1:M,M+2,M+1)], quote = FALSE)
+  invisible(x)
 }
