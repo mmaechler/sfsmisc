@@ -1,30 +1,28 @@
 \name{ps.end}
 \alias{ps.end}
-%- Also NEED an `\alias' for EACH other topic documented here.
 \title{Close PostScript device opened by `ps.do'}
 \usage{
-ps.end(call.gv=NULL, do.color=u.get0("ps.do.color"), 
-       command=paste("gview", if (!do.color) " -monochrome", sep = ""), 
-       debug=FALSE)
+ps.end(call.gv= NULL, do.color = u.get0("ps.do.color"),
+       command = paste("gview", if (!do.color) " -monochrome", sep = ""),
+       debug = getOption("verbose"))
 }
-%- maybe also `usage' for other objects documented here.
 \arguments{
- \item{call.gv}{ ~~Describe \code{call.gv} here~~ }
- \item{do.color}{ ~~Describe \code{do.color} here~~ }
+ \item{call.gv}{logical, indicating if ghostview (or the command given
+  by \code{command}) should be called.  By default, find out if
+  ghostview is already runing on this file and only call it if needed.}
+ \item{do.color}{logical indicating if the previewer should use color.}
  \item{command}{character, giving a unix command for Postscript previewing.
    At SfS, \code{gview} is a simple shell script, with the line\cr
-  \code{gv -watch -geometry -0+0 -magstep -2 -media BBox}
+  \code{gv -watch -geometry -0+0 -magstep -2 -media BBox}.}
  \item{debug}{logical; if  \code{TRUE} print information during execution.}
 }
 \description{
-  Closes the Postscript file (\code{\link{postscript}}), openend by a
-  previous \code{\link{ps.do}} (or \code{\link{ps.do}}) call, using
-  \code{\link{dev.off}},  
-
-  and
-  opens a previewer for that file, \emph{unless} the previewer is
-  already up.  This effectively provides an `interactive' device like
-  \code{\link{x11}} for \code{\link{postscript}}.
+  Closes the Postscript file (\code{\link{postscript}}),
+  openend by a previous \code{\link{ps.do}} (or \code{\link{ps.latex}})
+  call, using \code{\link{dev.off}}, and additionally opens a previewer
+  for that file, \emph{unless} the previewer is already up.  This
+  effectively provides an \sQuote{interactive} device like \code{\link{x11}}
+  for \code{\link{postscript}}.
 }
 \details{
   Depends heavily on Unix tools, such as \code{ps}.
@@ -38,4 +36,4 @@ ps.end(call.gv=NULL, do.color=u.get0("ps.do.color"),
     ps.end()
   }
 }
-\keyword{devices}%-- one or more ...
+\keyword{device}%-- one or more ...
