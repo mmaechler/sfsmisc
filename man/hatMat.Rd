@@ -12,12 +12,12 @@ hatMat(x, trace= FALSE,
        \dots)
 }
 \arguments{
-  \item{x}{numeric vector}
+  \item{x}{numeric vector or matrix.}
   \item{trace}{logical indicating if the whole hat matrix, or only its
     trace, i.e. the sum of the diagonal values should be computed.}
   \item{pred.sm}{a function of at least two arguments \code{(x,y)}
-    which returns fitted values, i.e. \eqn{\hat{y}}{y.hat}, of the same
-    length as \code{x} (and \code{y}).}
+    which returns fitted values, i.e. \eqn{\hat{y}}{y.hat}, of length
+    compatible to \code{x} (and \code{y}).}
   \item{\dots}{optionally further arguments to the smoother function
     \code{pred.sm}.}
 }
