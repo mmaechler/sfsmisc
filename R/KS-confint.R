@@ -15,7 +15,9 @@
 ecdf.ksCI <- function(x, main = NULL, sub = NULL,
                       xlab = deparse(substitute(x)), ci.col = "red", ...)
 {
-    force(xlab)
+    xlab## from R 1.7.0:  force(xlab)
+    stopifnot(require(stepfun))# for ecdf() etc
+    ##        ---------------- or importfrom ( namespace )
     if(is.null(main))
         main <- paste("ecdf(",deparse(substitute(x)),") + 95% K.S. bands",
                       sep="")
