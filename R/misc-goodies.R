@@ -1,4 +1,4 @@
-#### $Id: misc-goodies.R,v 1.17 2002/11/11 15:55:37 maechler Exp $
+#### $Id: misc-goodies.R,v 1.18 2002/11/30 23:38:49 maechler Exp $
 #### misc-goodies.R
 #### ~~~~~~~~~~~~~~  SfS - R - goodies that are NOT in
 ####		"/u/sfs/R/SfS/R/u.goodies.R"
@@ -11,18 +11,6 @@
 ###  Functions <<<<<<<< Please use a few subsections  like "Plotting"...
 ###==================================================================
 
-
-##-#### First, attach(.),... --- "Umgebung anschauen, modifizieren" #########
-##-###  ~~~~~~~~~~~~~ ---------------------------------------------- ########
-##-###  NOTA BENE: --> "First.S" contains  .First(.), etc.
-##-###  ~~~~~~~~~       =======  be careful there !
-
-unix.true <-
-    function(command)  u.sys("if ", command, "; then echo 1; else echo 0; fi")
-
-## apropos() : in standard R
-
-
 ##-#### Vector, Matrix (or higher Array) stuff ########
 ##-###  -------------------------------------- ########
 
