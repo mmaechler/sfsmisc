@@ -1,4 +1,4 @@
-#### Original is /u/sfs/S/p.goodies.S  [v 1.12 1999/05/06 10:17:00 sfs Exp ]
+#### Original is /u/sfs/S/p.goodies.S  [v 1.12 1999/05/06 10:17:00 sfs Exp ]-- $Id$
 ####
 ### p.goodies.S ---- SfS- S(plus) - Funktionen, welche
 ### ---------------- mit  'p.' (für "Plot") beginnen  [alte SfS-Tradition ..]
@@ -232,31 +232,6 @@ function(rr, y, ask = TRUE, qq=TRUE, ta=TRUE, ta.lowess=TRUE, tamod=TRUE, tamod.
   "done"}
 ## ================================================================
 
-p.plot.text <- function(x, y, labels = seq(along = x),
-                        xlab = deparse(substitute(x)),
-                        ylab = deparse(substitute(y)),
-                        col = par("col"), textcex = 0.7, ...)
-{
-  ## Purpose: make scatterplot with text instead of 'O' at points (x,y).
-  ## -------------------------------------------------------------------------
-  ## Arguments: x,y : coordinates of points.
-  ##         labels : vector of labels for each point
-  ##            col : color parameter for each text string. This may be a
-  ##                  vector of more than one element.
-  ##        textcex : character expansion parameter for each text string.
-  ##                  This may be a vector of more than one element.
-  ##            ... : Graphical parameters may also be supplied as arguments
-  ##                  to this function (see par).
-  ## -------------------------------------------------------------------------
-  ## Author: Prisca Durrer, Date: 17 Sep 92, 08:24
-  n <- length(x)
-  if(n != length(y))
-    stop("x & y must have same length")
-  warning("Martin Maechler thinks you should use n.plot() instead...")
-  plot(x, y, type = "n", xlab = xlab, ylab = ylab, ...)
-  text(x, y, labels = labels, cex = textcex, col = col)
-}
-
 p.scales <- function(unit = relsysize * 2.54 * min(pin), relsysize = 0.05)
 {
   ## Fn.name:  p.scales
@@ -452,9 +427,6 @@ p.profileTraces <- function(x, cex=1)
 ## Test Beispiel :
 
 ## --> /u/sfs/ueb/fortgeschrittene/loesungen/loes-rg.truthennen.R
-
-##p.corr <- function(...) stop("use 'symnum' instead of 'p.corr'")
-
 
 p.hboxp <- function(x, y.lo, y.hi, boxcol = 3, medcol = 0,
                     medlwd = 5, whisklty = 2, staplelty = 1)
