@@ -2,7 +2,7 @@
 \alias{p.tachoPlot}
 \title{Draw Symbol on a Plot}
 \description{
-Puts a symbol (pointer) on a plot at each of the specified locations. 
+Puts a symbol (pointer) on a plot at each of the specified locations.
 }
 \usage{
 p.tachoPlot(x, y, z, angle=c(pi/4,3*pi/4), size,
@@ -24,7 +24,7 @@ p.tachoPlot(x, y, z, angle=c(pi/4,3*pi/4), size,
     min(z) and max(z) if method is \code{"sensitive"} or \code{"rank"}
     and to the upper and lower extreme of z if method is \code{"robust"}
     (see \code{boxplot} or \code{rrange} for details).  The angle is
-    proportional to z or rank(z) in case of \code{method="rank"}. 
+    proportional to z or rank(z) in case of \code{method="rank"}.
   }
   \item{legend}{logical flag: if \code{TRUE} (default), a legend giving
     the values of the minimum and maximum direction of the pointer is drawn.}
@@ -42,7 +42,7 @@ p.tachoPlot(x, y, z, angle=c(pi/4,3*pi/4), size,
   variable z is given by the direction of a pointer (similar to a
   tachometer). Observations whose z-coordinate is missing are marked by a dot.
 }
-\section{AUTHOR}{
+\author{
   Christian Keller \email{keller@stat.math.ethz.ch}, June 1995
 }
 \seealso{\code{\link{symbols}}}
@@ -60,5 +60,3 @@ p.tachoPlot(mtcars$hp, mtcars$disp, mtcars$mpg, method="rank")
 p.tachoPlot(mtcars$hp, mtcars$disp, mtcars$mpg, method="rob")
 }
 \keyword{hplot}
-\keyword{plot}
-% Converted by Sd2Rd version 0.3-3.
