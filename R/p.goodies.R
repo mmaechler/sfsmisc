@@ -1,4 +1,4 @@
-#### $Id: p.goodies.R,v 1.11 2002/11/30 21:54:35 maechler Exp $
+#### $Id: p.goodies.R,v 1.12 2002/11/30 22:04:35 maechler Exp $
 #### Original is /u/sfs/S/p.goodies.S  [v 1.12 1999/05/06 10:17:00 sfs Exp ]
 ####
 ### p.goodies.S ---- SfS- S(plus) - Funktionen, welche
@@ -431,19 +431,10 @@ p.profileTraces <-
 
 ## --> /u/sfs/ueb/fortgeschrittene/loesungen/loes-rg.truthennen.R
 
+## mainly auxiliary of  hist.bxp() :
 p.hboxp <- function(x, y.lo, y.hi, boxcol = 3, medcol = 0,
                     medlwd = 5, whisklty = 2, staplelty = 1)
 {
-  ## Purpose: Add a HORIZONTAL boxplot to the current plot
-  ## -------------------------------------------------------------------------
-  ## Arguments: x: univariate data set
-  ##            y.lo, y.hi:  min. and max. user-coordinates  OR y.lo=c(ylo,hyi)
-  ## -------------------------------------------------------------------------
-  ## Author: Martin Maechler, Date: 12 Jan 96, 16:45
-  ##       using code from the original 'hist.bxp' by Markus & Christian Keller
-  ##
-  ##-- Example: See code in  'hist.bxp' (.)
-  ##
   if(missing(y.hi) && length(y.lo) == 2) { y.hi <- y.lo[2]; y.lo <- y.lo[1] }
   ## should test y.lo < y.hi, both to be numbers...
 
@@ -458,7 +449,6 @@ p.hboxp <- function(x, y.lo, y.hi, boxcol = 3, medcol = 0,
 
   ##-------- drawing the boxplot --------------
   ## coordinates :
-
   m <- (y.hi + y.lo)/2
   llhh <- c(y.lo, y.lo, y.hi, y.hi)
   ## drawing the box
