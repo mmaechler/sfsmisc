@@ -51,15 +51,17 @@ p.ts(x, nrplots = max(1, min(8, n \%/\% 400)), overlap = nk \%/\% 16,
   Further, \code{\link{plot.ts}} and \code{\link{plot}}.
 }
 \examples{
-stopifnot(require(stats)) # package
+stopifnot(require(stats))
+## stopifnot(require(datasets))
 
 data(sunspots)
 p.ts(sunspots, nr=1) # == usual  plot.ts(..)
 p.ts(sunspots)
 p.ts(sunspots, nr=3, col=2)
 
-## multivariate :
 data(EuStockMarkets)
+p.ts(EuStockMarkets[,"SMI"])
+## multivariate :
 p.ts(log10(EuStockMarkets), col = 2:5)
 
 ## with Date - x-axis (dense random dates):
