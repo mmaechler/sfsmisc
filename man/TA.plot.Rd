@@ -50,13 +50,18 @@ TA.plot(lm.res,
 data(stackloss)
 TA.plot(lm(stack.loss ~ stack.x))
 
-if(FALSE) {
- TA.plot(lm(Fuel ~ . , fuel.frame))
- TA.plot(lm(Fuel ~ . , fuel.frame), label='o') #-- plot symbol instead of label
- TA.plot(lm(cost ~ age+ type+ car.age, claims, weights=number, na.action=na.omit))
+example(airquality)
+summary(lmO <- lm(Ozone ~ ., data= airquality))
+TA.plot(lmO)
+TA.plot(lmO, label = "O") # instead of case numbers
+
+if(FALSE) { ### These were all from S-plus
+
+ TA.plot(lm(cost ~ age+type+car.age, claims, weights=number, na.action=na.omit))
  ##---------- for  aov(.) : ----------------------------------
  data(gun)
  TA.plot( aov(Rounds ~ Method + Physique/Team, data = gun))
+
  ###---------- Not so clear what it means for GLM, but: ------
  data(solder)
  TA.plot(glm(skips ~ ., data = solder, family = poisson), cex= .6)
@@ -67,4 +72,4 @@ if(FALSE) {
 }
 \keyword{diagnostics}
 \keyword{lm}
-% Converted by Sd2Rd version 0.3-3.
+
