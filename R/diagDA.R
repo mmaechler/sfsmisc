@@ -58,7 +58,6 @@ diagDA <- function(ls, cll, ts, pool= TRUE)
         ## == apply(v, 1, function(z) sum.na((nk-1)*z))/(n-K)
         if(any(i0 <- vp == 0)) vp[i0] <- 1e-7 * min(vp[!i0])
 
-        ## FIXME: check for 0 variance now !!
         ivp <- rep(1/vp, each = nt) # to use in loop
 
         for(k in 1:K) {
@@ -68,16 +67,18 @@ diagDA <- function(ls, cll, ts, pool= TRUE)
         }
     }
     else { ## QDA
-###>>>>>>>>>>>>>>>>>>>>> FIXME! -- improve the same as "LDA" above <<<<<<<<<<<<
+if(FALSE) { ## not yet quite : fails ../tests/dDA.R
         for(k in 1:K) {
-            ## Test this:
-            ## ts <- ts - rep(m[,k], each=nt)
-            ## disc[,k] <- (ts*ts) / rep(v[,k], each=nt) + sum(log(v[,k])
-
-            disc[,k] <- apply(ts,1,
-                              function(z)
-                              sum((z-m[,k])^2/v[,k]) + sum.na(log(v[,k])))
+            ts <- ts - rep(m[,k], each=nt)
+            disc[,k] <- rowSums((ts*ts) / rep(v[,k], each=nt)) + sum(log(v[,k]))
         }
+} else {
+        for(k in 1:K) {
+            disc[,k] <-
+                apply(ts,1, function(z) sum((z-m[,k])^2/v[,k])) +
+                    sum.na(log(v[,k]))
+        }
+}
     }
 
     ## predictions
@@ -163,7 +164,6 @@ predict.dDA <- function(object, newdata, pool = object$pool, ...)
         ## == apply(Vr, 1, function(z) sum.na((nk-1)*z))/(n-K)
         if(any(i0 <- vp == 0)) vp[i0] <- 1e-7 * min(vp[!i0])
 
-        ## FIXME: check for 0 variance now !!
         ivp <- rep(1/vp, each = nt) # to use in loop
 
         for(k in 1:K) {
@@ -173,16 +173,19 @@ predict.dDA <- function(object, newdata, pool = object$pool, ...)
         }
     }
     else { ## QDA
-###>>>>>>>>>>>>>>>>>>>>> FIXME! -- improve the same as "LDA" above <<<<<<<<<<<<
+        sum.na <- function(x) sum(x, na.rm=TRUE)
+if(FALSE) { ## not yet quite : fails ../tests/dDA.R
         for(k in 1:K) {
-            ## Test this:
-            ## y <- newdata - rep(mu[,k], each=nt)
-            ## disc[,k] <- (y*y) / rep(Vr[,k], each=nt) + sum(log(Vr[,k])
-
-            disc[,k] <- apply(newdata,1,
-                              function(z)
-                              sum((z-mu[,k])^2/Vr[,k]) + sum.na(log(Vr[,k])))
+            y <- newdata - rep(mu[,k], each=nt)
+            disc[,k] <- rowSums((y*y) / rep(Vr[,k], each=nt)) + sum(log(Vr[,k]))
         }
+} else {
+        for(k in 1:K) {
+            disc[,k] <-
+                apply(newdata,1, function(z) sum((z-mu[,k])^2/Vr[,k])) +
+                    sum.na(log(Vr[,k]))
+        }
+}
     }
 
     ## predictions
