@@ -1,30 +1,19 @@
 \name{errbar}
 \alias{errbar}
-\title{
-Plot with Error Bars
-}
+\title{Plot with Error Bars}
 \usage{
 errbar(x, y, yplus, yminus, cap )
 }
 \arguments{
-\item{x}{
-vector of x values.
+  \item{x}{vector of x values.}
+  \item{y}{vector of y values.}
+  \item{yplus}{vector of y values: the tops of the error bars.}
+  \item{yminus}{vector of y values: the bottoms of the error bars.}
+  \item{cap}{The width of the little lines at the tops and bottoms of
+    the error bars in units of the width of the plot.  Default is .015. 
+    Graphical parameters (see \code{\link{par}}) may also
+    be supplied as arguments to this function.}
 }
-\item{y}{
-vector of y values.
-}
-\item{yplus}{
-vector of y values: the tops of the error bars.
-}
-\item{yminus}{
-vector of y values: the bottoms of the error bars.
-}
-\item{cap}{
-The width of the little lines at the tops and bottoms of the error bars
-in units of the width of the plot.  Default is .015.
-Graphical parameters (see \code{\link{par}}) may also
-be supplied as arguments to this function.
-}}
 \section{EFFECT}{
 Makes a plot with error bars.
 }
