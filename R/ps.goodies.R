@@ -4,7 +4,8 @@
 
 ps.latex <- function(file, height= 5+ main.space*1.25, width= 9.5,
                      main.space = FALSE, lab.space = main.space,
-                     iso.latin1 = FALSE, ps.title = paste("S+ :",file),
+                     iso.latin1 = is.R(),
+                     ##not yet in R: ps.title = paste("S+ :",file),
                      lab = c(10,10,7), mgp.lab = c(1.6, .7, 0),
                      mar = c(4,4,0.9,1.1), ...)
 {
@@ -31,7 +32,8 @@ ps.latex <- function(file, height= 5+ main.space*1.25, width= 9.5,
     stop("'mar' must be non-negative numeric vector of length 4")
 
   ps.do(file=file, height=height, width=width,
-        iso.latin1=iso.latin1, title = ps.title, ...)
+        iso.latin1=iso.latin1, ##not yet in R: title = ps.title,
+        ...)
   ##=== Now: just do the proper   par(...)  call
   mar.main.Extra  <- c(0,0, 3.2,0)
   mar.nolab.Minus <- c(1,1,  .3,0)
@@ -44,13 +46,14 @@ ps.latex <- function(file, height= 5+ main.space*1.25, width= 9.5,
       warning("'main.space' is TRUE, but 'lab.space' is FALSE ...")
   }
   o.p <- par(mar = mar, mgp= mgp.lab)
-
-  assign("o.par.psl", o.p <- c(o.p, par(lab=lab)), frame = 0)
+  o.p <- c(o.p, par(lab=lab)) # need 2 step for  bug ?
+  ## "frame 0 / GlobalEnv assignment:
+  u.assign0("o.par.psl", o.p)
   invisible(list(old.par=o.p, new.par= par(c("mar","mgp","lab"))))
 }
 
 ps.do <- function(file, width = -1, height = -1,
-                  onefile = FALSE, horizontal = FALSE, iso.latin1 = FALSE,
+                  onefile = FALSE, horizontal = FALSE, iso.latin1 = is.R(),
 		  do.color = NULL, colors = NULL, image.colors = NULL,
 		  ...)
 {
@@ -79,29 +82,38 @@ ps.do <- function(file, width = -1, height = -1,
   ## Author: Martin Maechler, 1992-1995
   ##
   ## --->>>>>> CONSIDER   'ps.latex'   instead  for pictures !
-  assign("ps.file", file, frame = 0)
-  pso <- ps.options(horizontal = horizontal, ...)
 
-  if(is.null(do.color))
+  u.assign0("ps.file", file)
+  if(length(list(...))) {
+    pso <- ps.options(...)
+    on.exit(ps.options(pso)) #- reset ps.options !
+  }
+  no.do.col <- is.null(do.color)
+  if(no.do.col)
       do.color <- !is.null(colors) || !is.null(image.colors)
-  if(do.color) {
-      if(is.null(colors))	colors <- ps.col23.rgb
-      if(is.null(image.colors)) image.colors <- image.cold.hot
-      pso <- c(pso, ps.options(colors=colors, image.colors=image.colors))
+  if(!do.color) {
+    if(no.do.col)
+      do.color <- TRUE # since R does colors anyway..
+    else
+      warning("In R, you currently ALWAYS get color postscript.\n Setting up colors is VERY different (and MM thinks `nicer') than with S(-plus).")
   }
-  assign("ps.do.color", do.color, frame = 0)
-  on.exit(ps.options(pso)) #- reset ps.options !
-  if(iso.latin1) {
-    ps.options.SfS(iso = TRUE, reset=F) # from /u/sfs/S/ps.goodies.S
-    warning("Using  ps.options.SfS(iso = T)  -- makes 'dots' UN-centered!")
-  }
-  postscript(file = file, width = width, height = height,
+##-   if(do.color)
+##-     {
+##-       if(is.null(colors))	colors <- ps.col23.rgb
+##-       if(is.null(image.colors)) image.colors <- image.cold.hot
+##-       pso <- c(pso, ps.options(colors=colors, image.colors=image.colors))
+##-   }
+  u.assign0("ps.do.color", do.color)
+  if(!iso.latin1)
+    stop("In R, you currently MUST allow ISO-latin1 text.")
+
+  postscript(file = file, width = width, height = height, horizontal=horizontal,
              onefile = onefile, print.it = FALSE)
 }
 
-ps.end <- function(call.gv = NULL, do.color = get("ps.do.color", frame = 0),
-		   command = paste("gv",
-		     if(!do.color)" -monochrome", " -magstep -2 -a4", sep=''))
+ps.end <- function(call.gv = NULL, do.color = u.get0("ps.do.color"),
+		   command = paste("gview",if(!do.color)" -monochrome", sep=''),
+                   debug = FALSE)
 {
   ## Purpose:  A "ghostview" device driver (almost).
   ## Author: Martin Maechler, Date:  May 26 1992, 15:32
@@ -115,17 +127,17 @@ ps.end <- function(call.gv = NULL, do.color = get("ps.do.color", frame = 0),
   ## Only if  postscript is running !! --
   if( names(dev.cur()) == "postscript")    dev.off()
   if (is.null(call.gv)) {
-    ps.cmd <- if(substring(unix("uname -r"),1,1) == "4") #-- SunOS4
+    ps.cmd <- if(substring(u.sys("uname -r"),1,1) == "4") #-- SunOS4
       "ps -wx" else "/usr/bin/ps -u $USER -o args"
-    f <- sys(ps.cmd, " | grep '", command, "' | grep -v grep")
-    cat("ps.end(): f:\n");print(f)
+    f <- u.sys(ps.cmd, " | grep '", command, "' | grep -v grep")
+    if(debug) { cat("ps.end(): f:\n");print(f) }
     call.gv <- length(f) == 0
     if(!call.gv) {
       ##--- STILL does NOT work
       ##--- if you work with two different pictures simultaneously
       for(i in 1:length(f)) { #-- only NOT call if THIS ps.file .. --
-        fil <- unix(paste("perl -p -e 's/(.*)",command,"\\s*(.*)/\\2/'",
-                          sep=""), f[i])
+        fil <- u.sys("echo '", f[i],"' | perl -p -e 's/(.*)",
+                     command,"\\s*(.*)/\\2/'")
         cat("ps.end(): fil:",fil,"\n")
         call.gv <- ps.file != fil
         if(!call.gv)
@@ -133,9 +145,9 @@ ps.end <- function(call.gv = NULL, do.color = get("ps.do.color", frame = 0),
       }
     }
   }
-  if (call.gv) unix(paste(command, ps.file, "&"), output = F)
-  else cat("\n >>> Press `^L' or `r' (twice) in Ghostview window",
-           "\n     ~~~~~~~~~              to update the plot !\n\n")
+  if (call.gv) u.sys(command, " ", ps.file, "&", intern=FALSE)
+  else
+    cat("\n >> switch to   GV (Ghostview) window -- updated automagically!\n\n")
 }
 
 ## From ~/S/postscript.colors.S
@@ -204,7 +216,7 @@ ps.colors.test <- function(ps.color.mat = ps.colors.23,
     if (exists("dev.off") && is.function(dev.off))
       dev.off()
     else        graphics.off()
-    if (show.it)  sys("ghostview ", filename)
+    if (show.it)  u.sys("gv ", filename, "&", intern=FALSE)
   } else  Device.Default()
   on.exit()
 }
