@@ -8,10 +8,10 @@
 }
 \usage{
 TA.plot(lm.res,
-        fit= fitted(lm.res), res= residuals(lm.res, "pearson"),
+        fit= fitted(lm.res), res= residuals(lm.res, type="pearson"),
         labels= NULL, main= mk.main(), xlab = "Fitted values",
         draw.smooth= n >= 10, show.call = TRUE, show.2sigma= TRUE,
-        lo.iter = NULL, lo.cex= NULL, 
+        lo.iter = NULL, lo.cex= NULL,
         par0line  = list(lty = 2, col = 2),
         parSmooth = list(lwd = 1.5, lty = 4, col = 3),
         parSigma  = list(lwd = 1.2, lty = 3, col = 4),
