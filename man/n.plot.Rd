@@ -9,7 +9,8 @@
 }
 \usage{
 n.plot(x, y = NULL, nam = NULL, abbr = n >= 20 || max(nchar(nam))>=8,
-       xlab = NULL, ylab = NULL, log = "", cex = par("cex"), \dots)
+       xlab = NULL, ylab = NULL, log = "",
+       cex = par("cex"), col = par("col"), \dots)
 }
 \arguments{
   \item{x,y}{coordinates at which to plot. If \code{y} is missing,
@@ -26,14 +27,17 @@ n.plot(x, y = NULL, nam = NULL, abbr = n >= 20 || max(nchar(nam))>=8,
   \item{log}{character specifying if log scaled axes should be used, see
     \code{\link{plot.default}}.}
   \item{cex}{plotting character expansion, see \code{\link{par}}.}
+  \item{col}{color to use for \code{\link{text}()}.}
   \item{\dots}{further arguments to be passed to the \code{\link{plot}} call.}
 }
 \value{
   invisibly, a character vector with the labels used.
 }
-\author{Martin Maechler, 1992}
+\author{Martin Maechler, since 1992}
 \seealso{\code{\link{plot.default}}, \code{\link{text}}.}
 \examples{
  n.plot(1:20, cumsum(rnorm(20)))
+ data(cars)
+ with(cars, n.plot(speed, dist, cex = 0.8, col = "forest green"))
 }
 \keyword{hplot}
