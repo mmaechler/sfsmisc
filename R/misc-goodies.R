@@ -1,4 +1,4 @@
-#### $Id: misc-goodies.R,v 1.18 2002/11/30 23:38:49 maechler Exp $
+#### $Id: misc-goodies.R,v 1.19 2003/02/12 20:49:20 maechler Exp $
 #### misc-goodies.R
 #### ~~~~~~~~~~~~~~  SfS - R - goodies that are NOT in
 ####		"/u/sfs/R/SfS/R/u.goodies.R"
@@ -707,21 +707,21 @@ inv.seq <- function(i) {
 	paste("c(", paste(apply(subseq, 1, mk.seq), collapse = ","), ")", sep = ""))
 }
 
-iterate.lin.recursion <- function(x, coeff, nr.it = 10)
+iterate.lin.recursion <- function(x, coeff, delta = 0, nr.it)
 {
-  r <- c(x, rep(0, nr.it))
+  r <- c(x, numeric(nr.it))
   n <- length(x)
   ic <- length(coeff):1
   for(i in 1:nr.it)
-    r[n + i] <- c(coeff %*% r[n + i - ic])
+    r[n + i] <- delta + c(coeff %*% r[n + i - ic])
   r
 }
-## iterate.lin.recursion(0:1, c(1,1))
-##	 [1]  0  1  1  2  3  5  8 13 21 34 55 89  ### Fibonacci ##
-## iterate.lin.recursion( c(1,0,1), rep(1,3))
-##	 [1]   1   0   1   2   3   6  11  20  37  68 125 230 423
 
-quadrant <- function(x,y) { y <- sign(y); 2 - y + (y != sign(x)) }
+quadrant <- function(x,y=NULL) {
+    xy <- xy.coords(x,y); x <- xy$x; y <- xy$y
+    Sgn <- function(u) ifelse(u >= 0, 1, -1)
+    y <- Sgn(y); 2 - y + (y != Sgn(x))
+}
 
 n.code <- function(n, ndig = 1, dec.codes = c("","d","c","k"))
 {
