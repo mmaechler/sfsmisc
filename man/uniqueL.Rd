@@ -2,8 +2,8 @@
 \alias{uniqueL}
 \title{A Reversable Version of unique()}
 \description{
-  A version of \code{\link{unique}} which
-  stores enough to reverse (or \emph{invert}) to the original data.
+  A version of \code{\link{unique}} keeping enough information to
+  reverse (or \emph{invert}) to the original data.
 }
 \usage{
 uniqueL(x, isuniq = !duplicated(x))
