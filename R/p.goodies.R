@@ -68,7 +68,7 @@ p.sunflowers <- function(x, y, number,
     orderxy <- order(x, y)
     x <- x[orderxy]
     y <- y[orderxy]
-    first <- c(T, (x[-1] != x[ - n]) | (y[-1] != y[ - n]))
+    first <- c(TRUE, (x[-1] != x[ - n]) | (y[-1] != y[ - n]))
     x <- x[first]
     y <- y[first]
     number <- diff(c((1:n)[first], n + 1))
@@ -109,7 +109,7 @@ p.clear <- function()
 }
 
 ## ===========================================================================
-p.datum <- function(outer = F,...)
+p.datum <- function(outer = FALSE,...)
  mtext(u.Datumvonheute(...), 4, cex = 0.6, adj = 0, outer = outer)
 
 
@@ -132,7 +132,7 @@ p.dnorm <- function(mittel = 0, std = 1, ...)
 }
 ## ===========================================================================
 
-p.pairs <- function(data, data2, pch='.', col=1, colors, vnames, range=T,
+p.pairs <- function(data, data2, pch='.', col=1, colors, vnames, range=TRUE,
                     labcex=1.5, ...)
 {
   ## Purpose: pairs  with different plotting characters, marks and/or colors
@@ -191,13 +191,13 @@ p.pairs <- function(data, data2, pch='.', col=1, colors, vnames, range=T,
       plot(v2,v, type="n", xlab="", ylab="")
       if(j==1)    mtext(vnames[j2], side=3, line=0, cex=cext)
       if(j2==nvv) mtext(vnames[ j], side=4, line=0, cex=cext)
-      if(any(v!=v2,na.rm=T))
+      if(any(v!=v2,na.rm=TRUE))
         for (cc in 1:n.color) {
-          if (any((ii <- col==cval[cc]), na.rm=T)) {#-- plot in current color
+          if (any((ii <- col==cval[cc]), na.rm=TRUE)) {#-- plot in current color
             cl <- colors[cc]
             if(num.pch) {
               for (mm in levels(pch))
-                if (any((kk <- ii & pch==mm), na.rm=T))
+                if (any((kk <- ii & pch==mm), na.rm=TRUE))
                   points(v2[kk], v[kk], pch = mrk[as.numeric(mm)], col=cl)
             } else text(data[ii,j2],data[ii,j],pch,col=cl)
           }
@@ -226,9 +226,9 @@ p.pllines <- function(x,y,group,lty=c(1,3,2,4),...)
   }
 }
 ## ===========================================================================
-p.lm.hyperb <- function(lm.ob, c.prob = .95, confidence = F,
+p.lm.hyperb <- function(lm.ob, c.prob = .95, confidence = FALSE,
                         k = if(confidence) Inf else 1,
-                        col = 2, lty = 2, do.abline = T)
+                        col = 2, lty = 2, do.abline = TRUE)
 {
   ## Purpose: plot confidence/prediction hyperbolas for  y(x_0)
   ##            around a least squares regression line
@@ -269,8 +269,8 @@ p.lm.hyperb <- function(lm.ob, c.prob = .95, confidence = F,
 }
 ## ===========================================================================
 p.plot.lm <-
-function(rr, y, ask = T, qq=T, ta=T, ta.lowess=T, tamod=T, tamod.lowess=T,
-         hat=T, x=NULL, xadd=NULL, x.lowess=T,
+function(rr, y, ask = TRUE, qq=TRUE, ta=TRUE, ta.lowess=TRUE, tamod=TRUE, tamod.lowess=TRUE,
+         hat=TRUE, x=NULL, xadd=NULL, x.lowess=TRUE,
          main=tit(rr), ...)
 {
   ## Purpose:  more plots for residual analysis
@@ -289,46 +289,46 @@ function(rr, y, ask = T, qq=T, ta=T, ta.lowess=T, tamod=T, tamod.lowess=T,
   ##            .. .lowess: add lowess to respective plots
   ## -------------------------------------------------------------------------
   ## Author: Werner Stahel, Date:  7 May 93, 13:46
-  if(Browse) on.exit(browser()) #
-        op <- par(ask = ask)
-        form <- formula(rr)
-        rr$fitted.values <- rr$fit
-        f <- predict(rr)
-        r <- rr$res
-        if(missing(y)) {
-                y <- f + r
-                yname <- deparse(form[[2]])
-        }
-        else yname <- deparse(substitute(y))
-        stres <- rr$stres
-        rname <- paste("res(",yname,")")
-        strname <- paste("st",rname,sep=".")
-        if (is.null(stres)) {stres <- r ; strname <- rname}
-        if (qq) qqnorm(stres,ylab=strname, main=main)
-        fname <- paste("Fitted:", deparse(form[[3]]), collapse = " ")
-        if(is.null(main)) main <- ""
-        notna <- !is.na(r)
-        if(ta) { plot(f, r, xlab = fname, ylab = rname, main=main, ...)
-          abline(0, 0, lty = 2)
-          if (ta.lowess) lines(lowess(f[notna],r[notna]),lty=2) }
-        ra <- abs(stres)
-        if (tamod) {
-          plot(f, ra, xlab = fname, ylab ="abs(st.res)", main=main,
-                ...)
-          if (tamod.lowess) lines(lowess(f[notna],ra[notna]),lty=2) }
-        h <- rr$h
-        if(hat&!is.null(h)) {
-          plot(h,r, xlab="hat diagonal",ylab=rname, main=main, ...)
-          abline(0,0,lty=2) }
-        if (length(x)>0) {
-          if(is.logical(x)) x <- if(x) as.character(terms(form)) else NULL
-          for (xx in c(x,xadd)) {
-          plot (eval(parse(text=xx)),r, xlab=xx, ylab=rname, main=main, ...)
-          abline(0,0,lty=2)
-          if (x.lowess)
-            lines(lowess(eval(parse(text=xx))[notna],r[notna]),lty=3) }}
- on.exit(par(op))
- "done"}
+  if(Browse) on.exit(browser())         #
+  op <- par(ask = ask)
+  form <- formula(rr)
+  rr$fitted.values <- rr$fit
+  f <- predict(rr)
+  r <- rr$res
+  if(missing(y)) {
+    y <- f + r
+    yname <- deparse(form[[2]])
+  }
+  else yname <- deparse(substitute(y))
+  stres <- rr$stres
+  rname <- paste("res(",yname,")")
+  strname <- paste("st",rname,sep=".")
+  if (is.null(stres)) {stres <- r ; strname <- rname}
+  if (qq) qqnorm(stres,ylab=strname, main=main)
+  fname <- paste("Fitted:", deparse(form[[3]]), collapse = " ")
+  if(is.null(main)) main <- ""
+  notna <- !is.na(r)
+  if(ta) { plot(f, r, xlab = fname, ylab = rname, main=main, ...)
+           abline(0, 0, lty = 2)
+           if (ta.lowess) lines(lowess(f[notna],r[notna]),lty=2) }
+  ra <- abs(stres)
+  if (tamod) {
+    plot(f, ra, xlab = fname, ylab ="abs(st.res)", main=main,
+         ...)
+    if (tamod.lowess) lines(lowess(f[notna],ra[notna]),lty=2) }
+  h <- rr$h
+  if(hat&!is.null(h)) {
+    plot(h,r, xlab="hat diagonal",ylab=rname, main=main, ...)
+    abline(0,0,lty=2) }
+  if (length(x)>0) {
+    if(is.logical(x)) x <- if(x) as.character(terms(form)) else NULL
+    for (xx in c(x,xadd)) {
+      plot (eval(parse(text=xx)),r, xlab=xx, ylab=rname, main=main, ...)
+      abline(0,0,lty=2)
+      if (x.lowess)
+        lines(lowess(eval(parse(text=xx))[notna],r[notna]),lty=3) }}
+  on.exit(par(op))
+  "done"}
 ## ================================================================
 
 p.plot.text <- function(x, y, labels = seq(along = x),
@@ -377,7 +377,7 @@ p.scales <- function(unit = relsysize * 2.54 * min(pin), relsysize = 0.05)
 }
 
 
-p.triangle <- function(mat, label= "*", text.ecken = rep("",3), dreieck = T)
+p.triangle <- function(mat, label= "*", text.ecken = rep("",3), dreieck = TRUE)
 {
   ## Purpose: 'Triangle plot' for plotting 3 proportions [a + b + c == 1]
   ## ----------------------------------------------------------------
@@ -395,14 +395,14 @@ p.triangle <- function(mat, label= "*", text.ecken = rep("",3), dreieck = T)
   if(dreieck) {
     ecken <- matrix(c(0, 1, 0.5, 0, 0, sqrt(3)/2), ncol = 2)
     plot(rbind(ecken, c(0, 0)), type = "l", xlim = c(0, 1), ylim =
-         c(0, 1), axes = F, xlab = "", ylab = "")
+         c(0, 1), axes = FALSE, xlab = "", ylab = "")
     text(ecken, text.ecken)
   }
   text((1 - pa - pc/2), ((pc * sqrt(3))/2), label, col = 3)
 }
 
 
-p.two.forget <- function(data, anova, label = F)
+p.two.forget <- function(data, anova, label = FALSE)
 {
   ## Zweck: forget-it-plot   Autor: Stahel  Datum: Dez 89
   fit <- data - anova$resid
@@ -431,7 +431,7 @@ p.two.forget <- function(data, anova, label = F)
   "forget-it"
 }
 
-p.two.res <- function(anova, col = F)
+p.two.res <- function(anova, col = FALSE)
 {
   ## Two.res  Zweck: Residuen einer twoway-Analyse auf spezielle Art zeichnen
   ##          Autor: w. Stahel  Datum: Dez. 89
@@ -444,7 +444,7 @@ p.two.res <- function(anova, col = F)
   if(ind[1]!=1)
     x <- t(x)
   tx <- c("row", "col")[ind]
-  plot(x, rs, xlab = "", ylab = "Residuals", axes = F)
+  plot(x, rs, xlab = "", ylab = "Residuals", axes = FALSE)
   box()
   abline(h = 0, lty = 2)
   axis(2)
@@ -507,7 +507,7 @@ p.res.2x <- function(x, y, z, restricted, size = 1, xlab = NULL, ylab= NULL, ...
        xlab=xlab, ylab=ylab, ...)
   ##--
   ##--- draw symbols: ---
-  z <- z/max(az, na.rm = T)
+  z <- z/max(az, na.rm = TRUE)
   usr <- par("usr")
   sxz <-     diff(usr[1:2])/pcm[1] * size * z
   syz <- abs(diff(usr[3:4])/pcm[2] * size * z)
@@ -554,7 +554,7 @@ p.res.2fact <- function(x, y, z,
   if(is.null(ylab)) ylab <- deparse (substitute (y))
   ##
   ##--- restrict z values: ---
-  if(missing(restricted))  restr <- F
+  if(missing(restricted))  restr <- FALSE
     else {
       if(!is.numeric(restricted) || restricted <= 0)
         stop("'restricted' must be POSITIVE !")
@@ -578,8 +578,8 @@ p.res.2fact <- function(x, y, z,
       points( u.boxplot.x(length(lx),jx) , z[II]*1.02, pch= 8, mkh = 1/25)
     }
  }
-  mtext (xlab, side= 1, line= 1, outer= T, cex=1.3)
-  mtext (ylab, side= 2, line= 3, outer= T, cex=1.3)
+  mtext (xlab, side= 1, line= 1, outer= TRUE, cex=1.3)
+  mtext (ylab, side= 2, line= 3, outer= TRUE, cex=1.3)
   if(!is.null(main))
     mtext(main, side = 3, line = 2, cex = 1.5, outer = TRUE)
   if(any(restr)) cat(sum(restr), "restricted observation(s)\n")
@@ -694,9 +694,9 @@ p.profileTraces <- function(x, cex=1)
                mgp=c(3,0.8,0), cex=0.5*cex)
           points(xx[tau == 0], 0, pch = 3)
           pusr <- par("usr")
-          mtext(side=1, line=0.8, at=mean(pusr[1:2]), text=nx[j], outer=T,
+          mtext(side=1, line=0.8, at=mean(pusr[1:2]), text=nx[j], outer=TRUE,
                 cex=cex)
-          mtext(side=2, line=0.8, at=mean(pusr[3:4]), text=nx[i], outer=T,
+          mtext(side=2, line=0.8, at=mean(pusr[3:4]), text=nx[i], outer=TRUE,
                 cex=cex)
         }
       }
@@ -718,7 +718,7 @@ p.profileTraces <- function(x, cex=1)
         frame()
   }
   ##
-  mtext(side=3, line=0.2, text="t-Profil-Plot und Profilspuren", outer=T,
+  mtext(side=3, line=0.2, text="t-Profil-Plot und Profilspuren", outer=TRUE,
         cex=1.2*cex)
 }
 
@@ -726,7 +726,7 @@ p.corr <- function(...) stop("use 'symnum' instead of 'p.corr'")
                                         #-defined in ./misc-goodies.S
 
 p.tachoPlot <- function(x, y, z, angle=c(pi/4,3*pi/4), size,
-                          method="robust", legend=T, show.method=T,
+                          method="robust", legend=TRUE, show.method=TRUE,
                           xlab=deparse(substitute(x)),
                           ylab=deparse(substitute(y)), xlim, ylim, ...)
 {
@@ -754,8 +754,8 @@ p.tachoPlot <- function(x, y, z, angle=c(pi/4,3*pi/4), size,
   x <- x[ii]; y <- y[ii]; z <- z[ii]
 
   if(method.name=="sensitive"){
-    Min <- min(z, na.rm=T)
-    Max <- max(z, na.rm=T)
+    Min <- min(z, na.rm=TRUE)
+    Max <- max(z, na.rm=TRUE)
     b <- (z-Min)/(Max-Min)
   }
   if(method.name=="robust"){
@@ -765,8 +765,8 @@ p.tachoPlot <- function(x, y, z, angle=c(pi/4,3*pi/4), size,
     b <- pmin(pmax(z-Min,0),Max-Min)/(Max-Min)
   }
   if(method.name=="rank"){
-    Min <- min(z, na.rm=T)
-    Max <- max(z, na.rm=T)
+    Min <- min(z, na.rm=TRUE)
+    Max <- max(z, na.rm=TRUE)
     Rank <- replace(rep(NA,length(z)), !is.na(z), rank(z[!is.na(z)]))
     b <- (Rank-1)/(sum(!is.na(z))-1)
   }
@@ -803,7 +803,7 @@ p.tachoPlot <- function(x, y, z, angle=c(pi/4,3*pi/4), size,
   if(method.name=="robust"){
     out <- z<Min | z>Max
     segments((x+xd)[!out],(y+yd)[!out], (x-xd)[!out], (y-yd)[!out], lty=1)
-    if(any(out,na.rm=T)){
+    if(any(out,na.rm=TRUE)){
       segments((x+xd)[out],(y+yd)[out], (x-xd)[out], (y-yd)[out], lty=2,col=2)
     }
   }
@@ -818,7 +818,7 @@ p.tachoPlot <- function(x, y, z, angle=c(pi/4,3*pi/4), size,
     y2 <- min(pcm)/20*sin(pi-angle[2])*diff(usr[3:4])/pcm[2]
     x <- usr[2] - 3*cxy[1] - x2
     y <- cxy[2] + usr[4]
-    lines(c(x+x1,x,x+x2), c(y+y1,y,y+y2), lty=1, xpd=T)
+    lines(c(x+x1,x,x+x2), c(y+y1,y,y+y2), lty=1, xpd=TRUE)
     text(x+x2, y, labels=formatC(Max), adj=0, cex=0.7*par("cex"))
     text(x+x1, y, labels=formatC(Min), adj=1, cex=0.7*par("cex"))
   }
@@ -850,7 +850,7 @@ p.hboxp <- function(x, y.lo, y.hi, boxcol = 3, medcol = 0,
   if(is.na(whisklty))  whisklty  <- par("lty")
   if(is.na(staplelty)) staplelty <- par("lty") #
 
-  b <- boxplot(x, plot = F)
+  b <- boxplot(x, plot = FALSE)
   st <- c(b$stats)## names(st) <- c("max","Q3","med","Q1","min")
 
   ##-------- drawing the boxplot --------------
