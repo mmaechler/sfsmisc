@@ -15,7 +15,9 @@ errbar(x, y, yplus, yminus, cap = 0.015,
   \item{yplus}{vector of y values: the tops of the error bars.}
   \item{yminus}{vector of y values: the bottoms of the error bars.}
   \item{cap}{the width of the little lines at the tops and bottoms of
-    the error bars in units of the width of the plot.  Default is .015.}
+    the error bars in units of the width of the plot.  Default is 0.015.}
+  \item{xlab, ylab}{axis labels for the plot, as in
+    \code{\link{plot.default}}.}
   \item{\dots}{Graphical parameters (see \code{\link{par}}) may also
     be supplied as arguments to this function.}
 }
