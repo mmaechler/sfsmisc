@@ -1,4 +1,4 @@
-#### $Id: misc-goodies.R,v 1.9 2001/08/29 13:42:48 sfs Exp sfs $
+#### $Id: misc-goodies.R,v 1.10 2001/11/27 17:35:49 sfs Exp sfs $
 #### misc-goodies.R
 #### ~~~~~~~~~~~~~~  SfS - R - goodies that are NOT in
 ####		"/u/sfs/R/SfS/R/f.goodies.R"
@@ -11,9 +11,9 @@
 ###>>>> ALSO take things from /u/maechler/S/Good.S
 ###			      ==================== at end
 
-###==================================================================
+###================================================================== 
 ###  Variables
-###==================================================================
+###================================================================== 
 
 ##- Browse <- T
 ##-
@@ -28,23 +28,25 @@
 
 ### Use those in u.dev.default:  Must set 'new = F' explicitly!
 if(FALSE) {
-DevDef.postscript<-{postscript(file="out.ps"); p_ par(); dev.off(); p$new_ F; p}
-DevDef.x11 <- { x11("-geometry -9+9");  p_ par(); dev.off(); p$new_ F; p}
-DevDef.motif <- .Alias(DevDef.x11)
+DevDef.postscript <- { postscript(file = "out.ps"); p <- par(); dev.off();
+                       p$new <- FALSE; p }
+DevDef.x11 <- { x11("-geometry -9+9");  p <- par(); dev.off();
+                p$new <- FALSE; p }
+DevDef.motif <- (DevDef.x11)
 }
 
 ## dirwst <- "/home/staff/stahel/S/.Data"
 
 ## obj <- "*[Dd]at*" ##-- Does anyone use this ?????
 
-###==================================================================
+###================================================================== 
 ###  Functions <<<<<<<< Please use a few subsections  like "Plotting"...
 ###  Functions <<<<<<<< See  --> "/u/maechler/S/Good.S"
-###==================================================================
+###================================================================== 
 ###
 ###	o bl.string 		# blabla string
 ###
-### ==========================================================================
+### ========================================================================== 
 
 
 ##-#### First, attach(.),... --- "Umgebung anschauen, modifizieren" #########
@@ -57,27 +59,27 @@ sys <- function(...) system(paste(..., sep = ""))
 unix.true <- function(command)  sys("if ", command,
 				    "; then echo 1; else echo 0; fi")
 
-is.file <- function(file) system(paste("test -f", file), output = F) == 0
+is.file <- function(file) system(paste("test -f", file), output = FALSE) == 0
 
 
 ## apropos() : in standard R
 
-get.sys.default <- function(obj.nam, verbose = T)
+get.sys.default <- function(obj.nam, verbose = TRUE)
 {
   ## Purpose: get(..) the 'S-plus' system version of  'obj.nam'
   ## -------------------------------------------------------------------------
   ## Arguments: obj.nam: [character] name of object to get
   ## -------------------------------------------------------------------------
   ## Author: Martin Maechler, Date: 18 Oct 96, 16:37
-  if(is.null(fnd <- find(obj.nam, num = T)))
-    stop(paste('Object ', obj.nam, ' not found', sep='"'))
+  if(is.null(fnd <- find(obj.nam, num = TRUE)))
+    stop(paste('Object ', obj.nam, ' not found', sep = '"'))
   ## else
   if(!is.character(obj.nam))  obj.nam <- as.character(substitute(obj.nam))
-  if(verbose) cat(" .. found '",obj.nam,"'  ", length(fnd), " times\n", sep="")
+  if(verbose) cat(" .. found '",obj.nam,"'  ", length(fnd), " times\n", sep = "")
   n.fnd <- names(fnd)
   if(0 == length(fnd.nr <- string.match("splus[3-9]", n.fnd)))
     stop(paste(" >> found '", obj.nam, "'  only in NON-splus paths:",
-	       paste(n.fnd, collapse=","), sep=""))
+	       paste(n.fnd, collapse = ","), sep = ""))
   if(verbose) cat(" -- get()ing nr.", fnd.nr,":", n.fnd[fnd.nr],"\n")
   get(obj.nam, wh = fnd[fnd.nr])
 }
@@ -110,7 +112,7 @@ get.sys.default <- function(obj.nam, verbose = T)
 first.max <- function(x) min((1:length(x))[x == max(x)])
 first.min <- function(x) max((1:length(x))[x == min(x)])
 
-last <- function(data,length.out=1)
+last <- function(data,length.out = 1)
 {
   ## Purpose: last element(s) of a vector
   ## Author: Werner Stahel, Date:  Tue Jan 21 17:29:42 1992
@@ -167,18 +169,18 @@ nna <- function(data)
 
 subtit <- function(t) mtext(t, side = 3, line = 0)
 
-errbar <- function(x, y, yplus, yminus, cap= 0.015,
-                   xlab= deparse(substitute(x)),
-                   ylab= deparse(substitute(y)), ... )
+errbar <- function(x, y, yplus, yminus, cap = 0.015,
+                   xlab = deparse(substitute(x)),
+                   ylab = deparse(substitute(y)), ... )
 {
   ## Purpose: Makes a plot with error bars
   ## Authors: Charles Geyer, Statistics, U. Chicago, geyer@galton.uchicago.edu
   ## 	  Martin Maechler, Date:  11 Apr 91  and  Mar 27 1992, 12:32
   ## ----------------------------------------------------------------
   ## Arguments: --- see  help(..) page --->  ?errbar
-  ## ----------------------------------------=======
+  ## ----------------------------------------======= 
 
-  plot( x, y, ylim= range(y,yplus,yminus), xlab=xlab, ylab=ylab, ... )
+  plot( x, y, ylim = range(y,yplus,yminus), xlab = xlab, ylab = ylab, ... )
   xcoord <- par()$usr[1:2]
   segments( x, yminus, x, yplus )
   smidge <- cap * ( xcoord[2] - xcoord[1] ) / 2
@@ -212,7 +214,7 @@ boxplot.matrix <- function(mat, cols = TRUE, ...)
   invisible(boxplot(groups,...))
 }
 
-cum.Vert.funkt <- function(x, Quartile= TRUE, titel= TRUE, Datum= TRUE,
+cum.Vert.funkt <- function(x, Quartile = TRUE, titel = TRUE, Datum = TRUE,
                            rang.axis = TRUE, xlab = "", main = "", ...)
 {
   ## Ziel: Kumulative Verteilung von x aufzeichnen, auf Wunsch auch Median
@@ -283,7 +285,7 @@ plot.step <- function(ti, y,
   ##-- horizontal segments:
   if (add) segments(ti[-n1], y, ti[-1], y, ...)
   else {
-    plot(ti, c(y[1],y), type= 'n', xlab= xlab, ylab= ylab, main= main, ...)
+    plot(ti, c(y[1],y), type = 'n', xlab = xlab, ylab = ylab, main = main, ...)
     segments(ti[-n1], y, ti[-1], y)
   }
   if(left.points)  points(ti[-n1],y, pch = pch)
@@ -361,9 +363,9 @@ polyn.eval <- function(coef, x)
   ## Author: Martin Maechler <maechler@stat.math.ethz.ch>
   if(is.null(dim(coef))) {
     lc <- length(coef)
-    if (lc==0) 0  else {
+    if (lc == 0) 0  else {
       r <- coef[lc]
-      if (lc>1)
+      if (lc > 1)
 	for (i in (lc-1):1) r <- coef[i] + r*x
       r
     }
@@ -371,10 +373,10 @@ polyn.eval <- function(coef, x)
     dc <- dim(coef)
     lc <- dc[2]; dc <- dc[1]
     n <- length(x)
-    if (lc==0) matrix(0, n, dc) else {
-      r <- matrix(coef[,lc], n, dc, byrow=TRUE)
-      if (lc>1)
-	for (i in (lc-1):1) r <- r*x + matrix(coef[,i], n, dc, byrow=TRUE)
+    if (lc == 0) matrix(0, n, dc) else {
+      r <- matrix(coef[,lc], n, dc, byrow = TRUE)
+      if (lc > 1)
+	for (i in (lc-1):1) r <- r*x + matrix(coef[,i], n, dc, byrow = TRUE)
       r
     }
   }
@@ -407,7 +409,7 @@ digits.v <- function(nvec, base = 2, num.bits = 1 + floor(log(max(nvec),base)))
   r <- matrix(0, nrow = num.bits, ncol = length(nvec))
   for (i in num.bits:1) {
     r[i,] <- nvec %% base
-    if (i>1) nvec <- nvec %/% base
+    if (i > 1) nvec <- nvec %/% base
   }
   r
 }
@@ -417,7 +419,7 @@ digits.v <- function(nvec, base = 2, num.bits = 1 + floor(log(max(nvec),base)))
 ##-###   ============= ------------------------- ########
 
 
-if(!exists('rep.int', mode='function')) ## R
+if(!exists('rep.int', mode = 'function')) ## R
   rep.int <- rep #.Alias(rep)
 
 if(!is.R()) {
@@ -436,7 +438,8 @@ new.seed <- function()
     ichar <- function(x) { ##-- from   library(examples)
 	x <- as.vector(x, mode = "character")
 	.C("ichar", as.character(x), length(x),
-	   codes = integer(sum(nchar(x))))$codes }
+	   codes = integer(sum(nchar(x))))$codes 
+}
   rU3 <- mean(ichar(getenv("USER")))/255 # such that each user is different
   rU <- rU1 * rU2 * rU3
   ##-- last digits :
@@ -452,7 +455,7 @@ print.tbl <- function(table2, digit = 3)
   ##-- Urspruneglich fuer NDK-Uebungen 1992
   ##-- Verbessert und Fehler korrigiert! : M.Maechler, Feb.1993
   d <- dim(table2)
-  if(length(d) !=2)
+  if(length(d) != 2)
     stop("Argument muss numerische Matrix sein: Die (2-Weg) Kontingenz Tafel")
   N <- sum(table2)
   cat("\nKontingenz-Tafel mit Randsummen:\n")
@@ -470,17 +473,17 @@ print.tbl <- function(table2, digit = 3)
   exp.ind <- N * outer(yrand,xrand)#- Expected under INDEPendence: n * p_i * p_j
   cat("Freiheitsgrade: df =",df,"\n")
   cat("Chi^2 - Annahmebereich: [0,", round(qchisq(0.95,df),1),
-      "] (alpha=0.05)\n\n\n", sep="")
+      "] (alpha=0.05)\n\n\n", sep = "")
   test.chisq <- sum((as.matrix(table2)-exp.ind)^2/exp.ind)
   cat("Testwerte unter der Unabhaengigkeitshypothese:\n")
   cat("  Test mit Chi^2: ",format(round(test.chisq,2)),
-      " (P-Wert: ",round(1-pchisq(test.chisq,df),4),")\n",sep="")
+      " (P-Wert: ",round(1-pchisq(test.chisq,df),4),")\n",sep = "")
   is.pos <- table2 != 0
   test.deviance <- 2*sum(table2[is.pos]*log(table2[is.pos]/exp.ind[is.pos]))
   cat("  Test mit Devianz:  ",format(round(test.deviance,2)),
-      " (P-Wert: ",round(1-pchisq(test.deviance,df),4),")\n\n",sep="")
-  invisible(list(p.condx=condx, p.condy=condy, expected.indep = exp.ind,
-		 df=df, chisq.test=test.chisq, deviance=test.deviance))
+      " (P-Wert: ",round(1-pchisq(test.deviance,df),4),")\n\n",sep = "")
+  invisible(list(p.condx = condx, p.condy = condy, expected.indep = exp.ind,
+		 df = df, chisq.test = test.chisq, deviance = test.deviance))
 }
 
 table.mat <- function(mat, order.rows = TRUE)
@@ -530,7 +533,7 @@ table.mat <- function(mat, order.rows = TRUE)
   mat.use
 }
 
-cat.con <- function(mat, digi=3)
+cat.con <- function(mat, digi = 3)
 {
   ##-- "CAT CONtingency table"  mit RAND-SUMMEN + "Verzierung"
   ##-- Korrigiert fuer UNsymmetr. Kont.tafeln und stark vereinfacht: M.Maechler
@@ -543,7 +546,7 @@ cat.con <- function(mat, digi=3)
   out <- format(round(mat, digi))
   "--" <- paste(rep("-", max(nchar(out))), collapse = "")
   out <- cbind(rbind(out, get("--")), "|")
-  print(out[c(1:N,N+2,N+1), c(1:M,M+2,M+1)], quote=FALSE)
+  print(out[c(1:N,N+2,N+1), c(1:M,M+2,M+1)], quote = FALSE)
   invisible(mat)			#--- die erweiterte Matrix --
 }
 
@@ -552,9 +555,9 @@ cat.con <- function(mat, digi=3)
 ###
 ### if  we take them, use different file !!
 
-hist.bxp <- function(x, nclass, breaks, probability=FALSE, include.lowest=TRUE,
-		     xlab = deparse(substitute(x)), ..., width=0.2,
-		     boxcol=3, medcol=0, medlwd=5, whisklty=2, staplelty=1)
+hist.bxp <- function(x, nclass, breaks, probability = FALSE, include.lowest = TRUE,
+		     xlab = deparse(substitute(x)), ..., width = 0.2,
+		     boxcol = 3, medcol = 0, medlwd = 5, whisklty = 2, staplelty = 1)
 {
   ## Purpose:   Plot a histogram and a boxplot
   ## -------------------------------------------------------------------------
@@ -566,25 +569,25 @@ hist.bxp <- function(x, nclass, breaks, probability=FALSE, include.lowest=TRUE,
   ## determine the height of the plot
   if(missing(breaks)){
     if(missing(nclass))
-      h <- hist(x, probability=probability, include.lowest=include.lowest,
-		plot=FALSE)
+      h <- hist(x, probability = probability, include.lowest = include.lowest,
+		plot = FALSE)
       else
-	h <- hist(x, nclass=nclass, probability=probability,
-		  include.lowest=include.lowest, plot=FALSE)
+	h <- hist(x, nclass = nclass, probability = probability,
+		  include.lowest = include.lowest, plot = FALSE)
   }
     else
-      h <- hist(x, breaks=breaks, probability=probability,
-		include.lowest=include.lowest, plot=FALSE)
+      h <- hist(x, breaks = breaks, probability = probability,
+		include.lowest = include.lowest, plot = FALSE)
   ymax <- max(h$counts)
   ymin <-  - ymax * width # range:  (-w,1)*ymax  instead of  (0,1)*ymax
 
   ##------- drawing the histogram -------------
-  hist(x, breaks=h$breaks, probability=probability,
-       include.lowest=include.lowest, plot=TRUE, xlab=xlab,
-       ylim=c(ymin, ymax), axes=FALSE, ...)
+  hist(x, breaks = h$breaks, probability = probability,
+       include.lowest = include.lowest, plot = TRUE, xlab = xlab,
+       ylim = c(ymin, ymax), axes = FALSE, ...)
   axis(1)
-  axis(2, at=pretty(c(0,ymax), n=5), srt=90) ## ph, 8.5.00: n instead of nint
-  abline(h=0)				#
+  axis(2, at = pretty(c(0,ymax), n = 5), srt = 90) ## ph, 8.5.00: n instead of nint
+  abline(h = 0)				#
   ##-------- drawing the boxplot --------------
 
   ##-- scale a range
@@ -605,17 +608,17 @@ hist.bxp <- function(x, nclass, breaks, probability=FALSE, include.lowest=TRUE,
   ##-- but you should leave some white space -> scale down
   ##-- The scaling factor is really a  KLUDGE but works for a wide range!
   p.hboxp(x, scale.r(par("usr")[3], 0, ## ph, 8.5.00: changed f=.9 to f=.8
-		     f = .8 - max(0, .15 - width)*(1+(par("mfg")[3]>=3))),
-	  boxcol=boxcol, medcol=medcol,
-	  medlwd=medlwd, whisklty=whisklty, staplelty=staplelty)
+		     f = .8 - max(0, .15 - width)*(1+(par("mfg")[3] >= 3))),
+	  boxcol = boxcol, medcol = medcol,
+	  medlwd = medlwd, whisklty = whisklty, staplelty = staplelty)
 
 
 }
 
 
 
-####========== This is from /u/maechler/S/Good.S =============
-####========== --------------------------------- =============
+####========== This is from /u/maechler/S/Good.S ============= 
+####========== --------------------------------- ============= 
 
 ##-#### Plot / Devices  related stuff ########
 ##-### ----------------------------- ########
@@ -631,8 +634,8 @@ hist.bxp <- function(x, nclass, breaks, probability=FALSE, include.lowest=TRUE,
 ##m.pl_ function(mat, ...) cat("\n>>> USE FUNCTION p.m  instead of m.pl !!\n\n")
 
 mpl <- function(mat, ...) {
-  matplot(1:nrow(mat), mat, xaxt='n',...)
-  if(0== length(dn <- dimnames(mat)[[1]]))
+  matplot(1:nrow(mat), mat, xaxt = 'n',...)
+  if(0 == length(dn <- dimnames(mat)[[1]]))
     axis(1) else
     axis(1, at = 1:nrow(mat), labels = dn)
 }
@@ -643,8 +646,8 @@ is.TS <- is.ts#.Alias  shouldn't be used
 pl.ds <- function(x, yd, ys, xlab = "", ylab = "", ylim = rrange(yd, ys),
                   xpd = TRUE, do.seg = TRUE,
                   lwd = 2.5, seg.p = .95, seg.lty = 2,
-                  seg.col= if(.Device=="postscript") 1  else 2,
-                  lin.col= if(.Device=="postscript") 1  else 3, lin.lty = 1,
+                  seg.col = if(.Device == "postscript") 1  else 2,
+                  lin.col = if(.Device == "postscript") 1  else 3, lin.lty = 1,
                   ...)
 {
   ## Purpose:   Plot Data & Smooth ---
@@ -656,14 +659,14 @@ pl.ds <- function(x, yd, ys, xlab = "", ylab = "", ylim = rrange(yd, ys),
   ## Author: Martin Maechler, 1990-1994
 
   plot(x, yd, xlab = xlab, ylab = ylab, ylim = ylim, ...) #pch = pch,
-  lines(x, ys, lwd = lwd, xpd = xpd, lty=lin.lty, col=lin.col)
+  lines(x, ys, lwd = lwd, xpd = xpd, lty = lin.lty, col = lin.col)
   if(do.seg)
     segments(x, seg.p*ys + (1-seg.p)*yd, x, yd, col = seg.col,
              xpd = xpd, lty = seg.lty)
 }
 
-p.panelL <- function(x,y)      {text(x,y);lines(lowess(x,y, f=.4),col=2) }
-p.panelS <- function(x,y,df=4) {text(x,y);lines(smooth.spline(x,y,df=df),col=2)}
+p.panelL <- function(x,y)      { text(x,y);lines(lowess(x,y, f = .4),col = 2) }
+p.panelS <- function(x,y,df = 4) { text(x,y);lines(smooth.spline(x,y,df = df),col = 2) }
 
 pairs.title <- function(main, adj = NULL, cex = 1, lineP = 0, ...)
 {
@@ -686,7 +689,7 @@ pairs.title <- function(main, adj = NULL, cex = 1, lineP = 0, ...)
   ##      |       |         |
   ## -------------------------------------------------------------------------
   ## Author: Martin Maechler, Date: 12 Aug 96, 15:57
-  if(!exists('stringwidth', mode='function'))
+  if(!exists('stringwidth', mode = 'function'))
     attach("/u/sfs/S/Statlib/postscriptfonts/.Data")
   nc <- stringwidth(main, inches = FALSE)
   ##-- the coord.system is in the middle ...
@@ -701,10 +704,10 @@ pairs.title <- function(main, adj = NULL, cex = 1, lineP = 0, ...)
                   motif = .036,
                   postscript = - .15,
                   0)
-  mtext(main, line = lin, cex=cex, adj=adj, ...) #-- upper left
-  mtext(paste(rep("_", ceiling(1.05* nc / stringwidth("_", inches=FALSE))),
-              collapse=''), line = lin - .2*cex, cex=cex, adj=adj, ...)
-  c(nc= nc, lin= lin, adj=adj)
+  mtext(main, line = lin, cex = cex, adj = adj, ...) #-- upper left
+  mtext(paste(rep("_", ceiling(1.05* nc / stringwidth("_", inches = FALSE))),
+              collapse = ''), line = lin - .2*cex, cex = cex, adj = adj, ...)
+  c(nc = nc, lin = lin, adj = adj)
 }
 
 test.par <- function()
@@ -721,29 +724,29 @@ test.par <- function()
   ## 2)+3) ==> /  mai[1:2] ==    plt[c(1,3)] * fin
   ##           \  mai[4:3] == (1-plt[c(2,4)])* fin
   .Options$digits <- 3
-  plot(1:10,(1:10)^2, xlab="")
+  plot(1:10,(1:10)^2, xlab = "")
   pr <- par()
-  u _ pr$ usr;  uy _ u[3:4];  ux _ u[1:2]
-  cxy _ pr$ cxy;  em1 _ pr$"1em"
+  u <- pr$ usr;  uy <- u[3:4];  ux <- u[1:2]
+  cxy <- pr$ cxy;  em1 <- pr$"1em"
   mtext(paste("par(\"usr\")=: c(ux,uy)=",
-              paste(format(u),  collapse=" "),
-              if(all.equal(pr$ pin,    pr$ uin * c(diff(ux),diff(uy)),tol=1e-6))
+              paste(format(u),  collapse = " "),
+              if(all.equal(pr$ pin,    pr$ uin * c(diff(ux),diff(uy)),tol = 1e-6))
                   "--- par(\"pin\" = par(\"uin\") * c(diff(ux),diff(uy))"
-              ), line=3)
-  mtext(paste("par(\"cxy\")=", paste(format(cxy),collapse=" "),
-              "    par(\"1em\")=", paste(format(em1),collapse=" ")), line=2)
+              ), line = 3)
+  mtext(paste("par(\"cxy\")=", paste(format(cxy),collapse = " "),
+              "    par(\"1em\")=", paste(format(em1),collapse = " ")), line = 2)
   mtext(paste("nx := diff(ux) / par(\"1em\")[1] = ",
-              format(nx _ diff(ux) / em1[1])),side=1, line=2)
+              format(nx <- diff(ux) / em1[1])),side = 1, line = 2)
   mtext(paste("nx':= diff(ux) / par(\"cxy\")[1] = ",
-              format(nx _ diff(ux) / cxy[1])),side=1, line=3)
+              format(nx <- diff(ux) / cxy[1])),side = 1, line = 3)
   mtext(paste("ny := diff(uy) / par(\"1em\")[2] = ",
-              format(ny _ diff(uy) / em1[2])),side=1, line=4)
+              format(ny <- diff(uy) / em1[2])),side = 1, line = 4)
 
   for(i in 1:ceiling(ny))
-    mtext(paste("line=", i), line= -i, at = 1.8)
+    mtext(paste("line=", i), line = -i, at = 1.8)
   for(i in 0:ceiling(nx))
-    mtext(paste(i), side = 2, line= -i, at = uy[2] + em1[2]*i%%2)
-  str <- paste(rep("123456789 ", ceiling(nx/10)), collapse="")
+    mtext(paste(i), side = 2, line = -i, at = uy[2] + em1[2]*i%%2)
+  str <- paste(rep("123456789 ", ceiling(nx/10)), collapse = "")
   str <- substring (str, 1, ceiling(nx))
   mtext(str, side = 3, line = -2)
 }
@@ -770,7 +773,7 @@ pmax.sa <- function(scalar, arr)
   if(is.na(scalar)) array(NA, dim = dim(arr))
     else {
       l <- scalar > arr
-      l[is.na(arr)] <- F
+      l[is.na(arr)] <- FALSE
       arr[l] <- scalar
       arr
     }
@@ -783,7 +786,7 @@ pmin.sa <- function(scalar, arr)
   if(is.na(scalar)) array(NA, dim = dim(arr))
     else {
       l <- scalar < arr
-      l[is.na(arr)] <- F
+      l[is.na(arr)] <- FALSE
       arr[l] <- scalar
       arr
     }
@@ -828,7 +831,7 @@ rot2 <- function(xy, phi)
   xy %*% t( matrix(c(co,s, -s, co), 2,2) )
 }
 
-list2mat <- function(x, check=TRUE)
+list2mat <- function(x, check = TRUE)
 {
   ## Purpose:  list -> matrix
   ## -------------------------------------------------------------------------
@@ -837,26 +840,26 @@ list2mat <- function(x, check=TRUE)
   ## -------------------------------------------------------------------------
   ## Author: Martin Maechler, Date: 19 May 93, 09:46
   if(!is.list(x)) stop("Argument must be list !")
-  if(!exists("unname", mode="function"))
+  if(!exists("unname", mode = "function"))
     unname <- function(x) { if(length(names(x))) names(x) <- NULL; x }
-  if(!exists("which", mode="function"))
+  if(!exists("which", mode = "function"))
     which <- function(logi) (1:length(logi))[logi]
-  p _ length(x) #--> number of columns
-  n _ length(x[[1]])
+  p <- length(x) #--> number of columns
+  n <- length(x[[1]])
   if( !is.vector(unname(x[[1]])) ||
-     (p>1 && (!is.vector(unname(x[[2]])) || n!= length(x[[2]]))))
+     (p > 1 && (!is.vector(unname(x[[2]])) || n != length(x[[2]]))))
     stop("First 2 list entries must be equal length vectors")
   if(check) { #-- carefully check ... --
-    len _ unlist(lapply(x,length))
-    err _ len != n
+    len <- unlist(lapply(x,length))
+    err <- len != n
     if(any(err)) {
       warning(paste("Wrong lengths of list elements",
-		    paste(which(err),collapse=" "), "  --> eliminated."))
-      p _ length(x _ x[ !err ])
+		    paste(which(err),collapse = " "), "  --> eliminated."))
+      p <- length(x <- x[ !err ])
     }
   }
-  nuet _ "" == (collabs _ names(x))
-  if(any(nuet)) collabs[nuet] <- paste("L", which(nuet), sep=".")
+  nuet <- "" == (collabs <- names(x))
+  if(any(nuet)) collabs[nuet] <- paste("L", which(nuet), sep = ".")
   x <- matrix(unlist(x), n,p)
   dimnames(x) <- list(NULL, collabs)
   class(x) <- "matrix"
@@ -906,10 +909,10 @@ trace1.ms <- function(info, theta, grad, scale, flags, fit.pars)
   ## -------------------------------------------------------------------------
   ## Example: ms( ~ ......, trace = trace1.ms) #--> ?ms for ex.
 
-  cat("It.",formatC(info[1],w=2), ",",
-      formatC(info[2],w=4), " f.ev, F=",
-      formatC(info[3], w=11, dig=8),
-      " Par.:", paste(formatC(theta,dig=6,w=9),collapse=" "),"\n", sep="")
+  cat("It.",formatC(info[1],w = 2), ",",
+      formatC(info[2],w = 4), " f.ev, F=",
+      formatC(info[3], w = 11, dig = 8),
+      " Par.:", paste(formatC(theta,dig = 6,w = 9),collapse = " "),"\n", sep = "")
   ##-S: cat("Iteration: ", info[1], ", ", info[2], " function calls, F= ",
   ##-S: 	format(info[3]), "\nParameters:\n")
   invisible(theta)
@@ -935,20 +938,20 @@ trace.ms.MM <- function(info, theta, grad, scale, flags, fit.pars)
   ## Example: ms( ~ ......, trace = trace.ms.MM) #--> ?ms for ex.
 
   w.th <- 6 #- print width of a theta[] component
-  if(info[1]==0) {
+  if(info[1] == 0) {
     p <- length(theta)
     twt <- (w.th + 1) *p # Total width of theta[], including space (' ')
     cat(" It Fns relDpar  delta.F F(theta) theta",
-        if(p>1) paste("[1..",p,"] ", paste(rep("-",twt-7), collapse=""),sep=""),
+        if(p > 1) paste("[1..",p,"] ", paste(rep("-",twt-7), collapse = ""),sep = ""),
         "\n",
 	" -- --- -------  ------- -------- ~~~~~~~~",
-        if(p>1) paste(rep("~", twt), collapse=""),
-        "\n",sep="")
+        if(p > 1) paste(rep("~", twt), collapse = ""),
+        "\n",sep = "")
   }
-  cat(formatC(as.integer(info[1:2]),w=3),
-      formatC(info[c(5,7)],w=8, dig=3-1,format='e'),
-      formatC(info[3], dig=5, flag="#"),"",
-      paste(formatC(theta,dig=4, flag="#"),collapse=" "),"\n")
+  cat(formatC(as.integer(info[1:2]),w = 3),
+      formatC(info[c(5,7)],w = 8, dig = 3-1,format = 'e'),
+      formatC(info[3], dig = 5, flag = "#"),"",
+      paste(formatC(theta,dig = 4, flag = "#"),collapse = " "),"\n")
   invisible(theta)
 }
 
@@ -971,26 +974,26 @@ trace.nls.MM <- function(inner.outer, iteration, step.factor,
 
   if(inner.outer) {
     w.p <- 6 ##- print width of a param[] component
-    if(iteration==1) {
+    if(iteration == 1) {
       p <- length(parameters)
       twt <- (w.p + 1) *p ## Total width of parameters[], including space (' ')
       ##i cat(" It conv.crit step.fac increment | F(par.) param",
       cat(" It conv.cr. step.fac | F(param)  param",
-          if(p>1) paste("[1..",p,"] ", paste(rep("-",twt-5), collapse=""),
-                        sep=""),
+          if(p > 1) paste("[1..",p,"] ", paste(rep("-",twt-5), collapse = ""),
+                        sep = ""),
           "\n",
           " -- -------- -------- | --------  ~~~~~~~~",
-          if(p>1) paste(rep("~", twt), collapse=""),
-          "\n",sep="")
+          if(p > 1) paste(rep("~", twt), collapse = ""),
+          "\n",sep = "")
     }
-    cat(formatC(iteration,      w=3, format='d'),
-        formatC(conv.criterion, w=8, dig=3-1,format='e'),
-        formatC(step.factor,    w=8, dig=3-1,format='e'),
+    cat(formatC(iteration,      w = 3, format = 'd'),
+        formatC(conv.criterion, w = 8, dig = 3-1,format = 'e'),
+        formatC(step.factor,    w = 8, dig = 3-1,format = 'e'),
         ## increment is also [1:p] !!
         ##i -- don't really know what it is (delta.par / step.fac ? )
         ##i formatC(increment,      w=8, dig=3-1,format='e'),
-        " ", formatC(objective, dig=5, w=8,flag="- #"),"",
-        paste(formatC(parameters,dig=4, w=w.p, flag="#"),collapse=" "),"\n")
+        " ", formatC(objective, dig = 5, w = 8,flag = "- #"),"",
+        paste(formatC(parameters,dig = 4, w = w.p, flag = "#"),collapse = " "),"\n")
 
     ##-- trace.nls  magic
     assign("last.iteration", iteration, frame = 1)
@@ -1012,7 +1015,7 @@ u.log <- function(x, c = 1)
   ## Arguments: x: numeric vector;  c: scalar > 0
   ## -------------------------------------------------------------------------
   ## Author: Martin Maechler, Date: 24 Jan 95, 17:28
-  if(!is.numeric(c)|| c<0) stop("'c' must be positive number")
+  if(!is.numeric(c)|| c < 0) stop("'c' must be positive number")
   r <- x
   to.log <- abs(x) > c ; x <- x[to.log]
   r[to.log] <- sign(x) * c * (1 + log(abs(x/c)))
@@ -1028,26 +1031,26 @@ xy.unique.x <- function(x,y,w, fun.mean = mean)
   ## -------------------------------------------------------------------------
   ## Author: Martin Maechler, Date:  8 Mar 93, 16:36
   ##--*--*--*--*--*--*--*--*--*-- x,y,w  treatment --*--*--*--*--*--*--*--*--
-  if(missing(x)) x_ time(y)  else
+  if(missing(x)) x <- time(y)  else
   if(missing(y)) {
     if(is.list(x)) {
       if(any(is.na(match(c("x", "y"), names(x)))))
 	stop("cannot find x and y in list")
       y <- x$y; x <- x$x; if(!is.null(x$w)) w <- x$w
     } else if(is.complex(x)) { y <- Im(x); x <- Re(x)
-    } else if(is.matrix(x) && ncol(x) == 2) { y <- x[, 2];            x_ x[, 1]
-    } else if(is.matrix(x) && ncol(x) == 3) { y <- x[, 2]; w_ x[, 3]; x_ x[, 1]
+    } else if(is.matrix(x) && ncol(x) == 2) { y <- x[, 2];            x <- x[, 1]
+    } else if(is.matrix(x) && ncol(x) == 3) { y <- x[, 2]; w <- x[, 3]; x <- x[, 1]
     } else { y <- x; x <- time(x)
     }
   }
   n <- length(x);  if(n != length(y)) stop("lengths of x and y must match")
-  if(missing(w))  w_ rep(1,n)
+  if(missing(w))  w <- rep(1,n)
     else if(n != length(w)) stop("lengths of x and w must match")
   ##--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--
   gr <- match(x,unique(x))
-  cbind(x= unique(x),
-	y= tapply(y, gr, FUN = fun.mean),
-	w= tapply(w, gr, FUN = sum))
+  cbind(x = unique(x),
+	y = tapply(y, gr, FUN = fun.mean),
+	w = tapply(w, gr, FUN = sum))
 }
 
 
@@ -1055,7 +1058,7 @@ xy.unique.x <- function(x,y,w, fun.mean = mean)
 ##-#### Non-calculus ("Discrete") Mathematical stuff ########
 ##-### -------------------------------------------- ########
 
-is.sorted <- function(x) (length(x)<=1) || all(diff(x) >= 0)
+is.sorted <- function(x) (length(x) <= 1) || all(diff(x) >= 0)
 
 inv.seq <- function(i) {
   ## Purpose: 'Inverse seq': Return a short expression for the 'index'  `i'
@@ -1067,15 +1070,15 @@ inv.seq <- function(i) {
   ## EXAMPLES: cat(rr <- inv.seq(c(3:12, 20:24, 27, 30:33)),"\n"); eval(rr)
   ##           r2 <- inv.seq(c(20:13, 3:12, -1:-4, 27, 30:31)); eval(r2); r2
   li <- length(i <- as.integer(i))
-  if(li==0) return(expression(NULL))
-  else if(li==1) return(as.expression(i))
+  if(li == 0) return(expression(NULL))
+  else if(li == 1) return(as.expression(i))
   ##-- now have: length(i) >= 2
   di1 <- abs(diff(i)) == 1	#-- those are just simple sequences  n1:n2 !
-  subseq <- cbind(i[!c(F,di1)], i[!c(di1,F)]) #-- beginnings and endings
+  subseq <- cbind(i[!c(FALSE,di1)], i[!c(di1,FALSE)]) #-- beginnings and endings
   mk.seq <- function(ij)
-    if(ij[1]==ij[2]) as.character(ij[1]) else paste(c(ij),collapse=":")
-  parse(text=
-	paste("c(", paste(apply(subseq, 1, mk.seq), collapse=","), ")", sep=""))
+    if(ij[1] == ij[2]) as.character(ij[1]) else paste(c(ij),collapse = ":")
+  parse(text = 
+	paste("c(", paste(apply(subseq, 1, mk.seq), collapse = ","), ")", sep = ""))
 }
 
 iterate.lin.recursion <- function(x, coeff, nr.it = 10)
@@ -1092,9 +1095,9 @@ iterate.lin.recursion <- function(x, coeff, nr.it = 10)
 ## iterate.lin.recursion( c(1,0,1), rep(1,3))
 ##	 [1]   1   0   1   2   3   6  11  20  37  68 125 230 423
 
-quadrant <- function(x,y) { y <- sign(y); 2 - y + (y!=sign(x))}
+quadrant <- function(x,y) { y <- sign(y); 2 - y + (y != sign(x)) }
 
-n.code <- function(n, ndig=1, dec.codes = c("","d","c","k"))
+n.code <- function(n, ndig = 1, dec.codes = c("","d","c","k"))
 {
   ##-- convert "round integers" to short char.strings
   ##-- useful to build-up  variable names in simulations
@@ -1105,10 +1108,10 @@ n.code <- function(n, ndig=1, dec.codes = c("","d","c","k"))
     e10 <- pmax(0, pmin(e10, nd-1))
     warning("some `n' out of range")
   }
-  paste(round(n/ 10^(e10 + 1 - ndig)), dec.codes[1 + e10],  sep="")
+  paste(round(n/ 10^(e10 + 1 - ndig)), dec.codes[1 + e10],  sep = "")
 }
 
-code2n <- function(ncod, ndig=1, dec.codes = c("","d","c","k"))
+code2n <- function(ncod, ndig = 1, dec.codes = c("","d","c","k"))
 {
   ## The inverse function to n.code
   le <- nchar(ncod)
@@ -1125,7 +1128,7 @@ nr.sign.chg <- function(y)
   ## Author: Martin Maechler, Date: 17 Feb 93, 18:04
 
   ## Be careful with y[i] that were 0 !!
-  y _ sign(c(y)); y_ y[y!=0]
+  y <- sign(c(y)); y <- y[y != 0]
   sum(y[-1] != y[-length(y)])
 }
 
@@ -1154,9 +1157,9 @@ unif <- function(n, round.dig = 1 + trunc(log10(n)))
 ##-### ---------------------------------- ########
 
 prt.DEBUG <- function(..., LEVEL = 1)
-  if (exists("DEBUG", w=1) && DEBUG >= LEVEL )#
+  if (exists("DEBUG", w = 1) && DEBUG >= LEVEL )#
   ##                  ~~~
-  cat(paste("in `", sys.call(sys.nframe()-1)[1], "':", sep=""), ..., "\n")
+  cat(paste("in `", sys.call(sys.nframe()-1)[1], "':", sep = ""), ..., "\n")
 
 ##- ## Not w=1:
 ##- prt.DEBUG <- function(...)
