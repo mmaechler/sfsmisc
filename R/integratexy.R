@@ -49,9 +49,9 @@ integrate.xy <- function(x,fx, a,b, use.spline = TRUE, xtol = 2e-8)
     n <- length(x)
   }
 
-  kk <- length(ab <- unique(c(a,b)))
+  ab <- unique(c(a,b))
   xtol <- xtol * max(b - a)
-  BB <- abs(dx <- outer(x,ab,"-")) < xtol
+  BB <- abs(outer(x,ab,"-")) < xtol
   if(any(j <- 0 == apply(BB,2,sum))) { #the j-th element(s) of ab are not in x[]
     y <- approx(x,fx, xout = ab[j])$y
     x <- c(ab[j],x)
