@@ -1,6 +1,8 @@
-#### $Id: TA.plot.R,v 1.6 2003/11/21 14:28:34 maechler Exp $
-n.plot <- function(x, y=NULL, nam = NULL, abbr = n >= 20 || max(nchar(nam))>=8,
-                   xlab = NULL, ylab = NULL, log = "", cex = par("cex"), ...)
+#### $Id: TA.plot.R,v 1.7 2003/11/21 14:36:12 maechler Exp $
+n.plot <-
+    function(x, y=NULL, nam = NULL, abbr = n >= 20 || max(nchar(nam))>=8,
+             xlab = NULL, ylab = NULL, log = "",
+             cex = par("cex"), col = par("col"), ...)
 {
     ## Purpose: "Name Plot"; Names (or numbers) instead of points in plot(..)
     ## --> help(n.plot) !
@@ -20,7 +22,7 @@ n.plot <- function(x, y=NULL, nam = NULL, abbr = n >= 20 || max(nchar(nam))>=8,
        if (is.null(nam)) { nam <- paste(1:n) #- Use 1,2,.. if no names
     }}}}
     if(abbr) nam <- abbreviate(nam, min=1)
-    text(xy, labels=nam, cex=cex)
+    text(xy, labels=nam, cex=cex, col=col)
     invisible(nam)
 }
 
