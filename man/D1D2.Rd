@@ -1,8 +1,7 @@
-% {D1D2} is also sym.linked into
+% This is also sym.linked into
 % Martin's WpDensity package /u/maechler/R/Pkgs/WpDensity/
 \name{D1D2}
 \alias{D1D2}
-\alias{D2ss}
 \title{Numerical Derivatives of (x,y) Data via Smoothing Splines}
 \description{
   Compute numerical derivatives of \eqn{f()} given observations
@@ -13,7 +12,6 @@
 }
 \usage{
 D1D2(x, y, xout = x, spar.offset = 0.1384, deriv = 1:2, spl.spar = NULL)
-D2ss(x, y, xout = x, spar.offset = 0.1384, spl.spar=NULL)
 }
 \arguments{
   \item{x,y}{numeric vectors of same length, supposedly from a model
@@ -21,7 +19,7 @@ D2ss(x, y, xout = x, spar.offset = 0.1384, spl.spar=NULL)
   \item{xout}{abscissa values at which to evaluate the derivatives.}
   \item{spar.offset}{numeric fudge added to the smoothing parameter,
     see \code{spl.par} below.}
-  \item{deriv}{(for \code{D1D2}) integer in \code{1:2} indicating which
+  \item{deriv}{integer in \code{1:2} indicating which
     derivatives are to be computed.}
   \item{spl.spar}{direct smoothing parameter for \code{smooth.spline}.
     If it is \code{NULL} (as per default), the smoothing parameter used
@@ -43,10 +41,8 @@ D2ss(x, y, xout = x, spar.offset = 0.1384, spl.spar=NULL)
   use a \emph{larger} smoothing parameter for the second derivative.
 }
 \value{
-  Both functions return a list with several components, the first,
+  a list with several components,
   \item{x}{the abscissae values at which the derivative(s) are evaluated.}
-
-  Then, \code{D1D2} has components
   \item{D1}{if \code{deriv} contains 1, estimated values of
     \eqn{f'(x_i)} where \eqn{x_i} are the values from \code{xout}.}
   \item{D2}{if \code{deriv} contains 2, estimated values of \eqn{f''(x_i)}.}
@@ -54,15 +50,12 @@ D2ss(x, y, xout = x, spar.offset = 0.1384, spl.spar=NULL)
     \code{smooth.spline} call.}
   \item{df}{the equivalent \bold{d}egrees of \bold{f}reedom in that
     \code{smooth.spline} call.}
-
- Where, \code{D2ss} has
- \item{y}{estimated values of \eqn{f''(x_i)}.}
- \item{spl.spar}{numeric vector of length 2, contain the \code{spar}
-   arguments to the two \code{smooth.spline} calls.}
-  \item{spar.offset}{as specified on input (maybe rep()eated to length 2).}
 }
 \author{Martin Maechler, in 1992 (for S).}
-\seealso{\code{\link[modreg]{smooth.spline}} on which it relies completely.}
+\seealso{\code{\link{D2ss}} which calls \code{smooth.spline} twice,
+  first on \code{y}, then on the \eqn{f'(x_i)} values;
+  \code{\link[modreg]{smooth.spline}} on which it relies completely.
+}
 \examples{
  set.seed(8840)
  x <- runif(100, 0,10)
