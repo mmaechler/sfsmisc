@@ -39,7 +39,12 @@ zz <- rt(I*J*K, df=5) #-- Student t with 5 d.f.
 p.res.2fact(xx,yy,zz, restr= 4, main= "i.i.d. t <- 5 random  |.| <= 4")
 mtext("p.res.2fact(xx,yy,zz, restr= 4, ..)",
       line=2, adj=1, outer=TRUE, cex=1)
-rm(xx,yy,zz,I,J,K)
+
+## Real data
+data(warpbreaks)
+(fm1 <- lm(breaks ~ wool*tension, data = warpbreaks))
+with(warpbreaks,
+     p.res.2fact(wool, tension, residuals(fm1)))
 }
 \keyword{hplot}
 \keyword{regression}
