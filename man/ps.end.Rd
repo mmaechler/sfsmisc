@@ -13,7 +13,7 @@ ps.end(call.gv=NULL, do.color=u.get0("ps.do.color"),
  \item{do.color}{ ~~Describe \code{do.color} here~~ }
  \item{command}{character, giving a unix command for Postscript previewing.
    At SfS, \code{gview} is a simple shell script, with the line\cr
-  \code{gv -watch -geometry -0+0 -magstep -2 -media BBox $@}}
+  \code{gv -watch -geometry -0+0 -magstep -2 -media BBox}
  \item{debug}{logical; if  \code{TRUE} print information during execution.}
 }
 \description{
@@ -28,13 +28,6 @@ ps.end(call.gv=NULL, do.color=u.get0("ps.do.color"),
 }
 \details{
   Depends heavily on Unix tools, such as \code{ps}.
-}
-\value{
-  ~Describe the value returned
-  If it is a LIST, use
-  \item{comp1 }{Description of `comp1'}
-  \item{comp2 }{Description of `comp2'}
-  ...
 }
 \author{Martin Maechler}
 \seealso{\code{\link{postscript}},..}
