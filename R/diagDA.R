@@ -174,7 +174,7 @@ predict.dDA <- function(object, newdata, pool = object$pool, ...)
     }
     else { ## QDA
         sum.na <- function(x) sum(x, na.rm=TRUE)
-if(FALSE) { ## not yet quite : fails ../tests/dDA.R
+if(FALSE) { ## not yet quite : fails ../tests/dDA.R  -- FIXME
         for(k in 1:K) {
             y <- newdata - rep(mu[,k], each=nt)
             disc[,k] <- rowSums((y*y) / rep(Vr[,k], each=nt)) + sum(log(Vr[,k]))
@@ -191,7 +191,8 @@ if(FALSE) { ## not yet quite : fails ../tests/dDA.R
     ## predictions
 
     pred <- object$cl0 + apply(disc, 1, which.min)
-    if(inherits(newdata, "omit")) # had missings in `newdata'
-        pred <- napredict.exclude(omit = attr(newdata,"na.action"), pred)
+    if(inherits(newdata, "omit")) { # had missings in `newdata'
+        pred <- napredict(omit = attr(newdata,"na.action"), pred)
+    } ##        ^^^^^^^^^ typically stats:::napredict.exclude()
     pred
 }
