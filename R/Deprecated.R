@@ -29,4 +29,4 @@ digits <- function(n, base = 10)
     drop(baseDigits(n, base=base))
 }
 
-
+subtit <- function(t) mtext(t, side = 3, line = 0)
