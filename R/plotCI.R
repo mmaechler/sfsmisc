@@ -51,8 +51,8 @@ plotCI <- function (x, y = NULL, uiw, liw = uiw, aui=NULL, ali=aui,
     if (err=="x" & is.null(xlim))
       xlim <- range(c(x, ui, li), na.rm=TRUE)
   if (!add)
-    plot(x, y, ylim = ylim, xlim = xlim, col=col, lwd=lwd, xlab=xlab, ylab=ylab,
-         main=main, type="n", axes=axes, ...)
+    plot(x, y, ylim = ylim, xlim = xlim, col=col, lwd=lwd,
+         xlab=xlab, ylab=ylab, main=main, type="n", axes=axes, ...)
   if (gap==TRUE) gap <- 0.01  ## default gap size
   ul <- c(li, ui)
   if (err=="y") {
