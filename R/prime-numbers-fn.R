@@ -33,7 +33,7 @@ primes <- function(n) {
     ## Uses an obvious sieve method.  Nothing flash.
     ##
     ## By Bill Venables <= 2001
-    ## MM: work with logical(), keep to integer --> another 40% speedier
+    ## MM: work with logical(), keep to integer --> another 40% speedier for R
     if ((M2 <- max(n)) <= 1)
         return(integer(0))
     P <- rep.int(TRUE, M2)
@@ -199,23 +199,6 @@ factorizeBV <- function(n) {
     }
     fac
 }
-factorizeBV(6)
-##[1] 2 3
-factorizeBV(4:8)
-##- [[1]]:
-##- [1] 2 2
-##-
-##- [[2]]:
-##- [1] 5
-##-
-##- [[3]]:
-##- [1] 2 3
-##-
-##- [[4]]:
-##- [1] 7
-##-
-##- [[5]]:
-##- [1] 2 2 2
 
 
 ##- From: mona kanaan <M.N.Kanaan@open.ac.uk>
@@ -241,9 +224,8 @@ factorizeBV(4:8)
 ##- Bill Dunlap
 ##-
 ##- I use the following factors(), which uses the enclosed primes():
-##-
-##-	[MMä: mv'ed examples *AFTER* function definitions ]
-
+##
+## MMä: mv'ed all examples to file ./prime-numbers.S
 
 factors <- function(x)
 {
@@ -278,9 +260,10 @@ factors <- function(x)
     val
 }
 
-primes <- function(n, .Primes = c(2, 3, 5, 7, 11, 13, 17, 19,
-		      23, 29, 31, 37, 41, 43))
+primes.t <- function(n, .Primes = c(2, 3, 5, 7, 11, 13, 17, 19,
+                        23, 29, 31, 37, 41, 43))
 {
+    ## primes() function using table
     if(is.unsorted(.Primes)) stop("'.Primes' must be increasing")
     nP <- length(.Primes <- as.integer(.Primes))
     maxP <- .Primes[nP]
@@ -302,31 +285,10 @@ primes <- function(n, .Primes = c(2, 3, 5, 7, 11, 13, 17, 19,
     .Primes[.Primes <= n]
 }
 
-factors( round(gamma(13:14)))
-##- $"479001600":
-##-  [1]  2  2	2  2  2	 2  2  2  2  2	3  3  3	 3  3  5  5  7 11
-##-
-##- $"6227020800":
-##-  [1]  2  2	2  2  2	 2  2  2  2  2	3  3  3	 3  3  5  5  7 11 13
-
-
-## --- You can use table() to collect repeated factors : ----
-
-lapply( factors( round(gamma(13:14))), table)
-##- $"479001600":
-##-   2 3 5 7 11
-##-  10 5 2 1  1
-##-
-##- $"6227020800":
-##-   2 3 5 7 11 13
-##-  10 5 2 1  1  1
-
-
 
 ##- factors.simple() is easier to understand and is faster on small numbers
 ##- but can work very slowly on large numbers with lots of small factors
 ##- (like numbers arising in combinatorics).
-
 
 factors.simple <- function(x)
 {
@@ -350,11 +312,11 @@ factors.simple <- function(x)
 	val
 }
 
-##- ----------------------------------------------------------------------------
-##- ----------------------------------------------------------------------------
-##- ----------------------------------------------------------------------------
-##-
-##- Guido Schwarzer ,Gardar Johannesson,  Remy vande Ven, Henrik Aalborg-Nielsen
+##----------------------------------------------------------------------------
+##----------------------------------------------------------------------------
+##----------------------------------------------------------------------------
+##
+## Guido Schwarzer ,Gardar Johannesson,  Remy vande Ven, Henrik Aalborg-Nielsen
 
 DIV <- function(N) {
     N.seq <- 1:N
@@ -374,10 +336,10 @@ DIV <- function(N) {
 
 divisors <- function(n)
 {
- ## Frank E Harrell Jr -- called this "factorize()"
- p <- n/(z <- 1:ceiling(sqrt(n)))
- z <- z[trunc(p) == p]
- unique(c(z, rev(n/z)))
+    ## Frank E Harrell Jr -- called this "factorize()"
+    p <- n/(z <- 1:ceiling(sqrt(n)))
+    z <- z[trunc(p) == p]
+    unique(c(z, rev(n/z)))
 }
 
 ##- From: Paul A Tukey <paul@bellcore.com>
