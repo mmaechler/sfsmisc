@@ -139,6 +139,7 @@ empty.dimnames <- function(a)
   a
 }
 
+if(!exists("unname", mode="function")) # is in 0.90.1 (and on)
 unname <- function(obj)
 {
   ## Purpose: Remove the names of 'obj'
@@ -181,7 +182,7 @@ nna <- function(data)
 
 subtit <- function(t) mtext(t, side = 3, line = 0)
 
-rrange <- function(x, range = 1)
+rrange <- function(x, range = 1, coef = 1.5)
 {
   ## Purpose: `Robust RANGE', using Tukey's notion of robust boxplot range
   ## -------------------------------------------------------------------------
@@ -190,8 +191,12 @@ rrange <- function(x, range = 1)
   ## -------------------------------------------------------------------------
   ## Author: Martin Maechler, 1990
 
-  boxplot.stats(x, coef=range)$stats[c(1,5)]
+  if(!missing(range)) {
+    if(!missing(coef)) stop("Must use either `range' or `coef'")
+    coef <- 1.5 * range
+  }
   ## S: (boxplot(..., plot = FALSE)$stats)[c(5, 1)]
+  boxplot.stats(x, coef=coef, do.conf = FALSE, do.out = FALSE)$stats[c(1,5)]
 }
 
 give.xy.list <- function(x, y)
@@ -221,20 +226,6 @@ errbar <- function(x, y, yplus, yminus, cap=.015,
 ## C.Monatsname , etc..  sind jetzt bei der zugehoerigen Funktion
 ##		u.Datumvonheute  in  /u/sfs/S/u.goodies.S
 
-cum.Vert.funkt <- function(x, Quartile= TRUE, titel= TRUE, Datum= TRUE, rang.axis = TRUE,
-			   xlab = "", main = "", ...)
-{
-  ## Ziel: Kumulative Verteilung von x aufzeichnen, auf Wunsch auch Median
-  ##       und Quartile
-  op <- par(xaxs = "r", yaxs = "r"); on.exit(par(op))# is the default anyway
-  plot.step(x, xlab = xlab, main = main, ...)
-  n <- length(x)
-  if(rang.axis) axis(4, pos = par("usr")[1], at = (0:n)/n, labels = 0:n)
-  if(titel) mtext("Kumulative Verteilungsfunktion", 3, line = 0.5)
-  if(Quartile) for(i in 1:3) abline(h = i/4, lty = 2)
-  if(Datum) p.datum()
-}
-
 boxplot.matrix <- function(mat, cols = TRUE, ...)
 {
   ## Purpose: Boxplot for each column [cols = T]  or row [cols = F]  of a matrix
@@ -258,6 +249,22 @@ boxplot.matrix <- function(mat, cols = TRUE, ...)
   if (0 < length(nam <- dimnames(mat)[[1+cols]])) names(groups) <- nam
   invisible(boxplot(groups,...))
 }
+
+cum.Vert.funkt <- function(x, Quartile= TRUE, titel= TRUE, Datum= TRUE, rang.axis = TRUE,
+			   xlab = "", main = "", ...)
+{
+  ## Ziel: Kumulative Verteilung von x aufzeichnen, auf Wunsch auch Median
+  ##       und Quartile
+  op <- par(xaxs = "r", yaxs = "r"); on.exit(par(op))# is the default anyway
+  plot.step(x, xlab = xlab, main = main, ...)
+  #### FIXME : Use  package "stepfun" instead
+  n <- length(x)
+  if(rang.axis) axis(4, pos = par("usr")[1], at = (0:n)/n, labels = 0:n)
+  if(titel) mtext("Kumulative Verteilungsfunktion", 3, line = 0.5)
+  if(Quartile) for(i in 1:3) abline(h = i/4, lty = 2)
+  if(Datum) p.datum()
+}
+
 
 plot.step <- function(ti, y,
 		      cad.lag = TRUE,
@@ -328,131 +335,6 @@ plot.step <- function(ti, y,
   invisible(list(t = ti, y = y))
 }
 
-n.plot <- function(x, y, nam = NULL, abbr = n>=20 || max(nchar(nam))>=8, ...)
-{
-  ## Purpose: "Name Plot"; Names (or numbers) instead of points in plot(..)
-  ## -------------------------------------------------------------------------
-  ## Arguments: ALL as in  plot(...)  [ !! ]
-  ## -------------------------------------------------------------------------
-  ## Author: Martin Maechler, Date: 16 Nov 92, Dec.93
-  #- prt.DEBUG(x);
-  if(exists("DEBUG") && DEBUG) str(x)
-  if(missing(y)) {
-    if(!is.null(clx <- class(x)) && clx == "formula") {
-      warning("n.plot(.) does NOT yet work with  formula object !!")
-      plot.formula(x, ...)
-      return(invisible(x))
-    } else if (is.list(x) & length(x)==2) { y <- x[[2]]; x <- x[[1]]
-    } else if (is.matrix(x) & ncol(x)==2) { y <- x[,2] ; x <- x[,1]
-    } else { y <- x; x <- seq(x) }
-  }
-  n <- length(x)
-  plot(x, y, type = 'n', ...,
-       xlab = deparse(substitute(x)), ylab = deparse(substitute(y)))
-  if(is.null(nam)) {
-    nam <- names(x)
-    if (is.null(nam)) {
-      nam <- names(y)
-      if (is.null(nam)) {
-	nam <- paste(1:length(x)) #- Use 1,2,.. if no names
-  }}}
-  if(abbr) nam <- abbreviate(nam, min=1)
-  if(!is.na(maybe.cex <- match("cex", names(list(...)))))
-    cex <- list(...)[[maybe.cex]]
-  else  cex <- par("cex")
-  text(x, y, labels=nam, cex=cex)
-}
-
-TA.plot <- function(lm.res, fit = fitted(lm.res),
-		    res = residuals(lm.res, "pearson"),
-		    labels = NULL, main = mk.main(),
-		    draw.smooth = n>=10, show.call = TRUE,  show.2sigma = TRUE,
-		    lo.iter = NULL, lo.cex = NULL,
-		    ...)
-{
-  ## Purpose: Produce a Tukey-Anscombe plot of a linear model fit
-  ##	      Note that residuals and fitted are UN-correlated (IFF intercept..)
-  ## -------------------------------------------------------------------------
-  ## Arguments: lm.res = RESult of lm(..)
-  ##    res : (weighted) residuals by default,
-  ##	labels = 'symbols' for point, default(NULL): extract names or use seq.nr
-  ##             use '*' to get simple '*' symbols.
-  ##
-  ## --- see on-line help by  "?TA.plot" !!
-  ## -------------------------------------------------------------------------
-  ## Author: Martin Maechler, Date: Dec 92 / Nov.93
-  if(missing(main)) {
-    call0 <- call <- lm.res $ call
-    if(is.call(call[["formula"]]) && any(c("lm", "aov") == call[[1]]))
-      call <- call[["formula"]]
-    else {  #-- only formula part; no extra  'ARG ='
-      if (length(call) >= 3)
-	call <- call[c(1, match("formula", names(call)))]
-      names(call)[2] <- ""
-    }
-    mk.main <- function() {
-      cal <- get("call", frame = sys.parent())
-      if(is.null(cal)) 	"Tukey-Anscombe plot of ???"
-	else {
-	  nc <- nchar(ccal <- deparse(cal)[1])
-	  prt.DEBUG("|cal|=", length(cal), "; nchar(ccal) =", nc,": '", ccal,
-		    "'\n", sep="")
-	  if(nc > 36)
-	    warning("TA.plot: 'main' title is long; consider using  cex= .9")
-	  ##-- now should even go further:
-	  ##--  E.g. if  nc > 50,  use  cex = .8 in the call to n.plot below
-	  paste(if(nc < 13) "Tukey-Anscombe plot of :  "
-		else if(nc < 24) "T.A. plot of: " else "TA-pl:", ccal)
-	}
-    }
-  }
-  yl <- "Residuals"
-  if(!is.null(lm.res$weights)&& any(abs(lm.res$resid- res) > 1e-6*mad(res)))
-    yl <- paste("WEIGHTED", yl)
-  n.plot(fit, res, nam = labels, xlab = "Fitted values", ylab = yl,
-	 main = main, ...)
-  if(show.call)
-    mtext(deparse(match.call()), side = 3, line = 0.5, cex = 0.4, adj=1)
-  abline(h = 0, lty = 2, col = 2)
-  p.mgp <- par("mgp")[1:2] #-- line numbers of margin text: xlab & label
-  if(missing(lo.cex))
-    lo.cex <- max(.2, min(0.8*par("mex"), .9*-diff(p.mgp))/par("mfg")[4])
-  m.line <- if(par("mfg")[4]==1) .2+ p.mgp[1] else
-                              max(p.mgp[1] - .2*lo.cex, sum(p.mgp)/2)
-  if(show.2sigma) {
-    s2 <- c(-2,2) * mad(res, center=0)
-    rr <- range(res)
-    if(s2[1]< rr[1] || s2[2] > rr[2])
-      mtext(paste("2 sigma = ", format(s2[2])),
-	    side= 1, line= m.line, adj = 0, cex= lo.cex)
-    abline(h= s2, lwd=1.8, lty=4, col=4)
-  }
-  n <- length(res)
-  if(draw.smooth) {
-    ##-- lo.iter: idea of Werner Stahel:  no robustness for 'glm'  residuals
-    if (is.null(lo.iter))
-      lo.iter <- if(inherits(lm.res, "glm")&& lm.res$family[1]!="Gaussian")
-	0  else  3
-    f <- max(0.2, 1.25 * n^-.2) #'-- Martin's very empirical formula...
-    lines(lowess(fit, res, f = f, iter = lo.iter),
-	  lwd = 0, lty = 3, col = 3)
-    ##- mtext with 2 times a 'cex' gives BUG [change of cex in global par]!
-    ##- --> save  ALL  par()s  to restore !
-    ##Q&D op <- par()
-    ##Q&D  par(err=-1) # eliminate warnings from using ... below;
-    ##Q&D  ... is to   get cex=.. and other parameters; this is "quick&dirty"
-    ##Q&D  ...  ELIMINATED !! (use them above for n.plot !!)
-    mtext(paste("-.-.-.- : lowess smooth (f =", format(round(f,2)),
-		if(lo.iter!=3) paste(", it=", lo.iter), ")"),
-	  side = 1, line = m.line, cex = lo.cex, adj = 1)
-    ##Q&D par(op)
-  }
-  ##-	 "Correlation:", formatC(cor(fit,res), dig=3),
-  ## mtext(paste(" -- Rank corr.:", formatC(cor(rank(fit),rank(res)), dig=3)) )
-  invisible()
-}
-
-
 
 
 ##-#### Print & Strings  ########
@@ -463,12 +345,12 @@ ccat <-  ## character 'concat'
 vcat <- ## (numeric) vector 'concat'
   function(vec, sep = " ") paste(vec, collapse = sep)
 
-str.vec <- function(name, digits = options()$digits)
+paste.vec <- function(name, digits = options()$digits)
 {
-  ## Purpose:
+  ## Purpose: Utility for "showing vectors"
   ## -------------------------------------------------------------------------
-  ## Author: Martin Maechler, ~ 1992
-  ## Example: x <- 1:4;  str.vec(x)   ##->  "x = 1 2 3 4"
+  ## Author: Martin Maechler, ~ 1992 -- old name `str.vec()'
+  ## Example: x <- 1:4;  paste.vec(x)   ##->  "x = 1 2 3 4"
   paste(paste(deparse(substitute(name))), "=",
 	paste(f.format(name, digits = digits), collapse = " "))
 }
@@ -482,7 +364,7 @@ bl.string <- function(no) paste(rep(" ", no), collapse = "")
 ##-#### Classes / Attributes, etc.   ########
 ##-### ----------------------------- ########
 
-if(version$major < 5) oldClass <- class
+##if(version$major < 5) oldClass <- class
 
 doc <- function(object) attr(object, "doc")
 
@@ -572,6 +454,7 @@ digits.v <- function(nvec, base = 2, num.bits = 1 + floor(log(max(nvec),base)))
 ##-#### "Miscellaneous" (not any other category) ########
 ##-###   ============= ------------------------- ########
 
+if(!is.R()) { 
 new.seed <- function()
 {
   ## Purpose: Randomize the seed for Random numbers.
@@ -594,6 +477,7 @@ new.seed <- function()
   rU <- mean(c(rU1, rU2, rU3, 1024 * (rU - floor(1024 * rU)/1024)))
   ## this 'rU' has an approximate mean(4 uniform)  distribution on [0,1]
   invisible(set.seed(as.integer(1000 * rU)))
+}
 }
 
 print.tbl <- function(table2, digit = 3)
@@ -733,7 +617,7 @@ hist.bxp <- function(x, nclass, breaks, probability=FALSE, include.lowest=TRUE,
        include.lowest=include.lowest, plot=TRUE, xlab=xlab,
        ylim=c(ymin, ymax), axes=FALSE, ...)
   axis(1)
-  axis(2, at=pretty(c(0,ymax), nint=5), srt=90)
+  axis(2, at=pretty(c(0,ymax), n=5), srt=90) ## ph, 8.5.00: n instead of nint
   abline(h=0)				#
   ##-------- drawing the boxplot --------------
 
@@ -754,8 +638,8 @@ hist.bxp <- function(x, nclass, breaks, probability=FALSE, include.lowest=TRUE,
   ##---- This is  much better for width <=.1 or so...
   ##-- but you should leave some white space -> scale down
   ##-- The scaling factor is really a  KLUDGE but works for a wide range!
-  p.hboxp(x, scale.r(par("usr")[3], 0,
-		     f = .9 - max(0, .15 - width)*(1+(par("mfg")[3]>=3))),
+  p.hboxp(x, scale.r(par("usr")[3], 0, ## ph, 8.5.00: changed f=.9 to f=.8
+		     f = .8 - max(0, .15 - width)*(1+(par("mfg")[3]>=3))),
 	  boxcol=boxcol, medcol=medcol,
 	  medlwd=medlwd, whisklty=whisklty, staplelty=staplelty)
 
@@ -763,7 +647,7 @@ hist.bxp <- function(x, nclass, breaks, probability=FALSE, include.lowest=TRUE,
 }
 
 
-####========== This is from /u/maechler/S/Good.S =============
+
 ####========== This is from /u/maechler/S/Good.S =============
 ####========== This is from /u/maechler/S/Good.S =============
 
@@ -779,7 +663,7 @@ hist.bxp <- function(x, nclass, breaks, probability=FALSE, include.lowest=TRUE,
 
 
 ##m.pl <- function(mat, ...)   matplot(mat[, 1], as.matrix(mat[, -1]), ...)
-m.pl_ function(mat, ...) cat("\n>>> USE FUNCTION p.m  instead of  m.pl !!\n\n")
+##m.pl_ function(mat, ...) cat("\n>>> USE FUNCTION p.m  instead of m.pl !!\n\n")
 
 mpl <- function(mat, ...) {
   matplot(1:nrow(mat), mat, xaxt='n',...)
@@ -788,46 +672,8 @@ mpl <- function(mat, ...) {
     axis(1, at = 1:nrow(mat), labels = dn)
 }
 
-is.TS <- function(x) is.ts(x) || is.rts(x) || is.cts(x) || is.its(x)
-
-p.ts <- function(x, nrplots = max(1, min(8, n%/%400)), overlap = nk %/% 16,
-                 main.tit=NULL, quiet = FALSE, ...)
-{
-  ## Purpose: ts[.]plot with multi-plots + Auto-Title -- currently all on 1 page
-  ## -------------------------------------------------------------------------
-  ## Arguments: x      : timeseries [ts,rts,its,cts] or numeric vector
-  ##            nrplots: number of sub-plots    [DEFAULT: in {1..8}, ~= n/400]
-  ##            overlap: how much should subsequent plots overlap [DEFAULT:...]
-  ##            main.tit: MAIN title (over all plots)
-  ##            ...    : further graphic parameters for tsplot(.)
-  ## -------------------------------------------------------------------------
-  ## Examples: p.ts(sunspots);  p.ts(sunspots, nr=1) # == tsplot(..)
-  ## -------------------------------------------------------------------------
-  ## Author: Martin Maechler, Date:  1 Jul 1994; 18.Dec,1998.
-
-  if(is.null(main.tit)) main.tit <- paste(deparse(substitute(x)))
-  n <- length(x)
-  if(nrplots==1) ts.plot(x, ..., main = main.tit)
-  else {
-    if(nrplots <= 0) return(nrplots)
-    if(n<=1) stop("'x' must have at least two points!")
-    do.dates <- !is.null(class(x)) && class(x) == "cts"
-    if(do.dates) x <- as.rts(x)# dates() as below fails [S+ 3.4]
-    scal <- (end(x) - (t1 <- start(x)))/(n-1)
-    nk <- n %/% nrplots
-    yl <- range(pretty(range(x, na.rm = TRUE)))
-    mult.fig(mfrow=c(nrplots,1), main=main.tit, quiet = TRUE)
-    for(i in 1:nrplots) {
-      i0   <- max(0, (-overlap+(i-1)*nk)-1)
-      in1 <- min(n, i*nk + overlap)-1
-      st <- t1 + scal*i0 ##;  if(do.dates) st <- dates(st)
-      en <- t1 + scal*in1##; if(do.dates) en <- dates(en)
-      if(!quiet) cat(i," -- start= ", format(st), "; end  =", format(en),"\n")
-      ts.plot(window(x, start= st, end  = en), ylim= yl, ...)
-    }
-    invisible(par(old.par))# global from 'mult.fig'
-  }
-}
+##Splus: is.TS <- function(x) is.ts(x) || is.rts(x) || is.cts(x) || is.its(x)
+is.TS <- .Alias(is.ts) # shouldn't be used
 
 pl.ds <- function(x, yd, ys, xlab = "", ylab = "", ylim = rrange(yd, ys),
                   xpd = TRUE, do.seg = TRUE,
@@ -893,62 +739,6 @@ pairs.title <- function(main, adj = NULL, cex = 1, lineP = 0, ...)
   c(nc= nc, lin= lin, adj=adj)
 }
 
-nrpl.2.mfrow <- function(nr.plots)
-{
-  ## Purpose: 'NumbeR' of PLots   'to' 'mfrow'
-  ##          Give goods 'default mfrow' for given number of plots
-  ## -------------------------------------------------------------------------
-  ## Arguments: nr.plots : integer
-  ## -------------------------------------------------------------------------
-  ## Author: Martin Maechler, 1990 (UW, Seattle); 1996
-
-  if      (nr.plots<= 3)  c(nr.plots,1) #-- 1, 2, 3
-  else if (nr.plots<= 6)  c((nr.plots+1)%/%2,2)  #-- nr.plots = 4,5,6
-  else if (nr.plots<=12)  c((nr.plots+2)%/%3,3)
-  else c(nrow <-  ceiling(sqrt(nr.plots)), ceiling( nr.plots / nrow))
-}
-
-###-- This version from /u/maechler/R/MM-Goodies/mult.fig.R :
-mult.fig <- function(nr.plots, mfrow, mfcol, marP = rep(0,4), mgp = c(1.5,.6,0),
-                     main = NULL, quiet = .Device == "postscript",
-                     tit.wid = if (is.null(main)) 0 else 4, tit.cex= 1.5, ...)
-{
-  ## Purpose: 'MULTiple FIGures' incl. TITLE and other good defaults
-  ## -------------------------------------------------------------------------
-  ## Arguments: tit.wid : heigth in 'cex' of title; use 4*k
-  ##             -- Either ONE of the first 3 arguments --
-  ## -------------------------------------------------------------------------
-  ## Author: Martin Maechler, 1990 (UW, Seattle) -- 1995
-  ## -------------------------------------------------------------------------
-  ## >>> calls  nrpl.2.mfrow(.) !
-  mar <- marP + .1 + c(4,4,2,1) #-- my default 'mar'gins
-  use.row <- missing(mfcol)
-  if (use.row)
-    if (missing(mfrow)) {
-      if (missing(nr.plots))
-        stop("must either specify 'nr.plots', 'mfrow' or 'mfcol' !")
-      else  mfrow <- nrpl.2.mfrow (nr.plots)
-    }
-  Nrow <- (if(use.row) mfrow else mfcol)[1]
-  if(Nrow > 2) { #-- Then R uses a much smaller character size --
-    if(!is.null(main)) tit.cex <- tit.cex * 1.5
-    tit.wid <- tit.wid * 1.5
-  }
-  oma <- c(0, 0, tit.wid, 0)
-  old.par <<-
-    if(use.row) par(mfrow = mfrow, oma= oma, mar = mar, mgp= mgp)
-    else        par(mfcol = mfcol, oma= oma, mar = mar, mgp= mgp)
-  if(!quiet) cat("Execute\n\t par(old.par) \n later to restore graphical par\n")
-  ##---- now go ahead :
-  ## nomore in R : frame()
-  if (!is.null(main)) {# Do title *before* first plot!
-      plot.new()
-      mtext(main, side = 3, line = tit.wid-4, cex = tit.cex, outer = TRUE,
-            font = par("font.main"), ...)
-      par(new=TRUE)# reverse `plot.new()' above
-  }
-}
-
 test.par <- function()
 {
   ## Things not yet  shown / proved below:
@@ -989,3 +779,635 @@ test.par <- function()
   str <- substring (str, 1, ceiling(nx))
   mtext(str, side = 3, line = -2)
 }
+
+
+
+##-#### Matrix (or higher Array) stuff ########
+##-### ------------------------------ ########
+
+colcenter <- function(mat)  sweep(mat,2, apply(mat,2,mean))
+
+col01scale <- function(mat, scale.func = function(x) diff(range(x)),
+		       location.func = mean)
+{
+  ##-- See also 'scale' (std. S func) --
+  mat <-  sweep(mat,2, apply(mat,2, location.func))
+  sweep( mat, 2, apply(mat,2, scale.func), "/")
+}
+
+pmax.sa <- function(scalar, arr)
+{
+  ##-- 'pmax.sa' --- special system "pmax" which gives back more-dim. arrays --
+  ##- FASTER than pmax
+  if(is.na(scalar)) array(NA, dim = dim(arr))
+    else {
+      l <- scalar > arr
+      l[is.na(arr)] <- F
+      arr[l] <- scalar
+      arr
+    }
+}
+
+pmin.sa <- function(scalar, arr)
+{
+  ##-- 'pmin.sa' --- special system "pmin" which gives back more-dim. arrays --
+  ##- FASTER than pmax
+  if(is.na(scalar)) array(NA, dim = dim(arr))
+    else {
+      l <- scalar < arr
+      l[is.na(arr)] <- F
+      arr[l] <- scalar
+      arr
+    }
+}
+
+diag.ex <- function(n)
+{
+  ## Purpose: Returns "the other diagonal" matrix
+  ## Author: Martin Maechler, Date:  Tue Jan 14 09:40:36 1992
+  ## ----------------------------------------------------------------
+  ## Arguments: n: integer dimension of matrix
+  ## ----------------------------------------------------------------
+  e <- e1 <- rep.int(0, n-1)
+  e[n-1] <- 1
+  e <- c(0, rep.int(e,n), e1)
+  dim(e) <- c(n,n)
+  e
+}
+
+xy.grid <- function(x,y)
+{
+  ## Purpose: Produce the grid used by  persp, contour, .. as  N x 2 matrix
+  ## -------------------------------------------------------------------------
+  ## Arguments: x,y : any vectors of same mode
+  ## -------------------------------------------------------------------------
+  ## Author: Martin Maechler, Date: 26 Oct 94, 10:40
+  ## Example:  plot(xy.grid(1:7, 10*(0:4)))
+  ##
+  nx <- length(x)
+  ny <- length(y)
+  cbind(rep(x,rep.int(ny,nx)),	rep(y,nx))
+}
+
+rot2 <- function(xy, phi)
+{
+  ## Purpose:  rotate xy-points by angle  'phi' (in radians)
+  ## -------------------------------------------------------------------------
+  ## Arguments: xy :  n x 2 matrix;   phi: angle (in [0, 2pi])
+  ## -------------------------------------------------------------------------
+  ## Author: Martin Maechler, Date: 26 Oct 94, 22:16
+  co <- cos(phi); s <- sin(phi)
+  xy %*% t( matrix(c(co,s, -s, co), 2,2) )
+}
+
+list2mat <- function(x, check=TRUE)
+{
+  ## Purpose:  list -> matrix
+  ## -------------------------------------------------------------------------
+  ## Arguments: x a list whose first 2 el.  MUST be equal length vectors
+  ##		check: if T, check if lengths are ok.   F: "quick & dirty"
+  ## -------------------------------------------------------------------------
+  ## Author: Martin Maechler, Date: 19 May 93, 09:46
+  if(!is.list(x)) stop("Argument must be list !")
+  if(!exists("unname", mode="function"))
+    unname <- function(x) { if(length(names(x))) names(x) <- NULL; x }
+  if(!exists("which", mode="function"))
+    which <- function(logi) (1:length(logi))[logi]
+  p _ length(x) #--> number of columns
+  n _ length(x[[1]])
+  if( !is.vector(unname(x[[1]])) ||
+     (p>1 && (!is.vector(unname(x[[2]])) || n!= length(x[[2]]))))
+    stop("First 2 list entries must be equal length vectors")
+  if(check) { #-- carefully check ... --
+    len _ unlist(lapply(x,length))
+    err _ len != n
+    if(any(err)) {
+      warning(paste("Wrong lengths of list elements",
+		    paste(which(err),collapse=" "), "  --> eliminated."))
+      p _ length(x _ x[ !err ])
+    }
+  }
+  nuet _ "" == (collabs _ names(x))
+  if(any(nuet)) collabs[nuet] <- paste("L", which(nuet), sep=".")
+  x <- matrix(unlist(x), n,p)
+  dimnames(x) <- list(NULL, collabs)
+  class(x) <- "matrix"
+  x
+}
+
+tapply.num <- function(y, indices, Func)
+{
+  ## Purpose: Nicer result for tapply(..) when Function returns numeric
+  ## 	      vector AND there is >= 2 "indices", i.e., categories.
+  ## -------------------------------------------------------------------------
+  ## Arguments: as for tapply,
+  ##	Func: Must return [named, if possible] FIXED length vector
+  ##	      [num/char]   EVEN for  NULL and NA !
+  ## -------------------------------------------------------------------------
+  ## Author: Martin Maechler, Date: 14 Jun 93, 17:34
+  ## -------------------------------------------------------------------------
+  ## Example: tapply.num(y, list(cat1, cat2), range)
+  rl <- tapply(y,indices,Func)
+  if (is.list(rl)) { #-- when  >=2 indices  AND  length(Func(x)) > 1  ---
+    if(any(Nas <- unlist(lapply(rl, is.null))))
+      rl[Nas]  <- list(Func(NULL))
+    array(unlist(rl),
+	  dim = c(length(rl[[1]]), dim(rl)),
+	  dimnames = c(list(names(rl[[1]])), dimnames(rl)) )
+  } else rl
+}
+
+
+##-#### "Calculus" Mathematical stuff ########
+##-### ----------------------------- ########
+
+trace1.ms <- function(info, theta, grad, scale, flags, fit.pars)
+{
+
+  ## Purpose:  1-line -- trace function for 'ms' -- instead of trace.ms
+  ## -------------------------------------------------------------------------
+  ## Arguments: ... the same as 'trace.ms';
+  ## ~~~~~~~~~  info is c(niter, nfun, fvalue, tracelevel, deltaf, pred.deltaf,
+  ##	                  rel.deltatheta, step.scale, d*step.scale)
+  ## -------------------------------------------------------------------------
+  ## >>> calls 'formatC' which needs dyn.load
+  ##
+  ## ---> see also  MM.trace.ms(..)  which is somewhat different
+  ##
+  ## Author: Martin Maechler, 1994.
+  ## -------------------------------------------------------------------------
+  ## Example: ms( ~ ......, trace = trace1.ms) #--> ?ms for ex.
+
+  cat("It.",formatC(info[1],w=2), ",",
+      formatC(info[2],w=4), " f.ev, F=",
+      formatC(info[3], w=11, dig=8),
+      " Par.:", paste(formatC(theta,dig=6,w=9),collapse=" "),"\n", sep="")
+  ##-S: cat("Iteration: ", info[1], ", ", info[2], " function calls, F= ",
+  ##-S: 	format(info[3]), "\nParameters:\n")
+  invisible(theta)
+}
+
+
+trace.ms.MM <- function(info, theta, grad, scale, flags, fit.pars)
+{
+  ## Purpose:  Much improved  trace.ms
+  ## -------   Modified from STANDARD S -- Only ONE  line of output per iter.
+  ##
+  ## -------------------------------------------------------------------------
+  ## Arguments: ... the same as 'trace.ms';
+  ## ~~~~~~~~~ info[] = c(niter, nfun, fvalue, tracelevel, deltaf, pred.deltaf,
+  ##	                  rel.deltatheta, step.scale, d*step.scale)
+  ## -------------------------------------------------------------------------
+  ## >>> calls 'formatC' which needs dyn.load
+  ##
+  ## ---> see also  trace1.ms(..)  which has no header and is somewhat different
+  ##
+  ## Author: Martin Maechler, May 1993
+  ## -------------------------------------------------------------------------
+  ## Example: ms( ~ ......, trace = trace.ms.MM) #--> ?ms for ex.
+
+  w.th <- 6 #- print width of a theta[] component
+  if(info[1]==0) {
+    p <- length(theta)
+    twt <- (w.th + 1) *p # Total width of theta[], including space (' ')
+    cat(" It Fns relDpar  delta.F F(theta) theta",
+        if(p>1) paste("[1..",p,"] ", paste(rep("-",twt-7), collapse=""),sep=""),
+        "\n",
+	" -- --- -------  ------- -------- ~~~~~~~~",
+        if(p>1) paste(rep("~", twt), collapse=""),
+        "\n",sep="")
+  }
+  cat(formatC(as.integer(info[1:2]),w=3),
+      formatC(info[c(5,7)],w=8, dig=3-1,format='e'),
+      formatC(info[3], dig=5, flag="#"),"",
+      paste(formatC(theta,dig=4, flag="#"),collapse=" "),"\n")
+  invisible(theta)
+}
+
+trace.nls.MM <- function(inner.outer, iteration, step.factor,
+                         conv.criterion, objective, parameters, increment)
+{
+  ## Purpose: Improved  trace.nls
+  ## -------  Modified from STANDARD S-plus
+  ##
+  ## -------------------------------------------------------------------------
+  ## Arguments: ... the same as 'trace.nls';
+  ## ~~~~~~~~~ info[] = c(niter, nfun, fvalue, tracelevel, deltaf, pred.deltaf,
+  ##	                  rel.deltatheta, step.scale, d*step.scale)
+  ## -------------------------------------------------------------------------
+  ## >>> calls 'formatC' which needs dyn.load
+  ##
+  ## Author: Martin Maechler, May 1993
+  ## -------------------------------------------------------------------------
+  ## Example: nls( ~ ......, trace = trace.nls.MM) #--> ?nls for ex.
+
+  if(inner.outer) {
+    w.p <- 6 ##- print width of a param[] component
+    if(iteration==1) {
+      p <- length(parameters)
+      twt <- (w.p + 1) *p ## Total width of parameters[], including space (' ')
+      ##i cat(" It conv.crit step.fac increment | F(par.) param",
+      cat(" It conv.cr. step.fac | F(param)  param",
+          if(p>1) paste("[1..",p,"] ", paste(rep("-",twt-5), collapse=""),
+                        sep=""),
+          "\n",
+          " -- -------- -------- | --------  ~~~~~~~~",
+          if(p>1) paste(rep("~", twt), collapse=""),
+          "\n",sep="")
+    }
+    cat(formatC(iteration,      w=3, format='d'),
+        formatC(conv.criterion, w=8, dig=3-1,format='e'),
+        formatC(step.factor,    w=8, dig=3-1,format='e'),
+        ## increment is also [1:p] !!
+        ##i -- don't really know what it is (delta.par / step.fac ? )
+        ##i formatC(increment,      w=8, dig=3-1,format='e'),
+        " ", formatC(objective, dig=5, w=8,flag="- #"),"",
+        paste(formatC(parameters,dig=4, w=w.p, flag="#"),collapse=" "),"\n")
+
+    ##-- trace.nls  magic
+    assign("last.iteration", iteration, frame = 1)
+    assign("it.row", c(objective, conv.criterion, parameters), frame = 1)
+    ## [from nls.trace(): this only works if nls() is hacked :
+    ##>>> eval(trace.expr, local = F)
+  }
+  return(list())
+}
+
+
+u.log <- function(x, c = 1)
+{
+  ## Purpose:  log(.) only for high x- values ... identity for low ones
+  ##  This  f(x) is  continuously differentiable (once).
+  ##  f(x) = x				  for |x| <= c
+  ##  f(x) = sign(x)*c*(1 + log(|x|/c))       for |x| >= c
+  ## -------------------------------------------------------------------------
+  ## Arguments: x: numeric vector;  c: scalar > 0
+  ## -------------------------------------------------------------------------
+  ## Author: Martin Maechler, Date: 24 Jan 95, 17:28
+  if(!is.numeric(c)|| c<0) stop("'c' must be positive number")
+  r <- x
+  to.log <- abs(x) > c ; x <- x[to.log]
+  r[to.log] <- sign(x) * c * (1 + log(abs(x/c)))
+  r
+}
+
+###------- Numerical Derivatives ------------------------------------------
+
+### Test Programs and examples for those two are in
+### -->  "./NUMERICS/D1-tst.S"
+###
+### For 'optimal' 2nd Deriv.:  d2.est(..)
+###  --> "./NUMERICS/diff2.S"  "./NUMERICS/diff2-user.S"
+
+d1 <- function(y, x = 1)
+{
+  ## Purpose:  discrete trivial estimate of 1st derivative.
+  ## -------------------------------------------------------------------------
+  ## Arguments: x is optional
+  ## -------------------------------------------------------------------------
+  ##--> See also D1.naive in ~/S/D1-tst.S (and the (smoothing) one: 'D1') !
+  ## Author: Martin Maechler, ~ 1990
+  n <- length(y)
+  if(length(x) == 1)
+    c(y[2] - y[1], 0.5 * (y[-(1:2)] - y[-((n-1):n)]), y[n] - y[n-1])/x
+  else {
+    if(n != length(x)) stop("lengths of 'x' & 'y' must equal")
+    if(!is.sorted(x))  stop("'x' must be sorted !")
+    c(y[2] - y[1], 0.5 * (y[-(1:2)] - y[-((n-1):n)]), y[n] - y[n-1]) /
+      c(x[2] - x[1], 0.5 * (x[-(1:2)] - x[-((n-1):n)]), x[n] - x[n-1])
+  }
+}
+
+D1 <- function(x, y, xout = x, fudge.fact = 10)
+{
+  ## Purpose: Numerical first derivatives of  f() for   y_i = f(x_i) + e_i.
+  ## Find  f'(xout)  -- using smoothing splines with GCV'
+  ## Author: Martin Maechler, Date:  6 Sep 92, 00:04
+  ## -------------------------------------------------------------------------
+  ## Arguments: x = { x_i } MUST be sorted increasingly // y = { y_i }
+  ## -------------------------------------------------------------------------
+  sp <- smooth.spline(x,y)
+  sp <- smooth.spline(x,y, spar = fudge.fact * sp $ spar)
+  predict(sp, xout, deriv = 1) $ y
+}
+
+D1D2 <- function(x, y, xout = x, fudge.fact = 10, deriv=1:2, spl.spar=NULL)
+{
+  ## Purpose: Numerical first derivatives of  f() for   y_i = f(x_i) + e_i.
+  ## Find  f'(xout) & f''(xout) -- using smoothing splines with GCV'
+  ## Author: Martin Maechler, Date:  23 Sep 92, 9:40
+  ## -------------------------------------------------------------------------
+  ## Arguments: x = { x_i } MUST be sorted increasingly // y = { y_i }
+  ## -------------------------------------------------------------------------
+  if(missing(spl.spar)) {
+    sp <- smooth.spline(x,y)
+    sp <- smooth.spline(x,y, spar = fudge.fact * sp $ spar)
+  } else sp <- smooth.spline(x,y, spar = spl.spar)
+  list(D1 = if(any(deriv==1)) predict(sp, xout, deriv = 1) $ y,
+       D2 = if(any(deriv==2)) predict(sp, xout, deriv = 2) $ y )
+}
+D2ss <- function(x, y, xout = x, fudge.fact = 10, spl.spar=NULL)
+{
+  ## Purpose: Numerical 2nd derivative of  f() for   y_i = f(x_i) + e_i.
+  ##          Find  f''(xout) -- using smoothing splines (with GCV) -- DOUBLY:
+  ##          f --ss-> f' --ss-> f''
+  ## -------------------------------------------------------------------------
+  ## Arguments: x = { x_i } MUST be sorted increasingly // y = { y_i }
+  ## -------------------------------------------------------------------------
+  ## Author: Martin Maechler, Date: 29 Jan 97, 17:55
+  ## -------------------------------------------------------------------------
+  use.fudge <- is.null(spl.spar)
+  if(use.fudge) { ##-- use  GCV * 'fudge.factor' ---
+    if(is.null(fudge.fact)) stop("must specify 'spl.spar' OR 'fudge.fact'!")
+    lf <- length(fudge.fact)
+    if(!is.numeric(fudge.fact) || lf == 0 || lf > 2)
+      stop("'fudge.fact' must be numeric(1 or 2) !")
+    if(lf == 1) fudge.fact <- rep(fudge.fact, 2)
+    sp <- smooth.spline(x,y)
+    sp <- smooth.spline(x,y, spar = fudge.fact[1] * sp $ spar)
+    spl.spar <- numeric(2); spl.spar[1] <- sp $ spar
+  } else {
+    lf <- length(spl.spar)
+    if(!is.numeric(spl.spar) || lf == 0 || lf > 2)
+      stop("'spl.spar' must be numeric(1 or 2) !")
+    if(lf == 1) spl.spar <- rep(spl.spar, 2)
+    sp <- smooth.spline(x,y, spar = spl.spar[1])
+  }
+
+  D1 <- predict(sp, x, deriv = 1) $ y #-- 1st derivative ...
+
+  if(use.fudge) { ##-- use  GCV * 'fudge.factor' ---
+    sp <- smooth.spline(x, D1)
+    sp <- smooth.spline(x, D1, spar = fudge.fact[2] * sp $ spar)
+    spl.spar[2] <- sp $ spar
+  } else {
+    sp <- smooth.spline(x, D1, spar = spl.spar[2])
+  }
+  list(x=xout, y = predict(sp, xout, deriv = 1) $ y,
+       spl.spar = spl.spar, fudge.fact = fudge.fact)
+}
+
+integrate.xy <- function(x,fx, a,b, use.spline = T)
+{
+  ## Purpose: Compute \int_a^b f(t) dt; where f(x) is just interpolating
+  ##	      (x[i],fx[i])  --- using trapezoid formula
+  ## -------------------------------------------------------------------------
+  ## Arguments: x, fx: real vectors of same length
+  ##		a, b : (optional) integration limits. DEFAULT (a,b)= range(x)
+  ## -------------------------------------------------------------------------
+  ## Author: Martin Maechler, Date: 16 May 94, 15:09
+  ##-- needs function 'is.sorted'
+
+  f.match <- function(x,table) match(as.single(x), as.single(table))
+
+  if(is.list(x)) {
+    fx <- x$y; x <- x$x
+    if(!(n <- length(x))) stop("list 'x' has no valid $x component")
+  } else n <- length(x)
+  if(n != length(fx)) stop("'fx' must have same length as 'x'")
+
+  if(!is.sorted(x)) { i <- sort.list(x); x <- x[i]; fx <- fx[i] }
+  if(any(i <- duplicated(x))) { x <- x[!i];  fx <- fx[!i]; n <- length(x) }
+  if(any(diff(x)==0))
+     stop("bug in 'duplicated'  killed 'me': have still multiple x[]!")
+
+  if(missing(a)) a <- x[1]
+    else if(any(a < x[1])) stop("'a' must NOT be smaller than min(x)")
+  if(missing(b)) b <- x[n]
+    else if(any(b > x[n])) stop("'b' must NOT be larger  than max(x)")
+  if(length(a)!=1 && length(b)!=1 && length(a)!=length(b))
+    stop("'a' and 'b' must have length 1 or same length !")
+    else {
+      k <- max(length(a),length(b))
+      if(any(b < a))    stop("all elements of 'b' must be >= 'a'")
+    }
+
+  if(use.spline) {
+    xy <- spline(x,fx, n=max(1024, 3*n))
+    ##-- Work around spline(.) BUG:  (ex.:  range(spline(1:20,1:20,n=95)))
+    if(xy$x[length(xy$x)] < x[n]) {
+      xy$x <- c(xy$x,  x[n])
+      xy$y <- c(xy$y, fx[n])
+    }
+    ## END if work around ----
+    x <- xy$x; fx <- xy$y
+    n <- length(x)
+  }
+
+  kk <- length(ab <- unique(c(a,b)))
+  xtol <- std.tolerance()*max(b-a)
+  BB <- abs(dx <- outer(x,ab,"-")) < xtol
+  if(any(j <- 0 == apply(BB,2,sum))) { #the j-th element(s) of ab are not in x[]
+    y <- approx(x,fx, xout= ab[j])$y
+    x <- c(ab[j],x)
+    i <- sort.list(x)
+    x <- x[i];  fx <- c(y,fx)[i];  n <- length(x)
+  }
+
+  ##--- now we could use 'Simpson's formula IFF the x[i] are equispaced... --
+  ##--- Since this may well be wrong, just use 'trapezoid formula':
+
+  ai <- rep(f.match(a,x), length=k)
+  bi <- rep(f.match(b,x), length=k)
+  dfx <- fx[-c(1,n)] * diff(x,lag=2)
+  r <- numeric(k)
+  for (i in 1:k) {
+    a <- ai[i];  b <- bi[i]
+    r[i] <- (x[a+1] - x[a])*fx[a] + (x[b] - x[b-1])*fx[b] +
+      sum(dfx[seq(a, length=max(0,b-a-1))])
+  }
+  r/2
+}
+
+xy.unique.x <- function(x,y,w, fun.mean = mean)
+{
+  ## Purpose: given 'smoother data' (x_i, y_i) [and maybe weight  w_i]
+  ##	      with multiple x_i, use unique x's, replacing y's by their mean
+  ## -------------------------------------------------------------------------
+  ## Arguments:
+  ## -------------------------------------------------------------------------
+  ## Author: Martin Maechler, Date:  8 Mar 93, 16:36
+  ##--*--*--*--*--*--*--*--*--*-- x,y,w  treatment --*--*--*--*--*--*--*--*--
+  if(missing(x)) x_ time(y)  else
+  if(missing(y)) {
+    if(is.list(x)) {
+      if(any(is.na(match(c("x", "y"), names(x)))))
+	stop("cannot find x and y in list")
+      y <- x$y; x <- x$x; if(!is.null(x$w)) w <- x$w
+    } else if(is.complex(x)) { y <- Im(x); x <- Re(x)
+    } else if(is.matrix(x) && ncol(x) == 2) { y <- x[, 2];            x_ x[, 1]
+    } else if(is.matrix(x) && ncol(x) == 3) { y <- x[, 2]; w_ x[, 3]; x_ x[, 1]
+    } else { y <- x; x <- time(x)
+    }
+  }
+  n <- length(x);  if(n != length(y)) stop("lengths of x and y must match")
+  if(missing(w))  w_ rep(1,n)
+    else if(n != length(w)) stop("lengths of x and w must match")
+  ##--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--
+  gr <- match(x,unique(x))
+  cbind(x= unique(x),
+	y= tapply(y, gr, FUN = fun.mean),
+	w= tapply(w, gr, FUN = sum))
+}
+
+
+
+##-#### Non-calculus ("Discrete") Mathematical stuff ########
+##-### -------------------------------------------- ########
+
+is.sorted <- function(x) (length(x)<=1) || all(diff(x) >= 0)
+
+inv.seq <- function(i) {
+  ## Purpose: 'Inverse seq': Return a short expression for the 'index'  `i'
+  ## --------------------------------------------------------------------
+  ## Arguments: i: vector of (usually increasing) integers.
+  ## --------------------------------------------------------------------
+  ## Author: Martin Maechler, Date:  3 Oct 95, 18:08
+  ## --------------------------------------------------------------------
+  ## EXAMPLES: cat(rr <- inv.seq(c(3:12, 20:24, 27, 30:33)),"\n"); eval(rr)
+  ##           r2 <- inv.seq(c(20:13, 3:12, -1:-4, 27, 30:31)); eval(r2); r2
+  li <- length(i <- as.integer(i))
+  if(li==0) return(expression(NULL))
+  else if(li==1) return(as.expression(i))
+  ##-- now have: length(i) >= 2
+  di1 <- abs(diff(i)) == 1	#-- those are just simple sequences  n1:n2 !
+  subseq <- cbind(i[!c(F,di1)], i[!c(di1,F)]) #-- beginnings and endings
+  mk.seq <- function(ij)
+    if(ij[1]==ij[2]) as.character(ij[1]) else paste(c(ij),collapse=":")
+  parse(text=
+	paste("c(", paste(apply(subseq, 1, mk.seq), collapse=","), ")", sep=""))
+}
+
+iterate.lin.recursion <- function(x, coeff, nr.it = 10)
+{
+  r <- c(x, rep(0, nr.it))
+  n <- length(x)
+  ic <- length(coeff):1
+  for(i in 1:nr.it)
+    r[n + i] <- c(coeff %*% r[n + i - ic])
+  r
+}
+## iterate.lin.recursion(0:1, c(1,1))
+##	 [1]  0  1  1  2  3  5  8 13 21 34 55 89  ### Fibonacci ##
+## iterate.lin.recursion( c(1,0,1), rep(1,3))
+##	 [1]   1   0   1   2   3   6  11  20  37  68 125 230 423
+
+quadrant <- function(x,y) { y <- sign(y); 2 - y + (y!=sign(x))}
+
+n.code <- function(n, ndig=1, dec.codes = c("","d","c","k"))
+{
+  ##-- convert "round integers" to short char.strings
+  ##-- useful to build-up  variable names in simulations
+  ##-- e.g., n.code( c(10,20,90, 100,500, 2000,10000))#-> "1d" "2d" "9d" "1c" ..
+  e10 <- floor(log10(n))
+  nd <- length(dec.codes)
+  if ( any(e10 < 0) || any(e10 >= nd)) {
+    e10 <- pmax(0, pmin(e10, nd-1))
+    warning("some `n' out of range")
+  }
+  paste(round(n/ 10^(e10 + 1 - ndig)), dec.codes[1 + e10],  sep="")
+}
+
+code2n <- function(ncod, ndig=1, dec.codes = c("","d","c","k"))
+{
+  ## The inverse function to n.code
+  le <- nchar(ncod)
+  cod <- substring(ncod, le, le)
+  as.integer(substring(ncod, 1, le-1)) * 10^(match(cod, dec.codes)-1)
+}
+
+nr.sign.chg <- function(y)
+{
+  ## Purpose:  Compute number of sign changes in sequence
+  ## -------------------------------------------------------------------------
+  ## Arguments: y:  numeric sequence
+  ## -------------------------------------------------------------------------
+  ## Author: Martin Maechler, Date: 17 Feb 93, 18:04
+
+  ## Be careful with y[i] that were 0 !!
+  y _ sign(c(y)); y_ y[y!=0]
+  sum(y[-1] != y[-length(y)])
+}
+
+unif <- function(n, round.dig = 1 + trunc(log10(n)))
+{
+  ## Purpose: Give regular points on [-c,c] with
+  ##	      mean 0 (exact) and variance ~= 1  (very close for EVEN n)
+  ## -------------------------------------------------------------------------
+  ## Arguments: n: number of points,   round.dig: to many digits AFTER "."
+  ## -------------------------------------------------------------------------
+  ## Author: Martin Maechler, ~ 1990  (TESTING: in "~/S/unif.S" !)
+  ##
+  ## NOTE: It is easy to prove that   Var(1,2,...,n) = n(n+1)/12
+  if(0 == n %% 2) {
+    if(n == 0) NULL
+      else round((2 * 1:n - (n + 1)) * sqrt(3/(n * (n + 1))), round.dig)
+  } else {
+    m <- n %/% 2 #--> m+1 = (n+1)/2
+    ( - m:m) * round(sqrt(6/((m + 1) * n)), round.dig)
+  }
+}
+
+
+
+##-#### Session managing / Debugging, etc. ########
+##-### ---------------------------------- ########
+
+prt.DEBUG <- function(..., LEVEL = 1)
+  if (exists("DEBUG", w=1) && DEBUG >= LEVEL )#
+  ##                  ~~~
+  cat(paste("in `", sys.call(sys.nframe()-1)[1], "':", sep=""), ..., "\n")
+
+##- ## Not w=1:
+##- prt.DEBUG <- function(...)
+##-   if (exists("DEBUG") && DEBUG )
+##-         cat(paste("in `", sys.call(sys.nframe()-1)[1], "':", sep=""),
+##- 	    ..., "\n")
+#-- do NOT use  sep="" in cat(..)  --> fouls up  vectors of numbers
+
+getenv.or.default <- function(var = "", default = "")
+{
+  ## Purpose: An easy user interface for 'getenv()'
+  ## Author: Martin Maechler, Date:  May 15 1992, 11:53
+  ## ----------------------------------------------------------------
+  ## Arguments: var: Name of ENVIRONMENT variable.
+  ##	default: Value to be substituted   IF ENV. var is empty/non-existent
+  ## ----------------------------------------------------------------
+  v <- getenv(var)
+  if(v == "" || v == " ") default else v
+}
+
+mtime <- function(expr)
+{
+  ## Purpose: customized version of unix.time(..) -- to be called more than once
+  ## Author: Martin Maechler, Date:  Jan 30 1992, 11:49
+  ## ----------------------------------------------------------------
+  ## Arguments: expr: expression to be timed
+  ## ----------------------------------------------------------------
+  if (!exists(".mtime")) .mtime <<- NULL
+  tim <- unix.time(expr)[1]
+  .mtime <<- c(.mtime, tim)
+  return(tim)
+}
+
+##- sort.time _ NULL;  nn <- 25*2^(0:6)
+##- for (n in nn) {
+##-    .mtime <- NULL
+##-    for (i in 1:10)
+##- 	mtime(for (i in 1:10) sort.list(runif(n)))
+##-    cat("n:",n," sort times :", .mtime, "\n")
+##-    sort.time <- cbind(sort.time,  .mtime)
+##- }
+##- dimnames(sort.time)[2] <- list( paste("n=", nn, sep=""))
+
+sys.start.time <- function()
+{
+  ## Purpose: Returns the Date+Time when THIS S[plus] session was started
+  ##          in the form  'Wed Jun 23 11:50:25 1993' ~= but != date()
+  ## -------------------------------------------------------------------------
+  ## Author: Martin Maechler, Date: 23 Jun 93
+  ## -------------------------------------------------------------------------
+  sys("grep '^#~New session' ",audit.file(), " | tail -1  | sed 's/.*Time: //'")
+}
+
+.updated <- date() #--- used when 'sourced' by 'make' (--> Makefile)
