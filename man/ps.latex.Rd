@@ -3,7 +3,7 @@
 \title{Ghostview Device Driver and ``LaTeX Plots'' Utilities}
 \usage{
 ps.latex(file, height = 5 + main.space * 1.25,  width = 9.5,
-         iso.latin1=is.R(),
+         iso.latin1=is.R(),  paper = "special",
          main.space=FALSE, lab.space = main.space,
          lab=c(10, 10, 7), mgp.lab=c(1.6, 0.7, 0), mar=c(4, 4, 0.9, 1.1),
          \dots)
@@ -11,21 +11,26 @@ ps.latex(file, height = 5 + main.space * 1.25,  width = 9.5,
 %%>>>> put ps.do()  here as well !!
 %%
 \arguments{
- \item{file,...}{see \code{\link{ps.do}}.}
-%  \item{height}{ ~~Describe \code{height} here~~ }
-%  \item{width}{ ~~Describe \code{width} here~~ }
-% \item{iso.latin1}{ ~~Describe \code{iso.latin1} here~~ }
- \item{main.space}{logical; if true, leave space for a main title
-   (unusual for LaTeX figures!).}
- \item{lab.space}{logical; if true, leave space for .....}
-
- \item{lab}{integer of length 3, \code{lab[1:2]} are desired number of
-   tick marks on x- and y- axis, see \code{\link{par}(lab=)}.}
- \item{mgp.lab}{three decreasing numbers determining space for axis
-   labeling, see \code{\link{par}(mgp=)}, the default is here smaller
-   than usual.}
- \item{mar}{four numbers, indicating marginal space, see
-   \code{\link{par}(mar=)}, the default is here smaller than usual.}
+  \item{file,...}{see \code{\link{ps.do}}.}
+  \item{height}{device height in \emph{inches}, \code{height * 2.54} are
+    \emph{cm}.  The default is 5 plus 1.25 iff main.space.}
+  \item{width}{device width in \emph{inches}. ~~Describe \code{width} here~~ }
+  \item{iso.latin1}{always true for \R.}
+  \item{paper}{character, see \code{\link{postscript}}.  Only if this is
+    \code{"special"} are your choices of \code{width} and \code{height}
+    completely honored (and this may lead to files that can't print on
+    A4) with resizing.}
+  \item{main.space}{logical; if true, leave space for a main title
+    (unusual for LaTeX figures!).}
+  \item{lab.space}{logical; if true, leave space for x- and y- labels
+    (by \emph{not} subtracting from \code{mar}).}
+  \item{lab}{integer of length 3, \code{lab[1:2]} are desired number of
+    tick marks on x- and y- axis, see \code{\link{par}(lab=)}.}
+  \item{mgp.lab}{three decreasing numbers determining space for axis
+    labeling, see \code{\link{par}(mgp=)}, the default is here smaller
+    than usual.}
+  \item{mar}{four numbers, indicating marginal space, see
+    \code{\link{par}(mar=)}, the default is here smaller than usual.}
  \item{\dots}{further arguments to \code{\link{ps.do}()}.}
 }
 \description{
