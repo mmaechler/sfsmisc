@@ -1,4 +1,4 @@
-#### $Id: misc-goodies.R,v 1.28 2004/01/31 19:00:02 maechler Exp $
+#### $Id: misc-goodies.R,v 1.29 2004/03/09 10:40:56 maechler Exp $
 #### misc-goodies.R
 #### ~~~~~~~~~~~~~~  SfS - R - goodies that are NOT in
 ####		"/u/sfs/R/SfS/R/u.goodies.R"
@@ -100,7 +100,7 @@ cum.Vert.funkt <- function(x, Quartile = TRUE, titel = TRUE, Datum = TRUE,
   op <- par(xaxs = "r", yaxs = "r", las = 1)# the default anyway
   on.exit(par(op))
   r <- plotStep(x, xlab = xlab, main = main, ...)
-  #### FIXME : Use  package "stepfun" instead
+  #### FIXME : stepfun() / ecdf() instead
   n <- length(x)
   if(rang.axis)
       axis(4, at = (0:n)/n, labels = 0:n, pos = par("usr")[1])#, las = 1)
@@ -127,7 +127,7 @@ plotStep <- function(ti, y,
 		      main = NULL,
 		      ...)
 
-#####- FIXME ----------- use library(stepfun), etc !!! ----------------
+#####- FIXME ----------- use stepfun(), plot.stepfun() etc !!! ----------------
 
 {
   ## Purpose: plot step-function  f(x)= sum{ y[i] * 1_[ t[i-1], t[i] ] (x) }
@@ -137,7 +137,7 @@ plotStep <- function(ti, y,
   ## Author: Martin Maechler, 1990, U.Washington, Seattle; improved -- Dec.1993
   ##
   ## EXAMPLE: ##-- Plot empirical cdf  Fn(x)  for a small n:
-  ## 	      xx_ runif(20); plot.step(xx); plot.step( xx, cad.lag = F )
+  ## 	      xx <- runif(20); plot.step(xx); plot.step( xx, cad.lag = F )
   ##	      plot.step( runif(20), add=T, cad.lag=F)
   xlab
   ylab
@@ -257,6 +257,54 @@ digitsBase <- function(x, base = 2, ndigits = 1 + floor(log(max(x),base)))
     r
 }
 
+sHalton <- function(n.max, n.min = 1, base = 2, leap = 1)
+{
+    ## Purpose: Halton sequence H(k,b) for k=n.min:n.max -- for Quasi Monte Carlo
+    ## ----------------------------------------------------------------------
+    ## Author: Martin Maechler, Date: 29 Jul 2004, 21:34
+
+    stopifnot((leap <- as.integer(leap)) >= 1)
+    ## now do this via digitsBase(), later go directly
+    nd <- as.integer(1 + log(n.max, base))
+    dB <- digitsBase(if(leap == 1) n.min:n.max else seq(n.min, n.max, by=leap),
+                     base = base, ndig = nd)
+    colSums(dB/base^(nd:1))
+}
+
+QUnif <- function(n, min = 0, max = 1, n.min = 1, p, leap = 1)
+{
+  ## Purpose: p-dimensional ``Quasi Random'' sample in  [min,max]^p
+  ## ----------------------------------------------------------------------
+  ## Author: Martin Maechler, Date: 29 Jul 2004, 21:43
+  ## Example: plot(QUnif(1000, 2), cex=.6, pch=20, xaxs='i', yaxs='i')
+    stopifnot(1 <= (p <- as.integer(p)),
+              1 <= (n <- as.integer(n)),
+              1 <= (leap <- as.integer(leap)),
+              1 <= (n.min <- as.integer(n.min)))
+    stopifnot((n.max <- n.min + (n - 1:1)*leap) < .Machine$integer.max)
+    pr. <- c(2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,
+             89,97,101,103,107,109,113,127,131,137,139,149,151,157,163,167,173,
+             179,181,191, 193,197,199,211,223,227,229,233,239,241,251,257,263,
+             269,271,277,281,283,293,307,311,313,317,331,337,347,349,353,359,
+             367,373,379,383,389,397,401,409,419,421,431,433,439,443,449,457)
+    if(length(pr.) < p) stop("primes not yet available for p=",p)
+    pr <- pr.[1:p]
+    if(leap > 1 && any(leap == pr) && length(.pr) >= p+1)
+        pr <- c(pr[leap != pr], pr.[p+1])
+    stopifnot(length(max) == p || length(max) == 1,
+              length(min) == p || length(min) == 1)
+    max <- rep.int(max, p)
+    min <- rep.int(min, p)
+    dU <- max - min
+    r <- matrix(0., n, p)
+    for(j in 1:p)
+	r[,j] <- min[j] + dU[j] *
+	    sHalton(n.max, n.min, base = pr[j], leap = leap)
+    r
+}
+
+
+
 chars8bit <- function(i = 0:255)
 {
     ## Purpose: Compute a character vector from its "ASCII" codes.
@@ -280,7 +328,8 @@ strcodes <- function(x, table = chars8bit(0:255))
     ## ----------------------------------------------------------------------
     ## Author: Martin Maechler, Date: 23 Oct 2003, 12:42
 
-    lapply(strsplit(x, ""), match, table = table)
+    match0 <- function(x, table) match(x, table) - 1:1
+    lapply(strsplit(x, ""), match0, table = table)
 }
 
 ## S-PLUS has  AsciiToInt() officially, and   ichar() in  library(examples):
@@ -379,16 +428,6 @@ hist.bxp <- function(x, nclass, breaks, probability = FALSE, include.lowest = TR
 
 ##-#### Plot / Devices  related stuff ########
 ##-### ----------------------------- ########
-
-
-### The following 2 functions should be one !! -- OKAY, eliminated  'pl' !
-## NO MORE: pl <- function(...) plot(..., type = "b", xlab="", ylab="")
-
-### Put   p.xy(.)  and  p.t(.)  into  SFS - Goodies  "/u/sfs/S/p.goodies.S"
-
-
-##m.pl <- function(mat, ...)   matplot(mat[, 1], as.matrix(mat[, -1]), ...)
-##m.pl_ function(mat, ...) cat("\n>>> USE FUNCTION p.m  instead of m.pl !!\n\n")
 
 mpl <- function(mat, ...) {
   matplot(1:nrow(mat), mat, xaxt = 'n',...)
