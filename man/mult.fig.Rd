@@ -13,7 +13,8 @@ mult.fig(nr.plots, mfrow, mfcol,
          main = NULL,
          tit.wid = if (is.null(main)) 0 else 1 + 1.5*cex.main,
          quiet = .Device == "postscript",
-         cex.main = par("cex.main"), \dots)
+         cex.main = par("cex.main"),
+         col.main = par("col.main"), font.main = par("font.main"), \dots)
 }
 \arguments{
  \item{nr.plots}{integer; the number of plot figures you'll want to draw.}
@@ -32,6 +33,8 @@ mult.fig(nr.plots, mfrow, mfcol,
  \item{main}{character.  The main title to be used for the whole graphic.}
  \item{tit.wid}{numeric; the vertical width to be used for the main title.}
  \item{cex.main}{numeric; the character size to be used for the main title.}
+ \item{col.main, font.main}{color and font for main title; see
+   \code{\link{par}(*)} for details.}
  \item{quiet}{logical; if \code{TRUE}, do \emph{not} write the reminder
    about resetting \code{\link{par}}.}
  \item{\dots}{Further arguments to \code{\link{mtext}} for the main title.}
