@@ -46,7 +46,8 @@ tkdensity(y, n = 1024, log.bw = TRUE, showvalue = TRUE,
 
 \examples{
 data(faithful)
-tkdensity(faithful $ eruptions)
+if(try(require(tcltk)))# still not there on broken installations
+  tkdensity(faithful $ eruptions)
 }
 \keyword{hplot}
 \keyword{dynamic}
