@@ -4,14 +4,12 @@
 \title{PostScript Preview Device with Optional ``LaTeX'' Touch}
 \usage{
 ps.do(file, width=-1, height=-1, onefile=FALSE, horizontal=FALSE,
-      iso.latin1=is.R(), do.color=NULL, colors=NULL,
-      image.colors=NULL, \dots)
+      title = NULL, \dots)
 
 ps.latex(file, height = 5 + main.space * 1.25,  width = 9.5,
          main.space=FALSE, lab.space = main.space,
-         iso.latin1=is.R(),  paper = "special",
-         lab=c(10, 10, 7), mgp.lab=c(1.6, 0.7, 0), mar=c(4, 4, 0.9, 1.1),
-         \dots)
+         paper = "special", title = NULL,
+         lab=c(10, 10, 7), mgp.lab=c(1.6, 0.7, 0), mar=c(4, 4, 0.9, 1.1), \dots)
 }
 \arguments{
   \item{file}{character giving the PostScript file name to be written.}
@@ -21,11 +19,13 @@ ps.latex(file, height = 5 + main.space * 1.25,  width = 9.5,
     \code{height}, see \code{\link{postscript}}.}
   \item{onefile, horizontal}{logicals passed to
     \code{\link{postscript}(..)}, most probably to be left alone.}
+  \item{title}{PostScript (not plot!) title passed to
+    \code{\link{postscript}()}; by default use a title with \R version
+    and \code{file} in it.}
   \item{main.space}{logical; if true, leave space for a main title
     (unusual for LaTeX figures!).}
   \item{lab.space}{logical; if true, leave space for x- and y- labels
     (by \emph{not} subtracting from \code{mar}).}
-  \item{iso.latin1}{unused for \R (always \code{TRUE}).}
   \item{paper}{character, see \code{\link{postscript}}.  Only if this is
     \code{"special"} are your choices of \code{width} and \code{height}
     completely honored (and this may lead to files that can't print on
@@ -37,7 +37,6 @@ ps.latex(file, height = 5 + main.space * 1.25,  width = 9.5,
     than usual.}
   \item{mar}{four numbers, indicating marginal space, see
     \code{\link{par}(mar=)}, the default is here smaller than usual.}
-  \item{do.color, colors, image.colors}{are all unused (currently) for \R.}
   \item{\dots}{arguments passed to \code{\link{ps.do}()} from
     \code{ps.latex}} and to \code{\link{ps.options}} from \code{ps.do}.}
 }
