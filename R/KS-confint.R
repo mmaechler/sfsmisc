@@ -36,7 +36,7 @@ approx.ksD <- function(n)
     ## for confidence level 0.95. Taken from Bickel & Doksum, table IX, p.483
     ## and Lienert G.A.(1975) who attributes to Miller,L.H.(1956), JASA
     ifelse(n > 80,
-           1.358 /( sqrt(n) + .12 + .11/sqrt(n)),##Bickel&Doksum, table IX,p.483
+           1.358/( sqrt(n) + .12 + .11/sqrt(n)),## Bickel&Doksum, table IX,p.483
 
            splinefun(c(1:9, 10, 15, 10 * 2:8),# from Lienert
                      c(.975,   .84189, .70760, .62394, .56328,# 1:5
