@@ -8,7 +8,10 @@
 ##included above:
 source("/u/maechler/R/MM/MISC/prime-numbers-fn.R")
 
-if(!is.R()) system.time <- system.time
+if(!is.R()) {
+    if(!existsFunction("system.time")) system.time <- unix.time
+    if(!existsFunction("gc")) gc <- function() {}
+}
 
 ### 1) The super speedy primes() function from Bill Venables
 ###    {and improved by M.Maechler}:
