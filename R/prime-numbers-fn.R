@@ -2,8 +2,8 @@
 
 ###---- Function definitions -------- for examples, see "./prime-numbers.S"
 
-if(!exists("is.sorted", mode='function'))
-   is.sorted <- function(x) (length(x) <= 1) || all(diff(x) >= 0)
+if(!exists("is.unsorted", mode='function'))
+   is.unsorted <- function(x) (length(x) > 1) && any(diff(x) < 0)
 
 prime.sieve <- function(p2et = c(2,3,5), maxP = pM^2)
 {
@@ -13,7 +13,7 @@ prime.sieve <- function(p2et = c(2,3,5), maxP = pM^2)
   ##		maxP : want primes up to maxP
   ## -------------------------------------------------------------------------
   ## Author: Martin Maechler, Date: 26 Jan 96, 15:08
-  if(any(p2et[1:2] != 2:3) || !is.sorted(p2et) || !is.numeric(p2et))
+  if(any(p2et[1:2] != 2:3) || is.unsorted(p2et) || !is.numeric(p2et))
 	stop("argument 'p2et' must contain SORTED primes 2,3,..")
   k <- length(p2et)
   pM <- p2et[k]
@@ -37,7 +37,13 @@ factorize <- function(n)
   ##			 then use this function recursively only "small" factors
   ## -------------------------------------------------------------------------
   ## Author: Martin Maechler, Date: 26--30 Jan 96
-  N <- length(n <- as.integer(n))
+  if(all(n < .Machine$integer.max))
+      n <- as.integer(n)
+  else {
+      warning("factorizing large int ( > maximal integer )")
+      n <- round(n)
+  }
+  N <- length(n)
   M <- trunc(sqrt(max(n))) #-- check up to this prime number
   ##-- for M > 100 to 200: should DIVIDE first and then go on ..
   ##-- Here, I am just (too) lazy:
@@ -86,7 +92,7 @@ test.factorize <- function(res)
   ## Arguments: result of  factorize
   ## -------------------------------------------------------------------------
   ## Author: Martin Maechler, Date: 29 Jan 96, 10:29
-  n <- as.integer(names(res))
+  n <- as.numeric(names(res))# as.integer() may fail for *large* ones
   n == sapply(res, function(pf) prod(pf[,"p"] ^ pf[,"m"]))
 }
 
@@ -324,7 +330,7 @@ divisors <- function(n)
 ##- To: fharrell@virginia.edu, lifer@fuse.net, s-news@wubios.wustl.edu
 ##- Subject: Re: [S] Prime divisors
 
-##- This discussion has been fun. 
+##- This discussion has been fun.
 
 ##- Seems to me we've been gradually heading toward
 ##- computing the prime factorization of a number.
