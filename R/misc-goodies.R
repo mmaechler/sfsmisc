@@ -1,4 +1,5 @@
-#### misc-goodies.R-- $Id$
+#### $Id: misc-goodies.R,v 1.9 2001/08/29 13:42:48 sfs Exp sfs $
+#### misc-goodies.R
 #### ~~~~~~~~~~~~~~  SfS - R - goodies that are NOT in
 ####		"/u/sfs/R/SfS/R/f.goodies.R"
 ####		"/u/sfs/R/SfS/R/u.goodies.R"
@@ -348,7 +349,7 @@ tit <- function(object) attr(object, "tit")
 ##-#### "Calculus" Mathematical stuff ########
 ##-###  ----------------------------- ########
 
-bincoef <- .Alias(choose)
+bincoef <- choose#.Alias
 
 polyn.eval <- function(coef, x)
 {
@@ -417,7 +418,7 @@ digits.v <- function(nvec, base = 2, num.bits = 1 + floor(log(max(nvec),base)))
 
 
 if(!exists('rep.int', mode='function')) ## R
-  if(is.R()) rep.int <- .Alias(rep) else rep.int <- rep
+  rep.int <- rep #.Alias(rep)
 
 if(!is.R()) {
 new.seed <- function()
@@ -637,7 +638,7 @@ mpl <- function(mat, ...) {
 }
 
 ##Splus: is.TS <- function(x) is.ts(x) || is.rts(x) || is.cts(x) || is.its(x)
-is.TS <- .Alias(is.ts) # shouldn't be used
+is.TS <- is.ts#.Alias  shouldn't be used
 
 pl.ds <- function(x, yd, ys, xlab = "", ylab = "", ylim = rrange(yd, ys),
                   xpd = TRUE, do.seg = TRUE,
@@ -1016,102 +1017,6 @@ u.log <- function(x, c = 1)
   to.log <- abs(x) > c ; x <- x[to.log]
   r[to.log] <- sign(x) * c * (1 + log(abs(x/c)))
   r
-}
-
-###------- Numerical Derivatives ------------------------------------------
-
-### Test Programs and examples for those two are in
-### -->  "./NUMERICS/D1-tst.S"
-###
-### For 'optimal' 2nd Deriv.:  d2.est(..)
-###  --> "./NUMERICS/diff2.S"  "./NUMERICS/diff2-user.S"
-
-d1 <- function(y, x = 1)
-{
-  ## Purpose:  discrete trivial estimate of 1st derivative.
-  ## -------------------------------------------------------------------------
-  ## Arguments: x is optional
-  ## -------------------------------------------------------------------------
-  ##--> See also D1.naive in ~/S/D1-tst.S (and the (smoothing) one: 'D1') !
-  ## Author: Martin Maechler, ~ 1990
-  n <- length(y)
-  if(length(x) == 1)
-    c(y[2] - y[1], 0.5 * (y[-(1:2)] - y[-((n-1):n)]), y[n] - y[n-1])/x
-  else {
-    if(n != length(x)) stop("lengths of 'x' & 'y' must equal")
-    if(!is.sorted(x))  stop("'x' must be sorted !")
-    c(y[2] - y[1], 0.5 * (y[-(1:2)] - y[-((n-1):n)]), y[n] - y[n-1]) /
-      c(x[2] - x[1], 0.5 * (x[-(1:2)] - x[-((n-1):n)]), x[n] - x[n-1])
-  }
-}
-
-D1 <- function(x, y, xout = x, fudge.fact = 10)
-{
-  ## Purpose: Numerical first derivatives of  f() for   y_i = f(x_i) + e_i.
-  ## Find  f'(xout)  -- using smoothing splines with GCV'
-  ## Author: Martin Maechler, Date:  6 Sep 92, 00:04
-  ## -------------------------------------------------------------------------
-  ## Arguments: x = { x_i } MUST be sorted increasingly // y = { y_i }
-  ## -------------------------------------------------------------------------
-  sp <- smooth.spline(x,y)
-  sp <- smooth.spline(x,y, spar = fudge.fact * sp $ spar)
-  predict(sp, xout, deriv = 1) $ y
-}
-
-D1D2 <- function(x, y, xout = x, fudge.fact = 10, deriv=1:2, spl.spar=NULL)
-{
-  ## Purpose: Numerical first derivatives of  f() for   y_i = f(x_i) + e_i.
-  ## Find  f'(xout) & f''(xout) -- using smoothing splines with GCV'
-  ## Author: Martin Maechler, Date:  23 Sep 92, 9:40
-  ## -------------------------------------------------------------------------
-  ## Arguments: x = { x_i } MUST be sorted increasingly // y = { y_i }
-  ## -------------------------------------------------------------------------
-  if(missing(spl.spar)) {
-    sp <- smooth.spline(x,y)
-    sp <- smooth.spline(x,y, spar = fudge.fact * sp $ spar)
-  } else sp <- smooth.spline(x,y, spar = spl.spar)
-  list(D1 = if(any(deriv==1)) predict(sp, xout, deriv = 1) $ y,
-       D2 = if(any(deriv==2)) predict(sp, xout, deriv = 2) $ y )
-}
-D2ss <- function(x, y, xout = x, fudge.fact = 10, spl.spar=NULL)
-{
-  ## Purpose: Numerical 2nd derivative of  f() for   y_i = f(x_i) + e_i.
-  ##          Find  f''(xout) -- using smoothing splines (with GCV) -- DOUBLY:
-  ##          f --ss-> f' --ss-> f''
-  ## -------------------------------------------------------------------------
-  ## Arguments: x = { x_i } MUST be sorted increasingly // y = { y_i }
-  ## -------------------------------------------------------------------------
-  ## Author: Martin Maechler, Date: 29 Jan 97, 17:55
-  ## -------------------------------------------------------------------------
-  use.fudge <- is.null(spl.spar)
-  if(use.fudge) { ##-- use  GCV * 'fudge.factor' ---
-    if(is.null(fudge.fact)) stop("must specify 'spl.spar' OR 'fudge.fact'!")
-    lf <- length(fudge.fact)
-    if(!is.numeric(fudge.fact) || lf == 0 || lf > 2)
-      stop("'fudge.fact' must be numeric(1 or 2) !")
-    if(lf == 1) fudge.fact <- rep(fudge.fact, 2)
-    sp <- smooth.spline(x,y)
-    sp <- smooth.spline(x,y, spar = fudge.fact[1] * sp $ spar)
-    spl.spar <- numeric(2); spl.spar[1] <- sp $ spar
-  } else {
-    lf <- length(spl.spar)
-    if(!is.numeric(spl.spar) || lf == 0 || lf > 2)
-      stop("'spl.spar' must be numeric(1 or 2) !")
-    if(lf == 1) spl.spar <- rep(spl.spar, 2)
-    sp <- smooth.spline(x,y, spar = spl.spar[1])
-  }
-
-  D1 <- predict(sp, x, deriv = 1) $ y #-- 1st derivative ...
-
-  if(use.fudge) { ##-- use  GCV * 'fudge.factor' ---
-    sp <- smooth.spline(x, D1)
-    sp <- smooth.spline(x, D1, spar = fudge.fact[2] * sp $ spar)
-    spl.spar[2] <- sp $ spar
-  } else {
-    sp <- smooth.spline(x, D1, spar = spl.spar[2])
-  }
-  list(x=xout, y = predict(sp, xout, deriv = 1) $ y,
-       spl.spar = spl.spar, fudge.fact = fudge.fact)
 }
 
 xy.unique.x <- function(x,y,w, fun.mean = mean)
