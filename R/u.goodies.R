@@ -74,7 +74,7 @@ u.datumdecode <- function(d = 8710230920)
   ## Ziel: Daten der Form 8710230920 aufspalten in Jahr, Monat, Tag, Std, Min
   ## ----------------------------------------------------------------------	
   ## Bemerkungen: Dies scheint mir nicht das richtige Konzept.
-  ##	Wenn man numerische datuemer will, soll man doch julianische
+  ##	Wenn man numerische Datuemer will, soll man doch julianische
   ##	Daten verwenden !! Dann hat man auch eine richtige Zeit-Skala
   ##	Diese Funktionen sind in library(examples) und (verbessert) in
   ##	/u/maechler/s/date.Data !! (Martin Maechler)
