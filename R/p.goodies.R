@@ -1,4 +1,4 @@
-#### $Id: p.goodies.R,v 1.8 2001/08/29 13:44:07 sfs Exp sfs $
+#### $Id: p.goodies.R,v 1.9 2002/04/19 15:40:48 sfs Exp $
 #### Original is /u/sfs/S/p.goodies.S  [v 1.12 1999/05/06 10:17:00 sfs Exp ]
 ####
 ### p.goodies.S ---- SfS- S(plus) - Funktionen, welche
@@ -21,7 +21,7 @@
 ### p.dnorm             /
 ### p.pairs             'pairs' mit mehr Moeglichkeiten
 ### p.pllines
-### p.lm.hyperb         --> ./linesHyberb.lm.R 
+### p.lm.hyperb         --> ./linesHyberb.lm.R
 ### p.scales
 ### p.triangle          Dreiecks-Plot fuer 3-er Gehalte / Anteile
 ### p.two.forget
@@ -35,9 +35,9 @@
 
 p.clear <- function()
 {
-  ## Ziel: Bildschirm "putzen"
+  ## Ziel: Bildschirm "putzen"     (MM: I think this is a wrong concept)
   par(mfrow = c(1, 1))
-  frame()
+  plot(0:1,0:1, type = "n", ann = FALSE, axes = FALSE)
 }
 
 ## ===========================================================================
@@ -48,28 +48,31 @@ p.datum <- function(outer = FALSE,...)
 ## ===========================================================================
 
 ## curve(.. xlim..) only satisfactory from R version 1.2 on ..
-p.dchisq <- function(nu, ...) {
+p.dchisq <- function(nu, h0.col = "light gray", ...) {
   curve(dchisq(x, nu), xlim= qchisq(c(1e-5,.999), nu),
         ylab = paste("dchisq(x, nu=",format(nu),")"), ...)
-  abline(h=0, col = "light gray")
+  abline(h=0, col = h0.col)
 }
-p.dgamma <- function(shape, ...) {
+
+p.dgamma <- function(shape, h0.col = "light gray", ...) {
   curve(dgamma(x, shape), xlim= qgamma(c(1e-5,.999), shape),
         ylab = paste("dgamma(x, shape=",format(shape),")"), ...)
-  abline(h=0, col = "light gray")
+  abline(h=0, col = h0.col)
 }
-p.dnorm <- function(mittel = 0, std = 1, ms.lines = TRUE, ...)
+
+p.dnorm <- function(mu = 0, s = 1, h0.col = "light gray",
+                    ms.lines = TRUE, ms.col = "gray", ...)
 {
-  f <- function(x) dnorm(x, mittel,std)
-  curve(f, xlim = qnorm(c(1e-5, 0.999), mittel, std),
-        ylab = substitute(phi(x, mu==m, sigma==s), list(m=format(mittel),
-                                          s=format(std))), ...)
-  abline(h=0, col = "light gray")
+  f <- function(x) dnorm(x, mu, s)
+  curve(f, xlim = qnorm(c(1e-5, 0.999), mu, s),
+        ylab = substitute(phi(x, mu == m, sigma == ss),
+                          list(m=format(mu), ss=format(s))), ...)
+  abline(h=0, col = h0.col)
   if(ms.lines) {
-    segments(mittel,0, mittel, f(mittel), col="gray")
-    f.ms <- f(mittel-std)
-    arrows(mittel-std, f.ms, mittel+std, f.ms, length= 1/8, code= 3, col="gray")
-    text(mittel+c(-std/2,std/2), f.ms, expression(-sigma, +sigma), adj=c(.5,0))
+    segments(mu,0, mu, f(mu), col=ms.col)
+    f.ms <- f(mu-s)
+    arrows(mu-s, f.ms, mu+s, f.ms, length= 1/8, code= 3, col=ms.col)
+    text(mu+c(-s/2,s/2), f.ms, expression(-sigma, +sigma), adj=c(.5,0))
   }
 }
 
@@ -100,7 +103,7 @@ p.pairs <- function(data, data2, pch='.', col=1, colors, vnames, range=TRUE,
   ##             ...    extra arguments,  passed to  par(.)
   ## -------------------------------------------------------------------------
   ## Author: Werner Stahel, Date: 23 Jul 93; minor bug-fix+comments: M.Maechler
-  if(Browse) on.exit(browser())
+    ##if(Browse) on.exit(browser())
   ##---------------------- preparations --------------------------
   data <- as.matrix(data)
   nv <- dim(data)[2]
@@ -196,7 +199,7 @@ function(rr, y, ask = TRUE, qq=TRUE, ta=TRUE, ta.lowess=TRUE, tamod=TRUE, tamod.
   ##            .. .lowess: add lowess to respective plots
   ## -------------------------------------------------------------------------
   ## Author: Werner Stahel, Date:  7 May 93, 13:46
-  if(Browse) on.exit(browser())         #
+    ##if(Browse) on.exit(browser())         #
   op <- par(ask = ask)
   form <- formula(rr)
   rr$fitted.values <- rr$fit
@@ -376,12 +379,13 @@ p.tst.dev <- function(ltypes = 10, lwidths = 12, colors = 16, ptypes = 20)
   }
 }
 
-p.profileTraces <- function(x, cex=1)
+p.profileTraces <-
+    function(x, cex=1, subtitle="t-Profil-Plot und Profilspuren")
 {
   ## Purpose: Zeichnet die Profilspuren und die t-Profil-Plots.
   ## Arguments: x = Resultat von der R/S-Funktion profile()
   ## Author: Andreas Ruckstuhl, Date: Nov 93
-  ##         R port by Isabelle Flückiger and Marcel Wolbers 
+  ##         R port by Isabelle Flückiger and Marcel Wolbers
   ## -------------------------------------------------------------------------
   nx <- names(x)
   np <- length(x)
@@ -394,22 +398,22 @@ p.profileTraces <- function(x, cex=1)
         if (!is.null(this.comp <- x[[i]])) {
           xx <- this.comp$par[, nx[i]]
           tau <- this.comp[[1]]
-          plot(spline(xx, tau), xlab = "", ylab = "", 
-               type = "l", las = 1, mgp = c(3, 0.8, 0), 
+          plot(spline(xx, tau), xlab = "", ylab = "",
+               type = "l", las = 1, mgp = c(3, 0.8, 0),
                cex = 0.5 * cex)
           points(xx[tau == 0], 0, pch = 3)
-          pusr <- par("usr")          
+          pusr <- par("usr")
           ## "at = " muss anders sein R & SPlus
           if(is.R()) { ## mtext(outer = TRUE, at= <NICHT "usr" Koord>):
-            mtext(side = 1, line = 0.8, at = -1/(2*np)+i/np, 
+            mtext(side = 1, line = 0.8, at = -1/(2*np)+i/np,
                   text = nx[j] , outer = TRUE, cex = cex)
-            mtext(side = 2, line = 0.8, at = 1+1/(2*np)-i/np, 
+            mtext(side = 2, line = 0.8, at = 1+1/(2*np)-i/np,
                   text = nx[i], outer = TRUE, cex = cex)
           }
           else {
-            mtext(side = 1, line = 0.8, at = mean(pusr[1:2]), 
+            mtext(side = 1, line = 0.8, at = mean(pusr[1:2]),
                   text = nx[j] , outer = TRUE, cex = cex)
-            mtext(side = 2, line = 0.8, at = mean(pusr[3:4]), 
+            mtext(side = 2, line = 0.8, at = mean(pusr[3:4]),
                   text = nx[i], outer = TRUE, cex = cex)
           }
         }
@@ -420,7 +424,7 @@ p.profileTraces <- function(x, cex=1)
           xy <- x.comp$par[, nx[i]]
           yx <- y.comp$par[, nx[j]]
           yy <- y.comp$par[, nx[i]]
-          plot(xx, xy, xlab = "", ylab = "", las = 1, 
+          plot(xx, xy, xlab = "", ylab = "", las = 1,
                mgp = c(3, 0.8, 0), type = "n",
                xlim = range(c(xx, yx)),
                ylim = range(c(xy, yy)), cex = 0.5 * cex)
@@ -432,7 +436,7 @@ p.profileTraces <- function(x, cex=1)
     if (i < np) # frame()s:  S-plus braucht häufig eines mehr :
       for (k in 1:(np - i + if(is.R()) 0 else 1)) frame()
   }
-  mtext(side = 3, line = 0.2, text = "t-Profil-Plot und Profilspuren", 
+  mtext(side = 3, line = 0.2, text = subtitle,
         outer = TRUE, cex = 1.2 * cex)
 }
 
@@ -494,7 +498,8 @@ p.hboxp <- function(x, y.lo, y.hi, boxcol = 3, medcol = 0,
 
 
 
-p.arrows <- function(x1, y1, x2, y2, size=1, width, ...)
+p.arrows <- function(x1, y1, x2, y2,
+                     size=1, width = (sqrt(5)-1)/4/cin, fill = 2, ...)
 {
   ## Purpose: Nicer arrows(): FILLED arrow heads
   ## -------------------------------------------------------------------------
@@ -505,16 +510,16 @@ p.arrows <- function(x1, y1, x2, y2, size=1, width, ...)
   ## -------------------------------------------------------------------------
   cin <- size*par("cin")[2] ## vertical symbol size in inches
   uin <-  if(is.R()) 1/xyinch() else par("uin") ## inches per usr unit
-  if(missing(width)) width <- (sqrt(5)-1)/4/cin
 
   segments(x1, y1, x2, y2, ...)
-  ## Create coord. of 				\
-  ## a polygon for a ``unit arrow head'' :	/
+
+  ## Create coordinate of a polygon for a ``unit arrow head'':
   x <- sqrt(seq(0, cin^2, length=floor(35*cin)+2))
   delta <- 0.005/2.54 # ? 2.54cm = 1 in
   x.arr <- c(-x, -rev(x))
   wx2 <- width* x^2
   y.arr <- c(- wx2 - delta, rev(wx2) + delta)
+  ## Polar(x.., y..):
   deg.arr <- c(atan(y.arr, x.arr), NA)# - NA to 'break' long polygon
   r.arr <- c(sqrt(x.arr^2 + y.arr^2), NA)
 
@@ -522,9 +527,10 @@ p.arrows <- function(x1, y1, x2, y2, size=1, width, ...)
   theta <- atan((y2-y1)*uin[2], (x2-x1)*uin[1])
   lx <- length(x1)
   Rep <- rep(length(deg.arr), lx)
-  x2 <- rep(x2, Rep); y2 <- rep(y2, Rep)
+  x2 <- rep(x2, Rep)
+  y2 <- rep(y2, Rep)
   theta <- rep(theta, Rep) + rep(deg.arr, lx)
   r.arr <- rep(r.arr, lx)
   polygon(x2+ r.arr*cos(theta)/uin[1],
-          y2+ r.arr*sin(theta)/uin[2], col=2)
+          y2+ r.arr*sin(theta)/uin[2], col= fill)
 }
