@@ -1,8 +1,8 @@
 % Originally /u/maechler/S/GRAPHICS/plot.step.d,v 1.2 1997/05/27 10:17:27
 % Copyright (c), 1991, 1997 Martin Maechler, Statistik, ETH Zurich
 %		Martin Maechler <maechler@stat.math.ethz.ch>
-\name{plot.step}
-\alias{plot.step}
+\name{plotStep}
+\alias{plotStep}
 \title{Plot a Step Function}
 \description{
   Plots a step function
@@ -12,7 +12,7 @@
   function.
 }
 \usage{
-plot.step(ti, y,
+plotStep(ti, y,
           cad.lag = TRUE,
           verticals = !cad.lag,
           left.points= cad.lag, right.points= FALSE, end.points= FALSE,
@@ -47,28 +47,28 @@ plot.step(ti, y,
   and plots on current graphics device.
 }
 \author{
-  Martin Maechler, Seminar for Statistics, ETH Zurich, Switzerland;
-  \email{maechler@stat.math.ethz.ch}
+  Martin Maechler, Seminar for Statistics, ETH Zurich,
+  \email{maechler@stat.math.ethz.ch}, 1991 ff.
 }
 \seealso{
   \code{\link[stepfun]{plot.ecdf}} and
-  \code{\link[stepfun]{plot.stepfun}} in \R which are conceptually nicer.
+  \code{\link[stepfun]{plotStepfun}} in \R which are conceptually nicer.
 
   \code{\link{plot}},
   \code{\link{segments}(\dots, method = "constant")}.
 }
 \examples{
 ##-- Draw an Empirical CDF  (and see the default title ..)
-plot.step(rnorm(15))
+plotStep(rnorm(15))
 
-plot.step(runif(25), cad.lag=FALSE)
-plot.step(runif(25), cad.lag=FALSE, add=TRUE, lty = 2)
+plotStep(runif(25), cad.lag=FALSE)
+plotStep(runif(25), cad.lag=FALSE, add=TRUE, lty = 2)
 
 ui <- sort(runif(20))
-plot.step(ui, ni <- cumsum(rpois(19, lambda=1.5) - 1.5), cad.lag = FALSE)
-plot.step(ui, ni, verticals = TRUE, right.points = TRUE)
+plotStep(ui, ni <- cumsum(rpois(19, lambda=1.5) - 1.5), cad.lag = FALSE)
+plotStep(ui, ni, verticals = TRUE, right.points = TRUE)
 
-plot.step(rnorm(201), pch = '.') #- smaller points
+plotStep(rnorm(201), pch = '.') #- smaller points
 }
 \keyword{nonparametric}
 \keyword{hplot}
