@@ -1,4 +1,4 @@
-#### $Id: misc-goodies.R,v 1.14 2002/09/30 17:32:24 sfs Exp $
+#### $Id: misc-goodies.R,v 1.15 2002/09/30 17:33:46 sfs Exp $
 #### misc-goodies.R
 #### ~~~~~~~~~~~~~~  SfS - R - goodies that are NOT in
 ####		"/u/sfs/R/SfS/R/u.goodies.R"
@@ -7,45 +7,14 @@
 ###--- Original: From `S' in /u/sfs/S/misc-goodies.S
 ###--- ========  But start doing *less* here !
 
-###>>>> ALSO take things from /u/maechler/S/Good.S
-###			      ==================== at end
-
-###================================================================== 
-###  Variables
-###================================================================== 
-
-##- Browse <- T
-##-
-##- Dirname <- ""
-##- Figdir <- "$PWD"
-##-
-##- Rm.Audit <- T
-##- Rm.PostScript <- F
-##- Save.dir <- "goodies.Data"
-##-
-##- file.prefix <- "unix('pwd')"
-
-### Use those in u.dev.default:  Must set 'new = F' explicitly!
-if(FALSE) {
-DevDef.postscript <- { postscript(file = "out.ps"); p <- par(); dev.off();
-                       p$new <- FALSE; p }
-DevDef.x11 <- { x11("-geometry -9+9");  p <- par(); dev.off();
-                p$new <- FALSE; p }
-DevDef.motif <- (DevDef.x11)
-}
-
-## dirwst <- "/home/staff/stahel/S/.Data"
-
-## obj <- "*[Dd]at*" ##-- Does anyone use this ?????
-
-###================================================================== 
+###==================================================================
 ###  Functions <<<<<<<< Please use a few subsections  like "Plotting"...
 ###  Functions <<<<<<<< See  --> "/u/maechler/S/Good.S"
-###================================================================== 
+###==================================================================
 ###
 ###	o bl.string 		# blabla string
 ###
-### ========================================================================== 
+### ==========================================================================
 
 
 ##-#### First, attach(.),... --- "Umgebung anschauen, modifizieren" #########
@@ -84,63 +53,29 @@ get.sys.default <- function(obj.nam, verbose = TRUE)
 }
 
 
-##- Last <- function()
-##- {
-##-   ## Fn.name: Last
-##-   ## Purpose: Loescht Audit-File beim Verlassen von Splus
-##-   ## Author:  Caterina, Beat  , Date:  23/Nov/90, Martin: 14.Oct.91
-##-   ## ----------------------------------------------------------------
-##-   ## Arguments: Rm.Audit==T in unseren goodies gesetzt
-##-   ## ----------------------------------------------------------------
-##-   expression(if(exists(".Device")) .C("gr_wrap"))
-##-   if(exists("Rm.Audit") && Rm.Audit)
-##-     system("rm .Data/.Audi*", output = F)
-##-   else system("rm -i .Data/.Audi*", output = F)
-##- }
-
-
 
 ##-#### Vector, Matrix (or higher Array) stuff ########
 ##-###  -------------------------------------- ########
 
-## "%in%"  in standard R
-
-
-## The following two functions are especially useful if applied to a
-## matrix: apply( mymatr, 1, first.max)
-
-## MM: These do not even work with NA's ..
-##first.max <- function(x) min((1:length(x))[x == max(x)])
-##first.min <- function(x) max((1:length(x))[x == min(x)])
-first.max <- function(x) stop("Use `which.max()' instead!")
-first.min <- function(x) stop("Use `which.min()' instead!")
-
 last <- function(x, length.out = 1, na.rm = FALSE)
 {
-  ## Purpose: last element(s) of a vector
-  ## Author: Werner Stahel, Date:  Tue Jan 21 17:29:42 1992
-  ## ----------------------------------------------------------------
-  ## Arguments:
-  ##   x:          vector
-  ##   length.out: if positive, return the  length.out last elements of x,
-  ##               if negative, the last  length.out  elements are dropped
-  ## ----------------------------------------------------------------
-  if (na.rm) 
-    x <- x[!is.na(x)]
-  n <- length(x)
-  x[sign(length.out)*(n-abs(length.out)+1):n]
+    ## Purpose: last element(s) of a vector
+    ## Author: Werner Stahel, Date:  Tue Jan 21 17:29:42 1992
+    ## ----------------------------------------------------------------
+    ## Arguments:
+    ##   x:          vector
+    ##   length.out: if positive, return the  length.out last elements of x,
+    ##               if negative, the last  length.out  elements are dropped
+    ## ----------------------------------------------------------------
+    if (na.rm)
+        x <- x[!is.na(x)]
+    n <- length(x)
+    x[sign(length.out)*(n-abs(length.out)+1):n]
 }
 
 empty.dimnames <- function(a)
 {
-  ## Purpose: 'Remove' all dimension names from an array for compact printing.
-  ## Author: Bill Venables, Uni.Adelaide, OZ / Martin Maechler, Date: Sept 93
-  ## ----------------------------------------------------------------
-  ## Arguments: a: array, especially a matrix
-  ## ----------------------------------------------------------------
-  ## SEE ALSO:  unname
-  ##
-  ## Example:   empty.dimnames(diag(15)) ## looks much nicer
+  ## 'Remove' all dimension names from an array for compact printing.
   d <- list(); l <- 0
   for(i in dim(a)) d[[l <- l + 1]] <- rep("", i)
   dimnames(a) <- d
@@ -183,7 +118,7 @@ errbar <- function(x, y, yplus, yminus, cap = 0.015,
   ## 	  Martin Maechler, Date:  11 Apr 91  and  Mar 27 1992, 12:32
   ## ----------------------------------------------------------------
   ## Arguments: --- see  help(..) page --->  ?errbar
-  ## ----------------------------------------======= 
+  ## ----------------------------------------=======
 
   plot( x, y, ylim = range(y,yplus,yminus), xlab = xlab, ylab = ylab, ... )
   xcoord <- par()$usr[1:2]
@@ -195,11 +130,11 @@ errbar <- function(x, y, yplus, yminus, cap = 0.015,
 ## C.Monatsname , etc..  sind jetzt bei der zugehoerigen Funktion
 ##		u.Datumvonheute  in  /u/sfs/S/u.goodies.S
 
-boxplot.matrix <- function(mat, cols = TRUE, ...)
+boxplot.matrix <- function(x, cols = TRUE, ...)
 {
   ## Purpose: Boxplot for each column [cols = T]  or row [cols = F]  of a matrix
   ## -------------------------------------------------------------------------
-  ## Arguments: mat: a numeric matrix;	  cols: logical, columns (T) or rows (F)
+  ## Arguments: x: a numeric matrix;	  cols: logical, columns (T) or rows (F)
   ##		...: further arguments to 'boxplot(r, ...)':
   ##			range=NULL, width=NULL, varwidth=FALSE,
   ##			notch=FALSE, names=NULL, plot=TRUE, old=FALSE
@@ -209,14 +144,14 @@ boxplot.matrix <- function(mat, cols = TRUE, ...)
   ## Author: Martin Maechler@stat.math.ethz.ch , 1995
 
   ## NOTE: For the case 'cols=TRUE', you can use
-  ##	 boxplot(as.list(as.data.frame(mat)), ...)    [Renaud, S-news, 9/96]
-  groups <- if(cols)  split(mat, rep.int(1:ncol(mat),
-					 rep.int(nrow(mat), ncol(mat))))
-  else  split(mat, seq(nrow(mat)))
+  ##	 boxplot(as.list(as.data.frame(x)), ...)    [Renaud, S-news, 9/96]
+  groups <- if(cols)  split(x, rep.int(1:ncol(x),
+					 rep.int(nrow(x), ncol(x))))
+  else  split(x, seq(nrow(x)))
   ##-- Make use of col/row names if present
-  ##if (!is.null(nam <- dimnames(mat)[[1+cols]])) names(groups) <- nam
-  if (0 < length(nam <- dimnames(mat)[[1+cols]])) names(groups) <- nam
-  invisible(boxplot(groups,...))
+  ##if (!is.null(nam <- dimnames(x)[[1+cols]])) names(groups) <- nam
+  if (0 < length(nam <- dimnames(x)[[1+cols]])) names(groups) <- nam
+  invisible(boxplot(groups, ...))
 }
 
 cum.Vert.funkt <- function(x, Quartile = TRUE, titel = TRUE, Datum = TRUE,
@@ -235,7 +170,8 @@ cum.Vert.funkt <- function(x, Quartile = TRUE, titel = TRUE, Datum = TRUE,
 }
 
 
-plot.step <- function(ti, y,
+## This was "plot.step()" but that's in conflict with S3 methods
+plotStep <- function(ti, y,
 		      cad.lag = TRUE,
 		      verticals = !cad.lag,
 		      left.points = cad.lag,
@@ -333,30 +269,10 @@ bl.string <- function(no) paste(rep(" ", no), collapse = "")
 ##-#### Classes / Attributes, etc.   ########
 ##-### ----------------------------- ########
 
-##if(version$major < 5) oldClass <- class
-
-doc <- function(object) attr(object, "doc")
-
-"doc<-" <- function(x, value)
-{
-  ##-- Create doc attribute or  PREpend  new doc to existing one.
-  attr(x, "doc") <- c(value, attr(x, "doc"))
-  x
-}
-
-tit <- function(object) attr(object, "tit")
-
-"tit<-" <- function(x, value)
-{
-  attr(x, "tit") <- value
-  x
-}
 
 
 ##-#### "Calculus" Mathematical stuff ########
 ##-###  ----------------------------- ########
-
-bincoef <- choose#.Alias
 
 polyn.eval <- function(coef, x)
 {
@@ -422,38 +338,6 @@ digits.v <- function(nvec, base = 2, num.bits = 1 + floor(log(max(nvec),base)))
 
 ##-#### "Miscellaneous" (not any other category) ########
 ##-###   ============= ------------------------- ########
-
-
-if(!exists('rep.int', mode = 'function')) ## R
-  rep.int <- rep #.Alias(rep)
-
-if(!is.R()) {
-  new.seed <- function()
-    {
-      ## Purpose: Randomize the seed for Random numbers.
-      ## ------- this mainly for teaching / demo:
-      ##         To make sure that each user will use DIFFERENT random numbers,
-      ##	add a 'new.seed()'  to each  .First  (or have them type 'new.seed()' !)
-      ## -------------------------------------------------------------------------
-      ## Author: Martin Maechler, Date:  4 Oct 95, 10:33
-      ## -------------------------------------------------------------------------
-      rU1 <- as.numeric(unix("date +%S%M.%H%j"))/5959 # in [0,1]
-      rU2 <- (as.numeric(unix("echo $$")) %% 17)/16
-      if(!exists("ichar", mode = "function"))
-        ichar <- function(x) { ##-- from   library(examples)
-          x <- as.vector(x, mode = "character")
-          .C("ichar", as.character(x), length(x),
-             codes = integer(sum(nchar(x))))$codes 
-        }
-      rU3 <- mean(ichar(getenv("USER")))/255 # such that each user is different
-      rU <- rU1 * rU2 * rU3
-      ##-- last digits :
-      rU <- mean(c(rU1, rU2, rU3, 1024 * (rU - floor(1024 * rU)/1024)))
-      ## this 'rU' has an approximate mean(4 uniform)  distribution on [0,1]
-      invisible(set.seed(as.integer(1000 * rU)))
-    }
-}
-
 
 table.mat <- function(mat, order.rows = TRUE)
 {
@@ -569,8 +453,8 @@ hist.bxp <- function(x, nclass, breaks, probability = FALSE, include.lowest = TR
 
 
 
-####========== This is from /u/maechler/S/Good.S ============= 
-####========== --------------------------------- ============= 
+####========== This is from /u/maechler/S/Good.S =============
+####========== --------------------------------- =============
 
 ##-#### Plot / Devices  related stuff ########
 ##-### ----------------------------- ########
@@ -619,48 +503,6 @@ pl.ds <- function(x, yd, ys, xlab = "", ylab = "", ylim = rrange(yd, ys),
 
 p.panelL <- function(x,y)      { text(x,y);lines(lowess(x,y, f = .4),col = 2) }
 p.panelS <- function(x,y,df = 4) { text(x,y);lines(smooth.spline(x,y,df = df),col = 2) }
-
-pairs.title <- function(main, adj = NULL, cex = 1, lineP = 0, ...)
-{
-  warning(paste("pairs.title() doesn't make sense in R, \n\t",
-                "since pairs(.) accepts ``main = *''"))
-
-  ## Purpose:  Add a "title" to a pairs plot
-  ## -------------------------------------------------------------------------
-  ## Arguments: main:  title string to add
-  ##            adj:  adjustment of string ~ [0,1] = [left, right]
-  ##            cex:  character expansion to use.
-  ##            lineP: 'line PLUS': extra line numbers (to shift UPwards)
-  ##            ...  : FURTHER arguments to  "mtext(..)", e.g., 'col'
-  ##-- Experiments: What is good when:
-  ##  Dim.|    Device       |
-  ##  p   | motif | PostSc. |
-  ## -------------------------------------------------------------------------
-  ##  4   |   -19 |     0   |
-  ##      |       |         |
-  ##      |       |         |
-  ## -------------------------------------------------------------------------
-  ## Author: Martin Maechler, Date: 12 Aug 96, 15:57
-  if(!exists('stringwidth', mode = 'function'))
-    attach("/u/sfs/S/Statlib/postscriptfonts/.Data")
-  nc <- stringwidth(main, inches = FALSE)
-  ##-- the coord.system is in the middle ...
-  lin <- switch(.Device,
-                motif = 20,
-                postscript = 1,
-                0) + as.numeric(lineP)
-  ##-- adj should actually depend on 'nc' : smaller for larger nc !
-  ##-- ~~~ and very much on #{ncol} of pairs(.) but this is UNKNOWN here (!?)
-  if(is.null(adj))
-    adj <- switch(.Device,
-                  motif = .036,
-                  postscript = - .15,
-                  0)
-  mtext(main, line = lin, cex = cex, adj = adj, ...) #-- upper left
-  mtext(paste(rep("_", ceiling(1.05* nc / stringwidth("_", inches = FALSE))),
-              collapse = ''), line = lin - .2*cex, cex = cex, adj = adj, ...)
-  c(nc = nc, lin = lin, adj = adj)
-}
 
 test.par <- function()
 {
@@ -844,119 +686,6 @@ tapply.num <- function(y, indices, Func)
 ##-#### "Calculus" Mathematical stuff ########
 ##-### ----------------------------- ########
 
-trace1.ms <- function(info, theta, grad, scale, flags, fit.pars)
-{
-
-  ## Purpose:  1-line -- trace function for 'ms' -- instead of trace.ms
-  ## -------------------------------------------------------------------------
-  ## Arguments: ... the same as 'trace.ms';
-  ## ~~~~~~~~~  info is c(niter, nfun, fvalue, tracelevel, deltaf, pred.deltaf,
-  ##	                  rel.deltatheta, step.scale, d*step.scale)
-  ## -------------------------------------------------------------------------
-  ## >>> calls 'formatC' which needs dyn.load
-  ##
-  ## ---> see also  MM.trace.ms(..)  which is somewhat different
-  ##
-  ## Author: Martin Maechler, 1994.
-  ## -------------------------------------------------------------------------
-  ## Example: ms( ~ ......, trace = trace1.ms) #--> ?ms for ex.
-
-  cat("It.",formatC(info[1],w = 2), ",",
-      formatC(info[2],w = 4), " f.ev, F=",
-      formatC(info[3], w = 11, dig = 8),
-      " Par.:", paste(formatC(theta,dig = 6,w = 9),collapse = " "),"\n", sep = "")
-  ##-S: cat("Iteration: ", info[1], ", ", info[2], " function calls, F= ",
-  ##-S: 	format(info[3]), "\nParameters:\n")
-  invisible(theta)
-}
-
-
-trace.ms.MM <- function(info, theta, grad, scale, flags, fit.pars)
-{
-  ## Purpose:  Much improved  trace.ms
-  ## -------   Modified from STANDARD S -- Only ONE  line of output per iter.
-  ##
-  ## -------------------------------------------------------------------------
-  ## Arguments: ... the same as 'trace.ms';
-  ## ~~~~~~~~~ info[] = c(niter, nfun, fvalue, tracelevel, deltaf, pred.deltaf,
-  ##	                  rel.deltatheta, step.scale, d*step.scale)
-  ## -------------------------------------------------------------------------
-  ## >>> calls 'formatC' which needs dyn.load
-  ##
-  ## ---> see also  trace1.ms(..)  which has no header and is somewhat different
-  ##
-  ## Author: Martin Maechler, May 1993
-  ## -------------------------------------------------------------------------
-  ## Example: ms( ~ ......, trace = trace.ms.MM) #--> ?ms for ex.
-
-  w.th <- 6 #- print width of a theta[] component
-  if(info[1] == 0) {
-    p <- length(theta)
-    twt <- (w.th + 1) *p # Total width of theta[], including space (' ')
-    cat(" It Fns relDpar  delta.F F(theta) theta",
-        if(p > 1) paste("[1..",p,"] ", paste(rep("-",twt-7), collapse = ""),sep = ""),
-        "\n",
-	" -- --- -------  ------- -------- ~~~~~~~~",
-        if(p > 1) paste(rep("~", twt), collapse = ""),
-        "\n",sep = "")
-  }
-  cat(formatC(as.integer(info[1:2]),w = 3),
-      formatC(info[c(5,7)],w = 8, dig = 3-1,format = 'e'),
-      formatC(info[3], dig = 5, flag = "#"),"",
-      paste(formatC(theta,dig = 4, flag = "#"),collapse = " "),"\n")
-  invisible(theta)
-}
-
-trace.nls.MM <- function(inner.outer, iteration, step.factor,
-                         conv.criterion, objective, parameters, increment)
-{
-  ## Purpose: Improved  trace.nls
-  ## -------  Modified from STANDARD S-plus
-  ##
-  ## -------------------------------------------------------------------------
-  ## Arguments: ... the same as 'trace.nls';
-  ## ~~~~~~~~~ info[] = c(niter, nfun, fvalue, tracelevel, deltaf, pred.deltaf,
-  ##	                  rel.deltatheta, step.scale, d*step.scale)
-  ## -------------------------------------------------------------------------
-  ## >>> calls 'formatC' which needs dyn.load
-  ##
-  ## Author: Martin Maechler, May 1993
-  ## -------------------------------------------------------------------------
-  ## Example: nls( ~ ......, trace = trace.nls.MM) #--> ?nls for ex.
-
-  if(inner.outer) {
-    w.p <- 6 ##- print width of a param[] component
-    if(iteration == 1) {
-      p <- length(parameters)
-      twt <- (w.p + 1) *p ## Total width of parameters[], including space (' ')
-      ##i cat(" It conv.crit step.fac increment | F(par.) param",
-      cat(" It conv.cr. step.fac | F(param)  param",
-          if(p > 1) paste("[1..",p,"] ", paste(rep("-",twt-5), collapse = ""),
-                        sep = ""),
-          "\n",
-          " -- -------- -------- | --------  ~~~~~~~~",
-          if(p > 1) paste(rep("~", twt), collapse = ""),
-          "\n",sep = "")
-    }
-    cat(formatC(iteration,      w = 3, format = 'd'),
-        formatC(conv.criterion, w = 8, dig = 3-1,format = 'e'),
-        formatC(step.factor,    w = 8, dig = 3-1,format = 'e'),
-        ## increment is also [1:p] !!
-        ##i -- don't really know what it is (delta.par / step.fac ? )
-        ##i formatC(increment,      w=8, dig=3-1,format='e'),
-        " ", formatC(objective, dig = 5, w = 8,flag = "- #"),"",
-        paste(formatC(parameters,dig = 4, w = w.p, flag = "#"),collapse = " "),"\n")
-
-    ##-- trace.nls  magic
-    assign("last.iteration", iteration, frame = 1)
-    assign("it.row", c(objective, conv.criterion, parameters), frame = 1)
-    ## [from nls.trace(): this only works if nls() is hacked :
-    ##>>> eval(trace.expr, local = F)
-  }
-  return(list())
-}
-
-
 u.log <- function(x, c = 1)
 {
   ## Purpose:  log(.) only for high x- values ... identity for low ones
@@ -1010,8 +739,6 @@ xy.unique.x <- function(x,y,w, fun.mean = mean)
 ##-#### Non-calculus ("Discrete") Mathematical stuff ########
 ##-### -------------------------------------------- ########
 
-is.sorted <- function(x) (length(x) <= 1) || all(diff(x) >= 0)
-
 inv.seq <- function(i) {
   ## Purpose: 'Inverse seq': Return a short expression for the 'index'  `i'
   ## --------------------------------------------------------------------
@@ -1029,7 +756,7 @@ inv.seq <- function(i) {
   subseq <- cbind(i[!c(FALSE,di1)], i[!c(di1,FALSE)]) #-- beginnings and endings
   mk.seq <- function(ij)
     if(ij[1] == ij[2]) as.character(ij[1]) else paste(c(ij),collapse = ":")
-  parse(text = 
+  parse(text =
 	paste("c(", paste(apply(subseq, 1, mk.seq), collapse = ","), ")", sep = ""))
 }
 
@@ -1053,7 +780,7 @@ n.code <- function(n, ndig = 1, dec.codes = c("","d","c","k"))
 {
   ##-- convert "round integers" to short char.strings
   ##-- useful to build-up  variable names in simulations
-  ##-- e.g., n.code( c(10,20,90, 100,500, 2000,10000))#-> "1d" "2d" "9d" "1c" ..
+  ##-- e.g.,
   nd <- length(dec.codes)
   e10 <- pmin(floor(log10(n) + 1e-12), nd - 1)
   if (any(e10 < 0)) {
@@ -1115,11 +842,6 @@ unif <- function(n, round.dig = 1 + trunc(log10(n)))
   }
 }
 
-
-
-##-#### Session managing / Debugging, etc. ########
-##-### ---------------------------------- ########
-
 prt.DEBUG <- function(..., LEVEL = 1)
   if (exists("DEBUG", w = 1) && DEBUG >= LEVEL )#
   ##                  ~~~
@@ -1131,51 +853,3 @@ prt.DEBUG <- function(..., LEVEL = 1)
 ##-         cat(paste("in `", sys.call(sys.nframe()-1)[1], "':", sep=""),
 ##- 	    ..., "\n")
 #-- do NOT use  sep="" in cat(..)  --> fouls up  vectors of numbers
-
-getenv.or.default <- function(var = "", default = "")
-{
-  ## Purpose: An easy user interface for 'getenv()'
-  ## Author: Martin Maechler, Date:  May 15 1992, 11:53
-  ## ----------------------------------------------------------------
-  ## Arguments: var: Name of ENVIRONMENT variable.
-  ##	default: Value to be substituted   IF ENV. var is empty/non-existent
-  ## ----------------------------------------------------------------
-  v <- getenv(var)
-  if(v == "" || v == " ") default else v
-}
-
-mtime <- function(expr)
-{
-  ## Purpose: customized version of unix.time(..) -- to be called more than once
-  ## Author: Martin Maechler, Date:  Jan 30 1992, 11:49
-  ## ----------------------------------------------------------------
-  ## Arguments: expr: expression to be timed
-  ## ----------------------------------------------------------------
-  if (!exists(".mtime")) .mtime <<- NULL
-  tim <- unix.time(expr)[1]
-  .mtime <<- c(.mtime, tim)
-  return(tim)
-}
-
-##- sort.time _ NULL;  nn <- 25*2^(0:6)
-##- for (n in nn) {
-##-    .mtime <- NULL
-##-    for (i in 1:10)
-##- 	mtime(for (i in 1:10) sort.list(runif(n)))
-##-    cat("n:",n," sort times :", .mtime, "\n")
-##-    sort.time <- cbind(sort.time,  .mtime)
-##- }
-##- dimnames(sort.time)[2] <- list( paste("n=", nn, sep=""))
-
-sys.start.time <- function()
-{
-  ## Purpose: Returns the Date+Time when THIS S[plus] session was started
-  ##          in the form  'Wed Jun 23 11:50:25 1993' ~= but != date()
-  ## -------------------------------------------------------------------------
-  ## Author: Martin Maechler, Date: 23 Jun 93
-  ## -------------------------------------------------------------------------
-  sys("grep '^#~New session' ",audit.file(), " | tail -1  | sed 's/.*Time: //'")
-}
-
-if(!is.R())
-  .updated <- date() #--- used when 'sourced' by 'make' (--> Makefile)
