@@ -3,15 +3,20 @@
 ###---- EXAMPLES
 
 ###--- load the current function definitions:
-source("/u/maechler/R/SOURCE-ME")
+##source("/u/maechler/R/SOURCE-ME")
 ##included above:
-## source("/u/maechler/S/MISC/prime-numbers-fn.S")
+source("/u/maechler/S/MISC/prime-numbers-fn.S")
 
 if(is.R()) unix.time <- system.time
 
 factorize(n <- c(7,27,37,5*c(1:5, 8, 10)))
 factorize(47)
 factorize(7207619)## quick !
+factorize(131301607)# prime -> still quick!
+
+## Factorizing larger than max.int -- not prime;
+## should be much quicker with other algo (2nd largest prime == 71) !!
+factorize(76299312910)
 
 unix.time(fac.1ex <- factorize(1000 + 1:99)) #-- 0.95 sec (sophie Sparc 5)
 #-- 0.4 / .65 sec (florence Ultra 1/170)
@@ -25,13 +30,11 @@ unix.time(fac.2ex <- factorize(10000 + 1:999))
 unix.time(factorize.10000 <- factorize(1:10000))
 ## sophie: Sparc 5 (..) :lots of swapping after while, >= 20 minutes CPU;
 ##			then using less and less CPU, ..more swapping ==> KILL
-## florence (hypersparc): [1] 1038.90   5.09 1349.  0   0  ( 17 min. CPU)
-## lynne (Ultra-1):       [1]  658.77   0.90  677.  0   0
+## florence (hypersparc): [1] 1038.90   5.09 1349.   ( 17 min. CPU)
+## lynne (Ultra-1):       [1]  658.77   0.90  677.
+## lynne (Pentium 4):     [1]    2.43   0.16    2.68
 
-if(!is.null(vv <- version$language) && vv == "R") save()
-
-
-object.size(factorize.1e4) #-->[1] 3027743
+object.size(factorize.10000) #-->[1] 3027743 now (R 1.5.1) 3188928
 
 ###--- test
 test.factorize(fac.1ex[1:10]) #-- T T T
@@ -43,28 +46,37 @@ prime.sieve(prime.sieve())
 unix.time(P1e4 <- prime.sieve(prime.sieve(prime.sieve()), max=10000))
 ##-> 1.45 (on sophie: fast Sparc 5 ..)
 ##-> ~0.8 (on jessica: Ultra-2)
+##->  0.08 (on lynne, Pentium 4 (1600 MHz))
 ##----> see below for a sample of 20 !
 length(P1e4) #--> 1229
 
+
 CPU.p1e4 <- numeric(20)
-for(i in 1:20) { CPU.p1e4[i] <-
+for(i in 1:20)  CPU.p1e4[i] <-
   unix.time(P1e4 <- prime.sieve(prime.sieve(prime.sieve()), max=10000))[1]
 CPU.p1e4
 summary(CPU.p1e4)
 ##-Ultra-2    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
 ##-Ultra-2   0.690   0.690   0.790   0.755   0.800   0.810
+##-Pentium   0.070   0.070   0.080   0.078   0.080   0.100
 
 unix.time(P1e4.2 <- prime.sieve( max=10000))
 ##-> 1.46 (sophie)   maybe a little longer
+stopifnot(identical(P1e4 , P1e4.2))
 
 unix.time(P1e5 <- prime.sieve(P1e4, max=1e5))
 ##-> 105.7  (on sophie: fast Sparc 5)
 ##->  58.83 (on jessica: Ultra2)
-length(P1e5)# == 9592
+##->   5.67 (on lynne: Pentium 4)
 
+stopifnot(length(P1e5) == 9592)
 
 P1000 <- prime.sieve(max=1000)
-###------ start plot device if necessary !!
+
+if(is.R())
+   save(list=c("P1000", "P1e4", "P1e5", "factorize.10000", "CPU.p1e4"),
+        file = "primefact.rda")
+
 
 plot(P1000,  seq(P1000), type='b', main="Prime number theorem")
 lines(P1000, P1000/log(P1000), col=2, lty=2, lwd=1.5)
