@@ -48,20 +48,23 @@ Martin Maechler, Seminar fuer Statistik, ETH Zurich, Switzerland;
 \seealso{\code{\link{plot.lm}}
 }
 \examples{
-data(stack.loss)
+data(stackloss)
 TA.plot(lm(stack.loss ~ stack.x))
-TA.plot(lm(Fuel ~ . , fuel.frame))
-TA.plot(lm(Fuel ~ . , fuel.frame), label='o') #-- plot symbol instead of label
-TA.plot(lm(cost ~ age+ type+ car.age, claims, weights=number, na.action=na.omit))
-##---------- for  aov(.) : ----------------------------------
-data(gun)
-TA.plot( aov(Rounds ~ Method + Physique/Team, data = gun))
-###---------- Not so clear what it means for GLM, but: ------
-data(solder)
-TA.plot(glm(skips ~ ., data = solder, family = poisson), cex= .6)
-data(kyphosis)
-TA.plot(glm(Kyphosis ~ poly(Age,2) + Start, data=kyphosis, family = binomial),
-	cex=.75) # smaller title and plotting characters
+
+if(FALSE) {
+ TA.plot(lm(Fuel ~ . , fuel.frame))
+ TA.plot(lm(Fuel ~ . , fuel.frame), label='o') #-- plot symbol instead of label
+ TA.plot(lm(cost ~ age+ type+ car.age, claims, weights=number, na.action=na.omit))
+ ##---------- for  aov(.) : ----------------------------------
+ data(gun)
+ TA.plot( aov(Rounds ~ Method + Physique/Team, data = gun))
+ ###---------- Not so clear what it means for GLM, but: ------
+ data(solder)
+ TA.plot(glm(skips ~ ., data = solder, family = poisson), cex= .6)
+ data(kyphosis)
+ TA.plot(glm(Kyphosis ~ poly(Age,2) + Start, data=kyphosis, family = binomial),
+	 cex=.75) # smaller title and plotting characters
+}
 }
 \keyword{diagnostics}
 \keyword{lm}
