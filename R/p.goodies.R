@@ -13,7 +13,6 @@
 ###     INHALT von p.goodies.S  (bitte jeweils ergaenzen):
 ###     **********************
 
-### p.sunflowers        'sunflower'-Plot    --> Standard R's sunflowerplot()
 ### p.clear             Bildschirm "putzen"
 ### p.datum             Deutsches Datum "unten rechts"
 ### p.dchisq            \
@@ -26,16 +25,10 @@
 ### p.triangle          Dreiecks-Plot fuer 3-er Gehalte / Anteile
 ### p.two.forget
 ### p.two.res
-### p.res.2x            Werner Stahels Plot; z.B Residuen gegen 2 x-Var.
-### p.res.2fact         Aehnliche Idee: Residuen gegen 2 Faktoren (boxplots)
-### p.00                "reset device" -- Versuch (!)
 ### p.tst.dev           Show Lines, Points and Colors for the current device
-### p.m                 matrixplot: EINE Matrix = [x y1 y2 ...]
-### p.xy                Scatterplot "easy"
-### p.t                 Scatterplot "easy" -- case number instead of symbol
 ### p.profileTraces     Profil-Spuren fuer Nichtlineare Regression
-### p.corr              ASCII-Plot einer Korrelations-Matrix  u.a. mehr
-### p.tachoPlot         Scatterplot fuer 3 Variablen
+### p.hboxp		Horizontale Boxplots
+### p.arrows		Nicer arrows(): FILLED arrow heads
 ###
 ### ==========================================================================
 
@@ -83,8 +76,10 @@ p.dnorm <- function(mittel = 0, std = 1, ms.lines = TRUE, ...)
 p.pairs <- function(data, data2, pch='.', col=1, colors, vnames, range=TRUE,
                     labcex=1.5, ...)
 {
-  ## Purpose: pairs  with different plotting characters, marks and/or colors
-  ##          ~~~~~ NB: also consider  pairs(..., panel = function(..) {....})
+  ## Purpose: pairs() for two DIFFERENT set of variables against each other.
+  ##          ~~~~~
+  ## also with different plotting characters, marks and/or colors
+  ## NB: also consider  pairs(..., panel = function(..) {....})
   ## -------------------------------------------------------------------------
   ## Arguments:  data   data for rows    (y axis)
   ##             data2  data for columns (x axis); DEFAULT: data2 := data
@@ -360,138 +355,6 @@ p.two.res <- function(anova, col = FALSE)
   mtext(paste(tx[2], ": ", paste(ij[[2]], collapse = ", ")), 1, 3.5)
 }
 
-p.wstPlot <- function(...)
-  {
-    warning("\n\n*** p.wstPlot(.) heisst neu p.res.2x(.)\n*** Diese verwenden!\n")
-    p.res.2x(...)
-  }
-p.res.2x <- function(x, y, z, restricted, size = 1, xlab = NULL, ylab= NULL, ...)
-{
-  ## Purpose:  Stahels Residuen-Plot
-  ## Author:   ARu , Date:  11/Jun/91
-  ## Aenderungen: MMae, 30/Jan/92, Dez.94
-  ## --------------------------------------------------------------------------
-  ## Arguments: x,y     coordinates of points given by two vector arguments.
-  ##            z       gives orientation (by sign)
-  ##                    and size (by absolute value) of symbol.
-  ##            restricted      absolute value which truncates the size.
-  ##                    The corresponding symbols are marked by stars.
-  ##            size    the symbols are scaled so that 'size' is the size of
-  ##                    the largest symbol in cm.
-  ##            ...     additional arguments for the S-function 'plot'
-  ## EXAMPLE :
-  ##- xx <- rep(1:10,7)
-  ##- yy <- rep(1:7, rep(10,7))
-  ##- zz <- rnorm(70)
-  ##- p.res.2x(xx,yy,zz, restr = 2, main = "i.i.d.  N(0,1) random residuals")
-  ##- rm(xx,yy,zz)
-  ## --------------------------------------------------------------------------
-  if(is.null(xlab)) xlab <- deparse(substitute(x))
-  if(is.null(ylab)) ylab <- deparse(substitute(y))
-  
-  ok <- !(is.na(x) | is.na(y) | is.na(z))
-  x <- x[ok]; y <- y[ok]; z <- z[ok]
-  ##
-  ##--- restrict z values: ---
-  az <- abs(z)
-  has.restr <-
-    if(missing(restricted)) FALSE else any(restr <- az > restricted)
-  if(has.restr) {
-    z[z >   restricted] <- restricted
-    z[z < - restricted] <- - restricted
-  }
-  ##--- fix plot region: ---
-  pcm <- par("pin") * 2.54              #damit in cm
-  rx <- range(x)
-  ry <- range(y)
-  ##--- damit im Plot das Symbol wirklich die Groesse size hat:
-  size <- size/(2 * sqrt(2))
-  fx <- (size * diff(rx))/(pcm[1] - 2 * size)/2
-  fy <- (size * diff(ry))/(pcm[2] - 2 * size)/2
-  ##--
-  plot(x, y, xlim = rx + c(-1,1)* fx, ylim = ry + c(-1,1)* fy, pch = ".",
-       xlab=xlab, ylab=ylab, ...)
-  ##--
-  ##--- draw symbols: ---
-  z <- z/max(az, na.rm = TRUE)
-  usr <- par("usr")
-  sxz <-     diff(usr[1:2])/pcm[1] * size * z
-  syz <- abs(diff(usr[3:4])/pcm[2] * size * z)
-  segments(x - sxz, y - syz,  x + sxz, y + syz)
-  ##
-  ##--- mark restricted observations: ---
-  if(has.restr) {
-    points((x - sxz)[restr], (y - syz)[restr], pch= 8, mkh = 1/40)
-    points((x + sxz)[restr], (y + syz)[restr], pch= 8, mkh = 1/40)
-  }
-  invisible()
-}
-
-p.res.2fact <- function(x, y, z,
-                        restricted, notch = FALSE,
-                        xlab = NULL, ylab= NULL, main=NULL)
-{
-  ## Purpose: Residual plot vs. TWO (2) factors [using boxplots]
-  ## Authors:  Lorenz Gygax <logyg@wild.unizh.ch> and Martin Maechler, Jan.95
-  ##        starting from p.res.2x  by  ARu & MMae (1992) (Idea of MMae).
-  ## ----------------------------------------------------------------------
-  ## USES function 'u.boxplot.x' iff values are restricted !
-  ## Arguments: x,y     two vector arguments giving the levels of factors
-  ##            z       gives values to be included in boxplots
-  ##            restricted      absolute value which truncates the size.
-  ##                     The corresponding places are marked by stars.
-  ##            notch: T/F   should the boxplots be notched
-  ##    xlab, ylab: x- and y- labels for plot. default : from args. x and y
-  ## ----------------------------------------------------------------------
-  ## EXAMPLE :
-  ##   I_8; J_3; K_20
-  ##   xx_ factor(rep(rep(1:I, rep(K,I)),J)); yy_ factor(rep(1:J, rep(I*K,J)))
-  ##   zz_ rt(I*J*K, df=5) #-- Student t with 5 d.f.
-  ##   p.res.2fact(xx,yy,zz, restr= 4, main= "i.i.d. t_5 random  |.| <= 4")
-  ##   mtext("p.res.2fact(xx,yy,zz, restr= 4, ..)", line=2,adj=1,outer=T,cex=1)
-  ##   rm(xx,yy,zz,I,J,K)
-  ## ----------------------------------------------------------------------
-  ok <- !(is.na(x) | is.na(y) | is.na(z))
-  x <- x[ok]; y <- y[ok]; z <- z[ok]
-  if(!is.factor(x)) { warning("coercing 'x' to factor.."); x <- as.factor(x)}
-  if(!is.factor(y)) { warning("coercing 'y' to factor.."); y <- as.factor(y)}
-  lx <- levels(x);  ly <- levels(y)
-  if(is.null(xlab)) xlab <- deparse (substitute (x))
-  if(is.null(ylab)) ylab <- deparse (substitute (y))
-  ##
-  ##--- restrict z values: ---
-  if(missing(restricted))  restr <- FALSE
-    else {
-      if(!is.numeric(restricted) || restricted <= 0)
-        stop("'restricted' must be POSITIVE !")
-      if(any(restr <- abs(z) > restricted)) {
-      zorig _ z
-      z[z >  restricted] <-   restricted
-      z[z < -restricted] <- - restricted
-    }
-    }
-  rz <- range(z)
-  par (mfrow= c(length(ly), 1), oma= c(5,6,6,0), mar= .1 + c(2,4,0,1))
-  for (yv in rev(ly)) {
-    Ind <- y == yv
-    plot (x[Ind], z[Ind], ylim = rz, xlab="", ylab = yv, notch = notch)
-    abline(h=0, lty=3, lwd=0)
-    if(any(II <- restr & Ind)) {
-      ## boxplot creates a coord.system with x = [-4, 104]
-      jx <- as.numeric(x[II]) #-- in 1:length(lx)..
-      cat("..Cut z=",format(zorig[II])," at ",
-          xlab,"=",x[II],",  ", ylab, "=",yv,"\n")
-      points( u.boxplot.x(length(lx),jx) , z[II]*1.02, pch= 8, mkh = 1/25)
-    }
- }
-  mtext (xlab, side= 1, line= 1, outer= TRUE, cex=1.3)
-  mtext (ylab, side= 2, line= 3, outer= TRUE, cex=1.3)
-  if(!is.null(main))
-    mtext(main, side = 3, line = 2, cex = 1.5, outer = TRUE)
-  if(any(restr)) cat(sum(restr), "restricted observation(s)\n")
-  invisible()
-}
-
 
 p.tst.dev <- function(ltypes = 10, lwidths = 12, colors = 16, ptypes = 20)
 {
@@ -525,60 +388,6 @@ p.tst.dev <- function(ltypes = 10, lwidths = 12, colors = 16, ptypes = 20)
     text(2 * 34 + 28, y, paste("lwd=", (i - 1)/2))
   }
 }
-
-
-
-"p.00" <- function()
-{
-  ## Purpose: RESET current Device [after usage of par(..) ...]
-  ## -------------------------------------------------------------------------
-  ## Author: Martin Maechler, Date: 23 Jun 93
-  ## -------------------------------------------------------------------------
-  par(mfrow=c(1,1))
-  Device.Default(.Device)
-  frame()
-  ##-- this is NOT AT ALL sufficient !! --- still not really reset ---
-  ## Try:
-  ## motif();par.motif <- par(); mult.fig(5,main="Several"); tsplot(hstart)
-  ## length(all.equal(par(), par.motif))
-  ## p.00()
-  ## all.equal(par(), par.motif) #-- still MANY not ok ...
-
-### FIX THIS by 'fixing' Device.Default : It should SAVE the par(.) at
-### beginning in frame 0; next time it is called, it first looks in frame
-### 0 if it can use those  par.NAME and if yes  do  par(par.Name)
-
-###--> Werner's solution: works for motif and postscript, using GLOBAL
-###--> variables  DevDef.... -----> function  'u.dev.default'
-}
-
-p.m <- function(mat, ...) matplot(mat[, 1], as.matrix(mat[, -1]), ...)
-
-p.xy <- function(x , y, ...)
-{
-  ## Purpose: Easy plot, also do sorting -- may use in 'pairs' as panel=p.xy
-  ## Author: Martin Maechler, Date: Jan 1992; Sept 93
-  ## ----------------------------------------------------------------
-  ## Arguments: As with plot; e.g.  p.xy(sin(pi/10*1:100), main = "Sine")
-  ## ----------------------------------------------------------------
-  if(missing(y))
-    invisible(plot(x, ..., type = "b", xlab="", ylab=""))
-  else { i <- sort.list(x)
-         invisible(plot(x[i], y[i], ..., type = "b", xlab="", ylab=""))
-       }
-}
-
-p.t <- function(x,y,...) {
-  ## Purpose: Easy plot, WITH numeric labels
-  ## Author: Martin Maechler, Date: Sept 93
-  ## ----------------------------------------------------------------
-  ## Arguments: As with plot; e.g.  p.t(sin(pi/10*1:99), main = "Sine")
-  ## ----------------------------------------------------------------
-  if(missing(y)) { y <- x; x <- seq(along=y) }
-  plot(x, y, ..., type='b', pch=' ', xlab='', ylab='')
-  text(x,y, cex=.8*par("cex"))
-}
-
 
 p.profileTraces <- function(x, cex=1)
 {
@@ -644,9 +453,8 @@ p.profileTraces <- function(x, cex=1)
 
 ## --> /u/sfs/ueb/fortgeschrittene/loesungen/loes-rg.truthennen.R
 
+##p.corr <- function(...) stop("use 'symnum' instead of 'p.corr'")
 
-p.corr <- function(...) stop("use 'symnum' instead of 'p.corr'")
-                                        #-defined in ./misc-goodies.S
 
 p.hboxp <- function(x, y.lo, y.hi, boxcol = 3, medcol = 0,
                     medlwd = 5, whisklty = 2, staplelty = 1)
