@@ -1,35 +1,50 @@
 #### -*- mode: R ; delete-old-versions: never -*-
 ####---- Prime numbers, factorization, etc. --- "illustatration of programming"
 
-###---- EXAMPLES
+###---- EXAMPLES --- of
+##
+source("ftp://stat.ethz.ch/U/maechler/R/prime-numbers-fn.R")
+## was /u/maechler/R/MM/MISC/prime-numbers-fn.R
 
-###--- load the current function definitions:
-##source("/u/maechler/R/SOURCE-ME")
-##included above:
-source("/u/maechler/R/MM/MISC/prime-numbers-fn.R")
-
-if(!is.R()) {
-    if(!existsFunction("system.time")) system.time <- unix.time
+if(!is.R()) { ## for S-plus
+    if(!existsFunction("system.time"))
+        system.time <- function(expr, gcFirst=FALSE) unix.time(expr)
     if(!existsFunction("gc")) gc <- function() {}
 }
+
+##
+factorizeBV(6)
+##[1] 2 3
+str( factorizeBV(4:8) )
+
 
 ### 1) The super speedy primes() function from Bill Venables
 ###    {and improved by M.Maechler}:
 
-## on a Pentium 4 2.80 GHz with 2 GB RAM :
+## on a Pentium 4 2.80 GHz with 2 GB RAM ;
 
 N <- 1e7
 
-for(i in 1:3) { gc(); print(system.time(p7 <- primes.(N))[1:3]) }
+## keep this working for  S+ ! compatible
+for(i in 1:3) print(system.time(p7 <- primes.(N), gcFirst=TRUE)[1:3])
 ##- [1] 3.86 1.93  8.75
 ##- [1] 4.02 1.60 11.34
 ##- [1] 4.14 1.60 11.51
+## about 10-20% slower on 'lynne'
 
-for(i in 1:3) { gc(); print(system.time(p7. <- primes(N))[1:3]) }
+for(i in 1:3) print(system.time(p7. <- primes(N), gcFirst=TRUE)[1:3])
 ##- [1] 2.29 0.76 6.47
 ##- [1] 2.58 0.73 6.67
 ##- [1] 2.71 0.59 6.64
-stopifnot(all(p7 == p7.))
+stopifnot(p7 == p7.)
+
+## On 'lynne' (AMD Athlon 64bit 2800+, 1G RAM), speedup somewhat similar;
+## Also here
+system.time(for(i in 1:50) p5 <- primes(1e5), gcFirst=TRUE)[1:3]
+## 1.17 0.06 1.23
+system.time(for(i in 1:50) p5. <- primes.(1e5), gcFirst=TRUE)[1:3]
+## 1.77 0.04 1.81
+stopifnot(p5 == p5.)
 
 
 ## 2)
@@ -37,7 +52,7 @@ stopifnot(all(p7 == p7.))
 factorize(n <- c(7,27,37,5*c(1:5, 8, 10)))
 factorize(47)
 factorize(7207619)## quick !
-factorize(131301607)# prime -> still quick!
+factorize(131301607)# prime -> still only 0.02 seconds (on lynne)!
 
 ## Factorizing larger than max.int -- not prime;
 ## should be much quicker with other algo (2nd largest prime == 71) !!
@@ -51,7 +66,7 @@ system.time(fac.2ex <- factorize(10000 + 1:999))
 ## R 0.50-: ~ 3.5 sec (sophie  ..........)  <<< FASTER !
 ## ------
 
-## This REALLY takes time -- (for loop over 10000; 10000 times res[[i]] <-..
+## This really used to take time -- no longer w/ current factorize() in 2004 !
 system.time(factorize.10000 <- factorize(1:10000))
 ## sophie: Sparc 5 (..) :lots of swapping after while, >= 20 minutes CPU;
 ##			then using less and less CPU, ..more swapping ==> KILL
@@ -59,11 +74,12 @@ system.time(factorize.10000 <- factorize(1:10000))
 ## lynne (Ultra-1):       [1]  658.77   0.90  677.
 ## lynne (Pentium 4):     [1]    2.43   0.16    2.68
 ## helen (Pentium 4), R1.9.1:    1.02   0.01    1.04
+## lynne (64b,2800+), R2.0.1:    0.86   0.00    0.86
 
-object.size(factorize.10000) #-->[1] 3027743 now (R 1.5.1) 3188928
-
+object.size(factorize.10000) #--> 3027743 now (R 1.5.1) 3188928;
+                                        # '* 2' for 64-bit
 ###--- test
-test.factorize(fac.1ex[1:10]) #-- T T T
+test.factorize(fac.1ex[1:10]) #-- T T T ..
 which(!test.factorize(fac.1ex))
 which(!test.factorize(factorize(8000 + 1:1000)))
 
@@ -94,8 +110,10 @@ system.time(P1e5 <- prime.sieve(P1e4, max=1e5))
 ##->  58.83 (on jessica: Ultra2)
 ##->   5.67 (on lynne: Pentium 4)
 ##->   3.96 (on lynne: Pentium 4 -- R 1.9)
+##->   1.37 (on lynne: AMD 64    -- R 2.0.1)
 
-stopifnot(length(P1e5) == 9592)
+stopifnot(p5 == P1e5,
+          length(P1e5) == 9592)
 
 P1000 <- prime.sieve(max=1000)
 
@@ -124,3 +142,24 @@ u.dev.default()
        xlab = 'n', ylab='pi(n) / (n/log(n)', log='x')
   abline(h=1, col=3, lty=2)
   ps.end() }
+
+##  3)  the factors() from Bill Dunlap etc
+factors( round(gamma(13:14)))
+##- $"479001600":
+##-  [1]  2  2	2  2  2	 2  2  2  2  2	3  3  3	 3  3  5  5  7 11
+##-
+##- $"6227020800":
+##-  [1]  2  2	2  2  2	 2  2  2  2  2	3  3  3	 3  3  5  5  7 11 13
+
+
+## --- You can use table() to collect repeated factors : ----
+
+lapply( factors( round(gamma(13:14))), table)
+##- $"479001600":
+##-   2 3 5 7 11
+##-  10 5 2 1  1
+##-
+##- $"6227020800":
+##-   2 3 5 7 11 13
+##-  10 5 2 1  1  1
+
