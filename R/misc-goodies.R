@@ -1,4 +1,4 @@
-#### $Id: misc-goodies.R,v 1.25 2004/01/06 17:23:40 maechler Exp $
+#### $Id: misc-goodies.R,v 1.26 2004/01/12 13:22:44 maechler Exp $
 #### misc-goodies.R
 #### ~~~~~~~~~~~~~~  SfS - R - goodies that are NOT in
 ####		"/u/sfs/R/SfS/R/u.goodies.R"
@@ -533,22 +533,22 @@ list2mat <- function(x, check = TRUE)
   x
 }
 
-tapply.num <- function(y, indices, Func)
+tapplySimpl <- function(X, INDEX, FUN, ...)
 {
   ## Purpose: Nicer result for tapply(..) when Function returns numeric
-  ## 	      vector AND there is >= 2 "indices", i.e., categories.
+  ## 	      vector AND there is >= 2 "INDEX", i.e., categories.
   ## -------------------------------------------------------------------------
   ## Arguments: as for tapply,
-  ##	Func: Must return [named, if possible] FIXED length vector
+  ##	FUN: Must return [named, if possible] FIXED length vector
   ##	      [num/char]   EVEN for  NULL and NA !
   ## -------------------------------------------------------------------------
   ## Author: Martin Maechler, Date: 14 Jun 93, 17:34
   ## -------------------------------------------------------------------------
-  ## Example: tapply.num(y, list(cat1, cat2), range)
-  rl <- tapply(y,indices,Func)
-  if (is.list(rl)) { #-- when  >=2 indices  AND  length(Func(x)) > 1  ---
+  ## Example: tapplySimpl(X, list(cat1, cat2), range)
+  rl <- tapply(X, INDEX, FUN, ..., simplify = TRUE)
+  if (is.list(rl)) { #-- when  >=2 indices  AND  length(FUN(x)) > 1  ---
     if(any(Nas <- unlist(lapply(rl, is.null))))
-      rl[Nas]  <- list(Func(NULL))
+      rl[Nas]  <- list(FUN(NULL))
     array(unlist(rl),
 	  dim = c(length(rl[[1]]), dim(rl)),
 	  dimnames = c(list(names(rl[[1]])), dimnames(rl)) )
