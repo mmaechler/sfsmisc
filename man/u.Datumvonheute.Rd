@@ -1,62 +1,33 @@
 \name{u.Datumvonheute}
 \alias{u.Datumvonheute}
-%- Also NEED an `\alias' for EACH other topic documented here.
-\title{ ~~function to do ... ~~}
+\title{Datum und Uhrzeit (deutsch!)}
 \description{
- ~~ A concise (1-5 lines) description of what the function does. ~~
+  Return current date and time as a string, possibly including day of
+  the week.
 }
 \usage{
 u.Datumvonheute(W.tag=2, Zeit=F)
 }
 %- maybe also `usage' for other objects documented here.
 \arguments{
- \item{W.tag}{ ~~Describe \code{W.tag} here~~ }
- \item{Zeit}{ ~~Describe \code{Zeit} here~~ }
-}
-\details{
- ~~ If necessary, more details than the __description__  above ~~
+  \item{W.tag}{logical or integer specifying you want weekday
+    ("Wochentag").
+    \code{0} or \code{FALSE} gives no,  \code{1} or \code{TRUE} gives a
+    short and \code{2} the long version of the day of the week.}
+  \item{Zeit}{logical or integer specifying if time ("Zeit") is desired.
+        \code{0} or \code{FALSE} gives no,  \code{1} or \code{TRUE} gives a
+    hours only and \code{2} hours and minutes.}
 }
 \value{
-  ~Describe the value returned
-  If it is a LIST, use
-  \item{comp1 }{Description of `comp1'}
-  \item{comp2 }{Description of `comp2'}
-  ...
+  A string with the current date/time, in the form specified by the arguments.
 }
-\references{ ~put references to the literature/web site here ~ }
-\author{ ~~who you are~~ }
-\note{ ~~further notes~~ }
-
- ~Make other sections like WARNING with \section{WARNING }{....} ~
-
-\seealso{ ~~objects to SEE ALSO as \code{\link{~~fun~~}}, ~~~ }
-
+\author{Caterina Savi, Martin Maechler}
+\seealso{\code{\link{u.date}} for a similar English version;
+  \code{\link{p.datum}} which plots.
+}
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	     or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (W.tag = 2, Zeit = F) 
-{
-    dat <- as.numeric(system("date '+%w %d %m %y %H %M' | tr ' '  '\n'", 
-        TRUE))
-    DMY <- paste(dat[2], ". ", C.Monatsname[dat[3]], " ", dat[4], 
-        sep = "")
-    r <- if (W.tag) {
-        W <- ifelse(dat[1] == 0, 7, dat[1])
-        if (W.tag == 2) 
-            Wtag <- C.Wochentag[W]
-        else Wtag <- C.Wochentagkurz[W]
-        paste(Wtag, DMY, sep = ", ")
-    }
-    else DMY
-    if (Zeit) {
-        paste(r, if (Zeit == 2) 
-            paste(dat[5:6], collapse = ":")
-        else dat[5], sep = "; ")
-    }
-    else r
-  }
+u.Datumvonheute()
+u.Datumvonheute(W.tag=1, Zeit=T)
+u.Datumvonheute(W.tag= FALSE, Zeit=2)
 }
-\keyword{ ~keyword }%-- one or more ...
+\keyword{utilities}%-- one or more ...
