@@ -10,15 +10,17 @@ u.sys <- function(..., intern=TRUE)
     system(paste(..., sep=""), intern=intern)
 
 u.date <- function(short = FALSE)
-  u.sys("date '+%d/%h/%Y", if(!short) ", %H:%M", "'")
+  format(Sys.time(), paste("%d/%h/%Y", if(!short) ", %H:%M", sep=''))
+## Unix-only:  u.sys("date '+%d/%h/%Y", if(!short) ", %H:%M", "'")
 
 u.Datumvonheute <- function(W.tag = 2, Zeit = FALSE)
 {
   ## Ziel: Deutsches (kurzes) Datum (als string)
   ##
   ## ==>  ?u.Datumvonheute  [online help]
-  dat <- as.numeric(system("date '+%w %d %m %Y %H %M' | tr ' '	'\n'",TRUE))
-  ##				    1  2  3  4	5  6
+  ## Unix-only: dat <- as.numeric(system("date '+%w %d %m %Y %H %M' | tr ' ' '\n'",TRUE))
+  dat <- as.integer(strsplit(format(Sys.time(),"%w %d %m %Y %H %M"), " ")[[1]])
+  ##						 1  2  3  4  5	6
   DMY <- paste(dat[2], ". ", C.Monatsname[dat[3]], " ", dat[4], sep= "")
   r <- if (W.tag) {				#-- wollen Wochentag
     W <- ifelse(dat[1]==0, 7, dat[1])
