@@ -1,4 +1,4 @@
-#### $Id: misc-goodies.R,v 1.21 2003/10/24 08:18:23 maechler Exp $
+#### $Id: misc-goodies.R,v 1.22 2003/11/04 13:58:28 maechler Exp $
 #### misc-goodies.R
 #### ~~~~~~~~~~~~~~  SfS - R - goodies that are NOT in
 ####		"/u/sfs/R/SfS/R/u.goodies.R"
@@ -328,10 +328,20 @@ AsciiToInt <- ichar <- function(strings) unname(unlist(strcodes(strings)))
 ##-#### "Miscellaneous" (not any other category) ########
 ##-###   ============= ------------------------- ########
 
-ununique <- function(x, isuniq = !duplicated(x)) {
+uniqueL <- function(x, isuniq = !duplicated(x)) {
     ## return list(ix, uniq)
-    ## such that   all(x == uniq[ix])  and (of course)  uniq == x[isuniq]
-    list(ix = as.integer(cumsum(isuniq)), uniq = x[isuniq])
+    ## such that   all(x == uniq[ix])  and (of course)	uniq == x[isuniq]
+    need.sort <- is.unsorted(x)
+    if(need.sort) {
+	xs <- sort(x, index.return = TRUE)
+	ixS <- xs $ ix
+	isuniq <- isuniq[ixS]
+	x <- xs$x
+    }
+    ix <- as.integer(cumsum(isuniq))
+    if(need.sort)
+	ix <- ix[sort.list(ixS)]
+    list(ix = ix, xU = x[isuniq])
 }
 
 table.mat <- function(mat, order.rows = TRUE)
