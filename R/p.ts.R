@@ -1,8 +1,7 @@
 p.ts <-
     function(x, nrplots = max(1, min(8, n%/%400)), overlap = nk %/% 16,
-             date.x = NULL, do.x.axis = !is.null(date.x), do.x.rug = do.x.axis,
-             ax.format,
-             main.tit = NULL, ylim = NULL, ylab = "", xlab = "Time",
+             date.x = NULL, do.x.axis = !is.null(date.x), do.x.rug = FALSE,
+             ax.format, main.tit = NULL, ylim = NULL, ylab = "", xlab = "Time",
              quiet = FALSE, mgp = c(1.25, .5, 0), ...)
 {
     ## Purpose: plot.ts with multi-plots + Auto-Title -- currently all on 1 page
@@ -16,7 +15,7 @@ p.ts <-
     ## ---> help page  ?p.ts
     ##
     ## -------------------------------------------------------------------------
-    ## Author: Martin Maechler, Date:  1 Jul 1994; 18.Dec,1998.
+    ## Author: Martin Maechler, Date: 1 Jul 1994; 18 Dec 1998.
 
     if(is.null(main.tit)) main.tit <- paste(deparse(substitute(x)))
     isMat <- is.matrix(x)
@@ -77,9 +76,8 @@ p.ts <-
                 if(!quiet) {
                     cat("summary(date.x):\n"); print(summary(date.x[1+ i0:in1]))
                 }
-                axis.POSIXct(1, x = date.x[1+ i0:in1],
-                             format = ax.format, nYrs = 12)
-                ##                             ^^^^^^^^^^^ needs enhanced code!
+                axis.POSIXct(1, x = date.x[1+ i0:in1], format = ax.format)
+                ## (I've lost my improved version of this which had 'nYrs = 12'
 
                 if(do.x.rug) ## this can be ugly
                     rug(date.x[1+ i0:in1])
