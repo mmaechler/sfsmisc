@@ -21,7 +21,7 @@
 ### p.dnorm             /
 ### p.pairs             'pairs' mit mehr Moeglichkeiten
 ### p.pllines
-### p.lm.hyperb         Confidence/Prediction hyperbolas  around regression line
+### p.lm.hyperb         --> ./linesHyberb.lm.R 
 ### p.scales
 ### p.triangle          Dreiecks-Plot fuer 3-er Gehalte / Anteile
 ### p.two.forget
@@ -172,48 +172,6 @@ p.pllines <- function(x,y,group,lty=c(1,3,2,4),...)
     ii <- group==gg & !is.na(x) & !is.na(y)
     if(sum(ii)) lines(x[ii],y[ii],lty=lty[1+(gg-1)%%length(lty)])
   }
-}
-## ===========================================================================
-p.lm.hyperb <- function(lm.ob, c.prob = .95, confidence = FALSE,
-                        k = if(confidence) Inf else 1,
-                        col = 2, lty = 2, do.abline = TRUE)
-{
-  ## Purpose: plot confidence/prediction hyperbolas for  y(x_0)
-  ##            around a least squares regression line
-  ## NOTA BENE: The data should already be plotted (at least the coord.system!)
-  ## -------------------------------------------------------------------------
-  ## Arguments: lm.ob: result of lm(.)
-  ##    c.prob  :   coverage probability
-  ##    confidence: logical; if T, do (small) confidence band,
-  ##                         else, realistic prediction band  for the mean of
-  ##    k       :   'k' future observations
-  ##    do.abline:  logical; if T, also plot the regression line
-  ## -------------------------------------------------------------------------
-  ## Author: Martin Maechler, Date:  9 Oct 95, 20:17
-  ## -------------------------------------------------------------------------
-  ## EXAMPLE: d.evap <- as.data.frame(evap.x); attach(d.evap)
-  ##          lm.evap <- lm(evap.y ~ avh); plot(evap.y ~ avh)
-  ##          p.lm.hyperb(lm.evap); p.lm.hyperb(lm.evap, conf=T, col=3)
-
-  Res <- residuals(lm.ob)
-  n <- length(Res)
-  df <- lm.ob $ df.resid
-  s2 <- sum(Res^2)/df
-  s <- sqrt(s2)
-  R <- lm.ob $ R
-  Xm <- R[1,2]/R[1,1] # = mean(x_i) : (X'X)[1,] = (R'R)[1,] = [n  sum_{x_i}]
-  ##-- S_{xx} = sum_i{(x_i - mean(x_i))^2} : you can prove this: (R'R) = ...
-  S.xx <- R[2,2]^2
-
-  ux <- par("usr")[1:2]
-  d.xs <- data.frame(x = xs <- seq(ux[1],ux[2], length = 100))
-  names(d.xs) <-  attr(lm.ob$terms,"term.labels") #-- proper x-variable name
-  ys <- predict(lm.ob, new = d.xs)
-  pred.err <- qt(1-(1-c.prob)/2, df) * s * sqrt(1/k + 1/n + (xs-Xm)^2/S.xx)
-  o.p _ par(err=-1); on.exit(par(o.p))
-  if(do.abline)  abline(lm.ob)
-  lines(xs, ys - pred.err, col=col, lty=lty)
-  lines(xs, ys + pred.err, col=col, lty=lty)
 }
 ## ===========================================================================
 p.plot.lm <-
