@@ -14,6 +14,8 @@ unix.time(fac.1ex <- factorize(1000 + 1:99)) #-- 0.95 sec (sophie Sparc 5)
 unix.time(fac.2ex <- factorize(10000 + 1:999))
 ## R 0.49 : 5.4 sec (florence Ultra 1/170)
 ## ------   6.1 sec (sophie   Ultra 1/140)
+## R 0.50-: ~ 3.5 sec (sophie  ..........)  <<< FASTER !
+## ------
 
 ## This REALLY takes time -- (for loop over 10000; 10000 times res[[i]] <-..
 unix.time(factorize.10000 <- factorize(1:10000))
