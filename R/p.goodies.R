@@ -13,7 +13,7 @@
 ###     INHALT von p.goodies.S  (bitte jeweils ergaenzen):
 ###     **********************
 
-### p.sunflowers        'sunflower'-Plot     --> ./p.sunflowers.R
+### p.sunflowers        'sunflower'-Plot    --> Standard R's sunflowerplot()
 ### p.clear             Bildschirm "putzen"
 ### p.datum             Deutsches Datum "unten rechts"
 ### p.dchisq            \
@@ -52,21 +52,31 @@ p.datum <- function(outer = FALSE,...)
 
 
 ## ===========================================================================
-p.dchisq <- function(n, ...)
-{
-  x <- qchisq(seq(0.001, 0.999, length = 200), df = n)
-  plot(x, dchisq(x, df = n), type = "l", xlab = "", ylab = "", ...)
-}
-p.dgamma <- function(shape)
-{
-  x <- qgamma(seq(0.001, 0.999, length = 100), shape)
-  plot(x, dgamma(x, shape), type = "l", xlab = "", ylab = "")
-}
 
-p.dnorm <- function(mittel = 0, std = 1, ...)
+## curve(.. xlim..) only satisfactory from R version 1.2 on ..
+p.dchisq <- function(nu, ...) {
+  curve(dchisq(x, nu), xlim= qchisq(c(1e-5,.999), nu),
+        ylab = paste("dchisq(x, nu=",format(nu),")"), ...)
+  abline(h=0, col = "light gray")
+}
+p.dgamma <- function(shape, ...) {
+  curve(dgamma(x, shape), xlim= qgamma(c(1e-5,.999), shape),
+        ylab = paste("dgamma(x, shape=",format(shape),")"), ...)
+  abline(h=0, col = "light gray")
+}
+p.dnorm <- function(mittel = 0, std = 1, ms.lines = TRUE, ...)
 {
-  x <- qnorm(seq(0.001, 0.999, length = 200), mittel, std)
-  plot(x, dnorm(x, mittel, std), type = "l", xlab = "", ylab = "", ...)
+  f <- function(x) dnorm(x, mittel,std)
+  curve(f, xlim = qnorm(c(1e-5, 0.999), mittel, std),
+        ylab = substitute(phi(x, mu==m, sigma==s), list(m=format(mittel),
+                                          s=format(std))), ...)
+  abline(h=0, col = "light gray")
+  if(ms.lines) {
+    segments(mittel,0, mittel, f(mittel), col="gray")
+    f.ms <- f(mittel-std)
+    arrows(mittel-std, f.ms, mittel+std, f.ms, length= 1/8, code= 3, col="gray")
+    text(mittel+c(-std/2,std/2), f.ms, expression(-sigma, +sigma), adj=c(.5,0))
+  }
 }
 ## ===========================================================================
 
@@ -679,109 +689,6 @@ p.profileTraces <- function(x, cex=1)
 
 p.corr <- function(...) stop("use 'symnum' instead of 'p.corr'")
                                         #-defined in ./misc-goodies.S
-
-p.tachoPlot <- function(x, y, z, angle=c(pi/4,3*pi/4), size,
-                          method="robust", legend=TRUE, show.method=TRUE,
-                          xlab=deparse(substitute(x)),
-                          ylab=deparse(substitute(y)), xlim, ylim, ...)
-{
-  ## Purpose: Puts a symbol (pointer) on a plot at each of the
-  ##          specified locations.
-  ## -------------------------------------------------------------------------
-  ## Arguments: see on-line help (?p.tachoPlot)
-  ## -------------------------------------------------------------------------
-  ## Author: Christian Keller, Date: 16 Jun 95, 18:35
-
-  if(length(angle) != 2)
-    stop("length of angle must be 2")
-  if(angle[1]<=0 | angle[1]>=pi/2)
-    stop("angle[1] should be between 0 and pi/2")
-  if(angle[2]<=pi/2 | angle[2]>=pi)
-    stop("angle[2] should be between pi/2 and pi")
-
-  imeth <- charmatch(method, c("sensitive", "robust", "rank"),
-                     nomatch = 0)
-  method.name <- switch(imeth + 1,
-                 stop("method should be either sensitive, robust or rank"),
-                 "sensitive", "robust", "rank")
-
-  ii <- !is.na(x) & !is.na(y)
-  x <- x[ii]; y <- y[ii]; z <- z[ii]
-
-  if(method.name=="sensitive"){
-    Min <- min(z, na.rm=TRUE)
-    Max <- max(z, na.rm=TRUE)
-    b <- (z-Min)/(Max-Min)
-  }
-  if(method.name=="robust"){
-    Range <- rrange(z)
-    Min <- Range[1]
-    Max <- Range[2]
-    b <- pmin(pmax(z-Min,0),Max-Min)/(Max-Min)
-  }
-  if(method.name=="rank"){
-    Min <- min(z, na.rm=TRUE)
-    Max <- max(z, na.rm=TRUE)
-    Rank <- replace(rep(NA,length(z)), !is.na(z), rank(z[!is.na(z)]))
-    b <- (Rank-1)/(sum(!is.na(z))-1)
-  }
-
-  ## -- range of the Plot
-  range.x <- range(x)
-  range.y <- range(y)
-  pcm <- par("pin") * 2.54
-  if(missing(size))
-    size <- min(pcm)/20
-  else{
-      if(length(size) != 1)
-        stop("length of size must be 1")
-    }
-  size <- size/2
-  sx <- size*max(c(abs(cos(pi-angle[1])),abs(cos(pi-angle[2]))))
-  sy <- size*max(c(abs(sin(pi-angle[1])),abs(sin(pi-angle[2]))))
-  fx <- sx*diff(range.x)/(pcm[1]-2*size)
-  fy <- sy*diff(range.y)/(pcm[2]-2*size)
-
-  if(missing(xlim))
-    xlim <- range.x + c(-1,1)*fx
-  if(missing(ylim))
-    ylim <- range.y + c(-1,1)*fy
-  plot(x, y, pch=".", xlim=xlim, ylim=ylim, xlab=xlab, ylab=ylab, ...)
-
-  ## -- calculate angles
-  alpha <- angle[1] + (angle[2]-angle[1])*b
-  usr <- par("usr")
-  xd <- size*cos(pi-alpha)*diff(usr[1:2])/pcm[1]
-  yd <- size*sin(pi-alpha)*diff(usr[3:4])/pcm[2]
-
-  ## -- draw symbols
-  if(method.name=="robust"){
-    out <- z<Min | z>Max
-    segments((x+xd)[!out],(y+yd)[!out], (x-xd)[!out], (y-yd)[!out], lty=1)
-    if(any(out,na.rm=TRUE)){
-      segments((x+xd)[out],(y+yd)[out], (x-xd)[out], (y-yd)[out], lty=2,col=2)
-    }
-  }
-  else{
-    segments(x+xd, y+yd, x-xd, y-yd, lty=1)
-  }
-  if(legend){## -- draw legend
-    cxy <- par("cxy")
-    x1 <- min(pcm)/20*cos(pi-angle[1])*diff(usr[1:2])/pcm[1]
-    x2 <- min(pcm)/20*cos(pi-angle[2])*diff(usr[1:2])/pcm[1]
-    y1 <- min(pcm)/20*sin(pi-angle[1])*diff(usr[3:4])/pcm[2]
-    y2 <- min(pcm)/20*sin(pi-angle[2])*diff(usr[3:4])/pcm[2]
-    x <- usr[2] - 3*cxy[1] - x2
-    y <- cxy[2] + usr[4]
-    lines(c(x+x1,x,x+x2), c(y+y1,y,y+y2), lty=1, xpd=TRUE)
-    text(x+x2, y, labels=formatC(Max), adj=0, cex=0.7*par("cex"))
-    text(x+x1, y, labels=formatC(Min), adj=1, cex=0.7*par("cex"))
-  }
-  if(show.method)  ## -- print method name
-    mtext(paste("method =",method.name),line=0, adj=1, cex=0.7*par("cex"))
-  invisible()
-}
-
 
 p.hboxp <- function(x, y.lo, y.hi, boxcol = 3, medcol = 0,
                     medlwd = 5, whisklty = 2, staplelty = 1)
