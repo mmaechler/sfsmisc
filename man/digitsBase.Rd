@@ -10,7 +10,7 @@
 digitsBase(x, base = 2, ndigits = 1 + floor(log(max(x), base)))
 }
 \arguments{
-  \item{n,x}{non-negative integer (vector) whose base \code{base}
+  \item{x}{non-negative integer (vector) whose base \code{base}
     digits are wanted.}
   \item{base}{integer, at least 2 specifying the base for representation.}
   \item{ndigits}{number of bits/digits to use.}
