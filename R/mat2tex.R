@@ -4,11 +4,13 @@
 mat2tex <- function(x, file = "mat.tex", append = TRUE, digits = 3, title)
 {
     if(length(d.x <- dim(x)) != 2)
-        stop("`x' must be a matrix like object with dim(x) of lenght 2")
+        stop("`x' must be a matrix like object with dim(x) of length 2")
     if(any(d.x <= 0))
         stop("`dim(x)' must be positive")
     nr.x <- d.x[1]
     nc.x <- d.x[2]
+    c2ind <- (1:nc.x)[-1] # possibly empty
+    
     ## determine if there are labels to be processed
     dn.x <- dimnames(x)
     if(has.rowlabs <- !is.null(dn.x[[1]]))        rowlabs <- dn.x[[1]]
@@ -24,22 +26,19 @@ mat2tex <- function(x, file = "mat.tex", append = TRUE, digits = 3, title)
     cat(paste("\\begin{tabular}", colspec, " \n"), file = file, append = append)
 
     span <- nc.x + if(has.rowlabs) 1 else 0
-    if(!missing(title))
-        cat(paste("\\multicolumn{", span, "}{c}{", title,
-                  "} \\\\ \\hline", "\n"), file = file, append = TRUE)	
-    else cat("\\hline \n", file=file,append=TRUE)
+    cat(if(!missing(title)) paste("\\multicolumn{", span,
+                                  "}{c}{", title, "} \\\\"),
+        "\\hline \n", file = file, append = TRUE)
     ## output column labels if needed
     if(has.collabs) {
         collabline <- " "
         if(has.rowlabs)
             collabline <- paste(collabline, " \\  &")
         collabline <- paste(collabline, collabs[1])
-        if(nc.x > 2) {
-            for(i in 2:nc.x)
-                collabline <- paste(collabline, "&", collabs[i])
-        }
+        for(i in c2ind)
+            collabline <- paste(collabline, "&", collabs[i])
         collabline <- paste(collabline, "\\\\ \\hline \\hline")
-        cat(paste(collabline, "\n"), file = file, append = TRUE)
+        cat(collabline, "\n", file = file, append = TRUE)
     }
     ## output matrix entries
     options(digits = digits)
@@ -47,7 +46,7 @@ mat2tex <- function(x, file = "mat.tex", append = TRUE, digits = 3, title)
         thisline <-
             if(has.rowlabs)
                 paste(rowlabs[i], "&", format(x[i, 1])) else format(x[i, 1])
-        if(nc.x >= 2) for(j in 2:nc.x)
+        for(j in c2ind)
             thisline <- paste(thisline, "&", format(x[i, j]))
 
         thisline <- paste(thisline, "\\\\ \\hline")
