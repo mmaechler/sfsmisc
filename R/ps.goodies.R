@@ -83,7 +83,7 @@ ps.do <- function(file, width = -1, height = -1,
   ##
   ## --->>>>>> CONSIDER   'ps.latex'   instead  for pictures !
 
-  u.assign0("ps.file", file)
+  u.assign0("..ps.file", file)
   if(length(list(...))) {
     pso <- ps.options(...)
     on.exit(ps.options(pso)) #- reset ps.options !
@@ -113,7 +113,7 @@ ps.do <- function(file, width = -1, height = -1,
 
 ps.end <- function(call.gv = NULL, do.color = u.get0("ps.do.color"),
 		   command = paste("gview",if(!do.color)" -monochrome", sep=''),
-                   debug = FALSE)
+                   debug = getOption("verbose"))
 {
   ## Purpose:  A "ghostview" device driver (almost).
   ## Author: Martin Maechler, Date:  May 26 1992, 15:32
@@ -125,9 +125,11 @@ ps.end <- function(call.gv = NULL, do.color = u.get0("ps.do.color"),
   ## Example:  ps.end(com = "ghostview -a4")
   ## ----------------------------------------------------------------
   ## Only if  postscript is running !! --
-  if( names(dev.cur()) == "postscript")    dev.off()
+  if( names(dev.cur()) == "postscript")
+    dev.off()
   if (is.null(call.gv)) {
-    ps.cmd <- if(substring(u.sys("uname -r"),1,1) == "4") #-- SunOS4
+    ps.cmd <- if(u.sys("uname") == "Linux" ||
+                 substring(u.sys("uname -r"),1,1) == "4") #-- SunOS4
       "ps -wx" else "/usr/bin/ps -u $USER -o args"
     f <- u.sys(ps.cmd, " | grep '", command, "' | grep -v grep")
     if(debug) { cat("ps.end(): f:\n");print(f) }
@@ -139,13 +141,13 @@ ps.end <- function(call.gv = NULL, do.color = u.get0("ps.do.color"),
         fil <- u.sys("echo '", f[i],"' | perl -p -e 's/(.*)",
                      command,"\\s*(.*)/\\2/'")
         cat("ps.end(): fil:",fil,"\n")
-        call.gv <- ps.file != fil
+        call.gv <- length(fil) < 1 || all(..ps.file != fil)
         if(!call.gv)
           break  #-- don't  call ghostview since it runs this file..
       }
     }
   }
-  if (call.gv) u.sys(command, " ", ps.file, "&", intern=FALSE)
+  if (call.gv) u.sys(command, " ", ..ps.file, "&", intern=FALSE)
   else
     cat("\n >> switch to   GV (Ghostview) window -- updated automagically!\n\n")
 }
