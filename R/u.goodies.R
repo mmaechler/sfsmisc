@@ -1,31 +1,13 @@
 ####--- Utilities -----------------
 
-if(is.R()) {
-    u.assign0 <- function(x, value, immediate = FALSE) {
-        ## Purpose: Simple function with identical UI for both R & S
-        ## Author: Martin Maechler, Date: 7 Jul 1999
-        assign(x, value, envir = .GlobalEnv)
-    }
-    u.get0 <- function(x) get(x, envir = .GlobalEnv)
-    u.sys <- function(..., intern=TRUE)
-      system(paste(..., sep=""), intern=intern)
-
-} else { # S-plus
-
-    system <- function(command, intern = FALSE, ignore.stderr = FALSE)
-      unix(if(ignore.stderr) paste(command, "2>/dev/null") else command, 
-           output.to.S = intern)
-    
-    u.assign0 <- function(x, value, immediate = FALSE) {
-        ## Purpose: Simple function with identical UI for both R & S
-        ## Author: Martin Maechler, Date: 7 Jul 1999
-        assign(x, value, frame = 0, immediate = immediate)
-    }
-    u.get0 <- function(x) get(x, frame = 0)
-    u.sys <- function(..., intern=TRUE)
-      unix(paste(..., sep=""), output.to.S = intern)
-
+u.assign0 <- function(x, value, immediate = FALSE) {
+    ## Purpose: Simple function with identical UI for both R & S
+    ## Author: Martin Maechler, Date: 7 Jul 1999
+    assign(x, value, envir = .GlobalEnv)
 }
+u.get0 <- function(x) get(x, envir = .GlobalEnv)
+u.sys <- function(..., intern=TRUE)
+    system(paste(..., sep=""), intern=intern)
 
 u.date <- function(short = FALSE)
   u.sys("date '+%d/%h/%Y", if(!short) ", %H:%M", "'")
@@ -57,14 +39,11 @@ C.Wochentag <- c("Montag", "Dienstag", "Mittwoch", "Donnerstag",
 		"Freitag", "Samstag", "Sonntag")
 C.Wochentagkurz <- c("Mon", "Die", "Mit", "Don", "Fre", "Sam", "Son")
 
-C.monthname <- c("January", "February", "March", "April", "May", "June",
-	"July", "August", "September", "October", "November", "December")
-
-C.monthshort <- c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
-		"Aug", "Sep", "Oct", "Nov", "Dec")
-
 C.weekday <- c("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
 
+## Months: we had
+## C.monthname  === month.name  in R
+## C.monthshort === month.abb   in R
 
 ##>>> Please: Forget the following !!  it is =====  S function  date() !!
 ##>>> "u.datum"<- function() unix("date")
@@ -72,7 +51,7 @@ C.weekday <- c("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
 u.datumdecode <- function(d = 8710230920)
 {
   ## Ziel: Daten der Form 8710230920 aufspalten in Jahr, Monat, Tag, Std, Min
-  ## ----------------------------------------------------------------------	
+  ## ----------------------------------------------------------------------
   ## Bemerkungen: Dies scheint mir nicht das richtige Konzept.
   ##	Wenn man numerische Datuemer will, soll man doch julianische
   ##	Daten verwenden !! Dann hat man auch eine richtige Zeit-Skala
