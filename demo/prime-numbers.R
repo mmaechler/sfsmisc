@@ -128,6 +128,7 @@ lines(P1000, P1000/log(P1000), col=2, lty=2, lwd=1.5)
 plot(P1e4,  seq(P1e4), type='l', main="Prime number theorem")
 lines(P1e4, P1e4/log(P1e4), col=2, lty=2, lwd=1.5)
 
+if(is.R()) stopifnot(require(sfsmisc)) # for this plot:
 u.dev.default()
 { ps.do("prime-number.ps")
   mult.fig(2, main="Prime number theorem")
