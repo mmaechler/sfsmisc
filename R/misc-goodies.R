@@ -1,4 +1,4 @@
-#### $Id: misc-goodies.R,v 1.13 2002/07/12 21:26:18 sfs Exp $
+#### $Id: misc-goodies.R,v 1.14 2002/09/30 17:32:24 sfs Exp $
 #### misc-goodies.R
 #### ~~~~~~~~~~~~~~  SfS - R - goodies that are NOT in
 ####		"/u/sfs/R/SfS/R/u.goodies.R"
@@ -1054,12 +1054,24 @@ n.code <- function(n, ndig = 1, dec.codes = c("","d","c","k"))
   ##-- convert "round integers" to short char.strings
   ##-- useful to build-up  variable names in simulations
   ##-- e.g., n.code( c(10,20,90, 100,500, 2000,10000))#-> "1d" "2d" "9d" "1c" ..
-  e10 <- floor(log10(n))
   nd <- length(dec.codes)
-  if ( any(e10 < 0) || any(e10 >= nd)) {
-    e10 <- pmax(0, pmin(e10, nd-1))
-    warning("some `n' out of range")
+  e10 <- pmin(floor(log10(n) + 1e-12), nd - 1)
+  if (any(e10 < 0)) {
+      e10 <- pmax(0, e10) ; warning("some `n' too small")
   }
+  ## IDEA: Things like
+  ## ---- n.code(c(2000,1e4,5e4,6e5,7e6,8e7),
+  ##             dec. = c("","d","c","k","-","-","M"))
+  ## could work;  (not quite yet, see ex. above)
+##-   if(any(id <- is.na(dec.codes) | dec.codes == "-")) {
+##-       ## then use previous code for these (things like "20k", "300k")
+##-       ## sequentially from the left:
+##-       for(k in which(id)) {
+##-           dec.codes[k] <- dec.codes[k - 1]
+##-           ii <- 1+e10 == k
+##-           e10[ii] <- e10[ii] - 1
+##-       }
+##-   }
   paste(round(n/ 10^(e10 + 1 - ndig)), dec.codes[1 + e10],  sep = "")
 }
 
