@@ -1,15 +1,13 @@
 \name{p.tachoPlot}
 \alias{p.tachoPlot}
-\title{
-Draw Symbol on a Plot
-}
+\title{Draw Symbol on a Plot}
 \description{
 Puts a symbol (pointer) on a plot at each of the specified locations. 
 }
 \usage{
 p.tachoPlot <- function(x, y, z, angle=c(pi/4,3*pi/4), size,
-			method="robust", legend=T, show.method=T, 
-			\dots)
+			method="robust",
+                        legend=T, show.method=T, \dots)
 }
 \arguments{
 \item{x,y,z}{
