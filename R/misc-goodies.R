@@ -416,6 +416,10 @@ digits.v <- function(nvec, base = 2, num.bits = 1 + floor(log(max(nvec),base)))
 ##-#### "Miscellaneous" (not any other category) ########
 ##-###   ============= ------------------------- ########
 
+
+if(!exists('rep.int', mode='function')) ## R
+  if(is.R()) rep.int <- .Alias(rep) else rep.int <- rep
+
 if(!is.R()) { 
 new.seed <- function()
 {
