@@ -103,7 +103,6 @@ D1D2 <- function(x, y, xout = x, spar.offset = 0.1384,
     ## -------------------------------------------------------------------------
     ## Arguments: x = { x_i } MUST be sorted increasingly // y = { y_i }
     ## -------------------------------------------------------------------------
-    ## require(modreg)# smooth.spline
 
     if(is.unsorted(xout))
         xout <- sort(xout)
