@@ -8,12 +8,12 @@
 }
 \usage{
 mult.fig(nr.plots, mfrow, mfcol,
-         marP = rep(0, 4),  mgp = c(1.5, 0.6, 0),
-         mar = marP + 0.1 + c(4, 4, 2, 1), oma = c(0, 0, tit.wid, 0),
+         marP = rep(0, 4), mgp = c(1.5, 0.6, 0),
+         mar = marP + 0.1 + c(4,4,2,1), oma = c(0,0, tit.wid, 0),
          main = NULL,
          tit.wid = if (is.null(main)) 0 else 1 + 1.5*cex.main,
          quiet = .Device == "postscript",
-         cex.main = par("cex.main"),
+         cex.main = par("cex.main"), line.main = cex.main - 1/2,
          col.main = par("col.main"), font.main = par("font.main"), \dots)
 }
 \arguments{
@@ -31,8 +31,11 @@ mult.fig(nr.plots, mfrow, mfcol,
  \item{oma}{argument for \code{\link{par}(oma= .)}, by default for
    adding space for the \code{main} title if necessary.}
  \item{main}{character.  The main title to be used for the whole graphic.}
- \item{tit.wid}{numeric; the vertical width to be used for the main title.}
+ \item{tit.wid}{numeric specifying the vertical width to be used for the
+   main title; note that this is only used for the default value of
+   \code{oma} (s. above).}
  \item{cex.main}{numeric; the character size to be used for the main title.}
+ \item{line.main}{numeric; the line at which the title.}
  \item{col.main, font.main}{color and font for main title; see
    \code{\link{par}(*)} for details.}
  \item{quiet}{logical; if \code{TRUE}, do \emph{not} write the reminder
@@ -48,16 +51,16 @@ mult.fig(nr.plots, mfrow, mfcol,
 \author{Martin Maechler, UW Seattle, 1990.}
 \seealso{\code{\link{par}}, \code{\link{layout}}.}
 \examples{
-mult.fig(5, main= "Sinus Funktionen verschiedener Frequenzen")
+mult.fig(5, main= expression("Sine Functions " * sin(n * pi * x)))
 x <- seq(0, 1, len = 201)
 for (n in 1:5)
   plot(x, sin(n * pi * x), ylab ="", main = paste("n = ",n))
 par(old.par)
 
-rr <- mult.fig(mfrow=c(5,1), main= "Sinus Funktionen", cex = 1.5,
+rr <- mult.fig(mfrow=c(5,1), main= "Cosinus Funktionen", cex = 1.5,
                marP = - c(0, 1, 2, 0))
 for (n in 1:5)
-  plot(x, sin(n * pi * x), type = 'l', col="red", ylab ="")
+  plot(x, cos(n * pi * x), type = 'l', col="red", ylab ="")
 str(rr)
 par(old.par)
 ## Look at the par setting *AFTER* the above:
