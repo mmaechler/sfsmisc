@@ -26,6 +26,10 @@ plotCI <-
               scol = col, pt.bg = NA,
               xlab = NULL, ylab = NULL, main = "", axes = TRUE, ...)
 {
+
+    cat("plotCI() in the 'sfsmisc' package is deprecated (and will be removed)",
+	"\n do use plotCI() from the 'gregmisc' package instead!\n")
+
     ## from Bill Venables, R-list
     if (is.list(x)) {
         y <- x$y
