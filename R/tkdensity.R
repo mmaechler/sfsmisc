@@ -15,7 +15,7 @@ tkdensity <- function(y, n = 1024, log.bw = TRUE, showvalue = TRUE,
     ynam <- deparse(substitute(y))
     size <- length(y)
     sd.y <- sqrt(var(y))
-
+    
     ## Use Silverman's  Rule of Thumb initially :
     hi <- sd.y
     if (!(lo <- min(hi, IQR(y)/1.34))) 
@@ -26,48 +26,50 @@ tkdensity <- function(y, n = 1024, log.bw = TRUE, showvalue = TRUE,
     ry <- range(y)
     xlim <- xl0 <- if(is.null(xlim)) ry + c(-2,2)* bw0 else as.numeric(xlim)
     xlmid  <- xm0 <- mean(xlim)
-    xrange <- xr0 <- diff(xlim)
-
+    xr0 <- diff(xlim)
+    
+    Tvar <- function(v) as.numeric(eval(substitute(tclvar $ v)))
     replot <- function(...) {
         if (is.null(y)) return() # too early...
-        b <-
-            if(log.bw)
-                10 ^ (lbw <<- as.numeric(tclvar$log.bw))
-            else bw <<- as.numeric(tclvar$bw)
+        b <- if(log.bw) 10 ^ (lbw <<- Tvar(log.bw)) else bw <<- Tvar(bw)
         k <- tclvar$kernel
-        xr.half <- tclvar$xrange / 2
-        xlim <- tclvar$xlmid + c(-xr.half, xr.half)
+        xr.half <- (xr0 / 2) * 100 / Tvar(xZoom)
+        xlim <- Tvar(xlmid) + c(-xr.half, xr.half)
         eval(substitute(plot(density(y, bw = b, kernel = k, n = n),
                              main =  paste("density(",ynam,
                              ", bw = ",format(b, dig = 3),
                              ", kernel = \"", k, "\")", sep=""),
                              xlim = xlim, col = col)))
         points(y,rep(0,size), col = 3)
-   }
+    }
 
     replot.maybe <- function(...)
-        if (log.bw && as.numeric(tclvar$log.bw) != lbw
-            || as.numeric(tclvar$bw)     != bw
-            || as.numeric(tclvar$xrange) != xrange
-            || as.numeric(tclvar$xlmid)  != xlmid
+        if ((log.bw  && Tvar(log.bw) != lbw) ||
+            (!log.bw && Tvar(bw)     != bw)  ||
+            Tvar(xZoom) != xZoom ||
+            Tvar(xlmid) != xlmid
             )
             replot()
-
+    
     base <- tktoplevel()
     tkwm.title(base, paste("Tk Density(",ynam,")"))
-
+    
     base.frame <- tkframe(base, borderwidth = 2)
     bw.frame   <- tkframe(base.frame, relief = "groove", borderwidth = 3)
     kern.frame <- tkframe(base.frame, relief = "groove", borderwidth = 2)
-    xr.frame   <- tkframe(base.frame, relief = "groove")
-    xmid.frame <- tkframe(base.frame, relief = "groove")
+
+    x.frame   <- tkframe(base.frame)
+    xr.frame   <- tkframe(x.frame)
+    xmid.frame <- tkframe(x.frame)
+    tkpack(xr.frame, xmid.frame, side = "left", anchor = "s")
+
     q.but <- tkbutton(base,text = "Quit", command = function()tkdestroy(base))
 
     tkpack(base.frame,
            bw.frame, kern.frame,
-           xr.frame, xmid.frame,
+           x.frame,
            q.but)
-
+    
     ## Bandwith Frame :
     tkpack(tklabel (bw.frame,
                     text = if(log.bw)"log10(Bandwidth)" else "Bandwidth"))
@@ -86,31 +88,35 @@ tkdensity <- function(y, n = 1024, log.bw = TRUE, showvalue = TRUE,
         tkpack(tkradiobutton(kern.frame, command = replot,
                              text = k.name, value = k.name, variable="kernel"),
                anchor = "w")
-
+    
     ## [x range] Frame :
-    tkpack(tklabel (xr.frame, text = "x range")
+    tkpack(tklabel (xr.frame, text = "x zoom [%]"))
     tkpack(tkscale (xr.frame, command = replot.maybe,
-                    from = xr0 / 100,
-                    to   = xr0 * 10,
-                    showvalue = showvalue, variable = "xrange",
+                    from = 5,# = 1/20
+                    to   = 500,# = * 5
+                    showvalue = TRUE, variable = "xZoom",
                     ##resolution = ...
                     length = 80, orient = "horiz"))
 
     ## [x mid] Frame :
-    tkpack(tklabel (xmid.frame, text = "x (zoom) mid")
+    tkpack(tklabel (xmid.frame, text = "x pan"))
     tkpack(tkscale (xmid.frame, command = replot.maybe,
-                    from = xmid0 - 2*xr0,
-                    to   = xmid0 + 2*xr0,
-                    showvalue = showvalue, variable = "xlmid",
+                    from = xm0 - xr0,
+                    to   = xm0 + xr0,
+                    showvalue = FALSE, variable = "xlmid",
                     ##resolution = ...
                     length = 80, orient = "horiz"))
 
-    tclvar$xrange <- xrange
+    ## Initialize Tcl variables:
+
+    tclvar$xZoom <- xZoom <- 100# %
     tclvar$xlmid  <- xlmid
     tclvar$size  <- size
-    tclvar$bw <- bw
     if(log.bw)
         tclvar$log.bw <- log10(bw)
+    else
+        tclvar$bw <- bw
+
     tclvar$kernel <- "gaussian"
 
     replot()
@@ -118,3 +124,11 @@ tkdensity <- function(y, n = 1024, log.bw = TRUE, showvalue = TRUE,
     ## Returning doesn't work!!
     ##return(tclvar[c("bw", "kernel")])
 }
+
+###---
+
+## tkpack() :
+##- .Tcl(.Tcl.args(...)) :
+##-  [tcl] unknown or ambiguous option  "":  must be \
+## 	-after, -anchor, -before, -expand, -fill, -in,
+##      -ipadx, -ipady, -padx, -pady, or -side.
