@@ -13,7 +13,7 @@
 ###     INHALT von p.goodies.S  (bitte jeweils ergaenzen):
 ###     **********************
 
-### p.sunflowers        'sunflower'-Plot
+### p.sunflowers        'sunflower'-Plot     --> ./p.sunflowers.R
 ### p.clear             Bildschirm "putzen"
 ### p.datum             Deutsches Datum "unten rechts"
 ### p.dchisq            \
@@ -39,68 +39,6 @@
 ###
 ### ==========================================================================
 
-p.sunflowers <- function(x, y, number,
-                         size = 0.125, add = FALSE, rotate = FALSE,
-                         pch = 16, ...)
-{
-  ## Purpose: Produce a 'sunflower'-Plot
-  ## -------------------------------------------------------------------------
-  ## Arguments: x,y: coordinates;
-  ##    number[i] = number of times for (x[i],y[i])  [may be 0]
-  ##    size: in inches         add : Should add to a previous plot ?
-  ##    rotate: randomly rotate flowers?        further args: as for plot(..)
-  ## -------------------------------------------------------------------------
-  ## Authors: Andreas Ruckstuhl, Werner Stahel, Martin Maechler, Tim Hesterberg
-  ## Date   : Aug 89 / Jan 93,   March 92,      Jan, Dec 93,        Jan 93
-  ## Examples: p.sunflowers(x=sort(2*round(rnorm(100))), y= round(rnorm(100),0))
-  ## ~~~~~~~~  p.sunflowers(rnorm(100),rnorm(100), number=rpois(n=100,lambda=2),
-  ##                        rotate=T, main="Sunflower plot")
-  if(!add) {
-    axislabels <- match(c("xlab", "ylab"), names(list(...)))
-    if(!is.na(axislabels[1]))      xlab <- list(...)[[axislabels[1]]]
-      else xlab <- deparse(substitute(x))
-    if(!is.na(axislabels[2]))      ylab <- list(...)[[axislabels[2]]]
-      else ylab <- deparse(substitute(y))
-  }
-  n <- length(x)
-  if(length(y) != n)    stop("x & y must have same length !")
-  if(missing(number)) {
-    orderxy <- order(x, y)
-    x <- x[orderxy]
-    y <- y[orderxy]
-    first <- c(TRUE, (x[-1] != x[ - n]) | (y[-1] != y[ - n]))
-    x <- x[first]
-    y <- y[first]
-    number <- diff(c((1:n)[first], n + 1))
-  } else {
-    if(length(number) != n)      stop("number must have same length as x & y !")
-    x <- x[number > 0]
-    y <- y[number > 0]
-    number <- number[number > 0]
-  }
-  n <- length(x)
-  if(!add) plot(x, y, xlab = xlab, ylab = ylab, type = "n", ...)
-
-  nequ1 <- number == 1
-  if(any(nequ1))  points(x[ nequ1], y[ nequ1], pch = pch, mkh = size * 1.25)
-  if(any(!nequ1)) points(x[!nequ1], y[!nequ1], pch = pch, mkh = size * 0.8)
-  i.multi <- (1:n)[number > 1]
-  if(length(i.multi)) {
-    ppin <- par()$pin
-    pusr <- par()$usr
-    xr <- (size * abs(pusr[2] - pusr[1]))/ppin[1]
-    yr <- (size * abs(pusr[4] - pusr[3]))/ppin[2]
-    i.rep <- rep(i.multi, number[number > 1])
-    z <- NULL
-    for(i in i.multi)
-      z <- c(z, 1:number[i] + if(rotate) runif(1) else 0)
-    deg <- (2 * pi * z)/number[i.rep]
-    segments(x[i.rep], y[i.rep],
-             x[i.rep] + xr * sin(deg),
-             y[i.rep] + yr * cos(deg))
-  }
-}
-## ====================================
 p.clear <- function()
 {
   ## Ziel: Bildschirm "putzen"
@@ -677,50 +615,66 @@ p.t <- function(x,y,...) {
 p.profileTraces <- function(x, cex=1)
 {
   ## Purpose: Zeichnet die Profilspuren und die t-Profil-Plots.
-  ## Arguments: x = Resultat von der S-Funktion profil()
+  ## Arguments: x = Resultat von der R/S-Funktion profile()
   ## Author: Andreas Ruckstuhl, Date: Nov 93
   ## -------------------------------------------------------------------------
   nx <- names(x)
   np <- length(x)
-  opar <- par(oma=c(2,2,1.5,0), mfrow=c(np,np), mar=c(2,4,0,0)+0.2)
+  opar <- par(oma = c(2, 2, 1.5, 0), mfrow = c(np, np),
+              mar = c(2,4, 0, 0) + 0.2)
   on.exit(par(opar))
-  for(i in 1:np) {
-    for(j in 1:i){
-      if(i==j){
-        if(!is.null(this.comp <- x[[i]])) {
+  for (i in 1:np) {
+    for (j in 1:i) {
+      if (i == j) { ## Diagonale : Profil t-Funktionen
+        if (!is.null(this.comp <- x[[i]])) {
           xx <- this.comp$par[, nx[i]]
           tau <- this.comp[[1]]
-          plot(spline(xx, tau), xlab = "", ylab = "", type = "l", las=1,
-               mgp=c(3,0.8,0), cex=0.5*cex)
+          plot(spline(xx, tau), xlab = "", ylab = "", 
+               type = "l", las = 1, mgp = c(3, 0.8, 0), 
+               cex = 0.5 * cex)
           points(xx[tau == 0], 0, pch = 3)
-          pusr <- par("usr")
-          mtext(side=1, line=0.8, at=mean(pusr[1:2]), text=nx[j], outer=TRUE,
-                cex=cex)
-          mtext(side=2, line=0.8, at=mean(pusr[3:4]), text=nx[i], outer=TRUE,
-                cex=cex)
+          pusr <- par("usr")          
+          ## "at = " muss anders sein R & SPlus
+          if(is.R()) { ## mtext(outer = TRUE, at= <NICHT "usr" Koord>):
+            mtext(side = 1, line = 0.8, at = -1/(2*np)+i/np, 
+                  text = nx[j] , outer = TRUE, cex = cex)
+            mtext(side = 2, line = 0.8, at = -1/(2*np)+i/np, 
+                  text = nx[i], outer = TRUE, cex = cex)
+          }
+          else {
+            mtext(side = 1, line = 0.8, at = mean(pusr[1:2]), 
+                  text = nx[j] , outer = TRUE, cex = cex)
+            mtext(side = 2, line = 0.8, at = mean(pusr[3:4]), 
+                  text = nx[i], outer = TRUE, cex = cex)
+          }
         }
       }
-      else{
-        if((!is.null(x.comp <- x[[j]]))&(!is.null(y.comp <- x[[i]]))) {
+      else { ## j < i : Likelihood Profilspuren
+        if ((!is.null(x.comp <- x[[j]])) & (!is.null(y.comp <- x[[i]]))) {
           xx <- x.comp$par[, nx[j]]
           xy <- x.comp$par[, nx[i]]
           yx <- y.comp$par[, nx[j]]
           yy <- y.comp$par[, nx[i]]
-          plot(xx, xy, xlab="", ylab="", las=1, mgp=c(3,0.8,0), type="n",
-               xlim=range(c(xx,yx)), ylim=range(c(xy,yy)), cex=0.5*cex)
-          lines(xx, xy, col=2)
-          lines(yx, yy, col=3)
+          plot(xx, xy, xlab = "", ylab = "", las = 1, 
+               mgp = c(3, 0.8, 0), type = "n",
+               xlim = range(c(xx, yx)),
+               ylim = range(c(xy, yy)), cex = 0.5 * cex)
+          lines(xx, xy, col = 2)
+          lines(yx, yy, col = 3)
         }
       }
     }
-    if(i<np)
-      for(k in 1:(np-i+1))
-        frame()
+    if (i < np) # frame()s:  S-plus braucht häufig eines mehr :
+      for (k in 1:(np - i + if(is.R()) 0 else 1)) frame()
   }
-  ##
-  mtext(side=3, line=0.2, text="t-Profil-Plot und Profilspuren", outer=TRUE,
-        cex=1.2*cex)
+  mtext(side = 3, line = 0.2, text = "t-Profil-Plot und Profilspuren", 
+        outer = TRUE, cex = 1.2 * cex)
 }
+
+## Test Beispiel :
+
+## --> /u/sfs/ueb/fortgeschrittene/loesungen/loes-rg.truthennen.R
+
 
 p.corr <- function(...) stop("use 'symnum' instead of 'p.corr'")
                                         #-defined in ./misc-goodies.S
