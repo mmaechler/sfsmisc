@@ -1,35 +1,30 @@
-n.plot <- function(x, y, nam = NULL, abbr = n >= 20 || max(nchar(nam))>=8,-- $Id$
-                   xlab = deparse(substitute(x)), ylab = NULL,
-                   cex = par("cex"), ...)
+#### $Id: TA.plot.R,v 1.4 2002/11/30 22:21:20 maechler Exp maechler $
+n.plot <- function(x, y=NULL, nam = NULL, abbr = n >= 20 || max(nchar(nam))>=8,
+                   xlab = NULL, ylab = NULL, log = "", cex = par("cex"), ...)
 {
-  ## Purpose: "Name Plot"; Names (or numbers) instead of points in plot(..)
-  ##
-  ## --> now have  help(n.plot) !!
-  eval(xlab)
-  if(exists("DEBUG") && DEBUG) str(x)
-  if(missing(y)) {
-    if(!is.null(clx <- class(x)) && clx == "formula") {
-      warning("n.plot(.) does NOT yet work with  formula object !!")
-      plot.formula(x, ...)
-      return(invisible(x))
-    } else if (is.list(x) & length(x)==2) { y <- x[[2]]; x <- x[[1]]
-    } else if (is.matrix(x) & ncol(x)==2) { y <- x[,2] ; x <- x[,1]
-    } else { y <- x; x <- seq(x) }
-  }
-  plot(x, y, type = 'n', ..., xlab = xlab,
-       ylab = if(is.null(ylab)) deparse(substitute(y)) else ylab)
-  n <- length(x) # for abbr and ..
-  if(is.null(nam)) {
-    nam <- names(x)
-    if (is.null(nam)) {
-      nam <- names(y)
-      if (is.null(nam))
-	nam <- paste(1:n) #- Use 1,2,.. if no names
+    ## Purpose: "Name Plot"; Names (or numbers) instead of points in plot(..)
+    ## --> help(n.plot) !
+    if(inherits(x,"formula")) # is(x, "formula")
+        stop("formula not yet supported")
+    ## this is like plot.default():
+    xlabel <- if (!missing(x)) deparse(substitute(x))
+    ylabel <- if (!missing(y)) deparse(substitute(y))
+    xy <- xy.coords(x, y, xlabel, ylabel, log)
+    xlab <- if (is.null(xlab)) xy$xlab else xlab
+    ylab <- if (is.null(ylab)) xy$ylab else ylab
+    plot(xy, type = 'n', xlab = xlab, ylab = ylab, ...)
+    n <- length(x) # for abbr and ..
+    if(is.null(nam)) {
+        nam <- names(x)
+        if (is.null(nam)) {
+            nam <- names(y)
+            if (is.null(nam))
+                nam <- paste(1:n)       #- Use 1,2,.. if no names
+        }
     }
-  }
-  if(abbr) nam <- abbreviate(nam, min=1)
-  text(x, y, labels=nam, cex=cex)
-  invisible()
+    if(abbr) nam <- abbreviate(nam, min=1)
+    text(x, y, labels=nam, cex=cex)
+    invisible()
 }
 
 TA.plot <-
@@ -82,11 +77,15 @@ TA.plot <-
 	}
     }
   }
-  yl <- "Residuals"
-  if(!is.null(lm.res$weights)&& any(abs(lm.res$resid- res) > 1e-6*mad(res)))
-    yl <- paste("WEIGHTED", yl)
-  n.plot(fit, res, nam = labels, xlab = xlab, ylab = yl, main = main, ...)
-  ##====
+  if("ylab" %in% names(list(...))) {
+      n.plot(fit, res, nam = labels, xlab = xlab, main = main, ...)
+  } else {
+      yl <- "Residuals"
+      if(!is.null(lm.res$weights) &&
+         any(abs(lm.res$resid- res) > 1e-6*mad(res)))
+          yl <- paste("WEIGHTED", yl)
+      n.plot(fit, res, nam = labels, xlab = xlab, ylab = yl, main = main, ...)
+  }
   if(show.call)
     mtext(deparse(match.call()), side = 3, line = 0.5, cex = 0.6, adj=1)
   do.call("abline", c(list(h= 0), par0line))
