@@ -1,5 +1,6 @@
-#### PostScript Goodies für R --- `a la /u/sfs/S/ps.goodies.S-- $Id$
+#### PostScript Goodies für R --- `a la /u/sfs/S/ps.goodies.S
 ####
+#### $Id: ps.goodies.R,v 1.6 2001/08/29 13:43:35 sfs Exp sfs $
 ####
 
 ps.latex <- function(file, height= 5+ main.space*1.25, width= 9.5,
@@ -152,116 +153,6 @@ ps.end <- function(call.gv = NULL, do.color = u.get0("ps.do.color"),
   if (call.gv) u.sys(command, " ", ..ps.file, "&", intern=FALSE)
   else
     cat("\n >> switch to   GV (Ghostview) window -- updated automagically!\n\n")
-}
-
-## From ~/S/postscript.colors.S
-ps.colors.test <- function(ps.color.mat = ps.colors.23,
-                           do.post= TRUE, show.it= TRUE,
-                           region = ps.region.CS100)
-{
-  ## Purpose:  Test Color matrix of postscript colors
-  ## Authors: Dirk Stoehr & Martin Maechler, Date:  Tue Dec 17 1991 / Apr 92
-  ## ----------------------------------------------------------------
-  ## Arguments: ps.color.mat: 3-D color coordinates (Hue,Sat,Bright)
-  ##                       see "?postscript"
-  ##    do.post: should postscript be done, or current device be used ?
-  ##    show.it: should the postscript be shown by  ghostview ?
-  ## ----------------------------------------------------------------
-  ##->>> NOTE: This is time-intensive !!
-  ## ----------------------------------------------------------------
-  ##- test with  colors.test(cbind(seq(0, 1, len = 9), 1, 1))
-  ##- Usage examples :
-  ##-   ps.colors.test()
-  ##-   ps.colors.test(cbind(seq(0, 1, len = 51), 1, 1))
-  ##-   ps.colors.test(cbind(seq(0, 1, len = 51), .5, 1))
-  ##-   ps.colors.test(cbind(seq(0, 1, len = 51), 1 , .5))
-  ## ----------------------------------------------------------------
-  if(Browse) on.exit(browser())         #
-  ncolor <- nrow(ps.color.mat)
-  has.4 <- ncol(ps.color.mat) == 4
-  if(do.post) {
-    filename <- paste(deparse(substitute(ps.color.mat)), ".ps", sep="")
-    lett <- unique(ichar(filename))
-    good.lett <- ichar(c(LETTERS,letters, paste(0:9), "."))
-    if(any(is.na(match(lett, good.lett)))) {
-      code <- round(sum(ps.color.mat %*% c(if(has.4)0, 10^(2:0)))/ncolor)
-      filename <- paste("colors.test", paste(ncolor), paste(code),
-                        "ps", sep = ".")
-    }
-    postscript(file = filename, region = region, colors = ps.color.mat)
-    cat("\n PostScript  file name:", filename,"\n")
-  }
-  par(mar = c(1,0,2,0), usr = c(0, 6, 0, ncolor + 4)); frame()
-  mtext("Farben auf dem Thermodrucker im RZ", side =3, cex = 1.2)
-  mtext(        if (missing(ps.color.mat))
-        "(``ps.colors.23'' -- as posted once to S-news)"
-        else    deparse(substitute(ps.color.mat)),
-        side =3, line = -1, cex = 0.8)
-  name <- dimnames(ps.color.mat)[[1]]
-  x.txt <- 3.8;  dx.txt <- .6
-  if (is.null(dimnames(ps.color.mat)[[2]]))
-    dimnames(ps.color.mat)[2] <-
-      list(c(if (has.4) "", "Hue", "Saturation", "Brightness"))
-  for (j in 1:3)
-    text(x.txt + (j-1)*dx.txt, ncolor + 2 +(j%%2)/2,
-         dimnames(ps.color.mat)[[2]][has.4 + j]) # , adj = 0
-  if (ncolor > 40) par(cex = 20/ncolor) else
-  if (ncolor > 20) par(cex = .75)
-  for(i in 1:ncolor) {
-    y <- ncolor - i + .5
-    polygon(2 + c(0,0, 1,1), y + c(0,1, 1,0), col = i)
-    lines(c(0,6), rep(y + .1, 2), col = i)
-    text(.1, y + 0.5, paste(i,":",name[i]), adj = 0, col = i) #  srt = 90
-    for (j in 1:3)
-      text(x.txt + (j-1)*dx.txt, y + 0.5,
-           paste(format(round(ps.color.mat[i, has.4 + j], 4))), adj = 0)
-  }
-  if(do.post) {
-    if (exists("dev.off") && is.function(dev.off))
-      dev.off()
-    else        graphics.off()
-    if (show.it)  u.sys("gv ", filename, "&", intern=FALSE)
-  } else  Device.Default()
-  on.exit()
-}
-
-
-
-ps.show.fonts <- function(out.file = "test.ps.fonts.ps",
-                         font.nrs = seq(ps.fonts), ...)
-{
-  ## Purpose: Print all the characters of some (default : all) Postscript fonts
-  ##       in nice tabular form, two fonts per page
-  ## Author: Martin Maechler, Date:  Mar 27 1992, 13:09
-  ## ----------------------------------------------------------------
-  ## Arguments: out.file = name of file where to put postscript code
-  ##            font.nrs = numeric vector; index in ps.fonts, of fonts to use
-  ## NB : Needs global variable  "All.ASCII"
-  ## ----------------------------------------------------------------
-  ## Example : ps.show.fonts (font=13)
-  ##    ps.options(reset=T); ps.show.fonts("fonts.1.13.std.ps", font=c(1,13))
-  ##    ps.setup.SfS();      ps.show.fonts("fonts.1.13.iso.ps", font=c(1,13))
-  postscript(file = out.file, horizontal = FALSE, ...)
-  par(mfrow=c(2,1))
-  ps.fonts <- ps.options("fonts")[[1]]
-  setf <- ps.options("setfont")[[1]]
-  setf <- if(is.expression(setf)) deparse(setf) else substring(setf[1],1,20)
-  for (ifont in  font.nrs) {
-    par(font = ifont)
-    ## c.ifont <- formatC (ifont, w=2, flag = "0") #- pad leading zeros
-    plot(1:16, 0:15, type='n', lab=c(20,20,7), xlab ="i", ylab = "j", yaxt='n',
-         font = ifont,
-         main = paste('Postscript font "', ps.fonts[ifont],
-           '"; S:  font = ', ifont, sep=""))
-    axis(2, at = 15:0, labels = FALSE)
-    mtext(paste(15:0*16),2,line=1,at=0:15,font=1)
-    abline( h = -.5 + 4*1:3, lty=2)
-    abline( v = +.5 + 4*1:3, lty=2)
-    text(rep(1:16,16), rep(15:0,rep(16,16)), All.ASCII)
-    mtext(paste("ps.options(setfont)=", setf), line=1.2)
-    mtext("Char. at [i,j] == All.ASCII[ i + j ] = ascii(i+j-1)", side=3, line=0)
-  }
-  if (exists("dev.off", mode="function")) dev.off() else  graphics.off()
 }
 
 ###- end-of-former /u/maechler/S/Good.S goodies---------------------------------
