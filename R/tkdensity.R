@@ -1,7 +1,5 @@
-###  demo(tkdensity) ## is at
+###  demo(tkdensity) ## is at-- $Id$
 ### /usr/local/app/R/r-devel/Linux-inst/demos/tcltk/tkdensity.R
-
-require(tcltk) || stop("tcltk support is absent")
 
 tkdensity <- function(y, n = 1024, log.bw = TRUE, showvalue = TRUE, 
                       xlim = NULL,
@@ -11,6 +9,8 @@ tkdensity <- function(y, n = 1024, log.bw = TRUE, showvalue = TRUE,
     ## Purpose: as density() but with  scrollbar - bandwidth selection
     ## -----------------------------------------------------------------------
     ## Author: Martin Maechler, Date: 8 Nov 2000, 19:00
+
+    require(tcltk) || stop("tcltk support is absent")
 
     ynam <- deparse(substitute(y))
     size <- length(y)
