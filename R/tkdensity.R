@@ -1,10 +1,10 @@
-#### $Id: tkdensity.R,v 1.7 2001/08/29 13:43:10 sfs Exp sfs $
+#### $Id: tkdensity.R,v 1.8 2002/05/21 08:39:54 sfs Exp $
 
 ###  demo(tkdensity) ## is at
 ### /u/maechler/R/D/r-devel/Linux-inst/library/tcltk/demo/tkdensity.R
 
 tkdensity <- function(y, n = 1024, log.bw = TRUE, showvalue = TRUE,
-                      xlim = NULL,
+                      xlim = NULL, do.rug = size < 1000,
                       from.f = if(log.bw) -2   else 1/1000,
                       to.f   = if(log.bw) +2.2 else 2, col = 2)
 {
@@ -64,7 +64,7 @@ tkdensity <- function(y, n = 1024, log.bw = TRUE, showvalue = TRUE,
                              ", bw = ",format(b, dig = 3),
                              ", kernel = \"", k, "\")", sep=""),
                              xlim = xlim, col = col)))
-        points(y,rep(0,size), col = 3)
+        if(do.rug) rug(y) ## points(y,rep(0,size), col = 3)
     }
 
     replot.maybe <- function(...)
