@@ -1,12 +1,10 @@
 n.plot <- function(x, y, nam = NULL, abbr = n >= 20 || max(nchar(nam))>=8,
-                   xlab = deparse(substitute(x)), ylab = NULL, ...)
+                   xlab = deparse(substitute(x)), ylab = NULL,
+                   cex = par("cex"), ...)
 {
   ## Purpose: "Name Plot"; Names (or numbers) instead of points in plot(..)
-  ## -------------------------------------------------------------------------
-  ## Arguments: ALL as in  plot(...)  [ !! ]
-  ## -------------------------------------------------------------------------
-  ## Author: Martin Maechler, Date: 16 Nov 92, Dec.93
-  #- prt.DEBUG(x);
+  ##
+  ## --> now have  help(n.plot) !!
   eval(xlab)
   if(exists("DEBUG") && DEBUG) str(x)
   if(missing(y)) {
@@ -30,19 +28,20 @@ n.plot <- function(x, y, nam = NULL, abbr = n >= 20 || max(nchar(nam))>=8,
     }
   }
   if(abbr) nam <- abbreviate(nam, min=1)
-  cex <-
-    if(!is.na(maybe.cex <- match("cex", names(list(...)))))
-      list(...)[[maybe.cex]] else par("cex")
   text(x, y, labels=nam, cex=cex)
   invisible()
 }
 
-TA.plot <- function(lm.res, fit = fitted(lm.res),
-		    res = residuals(lm.res, "pearson"),
-		    labels = NULL, main = mk.main(), xlab = "Fitted values", 
-		    draw.smooth = n>=10, show.call = TRUE,  show.2sigma = TRUE,
-		    lo.iter = NULL, lo.cex = NULL,
-		    ...)
+TA.plot <-
+  function(lm.res, fit = fitted(lm.res),
+           res = residuals(lm.res, "pearson"),
+           labels = NULL, main = mk.main(), xlab = "Fitted values", 
+           draw.smooth = n >= 10, show.call = TRUE, show.2sigma = TRUE,
+           lo.iter = NULL, lo.cex = NULL,
+           par0line  = list(lty = 2, col = 2),
+           parSmooth = list(lwd = 1.5, lty = 4, col = 3),
+           parSigma  = list(lwd = 1.2, lty = 3, col = 4),
+           ...)
 {
   ## Purpose: Produce a Tukey-Anscombe plot of a linear model fit
   ##	      Note that residuals and fitted are UN-correlated (IFF intercept..)
@@ -89,8 +88,8 @@ TA.plot <- function(lm.res, fit = fitted(lm.res),
   n.plot(fit, res, nam = labels, xlab = xlab, ylab = yl, main = main, ...)
   ##====
   if(show.call)
-    mtext(deparse(match.call()), side = 3, line = 0.5, cex = 0.4, adj=1)
-  abline(h = 0, lty = 2, col = 2)
+    mtext(deparse(match.call()), side = 3, line = 0.5, cex = 0.6, adj=1)
+  do.call("abline", c(list(h= 0), par0line))
   p.mgp <- par("mgp")[1:2] #-- line numbers of margin text: xlab & label
   if(missing(lo.cex))
     lo.cex <- max(.2, min(0.8*par("mex"), .9*-diff(p.mgp))/par("mfg")[4])
@@ -102,27 +101,23 @@ TA.plot <- function(lm.res, fit = fitted(lm.res),
     if(s2[1] < rr[1] || s2[2] > rr[2])
       mtext(paste("2 sigma = ", format(s2[2])),
 	    side= 1, line= m.line, adj = 0, cex= lo.cex)
-    abline(h= s2, lwd=1.8, lty=4, col=4)
+    ##abline(h= s2, lwd=1.8, lty=3, col=4)
+    do.call("abline", c(list(h= s2), parSigma))
   }
   n <- length(res)
   if(draw.smooth) {
+    if(!is.list(parSmooth)) stop("`parSmooth' must be a list")
     ##-- lo.iter: idea of Werner Stahel:  no robustness for 'glm'  residuals
     if (is.null(lo.iter))
       lo.iter <- if(inherits(lm.res, "glm")&& lm.res$family[1]!="Gaussian")
 	0  else  3
     f <- max(0.2, 1.25 * n^-.2) #'-- Martin's very empirical formula...
-    lines(lowess(fit, res, f = f, iter = lo.iter),
-	  lwd = .1, lty = 3, col = 3)
-    ##- mtext with 2 times a 'cex' gives BUG [change of cex in global par]!
-    ##- --> save  ALL  par()s  to restore !
-    ##Q&D op <- par()
-    ##Q&D  par(err=-1) # eliminate warnings from using ... below;
-    ##Q&D  ... is to   get cex=.. and other parameters; this is "quick&dirty"
-    ##Q&D  ...  ELIMINATED !! (use them above for n.plot !!)
+    rlow <- lowess(fit, res, f = f, iter = lo.iter)
+    do.call("lines",c(rlow, parSmooth))
+
     mtext(paste("-.-.-.- : lowess smooth (f =", format(round(f,2)),
 		if(lo.iter!=3) paste(", it=", lo.iter), ")"),
 	  side = 1, line = m.line, cex = lo.cex, adj = 1)
-    ##Q&D par(op)
   }
   ##-	 "Correlation:", formatC(cor(fit,res), dig=3),
   ## mtext(paste(" -- Rank corr.:", formatC(cor(rank(fit),rank(res)), dig=3)) )
