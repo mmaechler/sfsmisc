@@ -1,11 +1,21 @@
-## Fixme: In the following, computing and plotting should be separated
+### Fixme: In the following, computing and plotting should be separated
 
 ###--> ./ecdf.R plot.ecdf() should get conf.type and conf.int argument!!
 
+### Also, I've posted a pre-version of this:
+## Date: Mon, 22 Oct 2001 19:15:35 +0200
+## From: Martin Maechler <maechler@stat.math.ethz.ch>
+## Subject: [R] Re: conf.int. for ecdfs {was "Two questions"}
+## To: cblouin@is2.dal.ca
+## Cc: Kjetil Halvorsen <kjetilh@umsanet.edu.bo>, r-help@stat.math.ethz.ch
+
+### Note -- this is related to the pkstwo() function inside ks.test()
+### ====    in the ctest package: ~/R/D/r-devel/R/src/library/ctest/R/ks.test.R
+
 ecdf.ksCI <- function(x, main = NULL, sub = NULL,
-                      xlab = deparse(substitute(x)), ...)
+                      xlab = deparse(substitute(x)), ci.col = "red", ...)
 {
-    xlab
+    force(xlab)
     if(is.null(main))
         main <- paste("ecdf(",deparse(substitute(x)),") + 95% K.S. bands",
                       sep="")
@@ -15,9 +25,9 @@ ecdf.ksCI <- function(x, main = NULL, sub = NULL,
     ec <- ecdf(x)
     xx <- get("x", envir=environment(ec))# = sort(x)
     yy <- get("y", envir=environment(ec))
-    D <- approx.ksD(n)
-    yyu <- pmin(yy+D, 1)
-    yyl <- pmax(yy-D, 0)
+    D <- KSd(n)
+    yyu <- pmin(yy + D, 1)
+    yyl <- pmax(yy - D, 0)
     ecu <- stepfun(xx, c(yyu, 1) )
     ecl <- stepfun(xx, c(yyl, yyl[n]) )
 
@@ -25,13 +35,14 @@ ecdf.ksCI <- function(x, main = NULL, sub = NULL,
 
     plot(ec, main = main, sub = sub, xlab = xlab)## no "..." here ???  __hmm..__
     plot(ecu, add=TRUE, verticals=TRUE, do.points=FALSE,
-         col.hor="red" , col.vert="red", ...)
+         col.hor= ci.col, col.vert= ci.col, ...)
     plot(ecl, add=TRUE, verticals=TRUE, do.points=FALSE,
-         col.hor="red", col.vert="red", ...)
+         col.hor= ci.col, col.vert= ci.col, ...)
 }
 
-approx.ksD <- function(n)
+KSd <- function(n)
 {
+    ## `approx.ksD()'
     ## approximations for the critical level for Kolmogorov-Smirnov statistic D,
     ## for confidence level 0.95. Taken from Bickel & Doksum, table IX, p.483
     ## and Lienert G.A.(1975) who attributes to Miller,L.H.(1956), JASA
