@@ -1,7 +1,6 @@
-#### $Id: misc-goodies.R,v 1.10 2001/11/27 17:35:49 sfs Exp sfs $
+#### $Id: misc-goodies.R,v 1.11 2001/12/20 17:12:45 sfs Exp $
 #### misc-goodies.R
 #### ~~~~~~~~~~~~~~  SfS - R - goodies that are NOT in
-####		"/u/sfs/R/SfS/R/f.goodies.R"
 ####		"/u/sfs/R/SfS/R/u.goodies.R"
 ####		"/u/sfs/R/SfS/R/p.goodies.R"
 
@@ -316,7 +315,7 @@ paste.vec <- function(name, digits = options()$digits)
   ## Author: Martin Maechler, ~ 1992 -- old name `str.vec()'
   ## Example: x <- 1:4;  paste.vec(x)   ##->  "x = 1 2 3 4"
   paste(paste(deparse(substitute(name))), "=",
-	paste(f.format(name, digits = digits), collapse = " "))
+	paste(format(name, digits = digits), collapse = " "))
 }
 signi <- function(x, digits = 6) round(x, digits - trunc(log10(abs(x))))
 
