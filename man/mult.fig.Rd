@@ -1,85 +1,64 @@
 \name{mult.fig}
 \alias{mult.fig}
-%- Also NEED an `\alias' for EACH other topic documented here.
-\title{ ~~function to do ... ~~}
+\alias{nrpl.2.mfrow}
+\title{Plot Setup for MULTiple FIGures, incl. Main Title}
 \description{
- ~~ A concise (1-5 lines) description of what the function does. ~~
+  Easy Setup for plotting multiple figures (in a rectangular layout) on
+  one page.  It allows to specify a main title and uses \emph{smart}
+  defaults for several \code{\link{par}} calls.
 }
 \usage{
-mult.fig(nr.plots, mfrow, mfcol, marP=rep(0, 4), mgp=c(1.5, 0.6, 0), mar=marP + 0.1 + c(4, 4, 2, 1), main=NULL, quiet=.Device == "postscript", tit.wid=if (is.null(main)) 0 else 4, cex.main=1.25, ...)
+mult.fig(nr.plots, mfrow, mfcol,
+         marP = rep(0, 4),  mgp = c(1.5, 0.6, 0),
+         mar = marP + 0.1 + c(4, 4, 2, 1),
+         main = NULL,
+         tit.wid = if (is.null(main)) 0 else 1 + 1.5*cex.main,
+         quiet = .Device == "postscript",
+         cex.main = par("cex.main"), \dots)
+
+nrpl.2.mfrow(nr.plots)
 }
-%- maybe also `usage' for other objects documented here.
 \arguments{
- \item{nr.plots}{ ~~Describe \code{nr.plots} here~~ }
- \item{mfrow}{ ~~Describe \code{mfrow} here~~ }
- \item{mfcol}{ ~~Describe \code{mfcol} here~~ }
- \item{marP}{ ~~Describe \code{marP} here~~ }
- \item{mgp}{ ~~Describe \code{mgp} here~~ }
- \item{mar}{ ~~Describe \code{mar} here~~ }
- \item{main}{ ~~Describe \code{main} here~~ }
- \item{quiet}{ ~~Describe \code{quiet} here~~ }
- \item{tit.wid}{ ~~Describe \code{tit.wid} here~~ }
- \item{cex.main}{ ~~Describe \code{cex.main} here~~ }
- \item{\dots}{ ~~Describe \code{\dots} here~~ }
-}
-\details{
- ~~ If necessary, more details than the __description__  above ~~
+ \item{nr.plots}{integer; the number of plot figures you'll want to draw.}
+ \item{mfrow}{\emph{instead} of \code{nr.plots}: integer(2) vector
+   giving the rectangular figure layout for \code{\link{par}((mfrow= .)}}.}
+ \item{mfcol}{\emph{instead} of \code{nr.plots}: integer(2) vector
+   giving the rectangular figure layout for \code{\link{par}((mfcol= .)}}.}
+ \item{marP}{numeric(4) vector of figure margins to \emph{add}
+   (``\bold{P}lus'') to default \code{mar}, see below.}
+ \item{mgp}{argument for \code{\link{par}((mpg= .)}} with a smaller
+ default than usual.}
+ \item{mar}{argument for \code{\link{par}((mar= .)}} with a smaller
+ default than usual, using the \code{marP} argument, see above.}
+ \item{main}{character.  The main title to be used for the whole graphic.}
+ \item{tit.wid}{numeric; the vertical width to be used for the main title.}
+ \item{cex.main}{numeric; the character size to be used for the main title.}
+ \item{quiet}{logical; if \code{TRUE}, do \emph{not} write the reminder
+   about resetting \code{\link{par}}.}
+ \item{\dots}{Further arguments to \code{\link{mtext}} for the main title.}
 }
 \value{
-  ~Describe the value returned
-  If it is a LIST, use
-  \item{comp1 }{Description of `comp1'}
-  \item{comp2 }{Description of `comp2'}
-  ...
+  A \code{\link{list}} with two components that are lists themselves, a
+  subset of \code{\link{par}()},
+  \item{new.par}{the current \code{par} settings.}
+  \item{old.par}{the \code{par} \emph{before} the call.}
 }
-\references{ ~put references to the literature/web site here ~ }
-\author{ ~~who you are~~ }
-\note{ ~~further notes~~ }
-
- ~Make other sections like WARNING with \section{WARNING }{....} ~
-
-\seealso{ ~~objects to SEE ALSO as \code{\link{~~fun~~}}, ~~~ }
-
+\author{Martin Maechler, UW Seattle, 1990.}
+\seealso{\code{\link{par}}, \code{\link{layout}}.}
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	     or do  help(data=index)  for the standard data sets.
+mult.fig(5, main= "Sinus Funktionen verschiedener Frequenzen")
+x <- seq(0, 1, len = 201)
+for (n in 1:5)
+  plot(x, sin(n * pi * x), ylab ="", main = paste("n = ",n))
+par(old.par)
 
-## The function is currently defined as
-function (nr.plots, mfrow, mfcol, marP = rep(0, 4), mgp = c(1.5, 
-    0.6, 0), mar = marP + 0.1 + c(4, 4, 2, 1), main = NULL, quiet = .Device == 
-    "postscript", tit.wid = if (is.null(main)) 0 else 4, cex.main = 1.25, 
-    ...) 
-{
-    use.row <- missing(mfcol)
-    if (use.row) 
-        if (missing(mfrow)) {
-            if (missing(nr.plots)) 
-                stop("must either specify 'nr.plots', 'mfrow' or 'mfcol' !")
-            else mfrow <- nrpl.2.mfrow(nr.plots)
-        }
-    Nrow <- (if (use.row) 
-        mfrow
-    else mfcol)[1]
-    if (Nrow > 2) {
-        if (!is.null(main)) 
-            cex.main <- cex.main * 1.5
-        tit.wid <- tit.wid * 1.5
-    }
-    oma <- c(0, 0, tit.wid, 0)
-    old.par <<- if (use.row) 
-        par(mfrow = mfrow, oma = oma, mar = mar, mgp = mgp)
-    else par(mfcol = mfcol, oma = oma, mar = mar, mgp = mgp)
-    if (!quiet) 
-        cat("Execute\n\t par(old.par) \n later to restore graphical par\n")
-    if (!is.null(main)) {
-        plot.new()
-        mtext(main, side = 3, line = tit.wid - 4, cex = cex.main, 
-            outer = TRUE, font = par("font.main"), ...)
-        par(new = TRUE)
-    }
-    invisible(list(new.par = par(c("mfrow", "mfcol", "oma", "mar", 
-        "mgp")), old.par = old.par))
-  }
+rr <- mult.fig(mfrow=c(5,1), main= "Sinus Funktionen", cex = 1.5,
+               marP = - c(0, 1, 2, 0))
+for (n in 1:5)
+  plot(x, sin(n * pi * x), type = 'l', col="red", ylab ="")
+str(rr)
+par(old.par)
+## Look at the par setting *AFTER* the above:
+str(do.call("par", as.list(names(rr$new.par))))
 }
-\keyword{ ~keyword }%-- one or more ...
+\keyword{hplot}
