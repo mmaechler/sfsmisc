@@ -1,3 +1,32 @@
+####---- Prime numbers, factorization, etc. --- "illustatration of programming"
+
+###---- Function definitions --------
+
+if(!exists("is.sorted", mode='function'))
+   is.sorted <- function(x) (length(x) <= 1) || all(diff(x) >= 0)
+
+prime.sieve <- function(p2et = c(2,3,5), maxP = pM^2)
+{
+  ## Purpose: Produce ALL prime numbers from 2, 3.., using 2,3,5,7,...
+  ## -------------------------------------------------------------------------
+  ## Arguments: p2et: primes c(2,3,5,..., pM);
+  ##            maxP : want primes up to maxP
+  ## -------------------------------------------------------------------------
+  ## Author: Martin Maechler, Date: 26 Jan 96, 15:08
+  if(any(p2et[1:2] != 2:3) || !is.sorted(p2et) || !is.numeric(p2et))
+        stop("argument 'p2et' must contain SORTED primes 2,3,..")
+  k <- length(p2et)
+  pM <- p2et[k]
+  if(maxP <= pM+1) p2et #- no need to compute more
+  else if(maxP > pM^2)  prime.sieve(prime.sieve(p2et), maxP=maxP)
+  else { #-- pM < maxP <= pM^2
+    r <- seq(from = pM+2, to = maxP, by = 2)
+    for(j in 1:k)
+      if(0== length(r <- r[r%% p2et[j] != 0])) break
+    c(p2et,r)
+  }
+}
+
 factorize <- function(n)
 {
   ## Purpose:  Prime factorization of integer(s) 'n'
@@ -49,22 +78,6 @@ factorize <- function(n)
 
   res
 }
-factorize(n <- c(7,27,37,5*c(1:5, 8, 10)))
-factorize(47)
-factorize(7207619)## quick !
-
-unix.time(fac.1ex <- factorize(1000 + 1:99)) #-- 0.95 sec  (sophie)
-
-## This REALLY takes time -- (for loop over 10000; 10000 times res[[i]] <-..
-unix.time(factorize.10000 <- factorize(1:10000))
-## sophie: Sparc 5 (..) :lots of swapping after while, >= 20 minutes CPU;
-##			then using less and less CPU, ..more swapping ==> KILL
-unix.time(factorize.1e4 <- factorize(1:10000))
-## florence (hypersparc): [1] 1038.90   5.09 1349.  0   0  ( 17 min. CPU)
-unix.time(factorize.1e4 <- factorize(1:10000))
-## lynne (Ultra-1):       [1]  658.77   0.90  677.  0   0
-
-object.size(factorize.1e4) #-->[1] 3027743
 
 test.factorize <- function(res)
 {
@@ -76,36 +89,31 @@ test.factorize <- function(res)
   n <- as.integer(names(res))
   n == sapply(res, function(pf) prod(pf[,"p"] ^ pf[,"m"]))
 }
+
 
+factorize(n <- c(7,27,37,5*c(1:5, 8, 10)))
+factorize(47)
+factorize(7207619)## quick !
+
+unix.time(fac.1ex <- factorize(1000 + 1:99)) #-- 0.95 sec  (sophie)
+
+## This REALLY takes time -- (for loop over 10000; 10000 times res[[i]] <-..
+unix.time(factorize.10000 <- factorize(1:10000))
+## sophie: Sparc 5 (..) :lots of swapping after while, >= 20 minutes CPU;
+##			then using less and less CPU, ..more swapping ==> KILL
+## florence (hypersparc): [1] 1038.90   5.09 1349.  0   0  ( 17 min. CPU)
+## lynne (Ultra-1):       [1]  658.77   0.90  677.  0   0
+
+if(!is.null(vv <- version$language) && vv == "R") save()
+
+
+object.size(factorize.1e4) #-->[1] 3027743
+
+###--- test
 test.factorize(fac.1ex[1:10]) #-- T T T
 which(!test.factorize(fac.1ex))
 which(!test.factorize(factorize(8000 + 1:1000)))
 
-if(!exists("is.sorted", mode='function'))
-is.sorted <- function(x) (length(x) <= 1) || all(diff(x) >= 0)
-
-
-prime.sieve <- function(p2et = c(2,3,5), maxP = pM^2)
-{
-  ## Purpose: Produce ALL prime numbers from 2, 3.., using 2,3,5,7,...
-  ## -------------------------------------------------------------------------
-  ## Arguments: p2et: primes c(2,3,5,..., pM);
-  ##            maxP : want primes up to maxP
-  ## -------------------------------------------------------------------------
-  ## Author: Martin Maechler, Date: 26 Jan 96, 15:08
-  if(any(p2et[1:2] != 2:3) || !is.sorted(p2et) || !is.numeric(p2et))
-        stop("argument 'p2et' must contain SORTED primes 2,3,..")
-  k <- length(p2et)
-  pM <- p2et[k]
-  if(maxP <= pM+1) p2et #- no need to compute more
-  else if(maxP > pM^2)  prime.sieve(prime.sieve(p2et), maxP=maxP)
-  else { #-- pM < maxP <= pM^2
-    r <- seq(from = pM+2, to = maxP, by = 2)
-    for(j in 1:k)
-      if(0== length(r <- r[r%% p2et[j] != 0])) break
-    c(p2et,r)
-  }
-}
 
 prime.sieve(prime.sieve())
 unix.time(P1e4 <- prime.sieve(prime.sieve(prime.sieve()), max=10000))
