@@ -1,4 +1,4 @@
-#### $Id: TA.plot.R,v 1.4 2002/11/30 22:21:20 maechler Exp maechler $
+#### $Id: TA.plot.R,v 1.6 2003/11/21 14:28:34 maechler Exp $
 n.plot <- function(x, y=NULL, nam = NULL, abbr = n >= 20 || max(nchar(nam))>=8,
                    xlab = NULL, ylab = NULL, log = "", cex = par("cex"), ...)
 {
@@ -13,18 +13,15 @@ n.plot <- function(x, y=NULL, nam = NULL, abbr = n >= 20 || max(nchar(nam))>=8,
     xlab <- if (is.null(xlab)) xy$xlab else xlab
     ylab <- if (is.null(ylab)) xy$ylab else ylab
     plot(xy, type = 'n', xlab = xlab, ylab = ylab, ...)
-    n <- length(x) # for abbr and ..
-    if(is.null(nam)) {
-        nam <- names(x)
-        if (is.null(nam)) {
-            nam <- names(y)
-            if (is.null(nam))
-                nam <- paste(1:n)       #- Use 1,2,.. if no names
-        }
-    }
+    n <- length(x)
+    if(is.null(nam)) {  nam <- rownames(x)
+     if (is.null(nam)) { nam <- names(x)
+      if (is.null(nam)) { nam <- names(y)
+       if (is.null(nam)) { nam <- paste(1:n) #- Use 1,2,.. if no names
+    }}}}
     if(abbr) nam <- abbreviate(nam, min=1)
-    text(x, y, labels=nam, cex=cex)
-    invisible()
+    text(xy, labels=nam, cex=cex)
+    invisible(nam)
 }
 
 TA.plot <-
