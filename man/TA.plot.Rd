@@ -9,13 +9,15 @@
 \usage{
 TA.plot(lm.res,
         fit= fitted(lm.res), res= residuals(lm.res, "pearson"),
-        labels= NULL, main= mk.main(), draw.smooth= n >= 10,
-        show.call= T, show.2sigma= T, lo.iter = NULL, lo.cex=0.8, \dots)
+        labels= NULL, main= mk.main(), xlab = "Fitted values",
+        draw.smooth= n >= 10, show.call = TRUE, show.2sigma= TRUE,
+        lo.iter = NULL, lo.cex= NULL, \dots)
 }
 \arguments{
-  \item{lm.res}{Result of lm(..), aov(..), glm(..) or a similar object.}
+  \item{lm.res}{Result of \code{\link{lm}(..)}, \code{\link{aov}(..)},
+    \code{\link{glm}(..)} or a similar object.}
   \item{fit}{fitted values; you probably want the default here.}
-  \item{res}{residuals to use. Default: WEIGHTED ("Pearson") residuals if
+  \item{res}{residuals to use. Default: \bold{Weighted} ("Pearson") residuals if
     weights have been used for the model fit.}
   \item{labels}{strings to use as plotting symbols for each point.
     Default(NULL): extract observations' names or use its sequence number.
@@ -25,17 +27,18 @@ TA.plot(lm.res,
     something like "Tukey-Anscombe Plot of :   y \~ x"  constructed from
     \code{call(.)} in \code{lm.res}.
   }
-  \item{draw.smooth}{logical; if \code{T}, draw a \code{lowess} smoother
+  \item{xlab}{x-axis lable for plot.}
+  \item{draw.smooth}{logical; if \code{TRUE}, draw a \code{lowess} smoother
     (with automatic smoothing fraction).}
-  \item{show.call}{logical; if \code{T}, write the "call"ing syntax with
+  \item{show.call}{logical; if \code{TRUE}, write the "call"ing syntax with
     which the fit was done.}
-  \item{show.2sigma}{logical; if \code{T}, draw horizontal lines at +- 2
-    sigma (sigma := mad(resid)).}
+  \item{show.2sigma}{logical; if \code{TRUE}, draw horizontal lines at
+    \eqn{\pm 2\sigma}{+- 2 sigma} where \eqn{\sigma} is \code{mad(resid)}.}
   \item{lo.iter}{positive integer, giving the number of lowess
     robustness iterations.}
-  \item{lo.cex}{character expansion ("cex") for  lowess and other
+  \item{lo.cex}{character expansion ("cex") for lowess and other
     marginal texts.}
-  \item{...}{further graphical parameters  are passed to  \code{n.plot(.)}.}
+  \item{\dots}{further graphical parameters are passed to \code{n.plot(.)}.}
 }
 \section{Side Effects}{
   The above mentioned plot is produced on the current graphic device.
@@ -55,17 +58,20 @@ summary(lmO <- lm(Ozone ~ ., data= airquality))
 TA.plot(lmO)
 TA.plot(lmO, label = "O") # instead of case numbers
 
-if(FALSE) { ### These were all from S-plus
-
+if(FALSE) { %%  from S-plus
  TA.plot(lm(cost ~ age+type+car.age, claims, weights=number, na.action=na.omit))
- ##---------- for  aov(.) : ----------------------------------
- data(gun)
- TA.plot( aov(Rounds ~ Method + Physique/Team, data = gun))
+}
 
- ###---------- Not so clear what it means for GLM, but: ------
- data(solder)
+##--- for  aov(.) : -------------
+data(Gun, package = "nlme")
+TA.plot( aov(rounds ~ Method + Physique/Team, data = Gun))
+
+##--- Not so clear what it means for GLM, but: ------
+if(require(rpart)) { # for the two datasets only
+ data(solder, package = "rpart")
  TA.plot(glm(skips ~ ., data = solder, family = poisson), cex= .6)
- data(kyphosis)
+
+ data(kyphosis, package = "rpart")
  TA.plot(glm(Kyphosis ~ poly(Age,2) + Start, data=kyphosis, family = binomial),
 	 cex=.75) # smaller title and plotting characters
 }
