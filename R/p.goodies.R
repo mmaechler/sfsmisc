@@ -1,4 +1,5 @@
-#### Original is /u/sfs/S/p.goodies.S  [v 1.12 1999/05/06 10:17:00 sfs Exp ]-- $Id$
+#### $Id: p.goodies.R,v 1.8 2001/08/29 13:44:07 sfs Exp sfs $
+#### Original is /u/sfs/S/p.goodies.S  [v 1.12 1999/05/06 10:17:00 sfs Exp ]
 ####
 ### p.goodies.S ---- SfS- S(plus) - Funktionen, welche
 ### ---------------- mit  'p.' (für "Plot") beginnen  [alte SfS-Tradition ..]
@@ -71,6 +72,11 @@ p.dnorm <- function(mittel = 0, std = 1, ms.lines = TRUE, ...)
     text(mittel+c(-std/2,std/2), f.ms, expression(-sigma, +sigma), adj=c(.5,0))
   }
 }
+
+p.m <- function(mat, ...)
+  matplot(mat[, 1], mat[, -1, drop = FALSE], ...)
+
+
 ## ===========================================================================
 
 p.pairs <- function(data, data2, pch='.', col=1, colors, vnames, range=TRUE,
@@ -339,11 +345,17 @@ p.tst.dev <- function(ltypes = 10, lwidths = 12, colors = 16, ptypes = 20)
   ## -------------------------------------------------------------------------
   ## Author: Martin Maechler, Date: 1990
 
+  if(is.R()) {
+    cat("using current par() settings ...\n")
+  } else { ## S-plus
+    Device.Default()
+  }
   ##--- Define the region --------------------
-  Device.Default()
   plot(c(0, 100), c(0, 100), type = "n", xlab = "", ylab = "Y label",
-       main = paste(" `S' device - test :  .Device  == \"",  .Device,
-         "\""), sub = " sub-title ")
+       main = paste(if(is.R()) "R" else "S+",
+         " device - test :  .Device  == \"",  .Device, "\""),
+       sub = " sub-title ")
+  mtext(if(is.R())R.version.string else version, side=1, adj=1, cex=0.6)
   ##--- Line types: -------------------------
   for(i in 1:ltypes) {
     y <- ((i - 1/2) * 100)/ltypes
@@ -359,8 +371,8 @@ p.tst.dev <- function(ltypes = 10, lwidths = 12, colors = 16, ptypes = 20)
   ##--- Line widths: -------------------------
   for(i in 1:lwidths) {
     y <- ((i - 1/2) * 100)/lwidths
-    lines(2 * 34 + c(1, 20), c(y, y), lwd = (i - 1)/2)
-    text(2 * 34 + 28, y, paste("lwd=", (i - 1)/2))
+    lines(2 * 34 + c(1, 20), c(y, y), lwd = i/2)
+    text(2 * 34 + 28, y, paste("lwd=", i/2))
   }
 }
 
