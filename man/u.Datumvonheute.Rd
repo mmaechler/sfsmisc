@@ -3,6 +3,7 @@
 \alias{C.Monatsname}
 \alias{C.Wochentag}
 \alias{C.Wochentagkurz}
+\alias{C.weekday}
 \title{Datum und Uhrzeit (auf deutsch)}
 \description{
   Return current date and time as a string, possibly including day of
@@ -14,6 +15,7 @@ u.Datumvonheute(W.tag=2, Zeit=FALSE)
 C.Monatsname
 C.Wochentag
 C.Wochentagkurz
+C.weekday
 }
 \arguments{
   \item{W.tag}{logical or integer specifying you want weekday (`Wochentag').
@@ -27,7 +29,7 @@ C.Wochentagkurz
   A string with the current date/time, in the form specified by the arguments.
 
   The \code{C.*} are \code{\link{character}} vector ``constants'',
-  actually used by \code{u.Datumvonheute}.
+  the German ones actually used by \code{u.Datumvonheute}.
 }
 \author{Caterina Savi, Martin Maechler}
 \seealso{\code{\link{u.date}} for a similar English version, and
