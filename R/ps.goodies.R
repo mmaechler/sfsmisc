@@ -4,7 +4,7 @@
 
 ps.latex <- function(file, height= 5+ main.space*1.25, width= 9.5,
                      main.space = FALSE, lab.space = main.space,
-                     iso.latin1 = is.R(),
+                     iso.latin1 = is.R(), paper = "special",
                      ##not yet in R: ps.title = paste("S+ :",file),
                      lab = c(10,10,7), mgp.lab = c(1.6, .7, 0),
                      mar = c(4,4,0.9,1.1), ...)
@@ -31,7 +31,7 @@ ps.latex <- function(file, height= 5+ main.space*1.25, width= 9.5,
   if(!missing(mar) && !(length(mar)==4 && is.numeric(mar) && all(mar >=0)))
     stop("'mar' must be non-negative numeric vector of length 4")
 
-  ps.do(file=file, height=height, width=width,
+  ps.do(file=file, height=height, width=width, paper=paper,
         iso.latin1=iso.latin1, ##not yet in R: title = ps.title,
         ...)
   ##=== Now: just do the proper   par(...)  call
@@ -54,7 +54,7 @@ ps.latex <- function(file, height= 5+ main.space*1.25, width= 9.5,
 
 ps.do <- function(file, width = -1, height = -1,
                   onefile = FALSE, horizontal = FALSE, iso.latin1 = is.R(),
-		  do.color = NULL, colors = NULL, image.colors = NULL,
+                  do.color = NULL, colors = NULL, image.colors = NULL,
 		  ...)
 {
   ## Purpose: "Ghostview" device driver. --- to be "closed" by ps.end(..) --
@@ -84,9 +84,11 @@ ps.do <- function(file, width = -1, height = -1,
   ## --->>>>>> CONSIDER   'ps.latex'   instead  for pictures !
 
   u.assign0("..ps.file", file)
-  if(length(list(...))) {
-    pso <- ps.options(...)
-    on.exit(ps.options(pso)) #- reset ps.options !
+  if(length(l... <- list(...))) {
+    ## This does NOT work : pso are the *NEW*, not the *former* ones!
+    oldop <- ps.options()[names(l...)]
+    ps.options(...)
+    on.exit( do.call("ps.options", oldop) ) #- reset ps.options !
   }
   no.do.col <- is.null(do.color)
   if(no.do.col)
@@ -108,7 +110,7 @@ ps.do <- function(file, width = -1, height = -1,
     stop("In R, you currently MUST allow ISO-latin1 text.")
 
   postscript(file = file, width = width, height = height, horizontal=horizontal,
-             onefile = onefile, print.it = FALSE)
+             onefile = onefile, print.it = FALSE, ...)
 }
 
 ps.end <- function(call.gv = NULL, do.color = u.get0("ps.do.color"),
