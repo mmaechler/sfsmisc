@@ -1,6 +1,45 @@
+n.plot <- function(x, y, nam = NULL, abbr = n >= 20 || max(nchar(nam))>=8,
+                   xlab = deparse(substitute(x)), ylab = NULL, ...)
+{
+  ## Purpose: "Name Plot"; Names (or numbers) instead of points in plot(..)
+  ## -------------------------------------------------------------------------
+  ## Arguments: ALL as in  plot(...)  [ !! ]
+  ## -------------------------------------------------------------------------
+  ## Author: Martin Maechler, Date: 16 Nov 92, Dec.93
+  #- prt.DEBUG(x);
+  eval(xlab)
+  if(exists("DEBUG") && DEBUG) str(x)
+  if(missing(y)) {
+    if(!is.null(clx <- class(x)) && clx == "formula") {
+      warning("n.plot(.) does NOT yet work with  formula object !!")
+      plot.formula(x, ...)
+      return(invisible(x))
+    } else if (is.list(x) & length(x)==2) { y <- x[[2]]; x <- x[[1]]
+    } else if (is.matrix(x) & ncol(x)==2) { y <- x[,2] ; x <- x[,1]
+    } else { y <- x; x <- seq(x) }
+  }
+  plot(x, y, type = 'n', ...,
+       xlab = xlab, ylab = if(is.null(ylab))deparse(substitute(y)))
+  n <- length(x) # for abbr and ..
+  if(is.null(nam)) {
+    nam <- names(x)
+    if (is.null(nam)) {
+      nam <- names(y)
+      if (is.null(nam))
+	nam <- paste(1:n) #- Use 1,2,.. if no names
+    }
+  }
+  if(abbr) nam <- abbreviate(nam, min=1)
+  cex <-
+    if(!is.na(maybe.cex <- match("cex", names(list(...)))))
+      list(...)[[maybe.cex]] else par("cex")
+  text(x, y, labels=nam, cex=cex)
+  invisible()
+}
+
 TA.plot <- function(lm.res, fit = fitted(lm.res),
 		    res = residuals(lm.res, "pearson"),
-		    labels = NULL, main = mk.main(),
+		    labels = NULL, main = mk.main(), xlab = "Fitted values", 
 		    draw.smooth = n>=10, show.call = TRUE,  show.2sigma = TRUE,
 		    lo.iter = NULL, lo.cex = NULL,
 		    ...)
@@ -28,9 +67,10 @@ TA.plot <- function(lm.res, fit = fitted(lm.res),
       names(call)[2] <- ""
     }
     mk.main <- function() {
-      cal <- get("call", frame = sys.parent())
-      if(is.null(cal)) 	"Tukey-Anscombe plot of ???"
-	else {
+      cal <- if(is.R()) call else get("call", frame = sys.parent())
+      if(is.null(cal))
+        "Tukey-Anscombe plot of ???"
+      else {
 	  nc <- nchar(ccal <- deparse(cal)[1])
 	  prt.DEBUG("|cal|=", length(cal), "; nchar(ccal) =", nc,": '", ccal,
 		    "'\n", sep="")
@@ -46,8 +86,8 @@ TA.plot <- function(lm.res, fit = fitted(lm.res),
   yl <- "Residuals"
   if(!is.null(lm.res$weights)&& any(abs(lm.res$resid- res) > 1e-6*mad(res)))
     yl <- paste("WEIGHTED", yl)
-  n.plot(fit, res, nam = labels, xlab = "Fitted values", ylab = yl,
-	 main = main, ...)
+  n.plot(fit, res, nam = labels, xlab = xlab, ylab = yl, main = main, ...)
+  ##====
   if(show.call)
     mtext(deparse(match.call()), side = 3, line = 0.5, cex = 0.4, adj=1)
   abline(h = 0, lty = 2, col = 2)
@@ -59,7 +99,7 @@ TA.plot <- function(lm.res, fit = fitted(lm.res),
   if(show.2sigma) {
     s2 <- c(-2,2) * mad(res, center=0)
     rr <- range(res)
-    if(s2[1]< rr[1] || s2[2] > rr[2])
+    if(s2[1] < rr[1] || s2[2] > rr[2])
       mtext(paste("2 sigma = ", format(s2[2])),
 	    side= 1, line= m.line, adj = 0, cex= lo.cex)
     abline(h= s2, lwd=1.8, lty=4, col=4)
@@ -72,7 +112,7 @@ TA.plot <- function(lm.res, fit = fitted(lm.res),
 	0  else  3
     f <- max(0.2, 1.25 * n^-.2) #'-- Martin's very empirical formula...
     lines(lowess(fit, res, f = f, iter = lo.iter),
-	  lwd = 0, lty = 3, col = 3)
+	  lwd = .1, lty = 3, col = 3)
     ##- mtext with 2 times a 'cex' gives BUG [change of cex in global par]!
     ##- --> save  ALL  par()s  to restore !
     ##Q&D op <- par()
