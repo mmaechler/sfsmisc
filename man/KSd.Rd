@@ -32,12 +32,12 @@ approx.ksD(n)
 
 \examples{
 approx.ksD(90)
-try(approx.ksD(5))# error: n >= 10
+approx.ksD(1:9)# now works
 
 op <- par(mfrow=c(2,1))
-curve(approx.ksD(n), 10, 150), xlab = "n")# nice
-abline(v = c(75,85), col = "gray")
-plot(approx.ksD, 75, 85, n = 1001)# tiny discontinuity at 80
+  plot(approx.ksD, 10, 150)# nice
+  abline(v = c(75,85), col = "gray")
+  plot(approx.ksD, 79, 81, n = 1001)# *very* tiny discontinuity at 80
 par(op)
 }
 \keyword{distribution}
