@@ -1,12 +1,11 @@
 #### PostScript Goodies für R --- `a la /u/sfs/S/ps.goodies.S
 ####
-#### $Id: ps.goodies.R,v 1.6 2001/08/29 13:43:35 sfs Exp sfs $
+#### $Id: ps.goodies.R,v 1.8 2003/12/15 15:38:00 maechler Exp $
 ####
 
 ps.latex <- function(file, height= 5+ main.space*1.25, width= 9.5,
                      main.space = FALSE, lab.space = main.space,
-                     iso.latin1 = is.R(), paper = "special",
-                     ##not yet in R: ps.title = paste("S+ :",file),
+                     paper = "special", title = NULL,
                      lab = c(10, 10, 7), mgp.lab = c(1.6, 0.7, 0),
                      mar = c(4, 4, 0.9, 1.1), ...)
 {
@@ -14,7 +13,7 @@ ps.latex <- function(file, height= 5+ main.space*1.25, width= 9.5,
   ##    Calls  ps.do(.) ; par(.)  [ old par in global 'o.p']; USE  ps.end() !
   ## -------------------------------------------------------------------------
   ## Arguments: height & width in INCHES.   (5, 9.5) is 'horizontal look'
-  ##            ps.title: to be used in PostScript (-> for gv/ghostview !)
+  ##            title: to be used in PostScript (-> for gv/ghostview !)
   ##            main.space & lab.space: if T, leave space for 'main' & 'x/ylab'
   ##            lab :  for  par(.);  (10,10,7): use more axis 'labels' ..
   ##            mgp.lab & mar :  for par(.): these are values for 'lab.space=T'
@@ -32,15 +31,15 @@ ps.latex <- function(file, height= 5+ main.space*1.25, width= 9.5,
   if(!missing(mar) && !(length(mar)==4 && is.numeric(mar) && all(mar >=0)))
     stop("'mar' must be non-negative numeric vector of length 4")
 
-  ps.do(file=file, height=height, width=width, paper=paper,
-        iso.latin1=iso.latin1, ##not yet in R: title = ps.title,
-        ...)
-  ##=== Now: just do the proper   par(...)  call
+  ps.do(file=file, height=height, width=width, paper=paper, title = title, ...)
+  ##===
+
+  ## Now: just do the proper par(...) calls :
   mar.main.Extra  <- c(0,0, 3.2,0)
-  mar.nolab.Minus <- c(1,1,  .3,0)
-  if(main.space) {
-    if(missing(mar)) mar <- mar + mar.main.Extra
-  }
+  mar.nolab.Minus <- c(1,1, 0.3,0)
+  if(main.space && missing(mar))
+    mar <- mar + mar.main.Extra
+
   if(!lab.space) {
     mar <- mar - mar.nolab.Minus
     if(main.space)
@@ -54,9 +53,7 @@ ps.latex <- function(file, height= 5+ main.space*1.25, width= 9.5,
 }
 
 ps.do <- function(file, width = -1, height = -1,
-                  onefile = FALSE, horizontal = FALSE, iso.latin1 = is.R(),
-                  do.color = NULL, colors = NULL, image.colors = NULL,
-		  ...)
+                  onefile = FALSE, horizontal = FALSE, title = NULL, ...)
 {
   ## Purpose: "Ghostview" device driver. --- to be "closed" by ps.end(..) --
   ## -------------------------------------------------------------------------
@@ -64,20 +61,7 @@ ps.do <- function(file, width = -1, height = -1,
   ##            onefile = F  <==> Encapsulated PS  (Splus default: T, simple PS)
 
   ## -- new Args:  combining former   ps.do(.) and  ps.col(.) :
-  ##	do.color: if TRUE, produce COLOR PostScript (and use colors & image.col)
-  ##		Default: TRUE, if 'colors' or 'image.colors' are non-NULL.
-  ##	colors: Eine Matrix (d.h. echte HSB-Farbe);
-  ##	        DEFAULT:  ps.col23.rgb wurde in
-  ##		S-news gepostet (und von uns noch etwas um-ge-dimnamed).
-  ##		dimnames(ps.col23.rgb)  sagt alles
-  ##	  colors = matrix(c(1:9/9, rep(1, 2 * 9)), ncol = 3)
-  ##		[ nach einem Vorschlag von Chris Thorson, Statsci ]
-  ##		ergibt 9 verschiedene Farben,
-  ##		1=gelb, 2=hellgruen, 3=gruen, 4=helles blau, 5=blau,
-  ##		6=dunkelblau, 7=violett, 8=rosarot, 9=rot
-  ##    image.colors:  Farbmatrix fuer image; Default:
-  ##            image.cold.hot _ cbind(c(64:128/128,rep(1,64)),0:128/128,
-  ##                                   c(128:64/128,rep(0,64)))
+
   ##    ...  :  passed to ps.options
   ## -------------------------------------------------------------------------
   ## Author: Martin Maechler, 1992-1995
@@ -91,31 +75,15 @@ ps.do <- function(file, width = -1, height = -1,
     ps.options(...)
     on.exit( do.call("ps.options", oldop) ) #- reset ps.options !
   }
-  no.do.col <- is.null(do.color)
-  if(no.do.col)
-      do.color <- !is.null(colors) || !is.null(image.colors)
-  if(!do.color) {
-    if(no.do.col)
-      do.color <- TRUE # since R does colors anyway..
-    else
-      warning("In R, you currently ALWAYS get color postscript.\n Setting up colors is VERY different (and MM thinks `nicer') than with S(-plus).")
-  }
-##-   if(do.color)
-##-     {
-##-       if(is.null(colors))	colors <- ps.col23.rgb
-##-       if(is.null(image.colors)) image.colors <- image.cold.hot
-##-       pso <- c(pso, ps.options(colors=colors, image.colors=image.colors))
-##-   }
-  u.assign0("ps.do.color", do.color)
-  if(!iso.latin1)
-    stop("In R, you currently MUST allow ISO-latin1 text.")
 
+  if(is.null(title))
+      title <- paste("R", paste(R.version[c("major", "minor")], collapse = "."),
+                     "plot:", file)
   postscript(file = file, width = width, height = height, horizontal=horizontal,
-             onefile = onefile, print.it = FALSE, ...)
+             onefile = onefile, title = title, print.it = FALSE, ...)
 }
 
-ps.end <- function(call.gv = NULL, do.color = u.get0("ps.do.color"),
-		   command = paste("gview",if(!do.color)" -monochrome", sep=''),
+ps.end <- function(call.gv = NULL, command = "gview",
                    debug = getOption("verbose"))
 {
   ## Purpose:  A "ghostview" device driver (almost).
@@ -124,7 +92,7 @@ ps.end <- function(call.gv = NULL, do.color = u.get0("ps.do.color"),
   ## Arguments:   call.gv: If TRUE,  call ghostview.
   ##    Default:        Find out if ghostview already runs on this file,
   ##                    If yes, do not call it again.
-  ## MUST be called after ps.do(..) !
+  ## MUST be called after ps.do(..) or ps.latex() !
   ## Example:  ps.end(com = "ghostview -a4")
   ## ----------------------------------------------------------------
   ## Only if  postscript is running !! --
