@@ -1,5 +1,5 @@
-\name{approx.ksD}
-\alias{approx.ksD}
+\name{KSd}
+\alias{KSd}
 \title{Approximate Critical Values for Kolmogorov-Smirnov's D}
 \description{
   Computes the critical value for Kolmogorov-Smirnov's \eqn{D_n}, for
@@ -11,7 +11,7 @@
   uses asymptotic approximation.
 }
 \usage{
-approx.ksD(n)
+KSd(n)
 }
 \arguments{
   \item{n}{the sample size, \code{n >= 10}.}
@@ -31,13 +31,13 @@ approx.ksD(n)
 \seealso{Is used from \code{\link{ecdf.ksCI}}.}
 
 \examples{
-approx.ksD(90)
-approx.ksD(1:9)# now works
+KSd(90)
+KSd(1:9)# now works
 
 op <- par(mfrow=c(2,1))
-  plot(approx.ksD, 10, 150)# nice
+  plot(KSd, 10, 150)# nice
   abline(v = c(75,85), col = "gray")
-  plot(approx.ksD, 79, 81, n = 1001)# *very* tiny discontinuity at 80
+  plot(KSd, 79, 81, n = 1001)# *very* tiny discontinuity at 80
 par(op)
 }
 \keyword{distribution}
