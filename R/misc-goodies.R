@@ -166,11 +166,6 @@ nna <- function(data)
 
 subtit <- function(t) mtext(t, side = 3, line = 0)
 
-give.xy.list <- function(x, y)
-{
-  stop("Use xy.coords() in R")
-}
-
 errbar <- function(x, y, yplus, yminus, cap=.015,
                    xlab= deparse(substitute(x)),
                    ylab= deparse(substitute(y)), ... )
