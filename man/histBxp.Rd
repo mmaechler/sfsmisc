@@ -84,20 +84,20 @@ hist.bxp(x, nclass, breaks, probability=FALSE, include.lowest=TRUE,
   must be less than or equal to the minimum of the data. The top
   breakpoint must be greater than or equal to the maximum of the data.
 }
-\author{S-PLUS: Markus Keller, Christian Keller
-  \email{keller@stat.math.ethz.ch}; port to \R: Martin Mächler.
+\author{S-Plus: Markus Keller, Christian Keller; port to \R: Martin Mächler.
 }
 \seealso{\code{\link{hist}}, \code{\link{barplot}},
-  \code{\link{boxplot}}, \code{\link{scat1d}}, \code{\link{rug}}
+  \code{\link{boxplot}}, \code{\link{rug}} and
+  \code{\link[Hmisc]{scat1d}} in the \pkg{Hmisc} package.
 }
 \examples{
-lab <- "50 samples from a t distribution with 5 d.f."
-mult.fig(2*3, main = "Hist() + Rug()   and    Hist.bxp(*)")
-for(i in 1:3) {
-  my.sample <-  rt(50, 5)
-  hist(my.sample, main=lab); rug(my.sample)# for 50 obs., this is ok, too..
-  hist.bxp(my.sample, main=lab)
-}
+ lab <- "50 samples from a t distribution with 5 d.f."
+ mult.fig(2*3, main = "Hist() + Rug()   and    Hist.bxp(*)")
+ for(i in 1:3) {
+   my.sample <-  rt(50, 5)
+   hist(my.sample, main=lab); rug(my.sample)# for 50 obs., this is ok, too..
+   hist.bxp(my.sample, main=lab)
+ }
 }
 \keyword{hplot}
 
