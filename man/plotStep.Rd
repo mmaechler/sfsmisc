@@ -51,11 +51,10 @@ plotStep(ti, y,
   \email{maechler@stat.math.ethz.ch}, 1991 ff.
 }
 \seealso{
-  \code{\link[stepfun]{plot.ecdf}} and
-  \code{\link[stepfun]{plotStepfun}} in \R which are conceptually nicer.
+  \code{\link{plot.ecdf}} and \code{\link{plotStepfun}} in \R which are
+  conceptually nicer.
 
-  \code{\link{plot}},
-  \code{\link{segments}(\dots, method = "constant")}.
+  \code{\link{plot}}, \code{\link{segments}(\dots, method = "constant")}.
 }
 \examples{
 ##-- Draw an Empirical CDF  (and see the default title ..)
