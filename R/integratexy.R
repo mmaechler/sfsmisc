@@ -1,5 +1,5 @@
-#### NOTE : This is now part of Martin Maechler's  WpDensity package
-####        where it probably will be maintained better.
+## This is also sym.linked into
+## Martin's WpDensity package /u/maechler/R/Pkgs/WpDensity/
 
 integrate.xy <- function(x,fx, a,b, use.spline = TRUE, xtol = 2e-8)
 {
@@ -19,7 +19,7 @@ integrate.xy <- function(x,fx, a,b, use.spline = TRUE, xtol = 2e-8)
   if(any(i <- duplicated(x))) {
       n <- length(x <- x[!i])
       ## we might have to check that the same fx[] are duplicated
-      ## otherwise either give an error or take the mean() of those... 
+      ## otherwise either give an error or take the mean() of those...
       fx <- fx[!i]
   }
   if(any(diff(x) == 0))
