@@ -1,5 +1,5 @@
 #### PostScript Goodies für R --- `a la /u/sfs/S/ps.goodies.S
-#### 
+####
 ####
 
 ps.latex <- function(file, height= 5+ main.space*1.25, width= 9.5,
@@ -13,7 +13,7 @@ ps.latex <- function(file, height= 5+ main.space*1.25, width= 9.5,
   ##    Calls  ps.do(.) ; par(.)  [ old par in global 'o.p']; USE  ps.end() !
   ## -------------------------------------------------------------------------
   ## Arguments: height & width in INCHES.   (5, 9.5) is 'horizontal look'
-  ##            ps.title: to be used in PostScript (-> for ghostview !)
+  ##            ps.title: to be used in PostScript (-> for gv/ghostview !)
   ##            main.space & lab.space: if T, leave space for 'main' & 'x/ylab'
   ##            lab :  for  par(.);  (10,10,7): use more axis 'labels' ..
   ##            mgp.lab & mar :  for par(.): these are values for 'lab.space=T'
