@@ -17,8 +17,9 @@ nrpl.2.mfrow <- function(nr.plots)
 ###-- This version from /u/maechler/R/MM-Goodies/mult.fig.R :
 mult.fig <-
 function(nr.plots, mfrow, mfcol, marP = rep(0,4), mgp = c(1.5,.6,0),
+         mar = marP + .1 + c(4,4,2,1),
          main = NULL, quiet = .Device == "postscript",
-         tit.wid = if (is.null(main)) 0 else 4, tit.cex= 1.5, ...)
+         tit.wid = if (is.null(main)) 0 else 4, cex.main = 1.25, ...)
 {
   ## Purpose: 'MULTiple FIGures' incl. TITLE and other good defaults
   ## -------------------------------------------------------------------------
@@ -28,7 +29,6 @@ function(nr.plots, mfrow, mfcol, marP = rep(0,4), mgp = c(1.5,.6,0),
   ## Author: Martin Maechler, 1990 (UW, Seattle) -- 1995
   ## -------------------------------------------------------------------------
   ## >>> calls  nrpl.2.mfrow(.) !
-  mar <- marP + .1 + c(4,4,2,1) #-- my default 'mar'gins
   use.row <- missing(mfcol)
   if (use.row)
     if (missing(mfrow)) {
@@ -38,7 +38,7 @@ function(nr.plots, mfrow, mfcol, marP = rep(0,4), mgp = c(1.5,.6,0),
     }
   Nrow <- (if(use.row) mfrow else mfcol)[1]
   if(Nrow > 2) { #-- Then R uses a much smaller character size --
-    if(!is.null(main)) tit.cex <- tit.cex * 1.5
+    if(!is.null(main)) cex.main <- cex.main * 1.5
     tit.wid <- tit.wid * 1.5
   }
   oma <- c(0, 0, tit.wid, 0)
@@ -50,10 +50,10 @@ function(nr.plots, mfrow, mfcol, marP = rep(0,4), mgp = c(1.5,.6,0),
   ## nomore in R : frame()
   if (!is.null(main)) {# Do title *before* first plot!
       plot.new()
-      mtext(main, side = 3, line = tit.wid-4, cex = tit.cex, outer = TRUE,
+      mtext(main, side = 3, line = tit.wid-4, cex = cex.main, outer = TRUE,
             font = par("font.main"), ...)
       par(new=TRUE)# reverse `plot.new()' above
   }
-  invisible(new.par = par(c("mfrow","mfcol","oma","mar","mgp")),
-            old.par = old.par)
+  invisible(list(new.par = par(c("mfrow","mfcol","oma","mar","mgp")),
+                 old.par = old.par))
 }
