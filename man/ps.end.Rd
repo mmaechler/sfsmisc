@@ -2,16 +2,18 @@
 \alias{ps.end}
 \title{Close PostScript device opened by `ps.do'}
 \usage{
-ps.end(call.gv= NULL, command = "gview", debug = getOption("verbose"))
+ps.end(call.gv= NULL, command = getOption("eps_view"),
+       debug = getOption("verbose"))
 }
 \arguments{
  \item{call.gv}{logical, indicating if ghostview (or the command given
   by \code{command}) should be called.  By default, find out if
   ghostview is already runing on this file and only call it if needed.}
  \item{command}{character, giving a system command for PostScript previewing.
-   At SfS, \code{gview} is a simple shell script, with the line\cr
-  \code{gv -watch -geometry -0+0 -magstep -2 -media BBox}.}
- \item{debug}{logical; if  \code{TRUE} print information during execution.}
+   By default, \code{getOption("eps_view")} is set to\cr
+   \code{gv -watch -geometry -0+0 -magstep -2 -media BBox -noantialias}
+   which assumes \code{gv} (aka \emph{ghostview}) to be in your OS path.}
+ \item{debug}{logical; if \code{TRUE} print information during execution.}
 }
 \description{
   Closes the PostScript file (\code{\link{postscript}}), openend by a
@@ -27,7 +29,9 @@ ps.end(call.gv= NULL, command = "gview", debug = getOption("verbose"))
 \author{Martin Maechler}
 \seealso{\code{\link{postscript}},..}
 \examples{
-  { ps.do("ex.ps")
+if(interactive()\dontshow{ || Sys.getenv("USER") == "maechler"}
+  ) {
+    ps.do("ex.ps")
     data(sunspots)
     plot(sunspots)
     ps.end()
