@@ -14,7 +14,7 @@
 }
 \usage{
 printTable2(table2, digits = 3)
-margin2table(x)
+margin2table(x, totName = "sum")
 \method{print}{margin2table}(x, digits = 3, \dots)
 }
 \arguments{
@@ -22,6 +22,8 @@ margin2table(x)
   \item{x}{a matrix, or the result of \code{margin2table}.}
   \item{digits}{Anzahl Dezimalstellen, auf die die Häufigkeiten gerundet
     werden sollen.}
+  \item{totName}{string to use as row- and column- name if \code{x} has
+    corresponding \code{\link{dimnames}}.}
   \item{\dots}{further potential arguments, unused currently.}
 }
 % \details{
@@ -38,7 +40,12 @@ margin2table(x)
 \seealso{\code{\link{table}}, \code{\link{ftable}}.}
 
 \examples{
+m <- diag(3); colnames(m) <- letters[1:3]
+margin2table(m)
+margin2table(m / sum(m))
+
 data(HairEyeColor)
+margin2table(HairEyeColor[,, "Male"])
 printTable2(HairEyeColor[,, "Male"])
 printTable2(HairEyeColor[,, "Female"])
 }
