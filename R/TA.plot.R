@@ -1,4 +1,4 @@
-n.plot <- function(x, y, nam = NULL, abbr = n >= 20 || max(nchar(nam))>=8,
+n.plot <- function(x, y, nam = NULL, abbr = n >= 20 || max(nchar(nam))>=8,-- $Id$
                    xlab = deparse(substitute(x)), ylab = NULL,
                    cex = par("cex"), ...)
 {
@@ -16,8 +16,8 @@ n.plot <- function(x, y, nam = NULL, abbr = n >= 20 || max(nchar(nam))>=8,
     } else if (is.matrix(x) & ncol(x)==2) { y <- x[,2] ; x <- x[,1]
     } else { y <- x; x <- seq(x) }
   }
-  plot(x, y, type = 'n', ...,
-       xlab = xlab, ylab = if(is.null(ylab))deparse(substitute(y)))
+  plot(x, y, type = 'n', ..., xlab = xlab,
+       ylab = if(is.null(ylab)) deparse(substitute(y)) else ylab)
   n <- length(x) # for abbr and ..
   if(is.null(nam)) {
     nam <- names(x)
@@ -35,7 +35,7 @@ n.plot <- function(x, y, nam = NULL, abbr = n >= 20 || max(nchar(nam))>=8,
 TA.plot <-
   function(lm.res, fit = fitted(lm.res),
            res = residuals(lm.res, "pearson"),
-           labels = NULL, main = mk.main(), xlab = "Fitted values", 
+           labels = NULL, main = mk.main(), xlab = "Fitted values",
            draw.smooth = n >= 10, show.call = TRUE, show.2sigma = TRUE,
            lo.iter = NULL, lo.cex = NULL,
            par0line  = list(lty = 2, col = 2),
