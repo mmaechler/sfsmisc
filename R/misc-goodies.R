@@ -139,24 +139,10 @@ empty.dimnames <- function(a)
   a
 }
 
-if(!exists("unname", mode="function")) # is in 0.90.1 (and on)
-unname <- function(obj)
-{
-  ## Purpose: Remove the names of 'obj'
-  ##         (sometimes the names "clobber" your screen)
-  ## Does NOT alter a data.frame (since they NEED dimnames)!
-  ## -------------------------------------------------------------------------
-  ## Arguments: obj:  any object whose (dim)names should be removed
-  ## -------------------------------------------------------------------------
-  ## Author: Martin Maechler, 1992
-  ## -------------------------------------------------------------------------
-  ## SEE ALSO:  empty.dimnames
-  ##
-  ## Example:    unname( conflicts() )
-  if (length(names(obj))) names(obj) <- NULL
-  if (length(dimnames(obj)) && !is.data.frame(obj)) dimnames(obj) <- NULL
-  obj
-}
+## unname <- function(obj)     is in standard R, since version 0.90.1
+
+## which() <- function(x,...)  is in standard R !!
+
 
 nna <- function(data)
 {
@@ -172,8 +158,6 @@ nna <- function(data)
     else stop(Error)
   } else stop(Error)
 }
-
-### which() is in standard R !!
 
 
 ##-#### Plot / Devices  related stuff        ########
@@ -233,8 +217,8 @@ boxplot.matrix <- function(mat, cols = TRUE, ...)
   invisible(boxplot(groups,...))
 }
 
-cum.Vert.funkt <- function(x, Quartile= TRUE, titel= TRUE, Datum= TRUE, rang.axis = TRUE,
-			   xlab = "", main = "", ...)
+cum.Vert.funkt <- function(x, Quartile= TRUE, titel= TRUE, Datum= TRUE,
+                           rang.axis = TRUE, xlab = "", main = "", ...)
 {
   ## Ziel: Kumulative Verteilung von x aufzeichnen, auf Wunsch auch Median
   ##       und Quartile
@@ -632,8 +616,7 @@ hist.bxp <- function(x, nclass, breaks, probability=FALSE, include.lowest=TRUE,
 
 
 ####========== This is from /u/maechler/S/Good.S =============
-####========== This is from /u/maechler/S/Good.S =============
-
+####========== --------------------------------- =============
 
 ##-#### Plot / Devices  related stuff ########
 ##-### ----------------------------- ########
@@ -685,6 +668,9 @@ p.panelS <- function(x,y,df=4) {text(x,y);lines(smooth.spline(x,y,df=df),col=2)}
 
 pairs.title <- function(main, adj = NULL, cex = 1, lineP = 0, ...)
 {
+  warning(paste("pairs.title() doesn't make sense in R, \n\t",
+                "since pairs(.) accepts ``main = *''"))
+
   ## Purpose:  Add a "title" to a pairs plot
   ## -------------------------------------------------------------------------
   ## Arguments: main:  title string to add
@@ -1393,4 +1379,5 @@ sys.start.time <- function()
   sys("grep '^#~New session' ",audit.file(), " | tail -1  | sed 's/.*Time: //'")
 }
 
-.updated <- date() #--- used when 'sourced' by 'make' (--> Makefile)
+if(!is.R())
+  .updated <- date() #--- used when 'sourced' by 'make' (--> Makefile)
