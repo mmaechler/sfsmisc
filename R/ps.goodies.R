@@ -1,6 +1,6 @@
 #### PostScript Goodies für R --- `a la /u/sfs/S/ps.goodies.S
 ####
-#### $Id: ps.goodies.R,v 1.9 2003/12/15 15:45:10 maechler Exp $
+#### $Id: ps.goodies.R,v 1.10 2004/01/12 15:28:21 maechler Exp $
 ####
 
 ps.latex <- function(file, height= 5+ main.space*1.25, width= 9.5,
@@ -109,12 +109,14 @@ ps.end <- function(call.gv = NULL, command = getOption("eps_view"),
       ##--- STILL does NOT work
       ##--- if you work with two different pictures simultaneously
       for(i in 1:length(f)) { #-- only NOT call if THIS ps.file .. --
-        fil <- u.sys("echo '", f[i],"' | perl -p -e 's/(.*)",
-                     command,"\\s*(.*)/\\2/'")
-        cat("ps.end(): fil:",fil,"\n")
-        call.gv <- length(fil) < 1 || all(..ps.file != fil)
-        if(!call.gv)
-          break  #-- don't  call ghostview since it runs this file..
+          ## find command in 'ps' output line (sub/gsub have no 'fixed=TRUE')
+          ic <- regexpr(command, f[i], fixed=TRUE)
+          ## only keep the file name
+          fil <- substr(f[i], ic + attr(ic,"match.length") + 1, 1e4)
+          cat("ps.end(): fil:",fil,"\n")
+          call.gv <- length(fil) < 1 || all(..ps.file != fil)
+          if(!call.gv)
+              break  #-- don't  call ghostview since it runs this file..
       }
     }
   }
