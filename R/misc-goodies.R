@@ -1,4 +1,4 @@
-#### $Id: misc-goodies.R,v 1.19 2003/02/12 20:49:20 maechler Exp $
+#### $Id: misc-goodies.R,v 1.20 2003/02/15 22:14:29 maechler Exp $
 #### misc-goodies.R
 #### ~~~~~~~~~~~~~~  SfS - R - goodies that are NOT in
 ####		"/u/sfs/R/SfS/R/u.goodies.R"
@@ -87,27 +87,27 @@ errbar <- function(x, y, yplus, yminus, cap = 0.015,
 ## C.Monatsname , etc..  sind jetzt bei der zugehoerigen Funktion
 ##		u.Datumvonheute  in  /u/sfs/S/u.goodies.S
 
-boxplot.matrix <- function(x, cols = TRUE, ...)
+boxplot.matrix <- function(x, use.cols = TRUE, ...)
 {
-  ## Purpose: Boxplot for each column [cols = T]  or row [cols = F]  of a matrix
+  ## Purpose: Boxplot for each column or row [use.cols= TRUE / FALSE] of a matrix
   ## -------------------------------------------------------------------------
-  ## Arguments: x: a numeric matrix;	  cols: logical, columns (T) or rows (F)
+  ## Arguments: x: a numeric matrix;	  use.cols: logical, columns (T) or rows (F)
   ##		...: further arguments to 'boxplot(r, ...)':
   ##			range=NULL, width=NULL, varwidth=FALSE,
   ##			notch=FALSE, names=NULL, plot=TRUE, old=FALSE
   ##
-  ## cols = F is 10% slower (for 3 grps a 50 obs. each, on a Sparc 1) ---
+  ## use.cols = F is 10% slower (for 3 grps a 50 obs. each, on a Sparc 1) ---
   ## -------------------------------------------------------------------------
   ## Author: Martin Maechler@stat.math.ethz.ch , 1995
 
-  ## NOTE: For the case 'cols=TRUE', you can use
+  ## NOTE: For the case 'use.cols=TRUE', you can use
   ##	 boxplot(as.list(as.data.frame(x)), ...)    [Renaud, S-news, 9/96]
-  groups <- if(cols)  split(x, rep.int(1:ncol(x),
+  groups <- if(use.cols)  split(x, rep.int(1:ncol(x),
 					 rep.int(nrow(x), ncol(x))))
   else  split(x, seq(nrow(x)))
   ##-- Make use of col/row names if present
-  ##if (!is.null(nam <- dimnames(x)[[1+cols]])) names(groups) <- nam
-  if (0 < length(nam <- dimnames(x)[[1+cols]])) names(groups) <- nam
+  ##if (!is.null(nam <- dimnames(x)[[1+use.cols]])) names(groups) <- nam
+  if (0 < length(nam <- dimnames(x)[[1+use.cols]])) names(groups) <- nam
   invisible(boxplot(groups, ...))
 }
 
@@ -258,37 +258,68 @@ polyn.eval <- function(coef, x)
   }
 }
 
-digits <- function(n, base = 10)
+digitsBase <- function(x, base = 2, ndigits = 1 + floor(log(max(x),base)))
 {
-  ## Purpose: Give the vector A of the base-BASE representation of N:
-  ##	      n = sum_{k=0}^M  A_{M-k} base ^ k ,   where  M = length(a) - 1
-  ## Author: Martin Maechler
-  if(n == 0) return(0)
-  n <- abs(n) + 0.5
-  powers <- round(base^((ceiling(log(n, base)):1) - 1))
-  (n %/% powers) %% base
+    ## Purpose: Give the vector A of the base-_base_ representation of _n_:
+    ## -------  n = sum_{k=0}^M  A_{M-k} base ^ k ,   where  M = length(a) - 1
+    ## Value: MATRIX  M where  M[,i]  corresponds to  x[i]
+    ## Author: Martin Maechler, Date:  Wed Dec  4 14:10:27 1991
+    ## ----------------------------------------------------------------
+    ## ---->  help(digitsBase) !
+    ## ------------------------------
+    if(any((x <- as.integer(x)) < 0))
+        stop("`x' must be non-negative integers")
+    r <- matrix(0, nrow = ndigits, ncol = length(x))
+    if(ndigits >= 1) for (i in ndigits:1) {
+        r[i,] <- x %% base
+        if (i > 1) x <- x %/% base
+    }
+    r
 }
 
 digits.v <- function(nvec, base = 2, num.bits = 1 + floor(log(max(nvec),base)))
 {
-  ## Purpose: Give the vector A of the base-_base_ representation of _n_:
-  ## -------  n = sum_{k=0}^M  A_{M-k} base ^ k ,   where  M = length(a) - 1
-  ## Value: MATRIX  M where  M[,i]  corresponds to  nvec[i]
-  ##	c( result ) then contains the blocks in proper order ..
-  ## Author: Martin Maechler, Date:  Wed Dec  4 14:10:27 1991
-  ## ----------------------------------------------------------------
-  ## Arguments: nvec: vector of POSITIVE integers
-  ##	base: Base for representation
-  ##	num.bits: Number of "bits"/digits to use
-  ## EXAMPLE: digits.v(1:24, 8) #-- octal representation
-  ## ----------------------------------------------------------------
-  r <- matrix(0, nrow = num.bits, ncol = length(nvec))
-  for (i in num.bits:1) {
-    r[i,] <- nvec %% base
-    if (i > 1) nvec <- nvec %/% base
-  }
-  r
+    warning("`digits.v() is deprecated -- please use  baseDigits() instead!")
+    baseDigits(nvec, base = base, ndigits = num.bits)
 }
+
+digits <- function(n, base = 10)
+{
+    warning("`digits() is deprecated -- please use  baseDigits() instead!")
+    drop(baseDigits(n, base=base))
+}
+
+chars8bit <- function(i = 0:255)
+{
+    ## Purpose: Compute a character vector from its "ASCII" codes.
+    ## We seem to have to use this complicated way thru text and parse.
+
+    ## Author: Martin Maechler, Original date: Wed Dec 4, 1991
+    ## this is an improved version of  make.ASCII() from ~/S/Good-string.S !
+    ## ----------------------------------------------------------------
+    i <- as.integer(i)
+    if(any(i < 0 | i > 255)) stop("`i' must be in 0:255")
+    i8 <- apply(digitsBase(i, base = 8), 2, paste, collapse="")
+    c8 <- paste('"\\', i8, '"', sep="")
+    eval(parse(text = paste("c(",paste(c8, collapse=","),")", sep="")))
+}
+
+strcodes <- function(x, table = chars8bit(0:255))
+{
+    ## Purpose: R (code) implementation of old S's ichar()
+    ## ----------------------------------------------------------------------
+    ## Arguments: x: character vector
+    ## ----------------------------------------------------------------------
+    ## Author: Martin Maechler, Date: 23 Oct 2003, 12:42
+
+    lapply(strsplit(x, ""), match, table = table)
+}
+
+## S-PLUS has  AsciiToInt() officially, and   ichar() in  library(examples):
+AsciiToInt <- ichar <- function(strings) unname(unlist(strcodes(strings)))
+
+
+
 
 
 ##-#### "Miscellaneous" (not any other category) ########
