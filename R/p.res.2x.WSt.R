@@ -13,7 +13,8 @@
 
 p.res.2x <-
   function(x, y, z, restricted = NULL, size = 1, slwd = 1, scol = 2:3,
-           xlab = NULL, ylab = NULL, main = NULL, ...)
+           xlab = NULL, ylab = NULL, main = NULL,
+           xlim = range(x), ylim = range(y), ...)
 {
   ## Purpose:  Stahels Residuen-Plot
   ## Author:   ARu , Date:  11/Jun/91
@@ -33,16 +34,15 @@ p.res.2x <-
     z[z >   restricted] <- restricted
     z[z < - restricted] <- - restricted
   }
-  rx <- range(x)
-  ry <- range(y)
+
   ##--- fix plot region: ---
   pcm <- par("pin") * 2.54              #damit in cm
   ##--- damit im Plot das Symbol wirklich die Groesse size hat:
   size <- size/(2 * sqrt(2))
-  fx <- (size * diff(rx))/(pcm[1] - 2 * size)/2
-  fy <- (size * diff(ry))/(pcm[2] - 2 * size)/2
+  fx <- (size * diff(xlim))/(pcm[1] - 2 * size)/2
+  fy <- (size * diff(ylim))/(pcm[2] - 2 * size)/2
   ##--
-  plot(x, y, xlim = rx + c(-1,1)* fx, ylim = ry + c(-1,1)* fy, pch = ".",
+  plot(x, y, xlim = xlim + c(-1,1)* fx, ylim = ylim + c(-1,1)* fy, pch = ".",
        xlab = xlab, ylab = ylab, main = main, ...)
 
   ##--- draw symbols: ---
