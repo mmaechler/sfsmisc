@@ -3,11 +3,11 @@
 \title{Tukey-Anscombe Plot (residual vs. fitted) of a Linear Model. }
 \description{
   From a linear (or glm) model fitted, produce the so-called Tukey-Anscombe
-  plot.  Useful (optional) additions include:   0-line, lowess smooth, 
+  plot.  Useful (optional) additions include:   0-line, lowess smooth,
   2sigma lines,  and automatic labeling of observations.
 }
 \usage{
-TA.plot(lm.res, 
+TA.plot(lm.res,
         fit= fitted(lm.res), res= residuals(lm.res, "pearson"),
         labels= NULL, main= mk.main(), draw.smooth= n >= 10,
         show.call= T, show.2sigma= T, lo.iter = NULL, lo.cex=0.8, \dots)
@@ -23,7 +23,7 @@ TA.plot(lm.res,
   }
   \item{main}{main title to plot. Default: sophisticated, resulting in
     something like "Tukey-Anscombe Plot of :   y \~ x"  constructed from
-    \code{call(.)} in \code{lm.res}. 
+    \code{call(.)} in \code{lm.res}.
   }
   \item{draw.smooth}{logical; if \code{T}, draw a \code{lowess} smoother
     (with automatic smoothing fraction).}
@@ -70,6 +70,6 @@ if(FALSE) { ### These were all from S-plus
 	 cex=.75) # smaller title and plotting characters
 }
 }
-\keyword{diagnostics}
-\keyword{lm}
+\keyword{models}
+\keyword{regression}
 
