@@ -28,7 +28,9 @@ posdefify <- function(m, method = c("someEVadd", "allEVadd"),
         Q <- ev.m $vectors
         o.diag <- diag(m)# original one - for rescaling
         m <- Q %*% (lam * t(Q)) ## == Q %*% diag(lam) %*% t(Q)
-        ## rescale to the original diagonal values {where they are >= Eps}:
+        ## rescale to the original diagonal values
+        ## D <- sqrt(o.diag/diag(m))
+        ## where they are >= Eps :
         D <- sqrt(pmax(Eps,o.diag)/diag(m))
         m[] <- D * m * rep(D, each = n) ## == diag(D) %*% m %*% diag(D)
     }
