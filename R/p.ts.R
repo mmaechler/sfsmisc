@@ -1,7 +1,9 @@
-p.ts <- function(x, nrplots = max(1, min(8, n%/%400)), overlap = nk %/% 16,
-                 date.x = NULL, do.x.axis = !is.null(date.x), ax.format,
-                 main.tit = NULL, ylim = NULL, ylab = "", xlab = "Time",
-                 quiet = FALSE, mgp = c(1.25, .5, 0), ...)
+p.ts <-
+    function(x, nrplots = max(1, min(8, n%/%400)), overlap = nk %/% 16,
+             date.x = NULL, do.x.axis = !is.null(date.x), do.x.rug = do.x.axis,
+             ax.format,
+             main.tit = NULL, ylim = NULL, ylab = "", xlab = "Time",
+             quiet = FALSE, mgp = c(1.25, .5, 0), ...)
 {
     ## Purpose: plot.ts with multi-plots + Auto-Title -- currently all on 1 page
     ## -------------------------------------------------------------------------
@@ -19,11 +21,14 @@ p.ts <- function(x, nrplots = max(1, min(8, n%/%400)), overlap = nk %/% 16,
     if(is.null(main.tit)) main.tit <- paste(deparse(substitute(x)))
     isMat <- is.matrix(x)
     n <- if(isMat) nrow(x) else length(x)
-    use.x <- !is.null(date.x)
-    if(do.x.axis) {
+    has.date.x <- !is.null(date.x)
+    if(do.x.axis && !has.date.x)
+        stop("'do.x.axis' is true, but 'date.x' is NULL")
+    if(has.date.x) {
         if(n != length(date.x))
             stop("'date.x' must be date vector of the same length as series")
-        date.x <- as.POSIXct(date.x)    # work, or give error now
+        if(do.x.axis)
+            date.x <- as.POSIXct(date.x)    # work, or give error now
         if(is.unsorted(date.x)) {
             i <- order(date.x)
             x <- if(isMat) x[i,] else x[i]
@@ -32,7 +37,7 @@ p.ts <- function(x, nrplots = max(1, min(8, n%/%400)), overlap = nk %/% 16,
         xaxt <- "n"
     } else xaxt <- par("xaxt")
     if(nrplots == 1) {
-        if(use.x) {
+        if(has.date.x) {
             plot(date.x, x, ..., ylim = ylim, type = 'l',
                  main = main.tit, xlab = xlab, ylab = ylab, xaxt = xaxt)
             if(do.x.axis) axis.POSIXct(1, x = date.x, format = ax.format)
@@ -64,15 +69,20 @@ p.ts <- function(x, nrplots = max(1, min(8, n%/%400)), overlap = nk %/% 16,
             if(!quiet)
                 cat(sprintf("%2d -- start{%d}= %f; end{%d}= %f\n",
                             i, i0,st, in1, en))
-        if(use.x) {
+        if(has.date.x) {
             plot(date.x[1+ i0:in1], window(x, start= st, end = en),
                  ..., ylim = ylim, type = 'l',
                  xlab = xlab, ylab = ylab, xaxt = xaxt)
             if(do.x.axis) {
-                cat("summary(date.x):\n");print(summary(date.x[1+ i0:in1]))
+                if(!quiet) {
+                    cat("summary(date.x):\n"); print(summary(date.x[1+ i0:in1]))
+                }
                 axis.POSIXct(1, x = date.x[1+ i0:in1],
                              format = ax.format, nYrs = 12)
-                rug(date.x[1+ i0:in1])
+                ##                             ^^^^^^^^^^^ needs enhanced code!
+
+                if(do.x.rug) ## this can be ugly
+                    rug(date.x[1+ i0:in1])
             }
         }
         else
