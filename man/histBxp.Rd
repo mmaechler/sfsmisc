@@ -1,8 +1,6 @@
 \name{hist.bxp}
 \alias{hist.bxp}
-\title{
-Plot a Histogram and a Boxplot
-}
+\title{Plot a Histogram and a Boxplot}
 \description{
 Creates a histogram and a horizontal boxplot on the current graphics
 device. Several options are available.
@@ -25,9 +23,7 @@ of \code{x}.
 vector of the break points for the bars of the histogram. The count in the
 i-th bar is
 
-
      \code{sum(breaks[i] < x <= breaks[i+1])} 
-
 
 except that if
 \code{include.lowest} is \code{TRUE} (the default), the first bar also includes
