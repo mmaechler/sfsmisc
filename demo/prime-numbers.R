@@ -3,7 +3,11 @@
 ###---- EXAMPLES
 
 ###--- load the current function definitions:
-source("/u/maechler/S/MISC/prime-numbers-fn.S")
+source("/u/maechler/R/SOURCE-ME")
+##included above:
+## source("/u/maechler/S/MISC/prime-numbers-fn.S")
+
+if(is.R()) unix.time <- system.time
 
 factorize(n <- c(7,27,37,5*c(1:5, 8, 10)))
 factorize(47)
@@ -38,16 +42,30 @@ which(!test.factorize(factorize(8000 + 1:1000)))
 prime.sieve(prime.sieve())
 unix.time(P1e4 <- prime.sieve(prime.sieve(prime.sieve()), max=10000))
 ##-> 1.45 (on sophie: fast Sparc 5 ..)
+##-> ~0.8 (on jessica: Ultra-2)
+##----> see below for a sample of 20 !
 length(P1e4) #--> 1229
+
+CPU.p1e4 <- numeric(20)
+for(i in 1:20) { CPU.p1e4[i] <-
+  unix.time(P1e4 <- prime.sieve(prime.sieve(prime.sieve()), max=10000))[1]
+CPU.p1e4
+summary(CPU.p1e4)
+##-Ultra-2    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+##-Ultra-2   0.690   0.690   0.790   0.755   0.800   0.810
 
 unix.time(P1e4.2 <- prime.sieve( max=10000))
 ##-> 1.46 (sophie)   maybe a little longer
 
 unix.time(P1e5 <- prime.sieve(P1e4, max=1e5))
 ##-> 105.7  (on sophie: fast Sparc 5)
+##->  58.83 (on jessica: Ultra2)
+length(P1e5)# == 9592
+
 
 P1000 <- prime.sieve(max=1000)
-###------ start plot device is necessary !!
+###------ start plot device if necessary !!
+
 plot(P1000,  seq(P1000), type='b', main="Prime number theorem")
 lines(P1000, P1000/log(P1000), col=2, lty=2, lwd=1.5)
 
