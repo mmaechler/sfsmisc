@@ -1,4 +1,4 @@
-#### $Id: misc-goodies.R,v 1.22 2003/11/04 13:58:28 maechler Exp $
+#### $Id: misc-goodies.R,v 1.23 2003/12/03 21:47:40 maechler Exp $
 #### misc-goodies.R
 #### ~~~~~~~~~~~~~~  SfS - R - goodies that are NOT in
 ####		"/u/sfs/R/SfS/R/u.goodies.R"
@@ -342,53 +342,6 @@ uniqueL <- function(x, isuniq = !duplicated(x)) {
     if(need.sort)
 	ix <- ix[sort.list(ixS)]
     list(ix = ix, xU = x[isuniq])
-}
-
-table.mat <- function(mat, order.rows = TRUE)
-{
-  ##-- From S-news, Feb.1998, Phil Spector:
-
-  ##	DATE INSTALLED:  30 Nov 1993             LAST REVISED:  5 Dec 1994
-  ##    AUTHOR:  Phil Spector  (spector@stat.berkeley.edu)
-  ##    REVISED BY: Scott D. Chasalow (sasssc@scri.sari.ac.uk)
-  ##
-  ##    PURPOSE:  Count occurrences of rows in a data.frame or matrix
-  ##    ARGUMENTS:
-  ##       mat:  a matrix, data frame, or vector
-  ##       order.rows:  a logical value.  If true,  rows of result are sorted.
-  ##    VALUE:   A data frame with a column for each column in
-  ##             data.frame(mat),  and a final column of counts appended;
-  ##             rows are the UNIQUE rows of mat.  Similar result,
-  ##             but as a multi-way array,  may be obtained with the
-  ##             call,  do.call("table",as.data.frame(mat)).
-  ##
-  ##    ***NOTE***
-  ##             This function MAY fail to work correctly if any elements of
-  ##             mat are character strings containing white space!
-  ##             A possible fix, using an argument, "sep",  may be found in
-  ##             function match.mat().
-  ##    SEE ALSO:
-  ##             match.mat, unique.mat
-  ##
-  nms <- NULL
-  if(!is.data.frame(mat)) {
-    nms <- dimnames(mat)[[2]]
-    mat <- as.data.frame(mat)
-  }
-  if(any(sapply(mat, is.matrix))) {
-    mat <- as.data.frame(as.matrix(mat), optional = TRUE)
-    if(!is.null(nms))
-      names(mat) <- nms
-  }
-  pmat <- do.call("paste", mat)
-  which <- !duplicated(pmat)
-  mat.use <- mat[which,  , drop = FALSE]
-  mat.tab <- table(pmat)
-  mat.use$Count <- mat.tab[match(pmat[which], names(mat.tab))]
-  if(order.rows)
-    mat.use <- mat.use[do.call("order", mat.use),  ]
-  row.names(mat.use) <- paste(1:dim(mat.use)[1])
-  mat.use
 }
 
 ###
