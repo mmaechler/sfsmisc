@@ -2,7 +2,57 @@
 
 ###---- Function definitions -------- for examples, see "./prime-numbers.S"
 
-if(!exists("is.unsorted", mode='function'))
+
+### NOTA BENE:
+### ---------
+### as I just found out [R 1.9.x, July 2004],
+##  the primes() function in Bill Venables "conf.design"
+### package is almost an ordner of magnitude faster than the
+##  primes() or prime.sieve() ones here..
+
+primes. <- function(n) {
+    ## By Bill Venables <= 2001
+
+    ## Find all primes less than n (or max(n) if length(n) > 1).
+    ## Uses an obvious sieve method.  Nothing flash.
+    ##
+    if ((M2 <- max(n)) <= 1)
+        return(numeric(0))
+    x <- 1:M2
+    x[1] <- 0
+    p <- 1
+    M <- floor(sqrt(M2))
+    while((p <- p + 1) <= M)
+        if(x[p] != 0)
+            x[seq(p^2, n, p)] <- 0
+    x[x > 0]
+}
+
+primes <- function(n) {
+    ## Find all primes less than n (or max(n) if length(n) > 1).
+    ## Uses an obvious sieve method.  Nothing flash.
+    ##
+    ## By Bill Venables <= 2001
+    ## MM: work with logical(), keep to integer --> another 40% speedier
+    if ((M2 <- max(n)) <= 1)
+        return(integer(0))
+    P <- rep.int(TRUE, M2)
+    P[1] <- FALSE
+    M <- as.integer(sqrt(M2))
+    n <- as.integer(M2)
+    ## p <- 1:1
+    ## while((p <- p + 1:1) <= M)
+    for(p in 1:M)
+        if(P[p])# p is prime, sieve with it
+            P[seq(p*p, n, p)] <- FALSE
+    (1:n)[P]
+}
+
+##-- comparison >>> "./prime-numbers.R"
+##		     ~~~~~~~~~~~~~~~~~
+
+
+if(!exists("is.unsorted", mode = 'function'))## for S-plus and very old R:
    is.unsorted <- function(x) (length(x) > 1) && any(diff(x) < 0)
 
 prime.sieve <- function(p2et = c(2,3,5), maxP = pM^2)
@@ -18,11 +68,11 @@ prime.sieve <- function(p2et = c(2,3,5), maxP = pM^2)
   k <- length(p2et)
   pM <- p2et[k]
   if(maxP <= pM+1) p2et #- no need to compute more
-  else if(maxP > pM^2)	prime.sieve(prime.sieve(p2et), maxP=maxP)
+  else if(maxP > pM^2)	prime.sieve(prime.sieve(p2et), maxP = maxP)
   else { #-- pM < maxP <= pM^2
     r <- seq(from = pM+2, to = maxP, by = 2)
     for(j in 1:k)
-      if(0== length(r <- r[r%% p2et[j] != 0])) break
+      if(0 == length(r <- r[r%% p2et[j] != 0])) break
     c(p2et,r)
   }
 }
@@ -61,7 +111,7 @@ factorize <- function(n)
       nP <- length(pfac <- pr[Dp]) # all the small prime factors
       if(exists("DEBUG")&& DEBUG) cat(nn," ")
     } else { # nn is a prime
-      res[[i]] <- cbind(p=nn, m=1)
+      res[[i]] <- cbind(p = nn, m = 1)
       prt.DEBUG("direct prime", nn)
       next # i
     }
@@ -78,7 +128,7 @@ factorize <- function(n)
 	break # out of while(.)
       }
     }
-    res[[i]] <- cbind(p=pfac,m=m.pr)
+    res[[i]] <- cbind(p = pfac,m = m.pr)
 
   } # end for(i ..)
 
@@ -231,12 +281,17 @@ factors <- function(x)
 primes <- function(n, .Primes = c(2, 3, 5, 7, 11, 13, 17, 19,
 		      23, 29, 31, 37, 41, 43))
 {
-    if(max(.Primes) < n) {
+    if(is.unsorted(.Primes)) stop("'.Primes' must be increasing")
+    nP <- length(.Primes <- as.integer(.Primes))
+    maxP <- .Primes[nP]
+    stopifnot(.Primes[1:3] == c(2,3,5),
+              maxP > 30, maxP %% 2 == 1, maxP %% c(3,5) != 0)
+    if(maxP < n) {
 	## compute longer .Primes by sieve
 	.Primes <- seq(from = 2, to = n)
 	for(i in 1:length(.Primes)) {
 	    composite <- .Primes %% .Primes[i] == 0
-	    composite[i] <- F
+	    composite[i] <- FALSE
 	    if(all(!composite))
 		break
 	    .Primes <- .Primes[!composite]
