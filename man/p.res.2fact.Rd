@@ -1,7 +1,6 @@
 \name{p.res.2fact}
 \alias{p.res.2fact}
-%%-- FIXME -- copy/paste from ---> ./p.res.2x.Rd
-\title{Residual plot vs. 2 Factors Using Boxplots}
+\title{Plot Numeric (e.g. Residuals) vs 2 Factors Using Boxplots}
 \description{
   Plots a numeric (``residual like'') variable against two factor
   covariates, using boxplots.
@@ -11,7 +10,7 @@ p.res.2fact(x, y, z, restricted, notch = FALSE,
             xlab = NULL, ylab = NULL, main = NULL)
 }
 \arguments{
-  \item{x,y}{two factor or numeric vectors giving the levels of factors.}
+  \item{x,y}{two factors or numeric vectors giving the levels of factors.}
   \item{z}{numeric vector of same length as \code{x} and \code{y},
     typically residuals.}
   \item{restricted}{positive value which truncates the size.  The
@@ -23,7 +22,8 @@ p.res.2fact(x, y, z, restricted, notch = FALSE,
   \item{main}{main title passed to \code{plot}.}
 }
 \details{
- .........
+  if values \emph{are} restricted, this make use of the auxiliar
+  function \code{\link{u.boxplot.x}}.
 }
 \author{Lorenz Gygax \email{logyg@wild.unizh.ch} and Martin Maechler, Jan.95;
   starting from \code{\link{p.res.2x}()}.
