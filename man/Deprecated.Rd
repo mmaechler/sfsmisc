@@ -7,6 +7,9 @@
 \alias{digits.v}
 \alias{subtit}
 \alias{p.triangle}
+\alias{p.panelL}
+\alias{p.panelS}
+\alias{tapply.num}
 %------ PLEASE: put \alias{.} here for EACH !
 \description{
   These functions are provided for compatibility with older versions of
@@ -20,6 +23,9 @@ digits.v(nvec, base = 2, num.bits = 1 + floor(log(max(nvec),base)))
 digits(n, base = 10)
 
 subtit(t)
+
+p.panelL(x,y)
+p.panelS(x,y,df = 4)
 
 p.triangle(mat, label= "*", text.ecken = rep("",3), dreieck = TRUE)
 }
@@ -37,6 +43,10 @@ p.triangle(mat, label= "*", text.ecken = rep("",3), dreieck = TRUE)
 \item{label}{text of length \code{mat[,1]} for labeling points.}
 \item{text.ecken}{\code{character(3)} text for the three corners.}
 \item{dreieck}{logical; if true, draw the triangle border.}
+% p.panelL() & p.panelS():
+\item{x,y}{panel function arguments: numeric vectors of same length.}
+\item{df}{specify (equivalent) degrees of freedom for smoothing spline
+  in \code{p.panelS}.}
 }
 \details{
   \code{nna} was a simpler version of the generic \code{\link{na.omit}}
@@ -47,6 +57,19 @@ p.triangle(mat, label= "*", text.ecken = rep("",3), dreieck = TRUE)
 
   \code{subtit(t)} is really just a convenience abbreviation for
   \code{mtext(t, side = 3, line = 0)} which you should rather use.
+
+  \code{p.panelL} and \code{p.panelS} are simple two-line functions to
+  be used as \code{panel} arguments in \code{\link{pairs}} or
+  \code{\link{coplot}}.  However, for such simple panels, it's rather
+  recommended to use \emph{anonymous} functions, i.e.,
+  \code{panel = function(x,y) { ....}} in the call to
+  \code{\link{coplot}()} (e.g.).
+
+  \code{p.triangle} is deprecated because package \pkg{vcd} has a much
+  more versatile \code{\link[vcd]{ternaryplot}} function.
+
+  \code{tapply.num} has simply be renamed to \code{\link{tapplySimpl}}
+  which you should use instead.
 }
 \keyword{documentation}
 
