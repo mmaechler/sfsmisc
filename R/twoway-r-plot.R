@@ -66,9 +66,9 @@ compresid2way <-
     if (is.null(ylab))
 	ylab <- lyname
     if (is.null(xlab))
-	xlab <- paste("-",paste(lfnames,collapse="    + "))
-    lty <- rep(lty,length=4)
-    if (length(pch)<=1) pch <- rep(c(pch,pch,1),length=2)
+	xlab <- paste("-",paste(lfnames,collapse = "    + "))
+    lty <- rep(lty,length = 4)
+    if (length(pch) <= 1) pch <- rep(c(pch,pch,1),length = 2)
     lrgy <- range(c(lfit, ly))
     lrgx <- range(lx)
     lht <- 0.05 * diff(lrgy)
@@ -76,39 +76,41 @@ compresid2way <-
     plot(lrgx+lwd*c(-1,1), lrgy+lwd*c(-1,1), type = "n", xlab = "", ylab = ylab)
     mtext(main, 3, 1,
 	  cex = par("cex.main"), col = par("col.main"), font = par("font.main"))
-    mtext(xlab,1, par("mgp")[1], at=0)
+    mtext(xlab,1, par("mgp")[1], at = 0)
     ## residuals
-    li <- ly>lfit
+    li <- ly > lfit
     if (any(li)) {
-	lpch <- if (length(pch)>=length(li)) pch[li] else pch[1]
-	segments(lx[li], lfit[li], lx[li], ly[li], lty=lty[1], col=col[1])
-	points(lx[li], ly[li], col=col[1], pch=lpch) }
+	lpch <- if (length(pch) >= length(li)) pch[li] else pch[1]
+	segments(lx[li], lfit[li], lx[li], ly[li], lty = lty[1], col = col[1])
+	points(lx[li], ly[li], col = col[1], pch = lpch)
+    }
     li <- !li
     if (any(li)) {
-	lpch <- if (length(pch)>=length(li)) pch[li] else pch[2]
-	segments(lx[li], lfit[li], lx[li], ly[li], lty=lty[2], col=col[2])
-	points(lx[li], ly[li], col=col[2], pch=lpch) }
+	lpch <- if (length(pch) >= length(li)) pch[li] else pch[2]
+	segments(lx[li], lfit[li], lx[li], ly[li], lty = lty[2], col = col[2])
+	points(lx[li], ly[li], col = col[2], pch = lpch)
+    }
     ## grid
     lmxa <- max(lcfa)
     segments(lcfb, lic + lcfb, lcfb - lmxa, lic + lmxa + lcfb,
-	     lty = lty[3], col=col[3])
+	     lty = lty[3], col = col[3])
     lmxb <- max(lcfb)
     segments( - lcfa, lic + lcfa, lmxb - lcfa, lic + lmxb + lcfa,
-	     lty = lty[3], col=col[3])
+	     lty = lty[3], col = col[3])
     ## labels
     if(label)
 	text(c(lcfb - lmxa - lwd, lmxb - lcfa + lwd),
 	     c(lmxa + lcfb, lmxb + lcfa) + lic + lht,
-	     c(levels(lfa),levels(lfb)), col=col[4])
+	     c(levels(lfb), levels(lfa)), col = col[4])
     if(numlabel) {
 	ldg <-	- min(0, floor(log10(max(abs(lrgy)))) - 3)
 	text(c(lcfb + lwd, - lcfa - lwd), lic + c(lcfb, lcfa) - lht,
-	     round(c(lcfb, lcfa), ldg), col=col[4])
+	     round(c(lcfb, lcfa), ldg), col = col[4])
     }
     lcf <- list(lic,lcfa,lcfb)
     names(lcf) <- c("(Intercept)",lfnames)
     lcompy <- data.frame(ly,lefa,lefb)
-    names(lcompy) <- c(paste("part",lyname,sep="."),
-		       paste("eff",lfnames,sep="."))
-    invisible(list(compy=lcompy,coef=lcf))
+    names(lcompy) <- c(paste("part",lyname,sep = "."),
+		       paste("eff",lfnames,sep = "."))
+    invisible(list(compy = lcompy,coef = lcf))
 }
