@@ -20,7 +20,7 @@
 
 plotCI <-
     function (x, y = NULL, uiw, liw = uiw, aui = NULL, ali = aui,
-              err = "y", xlim = NULL, ylim = NULL,
+              err = "y", xlim = NULL, ylim = NULL, type = "p", log = "",
               sfrac = 0.01, gap = 0, add = FALSE,
               col = par("col"), lwd = par("lwd"), slty = par("lty"),
               scol = col, pt.bg = NA,
@@ -54,7 +54,7 @@ plotCI <-
         if (err == "x" & is.null(xlim))
             xlim <- range(c(x, ui, li), na.rm = TRUE)
     if (!add)
-        plot(x, y, ylim = ylim, xlim = xlim, col = col, lwd = lwd,
+        plot(x, y, log = log, ylim = ylim, xlim = xlim, col = col, lwd = lwd,
              xlab = xlab, ylab = ylab, main = main, type = "n", axes = axes, ...)
     if (gap == TRUE) gap <- 0.01 ## default gap size
     ul <- c(li, ui)
@@ -79,6 +79,6 @@ plotCI <-
         segments(ul, y2 - smidge, ul, y2 + smidge, col = scol, lwd = lwd)
     }
     ## _now_ draw the points (in case we want to have "bg" set for points)
-    points(x, y, col = col, lwd = lwd, bg = pt.bg, ...)
+    points(x, y, col = col, lwd = lwd, bg = pt.bg, type = type, ...)
     invisible(list(x = x, y = y))
 }
