@@ -1,4 +1,4 @@
-#### $Id: misc-goodies.R,v 1.24 2003/12/10 10:42:06 maechler Exp $
+#### $Id: misc-goodies.R,v 1.25 2004/01/06 17:23:40 maechler Exp $
 #### misc-goodies.R
 #### ~~~~~~~~~~~~~~  SfS - R - goodies that are NOT in
 ####		"/u/sfs/R/SfS/R/u.goodies.R"
@@ -427,9 +427,6 @@ function(x, yd, ys, xlab = "", ylab = "", ylim = rrange(c(yd, ys)),
                  xpd = xpd, lty = segP$lty, lwd = segP$lwd, col = segP$col)
     invisible()
 }
-
-p.panelL <- function(x,y)      { text(x,y);lines(lowess(x,y, f = .4),col = 2) }
-p.panelS <- function(x,y,df = 4) { text(x,y);lines(smooth.spline(x,y,df = df),col = 2) }
 
 
 
