@@ -1,4 +1,4 @@
-#### $Id: p.goodies.R,v 1.9 2002/04/19 15:40:48 sfs Exp $
+#### $Id: p.goodies.R,v 1.10 2002/11/09 15:42:52 maechler Exp $
 #### Original is /u/sfs/S/p.goodies.S  [v 1.12 1999/05/06 10:17:00 sfs Exp ]
 ####
 ### p.goodies.S ---- SfS- S(plus) - Funktionen, welche
@@ -28,21 +28,12 @@
 ### p.two.res
 ### p.tst.dev           Show Lines, Points and Colors for the current device
 ### p.profileTraces     Profil-Spuren fuer Nichtlineare Regression
-### p.hboxp		Horizontale Boxplots
 ### p.arrows		Nicer arrows(): FILLED arrow heads
 ###
 ### ==========================================================================
 
-p.clear <- function()
-{
-  ## Ziel: Bildschirm "putzen"     (MM: I think this is a wrong concept)
-  par(mfrow = c(1, 1))
-  plot(0:1,0:1, type = "n", ann = FALSE, axes = FALSE)
-}
-
-## ===========================================================================
-p.datum <- function(outer = FALSE,...)
- mtext(u.Datumvonheute(...), 4, cex = 0.6, adj = 0, outer = outer)
+p.datum <- function(outer = FALSE, cex = 0.75, ...)
+    mtext(u.Datumvonheute(...), 4, cex = cex, adj = 0, outer = outer, las = 0)
 
 
 ## ===========================================================================
@@ -382,11 +373,6 @@ p.tst.dev <- function(ltypes = 10, lwidths = 12, colors = 16, ptypes = 20)
 p.profileTraces <-
     function(x, cex=1, subtitle="t-Profil-Plot und Profilspuren")
 {
-  ## Purpose: Zeichnet die Profilspuren und die t-Profil-Plots.
-  ## Arguments: x = Resultat von der R/S-Funktion profile()
-  ## Author: Andreas Ruckstuhl, Date: Nov 93
-  ##         R port by Isabelle Flückiger and Marcel Wolbers
-  ## -------------------------------------------------------------------------
   nx <- names(x)
   np <- length(x)
   opar <- par(oma = c(2, 2, 1.5, 0), mfrow = c(np, np),
@@ -443,59 +429,6 @@ p.profileTraces <-
 ## Test Beispiel :
 
 ## --> /u/sfs/ueb/fortgeschrittene/loesungen/loes-rg.truthennen.R
-
-p.hboxp <- function(x, y.lo, y.hi, boxcol = 3, medcol = 0,
-                    medlwd = 5, whisklty = 2, staplelty = 1)
-{
-  ## Purpose: Add a HORIZONTAL boxplot to the current plot
-  ## -------------------------------------------------------------------------
-  ## Arguments: x: univariate data set
-  ##            y.lo, y.hi:  min. and max. user-coordinates  OR y.lo=c(ylo,hyi)
-  ## -------------------------------------------------------------------------
-  ## Author: Martin Maechler, Date: 12 Jan 96, 16:45
-  ##       using code from the original 'hist.bxp' by Markus & Christian Keller
-  ##
-  ##-- Example: See code in  'hist.bxp' (.)
-  ##
-  if(missing(y.hi) && length(y.lo) == 2) { y.hi <- y.lo[2]; y.lo <- y.lo[1] }
-  ## should test y.lo < y.hi, both to be numbers...
-
-  ##--- 2nd set of Defaults  (by setting the args to NA) :
-  if(is.na(medcol)) medcol <- par("col")
-  if(is.na(medlwd)) medlwd <- par("lwd")
-  if(is.na(whisklty))  whisklty  <- par("lty")
-  if(is.na(staplelty)) staplelty <- par("lty") #
-
-  b <- boxplot(x, plot = FALSE)
-  st <- c(b$stats)## names(st) <- c("max","Q3","med","Q1","min")
-
-  ##-------- drawing the boxplot --------------
-  ## coordinates :
-
-  m <- (y.hi + y.lo)/2
-  llhh <- c(y.lo, y.lo, y.hi, y.hi)
-  ## drawing the box
-  polygon(c(st[4], st[2], st[2], st[4]), llhh,
-          col = ifelse(boxcol == 0, par("col"), boxcol), lty = 1,
-          density = ifelse(boxcol == 0, 0, -1)) #
-  ## Median
-  lines(rep(st[3], 2), c(y.lo, y.hi),
-        col = ifelse(boxcol == 0 && missing(medcol), par("col"), medcol),
-        lwd = medlwd, lty = 1) #
-  ## Border of the box
-  lines(c(st[4], st[2], st[2], st[4]), llhh,
-        col = ifelse(boxcol == 0, par("col"), boxcol), lty = 1) #
-  ## Whiskers
-  lines(c(st[1:2], NA, st[4:5]), rep(m, 5), lty = whisklty) #
-  ## Staples
-  k <- .01 * diff(range(x))
-  lines(st[1]+ c(-k, 0, 0, -k), llhh, lty = staplelty)
-  lines(st[5]+ c( k, 0, 0,  k), llhh, lty = staplelty)#
-  ## Outliers
-  for(out in b$out)
-    lines(rep(out, 2), c(y.lo, y.hi), lty = staplelty)
-}
-
 
 
 p.arrows <- function(x1, y1, x2, y2,
