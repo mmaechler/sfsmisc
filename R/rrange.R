@@ -7,5 +7,10 @@ rrange <- function(x, range = 1, coef = 1.5)
     coef <- 1.5 * range
   }
   ## S: (boxplot(..., plot = FALSE)$stats)[c(5, 1)]
-  boxplot.stats(x, coef=coef, do.conf = FALSE, do.out = FALSE)$stats[c(1,5)]
+  ## Work around R 1.2.3 buglet :
+  do <- 123 == 100 * as.numeric(R.version$major) +
+                10 * as.numeric(R.version$minor)
+
+  boxplot.stats(x, coef=coef, do.conf = FALSE,
+                do.out = do)$stats[c(1,5)]
 }
