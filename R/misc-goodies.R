@@ -32,7 +32,7 @@ DevDef.x11 <- { x11("-geometry -9+9");  p_ par(); dev.off(); p$new_ F; p}
 DevDef.motif <- .Alias(DevDef.x11)
 }
 
-dirwst <- "/home/staff/stahel/S/.Data"
+## dirwst <- "/home/staff/stahel/S/.Data"
 
 ## obj <- "*[Dd]at*" ##-- Does anyone use this ?????
 
@@ -181,7 +181,7 @@ nna <- function(data)
 
 subtit <- function(t) mtext(t, side = 3, line = 0)
 
-rrange <- function(...)
+rrange <- function(x, range = 1)
 {
   ## Purpose: `Robust RANGE', using Tukey's notion of robust boxplot range
   ## -------------------------------------------------------------------------
@@ -190,33 +190,13 @@ rrange <- function(...)
   ## -------------------------------------------------------------------------
   ## Author: Martin Maechler, 1990
 
-  (boxplot(..., plot = F)$stats)[c(5, 1)]
+  boxplot.stats(x, coef=range)$stats[c(1,5)]
+  ## S: (boxplot(..., plot = FALSE)$stats)[c(5, 1)]
 }
+
 give.xy.list <- function(x, y)
 {
-  ## Purpose: Return  list(x = . , y = . [, ... ] ) for many cases
-  ## -------------------------------------------------------------------------
-  ## Arguments: x: x-y data structure  or x-vector
-  ##  (optional y: y-vector  [in most simple case])
-  ## -------------------------------------------------------------------------
-  ## Author: Martin Maechler, 1990
-  if(is.list(x)) {
-    if(any(is.na(match(c("x", "y"), names(x))))) {
-      if(length(x) == 2)
-	list(x = x[[1]], y = x[[2]])
-      else stop("arg. is not an xy.list")
-    }
-    x
-  }
-  else if(is.complex(x))		list(x = Re(x),   y = Im(x))
-  else if(is.matrix(x)) {
-    if(ncol(x) == 2)			list(x = x[, 1],  y = x[, 2])
-    else stop("matrix 'x' must have 2 columns (x, y)")
-  }
-  else if(is.ts(x))			list(x = time(x), y = x)
-  else if(length(x) == 0) stop("zero length x data")
-  else if(length(y) == 0) stop("zero length y data")
-  else					list(x = x, y = y)
+  stop("Use xy.coords() in R")
 }
 
 errbar <- function(x, y, yplus, yminus, cap=.015,
@@ -241,7 +221,7 @@ errbar <- function(x, y, yplus, yminus, cap=.015,
 ## C.Monatsname , etc..  sind jetzt bei der zugehoerigen Funktion
 ##		u.Datumvonheute  in  /u/sfs/S/u.goodies.S
 
-cum.Vert.funkt <- function(x, Quartile= T, titel= T, Datum= T, rang.axis = T,
+cum.Vert.funkt <- function(x, Quartile= TRUE, titel= TRUE, Datum= TRUE, rang.axis = TRUE,
 			   xlab = "", main = "", ...)
 {
   ## Ziel: Kumulative Verteilung von x aufzeichnen, auf Wunsch auch Median
@@ -280,11 +260,11 @@ boxplot.matrix <- function(mat, cols = TRUE, ...)
 }
 
 plot.step <- function(ti, y,
-		      cad.lag = T,
+		      cad.lag = TRUE,
 		      verticals = !cad.lag,
 		      left.points = cad.lag,
-		      right.points = F,
-		      end.points = F,
+		      right.points = FALSE,
+		      end.points = FALSE,
 
 		      add = FALSE,
 
@@ -303,11 +283,11 @@ plot.step <- function(ti, y,
   ## -------------------------------------------------------------------------
   ## Author: Martin Maechler, 1990, U.Washington, Seattle; improved -- Dec.1993
   ##
-  ## CALLS:  function  give.xy.list
-  ##
   ## EXAMPLE: ##-- Plot empirical cdf  Fn(x)  for a small n:
   ## 	      xx_ runif(20); plot.step(xx); plot.step( xx, cad.lag = F )
   ##	      plot.step( runif(20), add=T, cad.lag=F)
+  xlab
+  ylab
   if(missing(y)) {
     if(is.vector(ti) && is.numeric(ti)) {   # -- Do empirical CDF --
       nt <- length(ti)
@@ -317,7 +297,7 @@ plot.step <- function(ti, y,
       n <- nt + 1
       y <- (0:nt)/nt
     } else {
-      xy <- give.xy.list(ti)	   #-- returns list(x=.., y=..)  {or stop()s !}
+      xy <- xy.coords(ti,NULL,NULL,NULL)
       ti <- c(xy$x[1], xy$x)
       y <- xy$y
       n <- length(y)
@@ -386,7 +366,7 @@ n.plot <- function(x, y, nam = NULL, abbr = n>=20 || max(nchar(nam))>=8, ...)
 TA.plot <- function(lm.res, fit = fitted(lm.res),
 		    res = residuals(lm.res, "pearson"),
 		    labels = NULL, main = mk.main(),
-		    draw.smooth = n>=10, show.call = T,  show.2sigma = T,
+		    draw.smooth = n>=10, show.call = TRUE,  show.2sigma = TRUE,
 		    lo.iter = NULL, lo.cex = NULL,
 		    ...)
 {
@@ -506,18 +486,18 @@ if(version$major < 5) oldClass <- class
 
 doc <- function(object) attr(object, "doc")
 
-"doc<-" <- function(x, newdoc)
+"doc<-" <- function(x, value)
 {
   ##-- Create doc attribute or  PREpend  new doc to existing one.
-  attr(x, "doc") <- c(newdoc, attr(x, "doc"))
+  attr(x, "doc") <- c(value, attr(x, "doc"))
   x
 }
 
 tit <- function(object) attr(object, "tit")
 
-"tit<-" <- function(x, newtit)
+"tit<-" <- function(x, value)
 {
-  attr(x, "tit") <- newtit
+  attr(x, "tit") <- value
   x
 }
 
@@ -548,9 +528,9 @@ polyn.eval <- function(coef, x)
     lc <- dc[2]; dc <- dc[1]
     n <- length(x)
     if (lc==0) matrix(0, n, dc) else {
-      r <- matrix(coef[,lc], n, dc, byrow=T)
+      r <- matrix(coef[,lc], n, dc, byrow=TRUE)
       if (lc>1)
-	for (i in (lc-1):1) r <- r*x + matrix(coef[,i], n, dc, byrow=T)
+	for (i in (lc-1):1) r <- r*x + matrix(coef[,i], n, dc, byrow=TRUE)
       r
     }
   }
@@ -653,7 +633,7 @@ print.tbl <- function(table2, digit = 3)
 		 df=df, chisq.test=test.chisq, deviance=test.deviance))
 }
 
-table.mat <- function(mat, order.rows = T)
+table.mat <- function(mat, order.rows = TRUE)
 {
   ##-- From S-news, Feb.1998, Phil Spector:
 
@@ -685,13 +665,13 @@ table.mat <- function(mat, order.rows = T)
     mat <- as.data.frame(mat)
   }
   if(any(sapply(mat, is.matrix))) {
-    mat <- as.data.frame(as.matrix(mat), optional = T)
+    mat <- as.data.frame(as.matrix(mat), optional = TRUE)
     if(!is.null(nms))
       names(mat) <- nms
   }
   pmat <- do.call("paste", mat)
   which <- !duplicated(pmat)
-  mat.use <- mat[which,  , drop = F]
+  mat.use <- mat[which,  , drop = FALSE]
   mat.tab <- table(pmat)
   mat.use$Count <- mat.tab[match(pmat[which], names(mat.tab))]
   if(order.rows)
@@ -713,7 +693,7 @@ cat.con <- function(mat, digi=3)
   out <- format(round(mat, digi))
   "--" <- paste(rep("-", max(nchar(out))), collapse = "")
   out <- cbind(rbind(out, get("--")), "|")
-  print(out[c(1:N,N+2,N+1), c(1:M,M+2,M+1)], quote=F)
+  print(out[c(1:N,N+2,N+1), c(1:M,M+2,M+1)], quote=FALSE)
   invisible(mat)			#--- die erweiterte Matrix --
 }
 
@@ -722,7 +702,7 @@ cat.con <- function(mat, digi=3)
 ###
 ### if  we take them, use different file !!
 
-hist.bxp <- function(x, nclass, breaks, probability=F, include.lowest=T,
+hist.bxp <- function(x, nclass, breaks, probability=FALSE, include.lowest=TRUE,
 		     xlab = deparse(substitute(x)), ..., width=0.2,
 		     boxcol=3, medcol=0, medlwd=5, whisklty=2, staplelty=1)
 {
@@ -737,21 +717,21 @@ hist.bxp <- function(x, nclass, breaks, probability=F, include.lowest=T,
   if(missing(breaks)){
     if(missing(nclass))
       h <- hist(x, probability=probability, include.lowest=include.lowest,
-		plot=F)
+		plot=FALSE)
       else
 	h <- hist(x, nclass=nclass, probability=probability,
-		  include.lowest=include.lowest, plot=F)
+		  include.lowest=include.lowest, plot=FALSE)
   }
     else
       h <- hist(x, breaks=breaks, probability=probability,
-		include.lowest=include.lowest, plot=F)
+		include.lowest=include.lowest, plot=FALSE)
   ymax <- max(h$counts)
   ymin <-  - ymax * width # range:  (-w,1)*ymax  instead of  (0,1)*ymax
 
   ##------- drawing the histogram -------------
   hist(x, breaks=h$breaks, probability=probability,
-       include.lowest=include.lowest, plot=T, xlab=xlab,
-       ylim=c(ymin, ymax), axes=F, ...)
+       include.lowest=include.lowest, plot=TRUE, xlab=xlab,
+       ylim=c(ymin, ymax), axes=FALSE, ...)
   axis(1)
   axis(2, at=pretty(c(0,ymax), nint=5), srt=90)
   abline(h=0)				#
@@ -894,7 +874,7 @@ pairs.title <- function(main, adj = NULL, cex = 1, lineP = 0, ...)
   ## Author: Martin Maechler, Date: 12 Aug 96, 15:57
   if(!exists('stringwidth', mode='function'))
     attach("/u/sfs/S/Statlib/postscriptfonts/.Data")
-  nc <- stringwidth(main, inches = F)
+  nc <- stringwidth(main, inches = FALSE)
   ##-- the coord.system is in the middle ...
   lin <- switch(.Device,
                 motif = 20,
@@ -908,7 +888,7 @@ pairs.title <- function(main, adj = NULL, cex = 1, lineP = 0, ...)
                   postscript = - .15,
                   0)
   mtext(main, line = lin, cex=cex, adj=adj, ...) #-- upper left
-  mtext(paste(rep("_", ceiling(1.05* nc / stringwidth("_", inches=F))),
+  mtext(paste(rep("_", ceiling(1.05* nc / stringwidth("_", inches=FALSE))),
               collapse=''), line = lin - .2*cex, cex=cex, adj=adj, ...)
   c(nc= nc, lin= lin, adj=adj)
 }
