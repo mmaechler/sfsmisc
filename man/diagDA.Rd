@@ -11,7 +11,7 @@
 \usage{
 dDA(x, cll, pool = TRUE)
 \method{predict}{dDA}(object, newdata, pool = object$pool, \dots)
-\method{print.dDA}(x, \dots)
+\method{print}{dDA}(x, \dots)
 
 diagDA(ls, cll, ts, pool = TRUE)
 }
@@ -45,10 +45,11 @@ diagDA(ls, cll, ts, pool = TRUE)
   (Statistics, UC Berkeley, June 2000, Tech Report \#576)
 }
 \author{
-  Originally,
   Sandrine Dudoit, \email{sandrine@stat.berkeley.edu}  and\cr
-  Jane Fridlyand, \email{janef@stat.berkeley.edu}.\cr
-  Modifications (speedup): Martin Maechler \email{maechler@R-project.org}
+  Jane Fridlyand, \email{janef@stat.berkeley.edu} originally wrote
+  \code{stat.diag.da()} in CRAN package \pkg{sma} which was modified
+  for speedup by Martin Maechler \email{maechler@R-project.org}
+  who also introduced \code{dDA} etc.
 }
 \seealso{\code{\link[MASS]{lda}} and \code{\link[MASS]{qda}} from the
   \pkg{MASS} package.
