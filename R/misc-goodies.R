@@ -1,4 +1,4 @@
-#### $Id: misc-goodies.R,v 1.23 2003/12/03 21:47:40 maechler Exp $
+#### $Id: misc-goodies.R,v 1.24 2003/12/10 10:42:06 maechler Exp $
 #### misc-goodies.R
 #### ~~~~~~~~~~~~~~  SfS - R - goodies that are NOT in
 ####		"/u/sfs/R/SfS/R/u.goodies.R"
@@ -47,27 +47,10 @@ empty.dimnames <- function(a)
 ## which() <- function(x,...)  is in standard R !!
 
 
-nna <- function(data)
-{
-  ## Purpose: "No NA" :  throw out NA s, also for MATRIX data
-  ## Author:   WSt, Date: Dec 89; simplified,improved: M.Maechler, Nov.93, 94
-  ## --------------------------------------------------------------------
-  ## ------ NOTE:  na.omit(.) is VERY SIMILAR (but funny for vectors !).
-  Error <- "'nna(.)' is defined for vectors, matrices & data.frames only"
-  if(is.atomic(data) || is.data.frame(data)) {
-    ##-- should work for 'named vectors' [is.vector -> F !], data.frames,..
-    if(is.null(dim(data))) data[!is.na(data)]
-    else if(is.matrix(data))  data[!apply(is.na(data), 1, any), ]
-    else stop(Error)
-  } else stop(Error)
-}
-
 
 ##-#### Plot / Devices  related stuff        ########
 ##-###  -----------------------------        ########
 ##-### >>>>> "p.goodies.S" or "ps.goodies.S" ########
-
-subtit <- function(t) mtext(t, side = 3, line = 0)
 
 errbar <- function(x, y, yplus, yminus, cap = 0.015,
                    xlab = deparse(substitute(x)),
@@ -280,18 +263,6 @@ digitsBase <- function(x, base = 2, ndigits = 1 + floor(log(max(x),base)))
     r
 }
 
-digits.v <- function(nvec, base = 2, num.bits = 1 + floor(log(max(nvec),base)))
-{
-    warning("`digits.v() is deprecated -- please use  baseDigits() instead!")
-    baseDigits(nvec, base = base, ndigits = num.bits)
-}
-
-digits <- function(n, base = 10)
-{
-    warning("`digits() is deprecated -- please use  baseDigits() instead!")
-    drop(baseDigits(n, base=base))
-}
-
 chars8bit <- function(i = 0:255)
 {
     ## Purpose: Compute a character vector from its "ASCII" codes.
@@ -432,71 +403,33 @@ mpl <- function(mat, ...) {
     axis(1, at = 1:nrow(mat), labels = dn)
 }
 
-pl.ds <- function(x, yd, ys, xlab = "", ylab = "", ylim = rrange(yd, ys),
-                  xpd = TRUE, do.seg = TRUE,
-                  lwd = 2.5, seg.p = .95, seg.lty = 2,
-                  seg.col = if(.Device == "postscript") 1  else 2,
-                  lin.col = if(.Device == "postscript") 1  else 3, lin.lty = 1,
-                  ...)
+pl.ds <-
+function(x, yd, ys, xlab = "", ylab = "", ylim = rrange(c(yd, ys)),
+         xpd = TRUE, do.seg = TRUE, seg.p = .95,
+         segP = list(lty = 2, lwd = 1,   col = 2),
+         linP = list(lty = 1, lwd = 2.5, col = 3), ...)
 {
-  ## Purpose:   Plot Data & Smooth ---
-  ## -------------------------------------------------------------------------
-  ## Arguments:
-  ##            do.seg: logical, plot "residual segments" iff T (= default).
-  ##            further arguments to plot(x,yd,...), e.g.,  pch ='.'
-  ## -------------------------------------------------------------------------
-  ## Author: Martin Maechler, 1990-1994
-
-  plot(x, yd, xlab = xlab, ylab = ylab, ylim = ylim, ...) #pch = pch,
-  lines(x, ys, lwd = lwd, xpd = xpd, lty = lin.lty, col = lin.col)
-  if(do.seg)
-    segments(x, seg.p*ys + (1-seg.p)*yd, x, yd, col = seg.col,
-             xpd = xpd, lty = seg.lty)
+    ## Purpose:   Plot Data & Smooth
+    ## -------------------------------------------------------------------------
+    ## Arguments: do.seg: logical, plot "residual segments" iff T (= default).
+    ## -------------------------------------------------------------------------
+    ## Author: Martin Maechler, 1990-1994
+    if(is.unsorted(x)) {
+        i <- sort.list(x)
+        x <- x[i]
+        yd <- yd[i]
+        ys <- ys[i]
+    }
+    plot(x, yd, xlab = xlab, ylab = ylab, ylim = ylim, ...) #pch = pch,
+    lines(x, ys, xpd = xpd, lty = linP$lty, lwd = linP$lwd, col = linP$col)
+    if(do.seg)
+        segments(x, seg.p*ys + (1-seg.p)*yd, x, yd,
+                 xpd = xpd, lty = segP$lty, lwd = segP$lwd, col = segP$col)
+    invisible()
 }
 
 p.panelL <- function(x,y)      { text(x,y);lines(lowess(x,y, f = .4),col = 2) }
 p.panelS <- function(x,y,df = 4) { text(x,y);lines(smooth.spline(x,y,df = df),col = 2) }
-
-test.par <- function()
-{
-  ## Things not yet  shown / proved below:
-  ## 1) mai == mar * csi
-  ## 2) fin == pin + c( mai[2]+mai[4], mai[1]+mai[3])
-  ## 3) pin / fin == c(plt[2]-plt[1], plt[4]-plt[3])
-  ##
-  ## 4)  csi =?= cin[2]
-
-  ## 2) ==> mai[2] + pin[1] + mai[4] ==  fin[1]
-  ##        mai[1] + pin[2] + mai[3] ==  fin[2]
-  ## 2)+3) ==> /  mai[1:2] ==    plt[c(1,3)] * fin
-  ##           \  mai[4:3] == (1-plt[c(2,4)])* fin
-  .Options$digits <- 3
-  plot(1:10,(1:10)^2, xlab = "")
-  pr <- par()
-  u <- pr$ usr;  uy <- u[3:4];  ux <- u[1:2]
-  cxy <- pr$ cxy;  em1 <- pr$"1em"
-  mtext(paste("par(\"usr\")=: c(ux,uy)=",
-              paste(format(u),  collapse = " "),
-              if(all.equal(pr$ pin,    pr$ uin * c(diff(ux),diff(uy)),tol = 1e-6))
-                  "--- par(\"pin\" = par(\"uin\") * c(diff(ux),diff(uy))"
-              ), line = 3)
-  mtext(paste("par(\"cxy\")=", paste(format(cxy),collapse = " "),
-              "    par(\"1em\")=", paste(format(em1),collapse = " ")), line = 2)
-  mtext(paste("nx := diff(ux) / par(\"1em\")[1] = ",
-              format(nx <- diff(ux) / em1[1])),side = 1, line = 2)
-  mtext(paste("nx':= diff(ux) / par(\"cxy\")[1] = ",
-              format(nx <- diff(ux) / cxy[1])),side = 1, line = 3)
-  mtext(paste("ny := diff(uy) / par(\"1em\")[2] = ",
-              format(ny <- diff(uy) / em1[2])),side = 1, line = 4)
-
-  for(i in 1:ceiling(ny))
-    mtext(paste("line=", i), line = -i, at = 1.8)
-  for(i in 0:ceiling(nx))
-    mtext(paste(i), side = 2, line = -i, at = uy[2] + em1[2]*i%%2)
-  str <- paste(rep("123456789 ", ceiling(nx/10)), collapse = "")
-  str <- substring (str, 1, ceiling(nx))
-  mtext(str, side = 3, line = -2)
-}
 
 
 
@@ -581,10 +514,6 @@ list2mat <- function(x, check = TRUE)
   ## -------------------------------------------------------------------------
   ## Author: Martin Maechler, Date: 19 May 93, 09:46
   if(!is.list(x)) stop("Argument must be list !")
-  if(!exists("unname", mode = "function"))
-    unname <- function(x) { if(length(names(x))) names(x) <- NULL; x }
-  if(!exists("which", mode = "function"))
-    which <- function(logi) (1:length(logi))[logi]
   p <- length(x) #--> number of columns
   n <- length(x[[1]])
   if( !is.vector(unname(x[[1]])) ||
