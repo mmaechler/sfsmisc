@@ -22,7 +22,7 @@ hatMat(x, trace= FALSE,
     \code{pred.sm}.}
 }
 \value{
-  The hat matrix \eqn{H} (if \code{trace = FALSE} as per default) or 
+  The hat matrix \eqn{H} (if \code{trace = FALSE} as per default) or
   a number, \eqn{tr(H)}, the \emph{trace} of \eqn{H}, i.e.,
   \eqn{\sum_i H_{ii}}{sum(i) H[i,i]}.
 
@@ -37,11 +37,11 @@ hatMat(x, trace= FALSE,
 \author{Martin Maechler \email{maechler@stat.math.ethz.ch}}
 \seealso{\code{\link{smooth.spline}}, etc}
 \examples{
-require(modreg) # for smooth.spline() or loess()
+require(stats) # for smooth.spline() or loess()
 
 x1 <- c(1:4, 7:12)
 H1 <- hatMat(x1, spar = 0.5)
- 
+
 matplot(x1, H1, type = "l", main = "columns of smoother hat matrix")
 
 ## Example `pred.sm' arguments for hatMat() :
