@@ -1,3 +1,4 @@
+#### -*- mode: R ; delete-old-versions: never -*-
 ####---- Prime numbers, factorization, etc. --- "illustatration of programming"
 
 ###---- EXAMPLES
@@ -19,7 +20,7 @@ factorize(131301607)# prime -> still quick!
 factorize(76299312910)
 
 unix.time(fac.1ex <- factorize(1000 + 1:99)) #-- 0.95 sec (sophie Sparc 5)
-#-- 0.4 / .65 sec (florence Ultra 1/170)
+#-- 0.02 sec (P 4, 1.6GHz);  0.4 / .65 sec (florence Ultra 1/170)
 unix.time(fac.2ex <- factorize(10000 + 1:999))
 ## R 0.49 : 5.4 sec (florence Ultra 1/170)
 ## ------   6.1 sec (sophie   Ultra 1/140)
@@ -48,8 +49,7 @@ unix.time(P1e4 <- prime.sieve(prime.sieve(prime.sieve()), max=10000))
 ##-> ~0.8 (on jessica: Ultra-2)
 ##->  0.08 (on lynne, Pentium 4 (1600 MHz))
 ##----> see below for a sample of 20 !
-length(P1e4) #--> 1229
-
+stopifnot(length(P1e4) == 1229)
 
 CPU.p1e4 <- numeric(20)
 for(i in 1:20)  CPU.p1e4[i] <-
@@ -58,8 +58,8 @@ CPU.p1e4
 summary(CPU.p1e4)
 ##-Ultra-2    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
 ##-Ultra-2   0.690   0.690   0.790   0.755   0.800   0.810
-##-Pentium   0.070   0.070   0.080   0.078   0.080   0.100
-
+## P4 R-?)   0.070   0.070   0.080   0.078   0.080   0.100
+## P4 R-1.9  0.040   0.050   0.050   0.048   0.050   0.050
 unix.time(P1e4.2 <- prime.sieve( max=10000))
 ##-> 1.46 (sophie)   maybe a little longer
 stopifnot(identical(P1e4 , P1e4.2))
@@ -68,6 +68,7 @@ unix.time(P1e5 <- prime.sieve(P1e4, max=1e5))
 ##-> 105.7  (on sophie: fast Sparc 5)
 ##->  58.83 (on jessica: Ultra2)
 ##->   5.67 (on lynne: Pentium 4)
+##->   3.96 (on lynne: Pentium 4 -- R 1.9)
 
 stopifnot(length(P1e5) == 9592)
 
