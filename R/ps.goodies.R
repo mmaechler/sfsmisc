@@ -1,4 +1,4 @@
-#### PostScript Goodies für R --- `a la /u/sfs/S/ps.goodies.S
+#### PostScript Goodies für R --- `a la /u/sfs/S/ps.goodies.S-- $Id$
 ####
 ####
 
@@ -6,8 +6,8 @@ ps.latex <- function(file, height= 5+ main.space*1.25, width= 9.5,
                      main.space = FALSE, lab.space = main.space,
                      iso.latin1 = is.R(), paper = "special",
                      ##not yet in R: ps.title = paste("S+ :",file),
-                     lab = c(10,10,7), mgp.lab = c(1.6, .7, 0),
-                     mar = c(4,4,0.9,1.1), ...)
+                     lab = c(10, 10, 7), mgp.lab = c(1.6, 0.7, 0),
+                     mar = c(4, 4, 0.9, 1.1), ...)
 {
   ## Purpose: Setup for 1 LaTeX-includable picture SAVING on white space !
   ##    Calls  ps.do(.) ; par(.)  [ old par in global 'o.p']; USE  ps.end() !
@@ -156,7 +156,7 @@ ps.end <- function(call.gv = NULL, do.color = u.get0("ps.do.color"),
 
 ## From ~/S/postscript.colors.S
 ps.colors.test <- function(ps.color.mat = ps.colors.23,
-                           do.post= T, show.it= T,
+                           do.post= TRUE, show.it= TRUE,
                            region = ps.region.CS100)
 {
   ## Purpose:  Test Color matrix of postscript colors
@@ -241,7 +241,7 @@ ps.show.fonts <- function(out.file = "test.ps.fonts.ps",
   ## Example : ps.show.fonts (font=13)
   ##    ps.options(reset=T); ps.show.fonts("fonts.1.13.std.ps", font=c(1,13))
   ##    ps.setup.SfS();      ps.show.fonts("fonts.1.13.iso.ps", font=c(1,13))
-  postscript(file = out.file, horizontal = F, ...)
+  postscript(file = out.file, horizontal = FALSE, ...)
   par(mfrow=c(2,1))
   ps.fonts <- ps.options("fonts")[[1]]
   setf <- ps.options("setfont")[[1]]
@@ -253,7 +253,7 @@ ps.show.fonts <- function(out.file = "test.ps.fonts.ps",
          font = ifont,
          main = paste('Postscript font "', ps.fonts[ifont],
            '"; S:  font = ', ifont, sep=""))
-    axis(2, at = 15:0, labels = F)
+    axis(2, at = 15:0, labels = FALSE)
     mtext(paste(15:0*16),2,line=1,at=0:15,font=1)
     abline( h = -.5 + 4*1:3, lty=2)
     abline( v = +.5 + 4*1:3, lty=2)
@@ -265,4 +265,4 @@ ps.show.fonts <- function(out.file = "test.ps.fonts.ps",
 }
 
 ###- end-of-former /u/maechler/S/Good.S goodies---------------------------------
-
+
