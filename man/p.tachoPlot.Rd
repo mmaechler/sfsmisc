@@ -6,8 +6,10 @@ Puts a symbol (pointer) on a plot at each of the specified locations.
 }
 \usage{
 p.tachoPlot(x, y, z, angle=c(pi/4,3*pi/4), size,
-            method="robust",
-            legend=TRUE, show.method=TRUE, \dots)
+	    method = c("robust", "sensitive", "rank"),
+	    legend = TRUE, show.method = legend,
+	    xlab = deparse(substitute(x)), ylab = deparse(substitute(y)),
+	    xlim, ylim, \dots)
 }
 \arguments{
   \item{x,y,z}{coordinates of points. Numeric vectors of the same length.
@@ -28,8 +30,12 @@ p.tachoPlot(x, y, z, angle=c(pi/4,3*pi/4), size,
   }
   \item{legend}{logical flag: if \code{TRUE} (default), a legend giving
     the values of the minimum and maximum direction of the pointer is drawn.}
-  \item{show.method}{logical flag: if \code{TRUE} (default), the method
-    name is printed.}
+  \item{show.method}{logical flag, defaulting to \code{legend}; if true,
+    the method name is printed.}
+  \item{xlab,ylab}{labels for x and y axis; defaults to the `expression'
+    used in the function call.}
+  \item{xlim,ylim}{numeric of length 2, the limits for the x and y axis,
+    respectively; see \code{\link{plot.default}}.}
   \item{\dots}{further arguments to \code{\link{plot}}.  Graphical
     parameters (see \code{\link{par}}) may also be supplied as arguments
     to this function.}
