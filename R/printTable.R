@@ -50,5 +50,5 @@ catCon <- function(mat, digits = 3)
   "--" <- paste(rep("-", max(nchar(out))), collapse = "")
   out <- cbind(rbind(out, get("--")), "|")
   print(out[c(1:N,N+2,N+1), c(1:M,M+2,M+1)], quote = FALSE)
-  invisible(mat)			#--- die erweiterte Matrix --
+  invisible(mat) #--- die erweiterte Matrix --
 }
