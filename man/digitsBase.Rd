@@ -21,6 +21,9 @@ digitsBase(x, base = 2, ndigits = 1 + floor(log(max(x), base)))
 
   \code{c( result )} then contains the blocks in proper order ..
 }
+\note{\code{digits} and \code{digits.v} are now deprecated and will be
+  removed from the \pkg{sfsmisc} package.
+}
 \author{Martin Maechler, Dec 4, 1991 (for S-plus; then called \code{digits.v}).}
 \examples{
 digitsBase(0:12, 8) #-- octal representation
