@@ -29,7 +29,7 @@ ps.end(call.gv= NULL, command = getOption("eps_view"),
 \author{Martin Maechler}
 \seealso{\code{\link{postscript}},..}
 \examples{
-if(interactive()\dontshow{ || Sys.getenv("USER") == "maechler"}
+if(interactive() \testonly{ || Sys.getenv("USER") == "maechler" }
   ) {
     ps.do("ex.ps")
     data(sunspots)
