@@ -1,4 +1,4 @@
-#### $Id: p.goodies.R,v 1.13 2002/11/30 23:06:33 maechler Exp $
+#### $Id: p.goodies.R,v 1.14 2004/01/12 15:41:13 maechler Exp $
 #### Original is /u/sfs/S/p.goodies.S  [v 1.12 1999/05/06 10:17:00 sfs Exp ]
 ####
 ### p.goodies.S ---- SfS- S(plus) - Funktionen, welche
@@ -70,167 +70,7 @@ p.dnorm <- function(mu = 0, s = 1, h0.col = "light gray",
 p.m <- function(mat, ...)
   matplot(mat[, 1], mat[, -1, drop = FALSE], ...)
 
-
 ## ===========================================================================
-
-p.pairs <- function(data, data2, pch='.', col=1, colors, vnames, range=TRUE,
-                    labcex=1.5, ...)
-{
-  ## Purpose: pairs() for two DIFFERENT set of variables against each other.
-  ##          ~~~~~
-  ## also with different plotting characters, marks and/or colors
-  ## NB: also consider  pairs(..., panel = function(..) {....})
-  ## -------------------------------------------------------------------------
-  ## Arguments:  data   data for rows    (y axis)
-  ##             data2  data for columns (x axis); DEFAULT: data2 := data
-  ##             pch    characters (or marks) to be used
-  ##             col    color index for each observation
-  ##             colors colors to be used
-  ##             vnames labels of variables; DEFAULT: dimnames of data, data2
-  ##             range  if T:          use robust range
-  ##                    if F or NULL:  use  usual range
-  ##                    if array(2*nv) use  given range
-  ##             labcex size of axis labels
-  ##             ...    extra arguments,  passed to  par(.)
-  ## -------------------------------------------------------------------------
-  ## Author: Werner Stahel, Date: 23 Jul 93; minor bug-fix+comments: M.Maechler
-    ##if(Browse) on.exit(browser())
-  ##---------------------- preparations --------------------------
-  data <- as.matrix(data)
-  nv <- dim(data)[2]
-  if (missing(data2)) { data2 <- data; lv2 <- 0
-  } else { data <- cbind(data, as.matrix(data2)); lv2 <- nv }
-  nv2 <- dim(data2)[2]
-  nvv <- dim(data) [2]
-  if (missing(vnames)) vnames <- dimnames(data)[[2]]
-  if (is.null(vnames)) vnames <- c(paste("V",1:nv), paste("VV",1:nv2))
-  num.pch <- is.numeric(pch)&!is.factor(pch)
-  pch <- factor(pch)
-  if(num.pch) mrk <- as.numeric(levels(pch))
-  pch <- as.character(pch)
-  cval <- unique(col)
-  n.color <- length(cval)
-  if(missing(colors)) colors <- if(is.numeric(col)) cval else 1:n.color
-
-  rg <- if (is.logical(range) && range)  apply(data,2, rrange)
-        else if(is.matrix(range))        range
-  if(!is.null(rg)) for (j in 1:nvv) { #-- set to NA if outside range :
-    dd <- data[,j]; data[dd < rg[1,j] | dd > rg[2,j], j] <- NA
-  }
-  par(mfrow=c(nv,nv2),oma=c(1,0,2,2)); par(mgp=c(1,0.1,0))
-  par(cex=0.7, ...)
-  cext <- par("cex")*labcex
-  ##
-  ##----------------- plots ----------------------------
-  for (j in 1:nv) { #-- plot row [j]
-    v <- data[,j]
-    for (j2 in lv2+1:nv2) { #-- plot column  [j2-lv2] = 1:nv2
-      v2 <- data[,j2]
-##-- different lines of margin for plots
-      if(j==1 & j2!=nvv) par(mar=c(2, 2, 1, 0))  ## top
-      if(j==1 & j2==nvv) par(mar=c(2, 2, 1, 1))  ## upper-right corner
-      if(j!=1 & j2==nvv) par(mar=c(2, 2, 0, 1))  ## right
-      if(j!=1 & j2!=nvv) par(mar=c(2, 2, 0, 0))  ## otherwise
-      plot(v2,v, type="n", xlab="", ylab="")
-      if(j==1)    mtext(vnames[j2], side=3, line=0, cex=cext)
-      if(j2==nvv) mtext(vnames[ j], side=4, line=0, cex=cext)
-      if(any(v!=v2,na.rm=TRUE))
-        for (cc in 1:n.color) {
-          if (any((ii <- col==cval[cc]), na.rm=TRUE)) {#-- plot in current color
-            cl <- colors[cc]
-            if(num.pch) {
-              for (mm in levels(pch))
-                if (any((kk <- ii & pch==mm), na.rm=TRUE))
-                  points(v2[kk], v[kk], pch = mrk[as.numeric(mm)], col=cl)
-            } else text(data[ii,j2],data[ii,j],pch,col=cl)
-          }
-        }
-      else { uu <- par("usr")
-             text(mean(uu[1:2]),mean(uu[3:4]), vnames[j], cex=cext) }
-    }
-  }
-  on.exit()
-  cat("p.pairs(..)  done\n")
-}
-
-## ================================================================
-p.pllines <- function(x,y,group,lty=c(1,3,2,4),...)
-{
-  ## Purpose:   lines according to group
-  ## -------------------------------------------------------------------------
-  ## Arguments:
-  ## -------------------------------------------------------------------------
-  ## Author: Werner Stahel, Date: 21 Jun 93, 15:45
-  plot(x,y,type="n",...)
-  ngr <- max(group)
-  for (gg in 1:ngr) {
-    ii <- group==gg & !is.na(x) & !is.na(y)
-    if(sum(ii)) lines(x[ii],y[ii],lty=lty[1+(gg-1)%%length(lty)])
-  }
-}
-## ===========================================================================
-p.plot.lm <-
-function(rr, y, ask = TRUE, qq=TRUE, ta=TRUE, ta.lowess=TRUE, tamod=TRUE, tamod.lowess=TRUE,
-         hat=TRUE, x=NULL, xadd=NULL, x.lowess=TRUE,
-         main=tit(rr), ...)
-{
-  ## Purpose:  more plots for residual analysis
-  ## -------------------------------------------------------------------------
-  ## Arguments: rr: an lm object, preferably generated by f.lm
-  ##            y:  y variable (optional)
-  ##            the following arguments are T if the respective plots
-  ##            and enhancements are wanted
-  ##            qq: normal plot of standardized residuals
-  ##            ta: Tukey-Anscombe (res vs. fit)
-  ##            tamod: modified ta: abs(st.res) vs. fit
-  ##            hat:   res vs. hat
-  ##            x:     list of names of x-variables against which res are
-  ##                   to be plotted
-  ##            xadd:  additional x s
-  ##            .. .lowess: add lowess to respective plots
-  ## -------------------------------------------------------------------------
-  ## Author: Werner Stahel, Date:  7 May 93, 13:46
-    ##if(Browse) on.exit(browser())         #
-  op <- par(ask = ask)
-  form <- formula(rr)
-  rr$fitted.values <- rr$fit
-  f <- predict(rr)
-  r <- rr$res
-  if(missing(y)) {
-    y <- f + r
-    yname <- deparse(form[[2]])
-  }
-  else yname <- deparse(substitute(y))
-  stres <- rr$stres
-  rname <- paste("res(",yname,")")
-  strname <- paste("st",rname,sep=".")
-  if (is.null(stres)) {stres <- r ; strname <- rname}
-  if (qq) qqnorm(stres,ylab=strname, main=main)
-  fname <- paste("Fitted:", deparse(form[[3]]), collapse = " ")
-  if(is.null(main)) main <- ""
-  notna <- !is.na(r)
-  if(ta) { plot(f, r, xlab = fname, ylab = rname, main=main, ...)
-           abline(0, 0, lty = 2)
-           if (ta.lowess) lines(lowess(f[notna],r[notna]),lty=2) }
-  ra <- abs(stres)
-  if (tamod) {
-    plot(f, ra, xlab = fname, ylab ="abs(st.res)", main=main,
-         ...)
-    if (tamod.lowess) lines(lowess(f[notna],ra[notna]),lty=2) }
-  h <- rr$h
-  if(hat&!is.null(h)) {
-    plot(h,r, xlab="hat diagonal",ylab=rname, main=main, ...)
-    abline(0,0,lty=2) }
-  if (length(x)>0) {
-    if(is.logical(x)) x <- if(x) as.character(terms(form)) else NULL
-    for (xx in c(x,xadd)) {
-      plot (eval(parse(text=xx)),r, xlab=xx, ylab=rname, main=main, ...)
-      abline(0,0,lty=2)
-      if (x.lowess)
-        lines(lowess(eval(parse(text=xx))[notna],r[notna]),lty=3) }}
-  on.exit(par(op))
-  "done"}
-## ================================================================
 
 p.scales <- function(unit = relsysize * 2.54 * min(pin), relsysize = 0.05)
 {
@@ -245,11 +85,9 @@ p.scales <- function(unit = relsysize * 2.54 * min(pin), relsysize = 0.05)
   usr <- par("usr")
   pin <- par("pin")
   usr2cm <- (2.54 * pin)/(usr[c(2, 4)] - usr[c(1, 3)])
-  sy2usr <- unit/usr2cm                 # result
-  rs <- cbind(sy2usr, usr2cm)
-  dimnames(rs) <- list(c("x", "y"), c("sy2usr", "usr2cm"))
-  class(rs) <- c("gpar", "scale.factors")
-  rs
+  names(usr2cm) <- c("x", "y")
+  cbind(sy2usr = unit/usr2cm,
+        usr2cm = usr2cm)
 }
 
 
