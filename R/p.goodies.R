@@ -1,4 +1,4 @@
-#### $Id: p.goodies.R,v 1.14 2004/01/12 15:41:13 maechler Exp $
+#### $Id: p.goodies.R,v 1.15 2004/01/31 19:30:37 maechler Exp $
 #### Original is /u/sfs/S/p.goodies.S  [v 1.12 1999/05/06 10:17:00 sfs Exp ]
 ####
 ### p.goodies.S ---- SfS- S(plus) - Funktionen, welche
@@ -91,58 +91,6 @@ p.scales <- function(unit = relsysize * 2.54 * min(pin), relsysize = 0.05)
 }
 
 
-
-p.two.forget <- function(data, anova, label = FALSE)
-{
-  ## Zweck: forget-it-plot   Autor: Stahel  Datum: Dez 89
-  fit <- data - anova$resid
-  rw <- anova$row
-  cl <- anova$col
-  x <-  - outer(rw, cl, "-")
-  rg <- range(c(fit, data))
-  ht <- 0.05 * diff(rg)
-  plot(range(x), rg - c(ht, 0), type = "n", xlab = "", ylab = "Y")
-  mtext("forget-it-plot", 3, 1)
-  segments(x, fit, x, data)
-  points(x, data)
-  dg <-  - min(0, floor(log10(max(abs(rg)))) - 3)
-  gd <- anova$grand
-  mnrw <- min(rw)
-  mxrw <- max(rw)
-  segments(cl - mnrw, gd + mnrw + cl, cl - mxrw, gd + mxrw + cl, lty = 2)
-
-  mncl <- min(cl)
-  mxcl <- max(cl)
-  segments(mncl - rw, gd + mncl + rw, mxcl - rw, gd + mxcl + rw, lty = 2)
-
-  if(label)
-    text(c(cl - mnrw, mncl - rw), c(mnrw + cl, mncl + rw) + gd -
-         ht, round(c(cl, rw), dg))
-  "forget-it"
-}
-
-p.two.res <- function(anova, col = FALSE)
-{
-  ## Two.res  Zweck: Residuen einer twoway-Analyse auf spezielle Art zeichnen
-  ##          Autor: w. Stahel  Datum: Dez. 89
-  rs <- anova$resid
-  ij <- list(rank(anova$row), rank(anova$col))
-  ind <- if(col) c(2, 1) else 1:2
-  dm <- dim(rs)[ind]
-  ij <- list(ij[[ind[1]]], ij[[ind[2]]])
-  x <- outer(ij[[1]], (0.6/dm[2]) * (ij[[2]] - 0.5) - 0.3, "+")
-  if(ind[1]!=1)
-    x <- t(x)
-  tx <- c("row", "col")[ind]
-  plot(x, rs, xlab = "", ylab = "Residuals", axes = FALSE)
-  box()
-  abline(h = 0, lty = 2)
-  axis(2)
-  axis(1, at = 1:dm[1], label = as.character(ij[[1]]))
-  abline(v = seq(1.5, dm[1], 1), lty = 2)
-  mtext(tx[1], 1, 2)
-  mtext(paste(tx[2], ": ", paste(ij[[2]], collapse = ", ")), 1, 3.5)
-}
 
 p.profileTraces <-
     function(x, cex=1, subtitle="t-Profil-Plot und Profilspuren")
