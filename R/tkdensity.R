@@ -25,7 +25,7 @@ tkdensity <- function(y, n = 1024, log.bw = TRUE, showvalue = TRUE,
     
     ry <- range(y)
     xlim <- xl0 <- if(is.null(xlim)) ry + c(-2,2)* bw0 else as.numeric(xlim)
-    xlmid  <- xm0 <- mean(xlim)
+    xlmid <- xm0 <- mean(xlim)
     xr0 <- diff(xlim)
     
     Tvar <- function(v) as.numeric(eval(substitute(tclvar $ v)))
@@ -89,22 +89,21 @@ tkdensity <- function(y, n = 1024, log.bw = TRUE, showvalue = TRUE,
                              text = k.name, value = k.name, variable="kernel"),
                anchor = "w")
     
-    ## [x range] Frame :
+    ## [x Zoom] Frame :
     tkpack(tklabel (xr.frame, text = "x zoom [%]"))
     tkpack(tkscale (xr.frame, command = replot.maybe,
                     from = 5,# = 1/20
                     to   = 500,# = * 5
                     showvalue = TRUE, variable = "xZoom",
-                    ##resolution = ...
                     length = 80, orient = "horiz"))
 
-    ## [x mid] Frame :
+    ## [x Pan] Frame :
     tkpack(tklabel (xmid.frame, text = "x pan"))
     tkpack(tkscale (xmid.frame, command = replot.maybe,
                     from = xm0 - xr0,
                     to   = xm0 + xr0,
                     showvalue = FALSE, variable = "xlmid",
-                    ##resolution = ...
+                    resolution = xr0/2000,
                     length = 80, orient = "horiz"))
 
     ## Initialize Tcl variables:
