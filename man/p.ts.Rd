@@ -6,41 +6,50 @@
   time-series plots over several subplots.
   p.ts(.) does this both automatically, and under manual control.
 
-  This is a generalization of \code{\link[base]{plot.ts}} for the case
-  of only one time-series. 
+  Actually, this is a generalization of \code{\link[base]{plot.ts}}
+  (with different defaults).
 }
 \usage{
-p.ts(x, nrplots=max(1, min(8, n \%/\% 400)), overlap=nk \%/\% 16, 
-     main.tit = NULL, quiet = FALSE, \dots)
+p.ts(x, nrplots = max(1, min(8, n \%/\% 400)), overlap = nk \%/\% 16, 
+     main.tit = NULL, ylim = NULL, ylab = "", quiet = FALSE,
+     mgp = c(1.25, .5, 0),\dots)
 }
 \arguments{
-  \item{x}{timeseries or numeric vector.}
-  \item{nrplots}{number of sub-plots. DEFAULT: in \{1..8\},  ~=
-    \code{n}/400 if possible}
-  \item{overlap}{how much should subsequent plots overlap.
-    DEFAULT: ca. 1/16 of sub-length on each side.}
-  \item{main.tit}{MAIN title (over all plots). DEFAULT: Name of \code{x}.}
+  \item{x}{timeseries (possibly multivariate) or numeric vector.}
+  \item{nrplots}{number of sub-plots.  Default: in \{1..8\},
+    approximately \code{n/400} if possible.}
+  \item{overlap}{by how much should subsequent plots overlap. Defaults
+    to about 1/16 of sub-length on each side.}
+  \item{main.tit}{\bold{Main} title (over all plots).  Defaults to name
+    of \code{x}.}
+  \item{ylim}{numeric(2) or NULL; if the former, specifying the y-range
+    for the plots. Defaults to a common pretty range.}
   \item{quiet}{logical; if \code{TRUE}, there's no reporting on each subplot.}
-  \item{\dots}{further graphic parameters for each  ts.plot(..).}
+  \item{mgp}{numeric(3) to be passed to \code{\link{mult.fig}()}, see
+    \code{\link{par}(mgp = .)}.}
+  \item{\dots}{further graphic parameters for each \code{\link{plot.ts}(..)}.}
 }
 \section{Side Effects}{
-  A new page of \code{nrplots} subplots are drawn on the current
+  A page of \code{nrplots} subplots is drawn on the current
   graphics device.
 }
-\author{Martin Maechler, \email{maechler@stat.math.ethz.ch}
-}
-\note{
-  BUG: For "real" time-series and multiple plots (\code{nrplots > 1}),
-  the simple sequence \code{1:n} is used instead of the "real time scale".
+\author{Martin Maechler, \email{maechler@stat.math.ethz.ch}; July 1994
+  (for S).}
 }
 \seealso{\code{\link{plot.ts}}, \code{\link{plot}}.
 }
 \examples{
+require(ts) # package
+
 data(sunspots)
 p.ts(sunspots, nr=1) # == usual  plot.ts(..)
 p.ts(sunspots)	
 p.ts(sunspots, nr=3, col=2)	
+
+## multivariate :
+data(EuStockMarkets)
+p.ts(log10(EuStockMarkets), col = 2:5)
 }
 \keyword{hplot}
 \keyword{ts}
-% Converted by Sd2Rd version 0.3-3.
+
