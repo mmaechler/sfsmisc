@@ -1,7 +1,7 @@
 \name{ps.latex}
 \alias{ps.do}
 \alias{ps.latex}
-\title{PostScript Preview Device with Optional ``LaTeX'' Touch}
+\title{PostScript Preview Device with Optional `LaTeX' Touch}
 \usage{
 ps.do(file, width=-1, height=-1, onefile=FALSE, horizontal=FALSE,
       title = NULL, \dots)
@@ -62,13 +62,15 @@ ps.latex(file, height = 5 + main.space * 1.25,  width = 9.5,
   \code{\link{dev.print}}.
 }
 \examples{
-ps.latex("ps.latex-ex.ps", main= TRUE)
- data(sunspots)
- plot(sunspots,main=paste("Sunspots Data, n=",length(sunspots)),col="red")
-ps.end()
+if(interactive()) {
+ ps.latex("ps.latex-ex.ps", main= TRUE)
+  data(sunspots)
+  plot(sunspots,main=paste("Sunspots Data, n=",length(sunspots)),col="red")
+ ps.end()
 
-ps.do("ps_do_ex.ps")
-  example(plot.function)
-ps.end()
+ ps.do("ps_do_ex.ps")
+   example(plot.function)
+ ps.end()
+}
 }
 \keyword{device}
