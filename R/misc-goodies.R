@@ -1,4 +1,4 @@
-#### $Id: misc-goodies.R,v 1.12 2002/06/24 16:13:02 sfs Exp $
+#### $Id: misc-goodies.R,v 1.13 2002/07/12 21:26:18 sfs Exp $
 #### misc-goodies.R
 #### ~~~~~~~~~~~~~~  SfS - R - goodies that are NOT in
 ####		"/u/sfs/R/SfS/R/u.goodies.R"
@@ -108,21 +108,27 @@ get.sys.default <- function(obj.nam, verbose = TRUE)
 
 ## The following two functions are especially useful if applied to a
 ## matrix: apply( mymatr, 1, first.max)
-first.max <- function(x) min((1:length(x))[x == max(x)])
-first.min <- function(x) max((1:length(x))[x == min(x)])
 
-last <- function(data,length.out = 1)
+## MM: These do not even work with NA's ..
+##first.max <- function(x) min((1:length(x))[x == max(x)])
+##first.min <- function(x) max((1:length(x))[x == min(x)])
+first.max <- function(x) stop("Use `which.max()' instead!")
+first.min <- function(x) stop("Use `which.min()' instead!")
+
+last <- function(x, length.out = 1, na.rm = FALSE)
 {
   ## Purpose: last element(s) of a vector
   ## Author: Werner Stahel, Date:  Tue Jan 21 17:29:42 1992
   ## ----------------------------------------------------------------
   ## Arguments:
-  ## data: vector
-  ## length: if positive, the result is the  length  last elements of data
-  ##         if negative, the last  length  elements are dropped
+  ##   x:          vector
+  ##   length.out: if positive, return the  length.out last elements of x,
+  ##               if negative, the last  length.out  elements are dropped
   ## ----------------------------------------------------------------
-  n <- length(data)
-  data[sign(length.out)*(n-abs(length.out)+1):n]
+  if (na.rm) 
+    x <- x[!is.na(x)]
+  n <- length(x)
+  x[sign(length.out)*(n-abs(length.out)+1):n]
 }
 
 empty.dimnames <- function(a)
