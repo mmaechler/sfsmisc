@@ -1,4 +1,4 @@
-#### $Id: misc-goodies.R,v 1.16 2002/11/02 14:31:18 maechler Exp $
+#### $Id: misc-goodies.R,v 1.17 2002/11/11 15:55:37 maechler Exp $
 #### misc-goodies.R
 #### ~~~~~~~~~~~~~~  SfS - R - goodies that are NOT in
 ####		"/u/sfs/R/SfS/R/u.goodies.R"
@@ -9,12 +9,7 @@
 
 ###==================================================================
 ###  Functions <<<<<<<< Please use a few subsections  like "Plotting"...
-###  Functions <<<<<<<< See  --> "/u/maechler/S/Good.S"
 ###==================================================================
-###
-###	o bl.string 		# blabla string
-###
-### ==========================================================================
 
 
 ##-#### First, attach(.),... --- "Umgebung anschauen, modifizieren" #########
@@ -22,36 +17,10 @@
 ##-###  NOTA BENE: --> "First.S" contains  .First(.), etc.
 ##-###  ~~~~~~~~~       =======  be careful there !
 
-sys <- function(...) system(paste(..., sep = ""))
-
-unix.true <- function(command)  sys("if ", command,
-				    "; then echo 1; else echo 0; fi")
-
-is.file <- function(file) system(paste("test -f", file), output = FALSE) == 0
-
+unix.true <-
+    function(command)  u.sys("if ", command, "; then echo 1; else echo 0; fi")
 
 ## apropos() : in standard R
-
-get.sys.default <- function(obj.nam, verbose = TRUE)
-{
-  ## Purpose: get(..) the 'S-plus' system version of  'obj.nam'
-  ## -------------------------------------------------------------------------
-  ## Arguments: obj.nam: [character] name of object to get
-  ## -------------------------------------------------------------------------
-  ## Author: Martin Maechler, Date: 18 Oct 96, 16:37
-  if(is.null(fnd <- find(obj.nam, num = TRUE)))
-    stop(paste('Object ', obj.nam, ' not found', sep = '"'))
-  ## else
-  if(!is.character(obj.nam))  obj.nam <- as.character(substitute(obj.nam))
-  if(verbose) cat(" .. found '",obj.nam,"'  ", length(fnd), " times\n", sep = "")
-  n.fnd <- names(fnd)
-  if(0 == length(fnd.nr <- string.match("splus[3-9]", n.fnd)))
-    stop(paste(" >> found '", obj.nam, "'  only in NON-splus paths:",
-	       paste(n.fnd, collapse = ","), sep = ""))
-  if(verbose) cat(" -- get()ing nr.", fnd.nr,":", n.fnd[fnd.nr],"\n")
-  get(obj.nam, wh = fnd[fnd.nr])
-}
-
 
 
 ##-#### Vector, Matrix (or higher Array) stuff ########
@@ -269,11 +238,6 @@ bl.string <- function(no) paste(rep(" ", no), collapse = "")
 ### symnum :  standard R function !!
 
 
-##-#### Classes / Attributes, etc.   ########
-##-### ----------------------------- ########
-
-
-
 ##-#### "Calculus" Mathematical stuff ########
 ##-###  ----------------------------- ########
 
@@ -450,8 +414,6 @@ hist.bxp <- function(x, nclass, breaks, probability = FALSE, include.lowest = TR
 		     f = .8 - max(0, .15 - width)*(1+(par("mfg")[3] >= 3))),
 	  boxcol = boxcol, medcol = medcol,
 	  medlwd = medlwd, whisklty = whisklty, staplelty = staplelty)
-
-
 }
 
 
@@ -478,9 +440,6 @@ mpl <- function(mat, ...) {
     axis(1) else
     axis(1, at = 1:nrow(mat), labels = dn)
 }
-
-##Splus: is.TS <- function(x) is.ts(x) || is.rts(x) || is.cts(x) || is.its(x)
-is.TS <- is.ts#.Alias  shouldn't be used
 
 pl.ds <- function(x, yd, ys, xlab = "", ylab = "", ylim = rrange(yd, ys),
                   xpd = TRUE, do.seg = TRUE,
@@ -565,28 +524,28 @@ col01scale <- function(mat, scale.func = function(x) diff(range(x)),
 
 pmax.sa <- function(scalar, arr)
 {
-  ##-- 'pmax.sa' --- special system "pmax" which gives back more-dim. arrays --
-  ##- FASTER than pmax
-  if(is.na(scalar)) array(NA, dim = dim(arr))
+    ##-- special system "pmax" which gives back more-dim. arrays --
+    if(is.na(scalar))
+        arr[] <- scalar
     else {
-      l <- scalar > arr
-      l[is.na(arr)] <- FALSE
-      arr[l] <- scalar
-      arr
+        l <- scalar > arr
+        l[is.na(arr)] <- FALSE
+        arr[l] <- scalar
     }
+    arr
 }
 
 pmin.sa <- function(scalar, arr)
 {
-  ##-- 'pmin.sa' --- special system "pmin" which gives back more-dim. arrays --
-  ##- FASTER than pmax
-  if(is.na(scalar)) array(NA, dim = dim(arr))
+    ##-- special system "pmin" which gives back more-dim. arrays --
+    if(is.na(scalar))
+        arr[] <- scalar
     else {
       l <- scalar < arr
       l[is.na(arr)] <- FALSE
       arr[l] <- scalar
-      arr
     }
+    arr
 }
 
 ## diag.ex <- function(n)  --- now renamed :
