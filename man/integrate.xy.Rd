@@ -14,14 +14,15 @@ integrate.xy(x, fx, a, b, use.spline=TRUE, xtol=2e-08)
   \item{a,b}{the boundaries of integration; these default to min(x) and
     max(x) respectively.}
   \item{use.spline}{logical; if TRUE use an interpolating spline.}
-  \item{xtol}{tolerance factor......(fixme)....}
+  \item{xtol}{tolerance factor, typically around
+    \code{sqrt(.Machine$double.eps)} ......(fixme)....}
 }
 \details{
   Note that this is really not good for noisy \code{fx} values;
   probably a smoothing spline should be used in that case.
 
   Also, we are not yet using Romberg in order to improve the trapezoid
-  rule.  This would be quite an improvement in some cases.
+  rule.  This would be quite an improvement in equidistant cases.
 }
 \value{
   the approximate integral.

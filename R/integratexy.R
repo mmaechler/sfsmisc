@@ -3,16 +3,6 @@
 
 integrate.xy <- function(x,fx, a,b, use.spline = TRUE, xtol = 2e-8)
 {
-  ## Purpose: Compute \int_a^b f(t) dt; where f(x) is just interpolating
-  ##	      (x[i],fx[i])  --- using trapezoid formula
-  ## -------------------------------------------------------------------------
-  ## Arguments: x, fx: real vectors of same length
-  ##		a, b : (optional) integration limits. DEFAULT (a,b)= range(x)
-  ##	use.spline : if TRUE, uses spline() interpolation
-  ##	xtol       : tolerance factor, typically ca sqrt(.Machine$double.eps)
-  ## -------------------------------------------------------------------------
-  ## Author: Martin Maechler, Date: 16 May 1994, for R: April 2001
-
   dig <- round(-log10(xtol)) #
   f.match <- function(x,table) match(signif(x,dig), signif(table,dig))
   ## was (S+) f.match <- function(x,table) match(as.single(x), as.single(table))
@@ -36,20 +26,21 @@ integrate.xy <- function(x,fx, a,b, use.spline = TRUE, xtol = 2e-8)
      stop("bug in `duplicated()' killed me: have still multiple x[]!")
 
   if(missing(a)) a <- x[1]
-    else if(any(a < x[1])) stop("'a' must NOT be smaller than min(x)")
+    else if(any(a < x[1])) stop("`a' must NOT be smaller than min(x)")
   if(missing(b)) b <- x[n]
-    else if(any(b > x[n])) stop("'b' must NOT be larger  than max(x)")
+    else if(any(b > x[n])) stop("`b' must NOT be larger  than max(x)")
   if(length(a) != 1 && length(b) != 1 && length(a) != length(b))
-    stop("'a' and 'b' must have length 1 or same length !")
+    stop("`a' and 'b' must have length 1 or same length !")
     else {
       k <- max(length(a),length(b))
-      if(any(b < a))    stop("all elements of 'b' must be >= 'a'")
+      if(any(b < a))    stop("`b' must be elementwise >= `a'")
     }
 
   if(use.spline) {
     xy <- spline(x,fx, n = max(1024, 3*n))
     ##-- Work around spline(.) BUG:  (ex.:  range(spline(1:20,1:20,n=95)))
     if(xy$x[length(xy$x)] < x[n]) {
+        if(TRUE) cat("working around spline(.) BUG --- hmm, really?\n\n")
       xy$x <- c(xy$x,  x[n])
       xy$y <- c(xy$y, fx[n])
     }

@@ -51,11 +51,20 @@ D1D2(x, y, xout = x, fudge.fact = 10, deriv = 1:2, spl.spar = NULL)
 \examples{
  set.seed(8840)
  x <- runif(100, 0,10)  
- y <- sin(x) + rnorm(100)/8
+ y <- sin(x) + rnorm(100)/4
 
+ op <- par(mfrow = c(2,1))
  plot(x,y)
- lines(ss <- smooth.spline(x,y), col = "blue")
+ lines(ss <- smooth.spline(x,y), col = 4)
  str(ss[c("df", "spar")])
- d12 <- D1D2(x,y)
+ if(is.R()) plot(cos, 0, 10) else { # Splus
+   xx <- seq(0,10, len=201); plot(xx, cos(xx), type = 'l')
+ } 
+ i <- 1
+ for(fudge in c(1, 3,10,30)) {
+   d12 <- D1D2(x,y, fudge = fudge)
+   lines(d12$x, d12$D1, col = i <- i+1)
+ }
+ par(op)
 }
 \keyword{smooth}
