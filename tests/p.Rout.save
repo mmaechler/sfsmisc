@@ -1,0 +1,29 @@
+
+R : Copyright 2004, The R Foundation for Statistical Computing
+Version 2.0.0 beta (2004-09-27), ISBN 3-900051-07-0
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for a HTML browser interface to help.
+Type 'q()' to quit R.
+
+> #### Plots etc
+> library(sfsmisc)
+> 
+> ## A time-series with start and end *not* at year boundary:
+> data(EuStockMarkets)
+> SMI <- EuStockMarkets[, "SMI"]
+> 
+> p.ts(SMI)# gave warning (and was 'wrong' but "only" visually)
+ 1 -- start{0}= (1991, 130); end{493}= (1992.86, 140.343)
+ 2 -- start{435}= (1992.64, 139.126); end{958}= (1994.61, 150.098)
+ 3 -- start{900}= (1994.39, 148.881); end{1423}= (1996.36, 159.853)
+ 4 -- start{1365}= (1996.14, 158.636); end{1859}= (1998, 169)
+> 
