@@ -1,4 +1,4 @@
-#### $Id: p.goodies.R,v 1.12 2002/11/30 22:04:35 maechler Exp $
+#### $Id: p.goodies.R,v 1.13 2002/11/30 23:06:33 maechler Exp $
 #### Original is /u/sfs/S/p.goodies.S  [v 1.12 1999/05/06 10:17:00 sfs Exp ]
 ####
 ### p.goodies.S ---- SfS- S(plus) - Funktionen, welche
@@ -23,10 +23,9 @@
 ### p.pllines
 ### p.lm.hyperb         --> ./linesHyberb.lm.R
 ### p.scales
-### p.triangle          Dreiecks-Plot fuer 3-er Gehalte / Anteile
 ### p.two.forget
 ### p.two.res
-### p.tst.dev           Show Lines, Points and Colors for the current device
+
 ### p.profileTraces     Profil-Spuren fuer Nichtlineare Regression
 ### p.hboxp		Horizontale Boxplots
 ### p.arrows		Nicer arrows(): FILLED arrow heads
@@ -254,30 +253,6 @@ p.scales <- function(unit = relsysize * 2.54 * min(pin), relsysize = 0.05)
 }
 
 
-p.triangle <- function(mat, label= "*", text.ecken = rep("",3), dreieck = TRUE)
-{
-  ## Purpose: 'Triangle plot' for plotting 3 proportions [a + b + c == 1]
-  ## ----------------------------------------------------------------
-  ## Arguments:
-  ##      mat:   Matrix mit % A in der 1. Kolonne, % B in der 2.. (range 0:1)
-  ##      label: Text der Laenge von mat[,1] zur Identifikation der Punkte
-  ##      text.ecken: Ecken-Beschriftung
-  ##      dreieck   : Falls T wird der Dreiecksrahmen gezeichnet
-  ## EXAMPLE: p.triangle(rbind(c(.8,0),c(.1,.8),c(.1,.2), c(1,1)/3),label=1:4)
-  ## ----------------------------------------------------------------
-  par(pty = "s")
-  pa <- mat[, 1]
-  pc <- 1 - mat[, 1] - mat[, 2]
-  if(any(pc<0 | pc>1)) stop("proportions must be between 0 and 1")
-  if(dreieck) {
-    ecken <- matrix(c(0, 1, 0.5, 0, 0, sqrt(3)/2), ncol = 2)
-    plot(rbind(ecken, c(0, 0)), type = "l", xlim = c(0, 1), ylim =
-         c(0, 1), axes = FALSE, xlab = "", ylab = "")
-    text(ecken, text.ecken)
-  }
-  text((1 - pa - pc/2), ((pc * sqrt(3))/2), label, col = 3)
-}
-
 
 p.two.forget <- function(data, anova, label = FALSE)
 {
@@ -329,46 +304,6 @@ p.two.res <- function(anova, col = FALSE)
   abline(v = seq(1.5, dm[1], 1), lty = 2)
   mtext(tx[1], 1, 2)
   mtext(paste(tx[2], ": ", paste(ij[[2]], collapse = ", ")), 1, 3.5)
-}
-
-
-p.tst.dev <- function(ltypes = 10, lwidths = 12, colors = 16, ptypes = 20)
-{
-  ## Purpose: Show Lines, Points and Colors for the current device
-  ## -------------------------------------------------------------------------
-  ## Arguments: ltypes, lwidths, colors :=  NUMBER of  lty, lwd, col
-  ## -------------------------------------------------------------------------
-  ## Author: Martin Maechler, Date: 1990
-
-  if(is.R()) {
-    cat("using current par() settings ...\n")
-  } else { ## S-plus
-    Device.Default()
-  }
-  ##--- Define the region --------------------
-  plot(c(0, 100), c(0, 100), type = "n", xlab = "", ylab = "Y label",
-       main = paste(if(is.R()) "R" else "S+",
-         " device - test :  .Device  == \"",  .Device, "\""),
-       sub = " sub-title ")
-  mtext(if(is.R())R.version.string else version, side=1, adj=1, cex=0.6)
-  ##--- Line types: -------------------------
-  for(i in 1:ltypes) {
-    y <- ((i - 1/2) * 100)/ltypes
-    lines(c(1, 20), c(y, y), lty = i)
-    text(28, y, paste("lty=", i))
-  }
-  ##--- Line colors: -------------------------
-  for(i in 1:colors) {
-    y <- ((i - 1/2) * 100)/colors
-    lines(34 + c(1, 20), c(y, y), col = i)
-    text(34 + 28, y, paste("col=", i))
-  }
-  ##--- Line widths: -------------------------
-  for(i in 1:lwidths) {
-    y <- ((i - 1/2) * 100)/lwidths
-    lines(2 * 34 + c(1, 20), c(y, y), lwd = i/2)
-    text(2 * 34 + 28, y, paste("lwd=", i/2))
-  }
 }
 
 p.profileTraces <-
