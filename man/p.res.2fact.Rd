@@ -19,7 +19,8 @@ p.res.2fact(x, y, z, restricted, notch = FALSE,
     \code{\link{boxplot}(*,notch)}.}
   \item{xlab,ylab}{axis labels, see \code{\link{plot.default}}, per
     default the actual argument expressions.}
-  \item{main}{main title passed to \code{plot}.}
+  \item{main}{main title passed to \code{plot}, defaulting to the
+    deparsed \code{z} argument.}
 }
 \details{
   if values \emph{are} restricted, this make use of the auxiliar
