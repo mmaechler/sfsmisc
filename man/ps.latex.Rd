@@ -2,8 +2,14 @@
 \alias{ps.latex}
 \title{Ghostview Device Driver and ``LaTeX Plots'' Utilities}
 \usage{
-ps.latex(file, height=5 + main.space * 1.25, width=9.5, main.space=FALSE, lab.space=main.space, iso.latin1=is.R(), lab=c(10, 10, 7), mgp.lab=c(1.6, 0.7, 0), mar=c(4, 4, 0.9, 1.1), ...)
+ps.latex(file, height=5 + main.space * 1.25, width=9.5,
+         main.space=FALSE, lab.space = main.space,
+         iso.latin1=is.R(),
+         lab=c(10, 10, 7), mgp.lab=c(1.6, 0.7, 0), mar=c(4, 4, 0.9, 1.1),
+         \dots)
 }
+%%>>>> put ps.do()  here as well !!
+%%
 %- maybe also `usage' for other objects documented here.
 \arguments{
  \item{file}{ ~~Describe \code{file} here~~ }
@@ -30,18 +36,12 @@ ps.latex(file, height=5 + main.space * 1.25, width=9.5, main.space=FALSE, lab.sp
   \item{comp2 }{Description of `comp2'}
   ...
 }
-\references{ ~put references to the literature/web site here ~ }
-\author{ ~~who you are~~ }
-\note{ ~~further notes~~ }
-
- ~Make other sections like WARNING with \section{WARNING }{....} ~
-
-\seealso{ ~~objects to SEE ALSO as \code{\link{~~fun~~}}, ~~~ }
-
+\seealso{Underlying function \code{\link{ps.do}} and \code{\link{ps.end}}
+}
 \examples{
 ps.latex("ps.latex-ex.ps", main= TRUE)
 data(sunspots)
 plot(sunspots,main=paste("Sunspots Data, n=",length(sunspots)),col="red")
 ps.end()
 }
-\keyword{ ~keyword }%-- one or more ...
+\keyword{devices}
