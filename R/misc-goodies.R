@@ -1,4 +1,4 @@
-#### $Id: misc-goodies.R,v 1.29 2004/03/09 10:40:56 maechler Exp $
+#### $Id: misc-goodies.R,v 1.30 2004/11/05 07:48:19 maechler Exp $
 #### misc-goodies.R
 #### ~~~~~~~~~~~~~~  SfS - R - goodies that are NOT in
 ####		"/u/sfs/R/SfS/R/u.goodies.R"
@@ -289,7 +289,7 @@ QUnif <- function(n, min = 0, max = 1, n.min = 1, p, leap = 1)
              367,373,379,383,389,397,401,409,419,421,431,433,439,443,449,457)
     if(length(pr.) < p) stop("primes not yet available for p=",p)
     pr <- pr.[1:p]
-    if(leap > 1 && any(leap == pr) && length(.pr) >= p+1)
+    if(leap > 1 && any(leap == pr) && length(pr.) >= p+1)
         pr <- c(pr[leap != pr], pr.[p+1])
     stopifnot(length(max) == p || length(max) == 1,
               length(min) == p || length(min) == 1)
@@ -365,7 +365,7 @@ uniqueL <- function(x, isuniq = !duplicated(x)) {
 
 hist.bxp <- function(x, nclass, breaks, probability = FALSE, include.lowest = TRUE,
 		     xlab = deparse(substitute(x)), ..., width = 0.2,
-		     boxcol = 3, medcol = 0, medlwd = 5, whisklty = 2, staplelty = 1)
+		     boxcol = 3, medcol = 2, medlwd = 5, whisklty = 2, staplelty = 1)
 {
   ## Purpose:   Plot a histogram and a boxplot
   ## -------------------------------------------------------------------------
@@ -614,6 +614,14 @@ xy.unique.x <- function(x,y, w, fun.mean = mean)
 
 ##-#### Non-calculus ("Discrete") Mathematical stuff ########
 ##-### -------------------------------------------- ########
+
+lseq <- function(from, to, length)
+{
+    ## Purpose: seq(.) : equidistant on log scale
+    ## ----------------------------------------------------------------------
+    ## Author: Martin Maechler, Date:  3 Feb 2005, 08:34
+    2^seq(log2(from), log2(to), length.out = length)
+}
 
 inv.seq <- function(i) {
   ## Purpose: 'Inverse seq': Return a short expression for the 'index'  `i'
