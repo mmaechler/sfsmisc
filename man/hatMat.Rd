@@ -55,9 +55,9 @@ all.equal(sum(diag((hatMat(c(1:4, 7:12), df = 4)))),
                     hatMat(c(1:4, 7:12), df = 4, trace = TRUE), tol = 1e-12)
 ## TRUE
 
-%% should also show the above functions
+## Loess() example:
 Hl <- hatMat(x1, pr = ploes)
-cat(sprintf("df = %.2f\n", sum(diag(Hl))))
+cat(sprintf("df = \%.2f\n", sum(diag(Hl))))
 image(Hl)
 
 %% should test these also for x with ties
