@@ -16,17 +16,18 @@
     \item{nitrogen}{a factor specifying the amount of nitrogen
       sulfate (\eqn{NH_4}), with the four levels \code{0,1,2,4}.}
     \item{potash}{a factor specifying the amount of potassium (K,
-      \sQuote{kalium}) sulfate, with the four levels \code{0,1,2,4}.} \item{yield}{a numeric vector giving the yield of potatoes in ...}% << FIXME
+      \sQuote{kalium}) sulfate, with the four levels \code{0,1,2,4}.}
+    \item{yield}{a numeric vector giving the yield of potatoes in ...}% << FIXME
   }
 }
 \details{
-FIXME %%  more details than the __description__ above ~~
+  FIXME %%  more details than the __description__ above ~~
 }
 \source{
   Bennett, J. H. (1972)
   \emph{Collected Papers of R. A. Fischer} vol.~II, 1925-31;
   The University of Adelaide.
-  %% Einer der Blöcke:
+  %% One of the blocks, in the book
   %% Stahel "Statist. Datenanalyse" Beisp.Kartoffelertrag (2nd ed. 251 a, 253 h)
 }
 \references{
