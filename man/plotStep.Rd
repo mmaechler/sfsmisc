@@ -2,6 +2,7 @@
 % Copyright (c), 1991, 1997 Martin Maechler, Statistik, ETH Zurich
 %		Martin Maechler <maechler@stat.math.ethz.ch>
 \name{plotStep}
+\encoding{latin1}
 \alias{plotStep}
 \title{Plot a Step Function}
 \description{
@@ -25,22 +26,21 @@ plotStep(ti, y,
   \item{ti}{numeric vector = \code{X[1:N]} or  \code{t[0:n]}.}
   \item{y}{numeric vector \code{y[1:n]}; if omitted take y = k/N
     for empirical CDF.}
-  \item{cad.lag}{logical: Draw 'cad.lag', i.e., ``continue à droite, limite à
-    gauche''.  Default = TRUE.}
-  \item{verticals}{logical: Draw vertical lines?  Default= ! cad.lag}
-  \item{left.points}{logical: Draw left points?     Default= cad.lag}
-  \item{right.points}{logical: Draw right points?    Default= FALSE}
-  \item{end.points}{logical: Draw 2 end points?    Default= FALSE}
-  \item{add}{logical: Add to existing plot?    Default= FALSE}
-  \item{pch}{The plotting character for points}
-  \item{xlab}{Label of x-axis}
-  \item{ylab}{Label of y-axis}
+  \item{cad.lag}{logical: Draw 'cad.lag', i.e., \dQuote{\emph{continue à
+	droite, limite à gauche}}.  Default = TRUE.}
+  \item{verticals}{logical: Draw vertical lines?  Default= \code{! cad.lag}}
+  \item{left.points}{logical: Draw left points?     Default= \code{cad.lag}}
+  \item{right.points}{logical: Draw right points?    Default= \code{FALSE}}
+  \item{end.points}{logical: Draw 2 end points?    Default= \code{FALSE}}
+  \item{add}{logical: Add to existing plot?    Default= \code{FALSE}}
+  \item{pch}{plotting character for points, see \code{\link{par}()}.}
+  \item{xlab,ylab}{labels of x- and y-axis}
   \item{main}{main title; defaults to the call' if you do not want a title,
     use \code{main = ""}.}
   \item{\dots}{Any valid argument to \code{\link{plot}(..)}.}
 }
 \value{
-[INVISIBLY:]  List with components \code{t} and \code{y}.
+  \bold{invisibly}:  List with components \code{t} and \code{y}.
 }
 \section{Side Effects}{
   Calls plot(..), points(..),  segments(..) appropriately
