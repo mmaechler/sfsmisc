@@ -1,4 +1,5 @@
 \name{printTable2}
+\encoding{latin1}
 % source in ../R/printTable.R
 \alias{printTable2}
 \alias{margin2table}
