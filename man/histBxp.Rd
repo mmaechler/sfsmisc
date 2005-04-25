@@ -1,4 +1,5 @@
 \name{hist.bxp}
+\encoding{latin1}
 \alias{hist.bxp}
 \title{Plot a Histogram and a Boxplot}
 \description{
@@ -9,7 +10,7 @@
 hist.bxp(x, nclass, breaks, probability=FALSE, include.lowest=TRUE,
          xlab = deparse(substitute(x)),
          \dots,
-         width=0.2, boxcol=3, medcol=0, medlwd=5, whisklty=2, staplelty=1)
+         width=0.2, boxcol=3, medcol=2, medlwd=5, whisklty=2, staplelty=1)
 }
 \arguments{
   \item{x}{numeric vector of data for histogram. Missing values
@@ -49,15 +50,13 @@ hist.bxp(x, nclass, breaks, probability=FALSE, include.lowest=TRUE,
   \item{width}{
     width of the box relative to the height of the histogram. DEFAULT is
     \code{0.2}.}
-  \item{boxcol}{filled box color. A color of \code{0} can be used to
-    designate filling with the background color. The default is to fill
-    with color \code{3}.}
+  \item{boxcol}{color of filled box. The default is \code{3}.}
   \item{medcol}{
     the color of the median line. The special value, \code{NA},
     indicates the current plotting color (\code{par("col")}). The
-    default is \code{0} (the background color). If \code{boxcol=0} and
-    \code{medcol} is not explicitly specified this is set to the current
-    plotting color (\code{par("col")}).
+    default is \code{2}. If \code{boxcol=0} and \code{medcol} is not
+    explicitly specified this is set to the current plotting color
+    (\code{par("col")}).
   }
   \item{medlwd}{
     median line width.  The special value \code{NA}, is used to indicate
@@ -100,4 +99,3 @@ hist.bxp(x, nclass, breaks, probability=FALSE, include.lowest=TRUE,
  }
 }
 \keyword{hplot}
-
