@@ -1,7 +1,9 @@
 ### Port to R and a few small improvements:
 ### Copyright © 2000 Martin Maechler, ETH Zurich
 
-mat2tex <- function(x, file = "mat.tex", append = TRUE, digits = 3, title)
+mat2tex <- function(x, file = "mat.tex",
+                    nam.center = "l", col.center = "c",
+                    append = TRUE, digits = 3, title)
 {
     if(length(d.x <- dim(x)) != 2)
         stop("`x' must be a matrix like object with dim(x) of length 2")
@@ -10,19 +12,20 @@ mat2tex <- function(x, file = "mat.tex", append = TRUE, digits = 3, title)
     nr.x <- d.x[1]
     nc.x <- d.x[2]
     c2ind <- (1:nc.x)[-1] # possibly empty
-    
+
     ## determine if there are labels to be processed
     dn.x <- dimnames(x)
     if(has.rowlabs <- !is.null(dn.x[[1]]))        rowlabs <- dn.x[[1]]
     if(has.collabs <- !is.null(dn.x[[2]]))        collabs <- dn.x[[2]]
 
     ## produce column specification
+    stopifnot(any(nam.center == c("l","r","c")))
+    stopifnot(all(col.center %in% c("l","r","c")))
+    col.center <- rep(col.center, length = nc.x)
     colspec <- "{|"
     if(has.rowlabs)
-        colspec <- paste(colspec, "l||")
-    for(i in 1:nc.x)
-        colspec <- paste(colspec, "c|")
-    colspec <- paste(colspec, "}", sep = "")
+        colspec <- paste(colspec, nam.center, "||")
+    colspec <- paste(colspec, paste(col.center, "|", collapse=""), "}", sep = "")
     cat(paste("\\begin{tabular}", colspec, " \n"), file = file, append = append)
 
     span <- nc.x + if(has.rowlabs) 1 else 0
