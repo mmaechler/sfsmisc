@@ -8,7 +8,7 @@
 }
 \usage{
 tkdensity(y, n = 1024, log.bw = TRUE, showvalue = TRUE,
-          xlim = NULL, do.rug = size < 1000,
+          xlim = NULL, do.rug = size < 1000, kernels = NULL,
           from.f = if (log.bw) -2 else 1/1000,
           to.f   = if (log.bw) +2.2 else 2,
           col = 2)
@@ -24,6 +24,8 @@ tkdensity(y, n = 1024, log.bw = TRUE, showvalue = TRUE,
   \item{xlim}{initial \code{xlim} for plotting, see \code{\link{plot.default}}.}
   \item{do.rug}{logical indicating if \code{\link{rug}(y)} should be
     added to each plot.  This is too slow for really large sample sizes.}
+  \item{kernels}{character vector of kernel names as allowable for the
+    \code{kernels} argument of the standard \code{\link{density}} function.}
   \item{from.f, to.f}{numeric giving the left and right limit of the
     bandwidth scrollbar.}
   \item{col}{color to be used for the density curve.}
@@ -48,6 +50,11 @@ tkdensity(y, n = 1024, log.bw = TRUE, showvalue = TRUE,
 data(faithful)
 if(try(require(tcltk)))# still not there on broken installations
   tkdensity(faithful $ eruptions)
+
+%% not yet
+%% if(try(require(nor1mix)))
+%%  tkdensity(rnorMix(150, MW...), kernels = c("gaussian", "epanechnikov"))
 }
+
 \keyword{hplot}
 \keyword{dynamic}
