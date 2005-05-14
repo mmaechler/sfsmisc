@@ -17,8 +17,8 @@ diagDA(ls, cll, ts, pool = TRUE)
 }
 \arguments{
   \item{x,ls}{learning set data matrix, with rows corresponding to
-    cases (i.e., mRNA samples) and columns to predictor variables
-    (i.e., genes).}
+    cases (e.g., mRNA samples) and columns to predictor variables
+    (e.g., genes).}
   \item{cll}{class labels for learning set, must be consecutive integers.}
   \item{object}{object of class \code{dDA}.}
   \item{ts, newdata}{test set (prediction) data matrix, with rows corresponding
