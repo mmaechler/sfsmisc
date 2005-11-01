@@ -1,3 +1,5 @@
+if(paste(R.version$major, R.version$minor, sep=".") < "2.2")
+    ## R 2.2.0 and later contain this in 'utils'
 glob2rx <- function(pattern, trim.head = FALSE, trim.tail = TRUE)
 {
     ## Purpose: Change "ls" aka "wildcard" aka "globbing" _pattern_ to
