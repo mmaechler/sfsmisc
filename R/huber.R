@@ -1,3 +1,5 @@
+#### NOTA BENE:  New version of huberM() is only in  'robustbase' !!!
+#### --------                   ----------------------------------------
 
 ##  A modified "safe" (and more general) Huber estimator:
 huberM <- function (x, k = 1.5, tol = 1e-06,
@@ -31,7 +33,7 @@ huberM <- function (x, k = 1.5, tol = 1e-06,
     list(mu = mu, s = s, it = it)
 }
 
-## this is a compatibel improvement of MASS' huber() :
+## this is a compatible improvement of MASS' huber() :
 ## 1) returning median() if mad()=0
 ## 2)	"	NA when y has only NAs (or length 0)
 
