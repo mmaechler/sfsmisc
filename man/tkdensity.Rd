@@ -47,14 +47,14 @@ tkdensity(y, n = 1024, log.bw = TRUE, showvalue = TRUE,
 %\seealso{ ~~objects to SEE ALSO as \code{\link{~~fun~~}}, ~~~ }
 
 \examples{
-data(faithful)
-if(try(require(tcltk)))# still not there on broken installations
-  tkdensity(faithful $ eruptions)
+if (dev.interactive()) { ## does really not make sense otherwise
+ data(faithful)
+ if(try(require(tcltk)))# still not there on broken installations
+   tkdensity(faithful $ eruptions)
 
-%% not yet
-%% if(try(require(nor1mix)))
-%%  tkdensity(rnorMix(150, MW...), kernels = c("gaussian", "epanechnikov"))
+ if(try(require(nor1mix)))
+   tkdensity(rnorMix(150, MW...), kernels = c("gaussian", "epanechnikov"))
 }
-
+}
 \keyword{hplot}
 \keyword{dynamic}
