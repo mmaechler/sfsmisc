@@ -28,7 +28,7 @@ plotCI <-
 {
 
     cat("plotCI() in the 'sfsmisc' package is deprecated (and will be removed)",
-	"\n do use plotCI() from the 'gregmisc' package instead!\n")
+	"\n do use plotCI() from the 'gplots' package instead!\n")
 
     ## from Bill Venables, R-list
     if (is.list(x)) {
