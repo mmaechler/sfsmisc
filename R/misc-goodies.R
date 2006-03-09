@@ -1,4 +1,4 @@
-#### $Id: misc-goodies.R,v 1.30 2004/11/05 07:48:19 maechler Exp $
+#### $Id: misc-goodies.R,v 1.31 2005/04/25 10:06:57 maechler Exp $
 #### misc-goodies.R
 #### ~~~~~~~~~~~~~~  SfS - R - goodies that are NOT in
 ####		"/u/sfs/R/SfS/R/u.goodies.R"
@@ -181,6 +181,65 @@ plotStep <- function(ti, y,
   invisible(list(t = ti, y = y))
 }
 
+hist.bxp <-
+    function(x, nclass, breaks, probability = FALSE, include.lowest = TRUE,
+             xlab = deparse(substitute(x)), ..., width = 0.2,
+             boxcol = 3, medcol = 2, medlwd = 5, whisklty = 2, staplelty = 1)
+{
+  ## Purpose:   Plot a histogram and a boxplot
+  ## -------------------------------------------------------------------------
+  ## Arguments: ---> see help(hist.bxp) !
+  ## -------------------------------------------------------------------------
+  ## Authors: Christian Keller, Date: 10 Nov 95,  (Martin Maechler, Jan 96)
+  ##						calls  p.hboxp(.) !
+
+  ## determine the height of the plot
+  if(missing(breaks)){
+    if(missing(nclass))
+      h <- hist(x, probability = probability, include.lowest = include.lowest,
+		plot = FALSE)
+      else
+	h <- hist(x, nclass = nclass, probability = probability,
+		  include.lowest = include.lowest, plot = FALSE)
+  }
+    else
+      h <- hist(x, breaks = breaks, probability = probability,
+		include.lowest = include.lowest, plot = FALSE)
+  ymax <- max(h$counts)
+  ymin <-  - ymax * width # range:  (-w,1)*ymax  instead of  (0,1)*ymax
+
+  ##------- drawing the histogram -------------
+  hist(x, breaks = h$breaks, probability = probability,
+       include.lowest = include.lowest, plot = TRUE, xlab = xlab,
+       ylim = c(ymin, ymax), axes = FALSE, ...)
+  axis(1)
+  axis(2, at = pretty(c(0,ymax), n = 5), srt = 90) ## ph, 8.5.00: n instead of nint
+  abline(h = 0)				#
+  ##-------- drawing the boxplot --------------
+
+  ##-- scale a range
+  scale.r <- function(x1,x2, fact = 1.1)
+    (x1+x2)/2 + c(-fact,fact) * (x2-x1)/2
+
+  ##-- since 4% extra space above x-axis (just below ymin):
+  ##-   cat("par$usr[3:4]:", par("usr")[3:4],
+  ##- 	    "  ymin -.04 *(ymax-ymin)",ymin -.04 *(ymax-ymin),"\n")
+  ##-- NOTE: Always have (seemingly): par("usr")[3] == ymin -.04 *(ymax-ymin)
+
+##-O- ORIGINAL VERSION (Keller & Keller) :
+##-O-   p.hboxp(x, ymin, -.04 *(ymax-ymin),
+##-O- 	  boxcol=boxcol, medcol=medcol,
+##-O- 	  medlwd=medlwd, whisklty=whisklty, staplelty=staplelty)
+
+  ##---- This is  much better for width <=.1 or so...
+  ##-- but you should leave some white space -> scale down
+  ##-- The scaling factor is really a  KLUDGE but works for a wide range!
+  p.hboxp(x, scale.r(par("usr")[3], 0, ## ph, 8.5.00: changed f=.9 to f=.8
+		     f = .8 - max(0, .15 - width)*(1+(par("mfg")[3] >= 3))),
+	  boxcol = boxcol, medcol = medcol,
+	  medlwd = medlwd, whisklty = whisklty, staplelty = staplelty)
+}
+
 
 
 ##-#### Print & Strings  ########
@@ -254,7 +313,29 @@ digitsBase <- function(x, base = 2, ndigits = 1 + floor(log(max(x),base)))
         r[i,] <- x %% base
         if (i > 1) x <- x %/% base
     }
+    class(r) <- "basedInt"
+    attr(r, "base") <- base
     r
+}
+
+as.intBase <- function(x, base = 2) {
+   xl <- if(is.character(x)) lapply(strsplit(x,""), as.integer)
+        else if(is.numeric(x) && is.matrix(x)) tapply(x, col(x), c)
+        else if(!is.list(x))
+            stop("'x' must be character, list or a digitsBase() like matrix")
+   sapply(xl, function(u) polyn.eval(rev(u), base), USE.NAMES = FALSE)
+}
+
+as.integer.basedInt <- function(x, ...)
+    as.intBase(x, base = attr(x, "base"))
+
+print.basedInt <- function (x, ...) {
+    cat(sprintf("Class 'basedInt'(base = %d) [1:%d]\n",
+                attr(x,"base"), ncol(x)))
+    cx <- x
+    attr(cx,"base") <- NULL
+    print(unclass(cx), ...)
+    invisible(x)
 }
 
 sHalton <- function(n.max, n.min = 1, base = 2, leap = 1)
@@ -358,68 +439,11 @@ uniqueL <- function(x, isuniq = !duplicated(x)) {
     list(ix = ix, xU = x[isuniq])
 }
 
+
 ###
 ### autoreg(),  mean.cor()  etc ... not yet
 ###
 ### if  we take them, use different file !!
-
-hist.bxp <- function(x, nclass, breaks, probability = FALSE, include.lowest = TRUE,
-		     xlab = deparse(substitute(x)), ..., width = 0.2,
-		     boxcol = 3, medcol = 2, medlwd = 5, whisklty = 2, staplelty = 1)
-{
-  ## Purpose:   Plot a histogram and a boxplot
-  ## -------------------------------------------------------------------------
-  ## Arguments: ---> see help(hist.bxp) !
-  ## -------------------------------------------------------------------------
-  ## Authors: Christian Keller, Date: 10 Nov 95,  (Martin Maechler, Jan 96)
-  ##						calls  p.hboxp(.) !
-
-  ## determine the height of the plot
-  if(missing(breaks)){
-    if(missing(nclass))
-      h <- hist(x, probability = probability, include.lowest = include.lowest,
-		plot = FALSE)
-      else
-	h <- hist(x, nclass = nclass, probability = probability,
-		  include.lowest = include.lowest, plot = FALSE)
-  }
-    else
-      h <- hist(x, breaks = breaks, probability = probability,
-		include.lowest = include.lowest, plot = FALSE)
-  ymax <- max(h$counts)
-  ymin <-  - ymax * width # range:  (-w,1)*ymax  instead of  (0,1)*ymax
-
-  ##------- drawing the histogram -------------
-  hist(x, breaks = h$breaks, probability = probability,
-       include.lowest = include.lowest, plot = TRUE, xlab = xlab,
-       ylim = c(ymin, ymax), axes = FALSE, ...)
-  axis(1)
-  axis(2, at = pretty(c(0,ymax), n = 5), srt = 90) ## ph, 8.5.00: n instead of nint
-  abline(h = 0)				#
-  ##-------- drawing the boxplot --------------
-
-  ##-- scale a range
-  scale.r <- function(x1,x2, fact = 1.1)
-    (x1+x2)/2 + c(-fact,fact) * (x2-x1)/2
-
-  ##-- since 4% extra space above x-axis (just below ymin):
-  ##-   cat("par$usr[3:4]:", par("usr")[3:4],
-  ##- 	    "  ymin -.04 *(ymax-ymin)",ymin -.04 *(ymax-ymin),"\n")
-  ##-- NOTE: Always have (seemingly): par("usr")[3] == ymin -.04 *(ymax-ymin)
-
-##-O- ORIGINAL VERSION (Keller & Keller) :
-##-O-   p.hboxp(x, ymin, -.04 *(ymax-ymin),
-##-O- 	  boxcol=boxcol, medcol=medcol,
-##-O- 	  medlwd=medlwd, whisklty=whisklty, staplelty=staplelty)
-
-  ##---- This is  much better for width <=.1 or so...
-  ##-- but you should leave some white space -> scale down
-  ##-- The scaling factor is really a  KLUDGE but works for a wide range!
-  p.hboxp(x, scale.r(par("usr")[3], 0, ## ph, 8.5.00: changed f=.9 to f=.8
-		     f = .8 - max(0, .15 - width)*(1+(par("mfg")[3] >= 3))),
-	  boxcol = boxcol, medcol = medcol,
-	  medlwd = medlwd, whisklty = whisklty, staplelty = staplelty)
-}
 
 
 
@@ -700,7 +724,7 @@ nr.sign.chg <- function(y)
   ## Be careful with y[i] that were 0 !!
   y <- sign(c(y))
   y <- y[y != 0]
-  sum(as.integer(y[-1] != y[-length(y)]))
+  sum(y[-1] != y[-length(y)])
 }
 
 unif <- function(n, round.dig = 1 + trunc(log10(n)))
