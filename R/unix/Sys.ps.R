@@ -9,8 +9,8 @@ Sys.ps.cmd <- function() {
   sys <- (si <- Sys.info())["sysname"]
   if(sys == "Linux") {
     rel <- c(as.integer(strsplit(si["release"],"\\.")[[1]][1:2]) %*% c(1000,1))
-    ## Linux > 2.2
-    if(rel >= 2002) "/bin/ps --width 1000"
+    if(rel >= 2006) "/bin/ps w" ## Linux kernel >= 2.6 (this is true for Ubuntu!)
+    else if(rel >= 2002) "/bin/ps --width 1000" ## Linux >= 2.2
     else structure("/bin/ps w",type="BSD")
   }
   else if(sys == "SunOS") "/usr/bin/ps"
