@@ -1,6 +1,6 @@
 \name{TA.plot}
 \alias{TA.plot}
-\title{Tukey-Anscombe Plot (residual vs. fitted) of a Linear Model. }
+\title{Tukey-Anscombe Plot (Residual vs. Fitted) of a Linear Model}
 \description{
   From a linear (or glm) model fitted, produce the so-called Tukey-Anscombe
   plot.  Useful (optional) additions include:   0-line, lowess smooth,
@@ -12,8 +12,8 @@ TA.plot(lm.res,
         labels= NULL, main= mk.main(), xlab = "Fitted values",
         draw.smooth= n >= 10, show.call = TRUE, show.2sigma= TRUE,
         lo.iter = NULL, lo.cex= NULL,
-        par0line  = list(lty = 2, col = 2),
-        parSmooth = list(lwd = 1.5, lty = 4, col = 3),
+        par0line  = list(lty = 2, col = "gray"),
+        parSmooth = list(lwd = 1.5, lty = 4, col = 2),
         parSigma  = list(lwd = 1.2, lty = 3, col = 4),
         \dots)
 }
@@ -24,14 +24,14 @@ TA.plot(lm.res,
   \item{res}{residuals to use. Default: \bold{Weighted} ("Pearson") residuals if
     weights have been used for the model fit.}
   \item{labels}{strings to use as plotting symbols for each point.
-    Default(NULL): extract observations' names or use its sequence number.
+    Default(\code{NULL}): extract observations' names or use its sequence number.
     Use, e.g., "*" to get simple \code{*} symbols.
   }
   \item{main}{main title to plot. Default: sophisticated, resulting in
     something like "Tukey-Anscombe Plot of :   y \~ x"  constructed from
-    \code{call(.)} in \code{lm.res}.
+    \code{lm.res $ call}.
   }
-  \item{xlab}{x-axis lable for plot.}
+  \item{xlab}{x-axis label for plot.}
   \item{draw.smooth}{logical; if \code{TRUE}, draw a \code{lowess} smoother
     (with automatic smoothing fraction).}
   \item{show.call}{logical; if \code{TRUE}, write the "call"ing syntax with
