@@ -6,9 +6,9 @@ mat2tex <- function(x, file = "mat.tex",
                     append = TRUE, digits = 3, title)
 {
     if(length(d.x <- dim(x)) != 2)
-        stop("`x' must be a matrix like object with dim(x) of length 2")
+        stop("'x' must be a matrix like object with dim(x) of length 2")
     if(any(d.x <= 0))
-        stop("`dim(x)' must be positive")
+        stop("'dim(x)' must be positive")
     nr.x <- d.x[1]
     nc.x <- d.x[2]
     c2ind <- (1:nc.x)[-1] # possibly empty
