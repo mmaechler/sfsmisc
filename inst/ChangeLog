@@ -1,0 +1,475 @@
+2006-08-18  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/mult.fig.R (mult.fig): no longer globally assign 'old.par'.
+	This has been deprecated since 2004-08-12, rel. 0.9-5.
+
+2006-08-16  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/rrange.R (rrange): no need for old workaround
+
+2006-06-26  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/zzz.R (.onLoad): for "unix": more cautious when 'gv' is not there.
+
+2006-06-22  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version, Date): 0.95-5
+
+2006-05-18  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/TA.plot.R (TA.plot): slightly better warning in mk.main();
+		slightly improved defaults {line colors}
+
+2006-04-27  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/zzz.R (.onLoad): smarter 'gv' command
+	* R/ps.goodies.R (ps.end): use Sys.ps.cmd() -> work on non-antique
+	Linuxen !
+	* R/unix/Sys.ps.R (Sys.ps.cmd): newer Linux has 'ps w' too!
+
+2006-02-22  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 0.95-4
+
+	* man/Deprecated.Rd: huberM() now in package "robustbase"
+	* R/Deprecated.R:    is deprecated here.
+	* R/huber.R:
+
+	* man/tkdensity.Rd: if(dev.interactive()) { ... } now suddenly
+		needed for CRAN
+
+2006-01-24  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+
+	* DESCRIPTION (Version, Date): 0.95-3
+
+	* R/prettylab.R (pretty10exp, axTexpr): new functions
+
+2005-11-23  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/misc-goodies.R (digitsBase): return S3 class "basedInt"
+	* R/misc-goodies.R (as.intBase): new; inverse of digitsBase()
+
+	* R/Deprecated.R (digits): point to digitsBase() {not "baseDigits"}!
+
+2005-11-01  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 0.95-2 --- RELEASED to CRAN
+
+	* R/rnls.R (rnls): incorporate changes by Andreas Ruckstuhl
+	(fitted.rnls): new basic methods for S3 class "rnls"
+
+2005-10-16  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Date): update
+
+	* R/p.goodies.R (p.arrows): use atan2() instead of 2-arg. atan()
+
+2005-07-11  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* man/p.profileTraces.Rd: 'x' must be 'profile' not 'nls' result
+
+2005-07-01  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/glob2rx.R (glob2rx): copied glob2rx() to "R-devel"
+	  ==> should be part of R-2.2.x
+
+2005-05-14  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* man/diagDA.Rd: fixed typo: s/i.e./e.g./
+
+2005-05-12  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Depends): R (>= 2.0.0) is needed for datasets
+
+	* R/glob2rx.R (glob2rx): add 'trim.*' arguments, with defaults to
+	be exactly back compatible.
+
+2005-05-10  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Depends): also on 'methods' and 'utils'
+
+	* R/tkdensity.R (tkdensity): careful to get stats::density.default
+	  for R versions >= 2.2.0;  new argument 'kernels'
+
+2005-05-09  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/ps.goodies.R (ps.end): use 'ps wx' (no "-")
+
+2005-04-25  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 0.95-2
+
+	* INDEX: updated
+
+	* man/p.hboxp.Rd: also change default to 'medcol= 2'
+
+2005-04-25  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 0.95-1	 --> CRAN
+
+	* man/*.Rd: added \encoding{latin1} to quite a few
+
+	* man/AsciiToInt.Rd: example with Umlaut fails to parse(!)
+	in utf-8 locale -> \dontrun{} it.
+
+	* R/misc-goodies.R (hist.bxp): new default 'medcol = 2':
+	   "medcol = 0" is not sensible for '0 = "transparent"'.
+
+	* R/mat2tex.R (mat2tex): new arg.s 'nam.center', 'col.center'
+
+2005-04-19  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* man/hatMat.Rd: slight improvement in example
+
+2005-02-17  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 0.95-0
+
+	* NAMESPACE: added a namespace (finally).
+
+2005-02-14  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/misc-goodies.R (lseq): new function
+
+2005-01-14  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/rnls.R (rnls): new function (from A.Ruckstuhl, Ch.Sangiorgio)
+		still quite a few FIXMEs
+
+2004-12-13  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 0.9-8	--> CRAN
+
+	* R/pd-matrix.R (posdefify): fix bug in non-default method
+	"allEVadd"!
+
+	* tests/posdef.R: new file: test the bug I just fixed (and more).
+
+
+2004-12-09  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/diagDA.R (predict.dDA) (diagDA): fix NA prediction
+
+	* tests/dDA.R: add check for NA prediction
+
+	* R/misc-goodies.R (QUnif): typo fixed (checkUsagePackage() !)
+
+	* R/integratexy.R (integrate.xy): dito
+
+	* R/TA.plot.R (TA.plot): add `type=' in call to residuals;
+		consequently now also works for some  lme() results.
+
+2004-11-05
+2004-11-04  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 0.9-7
+
+	* INDEX: updated (and saved to ./INDEX-manual)
+
+	* R/plot.ts.R (plot.ts): remove! (was for R < 1.2.0 !)
+	* R/lag.plot.R (lag.plot): dito
+	* R/misc-goodies.R: remove "stepun" package in comments;
+		drop more old comments
+
+	* man/*.Rd: in many man pages, remove \link[<..>]s to old package names.
+	* R/D1D2.R: remove "stepfun" package links
+	* R/KS-confint.R:
+
+2004-09-27  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 0.9-6
+
+	* tests/p.R: new test file {for the fixed bug}
+
+	* R/p.ts.R: oops; need length-2 start(), end() !
+		    (fix bug introduced for 0.9-5)
+
+	* man/p.ts.Rd: add SMI
+
+2004-08-12  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+
+	* DESCRIPTION (Date): release 0.9-5 to CRAN
+
+	* R/mult.fig.R (mult.fig): no mentioning of global 'old.par'
+		which is now deprecated!
+
+	* man/mult.fig.Rd: make sure we work with the return value in the
+		example.
+
+	* man/D2ss.Rd: extraneous "}" in example - left off last 3/4
+
+	* man/cum.Vert.funkt.Rd: fix Rd "extraneous" text
+
+2004-08-09  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/misc-goodies.R (sHalton): add 'leap = 1' argument.
+
+2004-08-02  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* man/compresid2way.Rd: add the 'warpbreaks' example which clearly
+	   exhibits the following (bug and) fix:
+
+	* R/twoway-r-plot.R (compresid2way): fix the level labeling
+	   in 'if(label)' where "A" and "B" where switched, thanks to
+	   Christoph Buser.
+
+	* DESCRIPTION (Version): 0.9-5 - not yet on CRAN
+
+	* R/plotCI.R (plotCI): deprecate plotCI() from "sfsmisc",
+		since it is in "gregmisc" which has been on CRAN (but not
+		in existence!) long before "sfsmisc".
+
+	* R/00a.R eliminated (renamed to R/00a.R.~2~) and created
+	* R/zzz.R instead which has a simple .First.lib().
+
+
+2004-07-29  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/misc-goodies.R (QUnif): new function for Quasi-Random uniform
+		numbers built on Halton sequences: sHalton().
+	* man/QUnif.Rd: documentation with nice examples
+
+2004-07-27  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* inst/doc/CHANGES.txt: rather than inst/doc/ChangeLog
+
+	* R/pd-matrix.R (posdefify): new file and new function
+	* man/posdefify.Rd: dito
+
+2004-05-26  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 0.9-4	--> CRAN
+
+	* inst/doc/ChangeLog: new symbolic link to this file
+
+	* man/p.ts.Rd: new arguments; also new example
+	* R/p.ts.R (p.ts): new arg 'do.x.rug'
+
+2004-05-23  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/misc-goodies.R (strcodes): fix, needing 0-origin;
+	  also fixes the "offset by 1" bug in AsciiToInt()
+	* man/AsciiToInt.Rd:  (adapt example output)
+
+2004-04-05  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/p.ts.R (p.ts): new arguments 'date.x', 'do.x.axis',
+	      'ax.format' and 'xlab'
+
+2004-03-09  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/misc-goodies.R (empty.dimnames): use lapply()
+
+2004-02-25  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/p.res.2x.WSt.R (p.res.2x): new default  'scol = 2:3'
+			    new arguments  xlim, ylim.
+	* man/p.res.2x.Rd: dito
+
+2004-02-24  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Depends): 1.8.x
+		because of regexpr(*, fixed=TRUE) in ps.end()
+
+	* R/p.res.2x.WSt.R (p.res.2x): new 'main' argument with default 'z'
+	* man/p.res.2x.Rd: dito
+	* man/p.res.2fact.Rd: dito
+
+2004-02-23  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 0.9-3
+
+	* man/tkdensity.Rd: try for working tcltk
+
+2004-02-18  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/TA.plot.R (n.plot): fix non-default 'log = ".."'
+
+	* R/p.res.2x.WSt.R (p.res.2x): allow scol[1:2}
+	* man/p.res.2x.Rd:  dito; + example
+
+2004-02-07  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 0.9-2
+
+	* R/unix/Sys.ps.R: put my Sys.* to unix-only directory - no way for Windows
+	* man/unix/ : put Sys.ps.Rd and Sys.cpuinfo.Rd there
+
+	* R/u.goodies.R (u.date): make OS-independent, using Sys.time()
+		(u.Datumvonheute): dito
+
+	* R/ps.goodies.R (ps.end): check for non-Unix and gracefully exit
+	in that case.
+
+2004-02-05  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/ps.goodies.R (ps.end): try better to find file name.
+
+2004-02-04  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 0.9-1 (for first CRAN release)
+
+2004-02-03  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/twoway-r-plot.R: new version of old p.two.forget(),
+		from Werner Stahel, called compresid2way().
+
+2004-01-12  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/Ftest-rlm.R (f.robftest): now returns object of class "htest"
+
+	* DESCRIPTION (Version): 0.9-0
+
+	* R/ps.goodies.R (ps.end): command = getOption("eps_view")
+
+	* R/misc-goodies.R: renamed  tapply.num()  to tapplySimpl()
+		 and use same arguments as tapply().
+		 move p.panel[LS] to ./Deprecated.R
+	* man/tapplySimpl.Rd: new
+	* man/col01scale.Rd : new
+
+2004-01-11  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/p.goodies.R: removed p.tst.dev(); deprecated p.triangle()
+
+2004-01-05  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/misc-goodies.R: remove  test.par() -> ~/R/MM/GRAPHICS/par-misc.R
+
+	* R/D1D2.R (D1tr, D1ss): renamed d1() to D1tr(), D1() to D1ss();
+	  to get some consistency.
+	* man/D2ss.Rd (D2ss): newly these.
+
+2004-01-03  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* man/AsciiToInt.Rd: new
+	* man/Deprecated.Rd: new; with digits(), 'digits.v' and 'nna'
+	* R/Deprecated.R:    <dito>
+
+2003-12-15  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/ps.goodies.R (ps.do), ps.latex(), ps.end(): get rid of old
+	S-plus color and iso.latin1 stuff
+
+2003-12-10  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/misc-goodies.R (table.mat): dropped this (undocumented) function
+
+2003-12-03  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/misc-goodies.R (uniqueL):  new utility function
+
+2003-12-02  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/Sys.ps.R (Sys.ps): better test for "ALL" (warning);
+	(Sys.PID): deprecated {use  Sys.getpid() !}
+
+2003-11-21  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/diagDA.R (dDA): new function with returns fit of class `dDa';
+	  gets print() and predict() methods.
+	  Improve functionality such that it works for single point clusters.
+
+	* man/Sys.ps.Rd:   codoc( use.values = NULL)  inconsistency fixes
+	* man/ps.end.Rd:
+	* man/ecdf.ksCI.Rd:
+
+	* R/TA.plot.R (n.plot): naming ok with data.frames; `col=' argument
+
+2003-11-18  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/diagDA.R (diagDA): new: Diagonal Discriminant Analysis
+				= improvement of stat.diag.da() from 'sma'
+
+2003-08-13  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* man/u.boxplot.x.Rd: new
+
+	* R/misc-goodies.R: boxplot.matrix(): `use.cols' instead of `cols'
+	* man/boxplot.matrix.Rd:
+
+2003-07-14  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/plotCI.R (plotCI): new arguments `type' and `log'.
+
+	* R/tkdensity.R (tkdensity): new `do.rug' argument with sensible default
+
+2003-06-13  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/smad.R (huber): improved again: gives (NA,NA) when y has NAs only.
+
+2003-06-10  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/rrange.R (rrange): new argument `na.rm = TRUE'
+	* man/rrange.Rd:
+
+2002-12-01  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/TA.plot.R (TA.plot): now works with specified (or default!) `ylab'
+
+2002-11-30  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/TA.plot.R (n.plot): fix for omitted `ylab' => TA.plot() shows
+	residuals (again!).   Use xy.coords() instead of home-made
+
+	* R/p.goodies.R: drop p.hboxp:
+	  Rather use boxplot(*, horizontal=TRUE, add=TRUE)
+	  Also drop  p.clear()
+
+2002-11-11  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 0.8-5
+	* quite a few new man pages (+clean) since Oct; see also ./SfS-changes
+	  `only' CMD check warning of 39 undocu. functions
+
+2002-10-01  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* Version 0.8-0 : ``released'' on ftp://stat.ethz.ch/U/maechler/R/
+
+	* several man fixes; dropped old "SfS" stuff, see ./SfS-changes
+
+	* DESCRIPTION (Package): new "sfsmisc" (from internal "SfS")
+
+
+2002-06-19  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* TODO-MM: new
+
+	* R/ellipse.R (ellipsePoints): new (from Martin's ..)
+	* man/ellipsePoints.Rd:
+
+
+	* R/TA.plot.R (n.plot): add `cex' explicitly; finally :
+	* man/n.plot.Rd: new
+
+	* R/TA.plot.R (TA.plot): changed some col/lty/lwd defaults
+	  (Ruth Meili's hint) and made these arguments (`par0line',..)
+
+
+2002-05-17  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* INDEX: updated (via build) and manually edited
+
+	* R/hatMat.R (hatMat): allow matrix predictors `x'
+
+2002-04-30  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/tkdensity.R (tkdensity): finally made working again, using
+	 tclVar() and tclvalue(.).
+
+
+2002-04-23  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/mult.fig.R: add "line.main" argument, shifting down 1/2 by
+	default.
+
+2002-04-17  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/p.goodies.R (p.tst.dev): fix function, now works
+
+2001-05-21  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Title): a bit shorter
+	  (Version): upped to 1.0-2
