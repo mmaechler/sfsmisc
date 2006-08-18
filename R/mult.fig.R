@@ -24,8 +24,7 @@ function(nr.plots, mfrow, mfcol,
         stop("must either specify 'nr.plots', 'mfrow' or 'mfcol' !")
       else  mfrow <- n2mfrow (nr.plots)
     }
-### FIXME: this "<<-"  is deprecated now (2004-08-12, rel. 0.9-5)
-  old.par <<-
+  old.par <-
     if(use.row) par(mfrow = mfrow, oma= oma, mar = mar, mgp= mgp)
     else        par(mfcol = mfcol, oma= oma, mar = mar, mgp= mgp)
   ##if(!quiet) cat("Execute\n\t par(old.par) \n later to restore graphical par\n")
