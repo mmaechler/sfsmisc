@@ -21,13 +21,15 @@ huberM(x, k = 1.5, tol = 1e-06, mu = median(x), s = mad(x, center=mu),
        warn0scale = getOption("verbose"))
 }
 \arguments{
-% list2mat() - `x' already documented
-  \item{check}{logical specifiying if it should be checked that list
-    components have same length.}
 % p.pllines(x,y,group,lty=c(1,3,2,4),\dots)
+  \item{x,y}{panel function (or plot or general) arguments:
+    numeric vectors of same length.}
   \item{group}{grouping vector of same length as x or y.}
   \item{lty}{line types to use for the groups (recycled).}
   \item{\dots}{further arguments passed to (plot) methods.}
+% list2mat() - `x' already documented
+  \item{check}{logical specifiying if it should be checked that list
+    components have same length.}
 % huberM()
   \item{k}{positive factor; the algorithm winsorizes at \code{k}
     standard deviations.}
