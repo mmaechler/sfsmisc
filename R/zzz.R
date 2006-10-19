@@ -7,7 +7,7 @@
 	    cmd <- "gv -watch -geometry -0+0 -magstep -2 -media BBox -noantialias"
 	    hyphens <-
 		SYS(paste("gv -h | fgrep watch | head -1",
-			  "| sed 's/watch.*//; s/^[\s ]*//'"))
+			  "| sed 's/watch.*//; s/^[\\s ]*//'"))
 	    if(length(hyphens) && hyphens == "--")
 		cmd <- sub(" --geometry", " -geometry",
 			   sub(" --magstep ", " --scale=",
