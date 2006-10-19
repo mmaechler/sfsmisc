@@ -5,6 +5,14 @@
 \alias{p.pllines}
 \alias{list2mat}
 \alias{huberM}
+% the whole set
+\alias{rnls}
+\alias{print.rnls}
+\alias{fitted.rnls}
+\alias{predict.rnls}
+\alias{residuals.rnls}
+\alias{summary.rnls}
+%
 %------ PLEASE: put \alias{.} here for EACH !
 %
 \description{
@@ -51,7 +59,10 @@ huberM(x, k = 1.5, tol = 1e-06, mu = median(x), s = mad(x, center=mu),
   with MAD scale, being sensible also when the scale is zero where
   \code{\link[MASS]{huber}()} returns an error. This function has been
   moved to package \pkg{robustbase}.
+
+  \code{rnls(formula, data, ......)} has been available, improved
+  in package \pkg{robustbase} for almost a year and been replaced by a
+  stub here.  All \code{*.rnls} methods have been completely removed.
 }
 
 \keyword{documentation}
-
