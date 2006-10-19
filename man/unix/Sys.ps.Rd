@@ -1,5 +1,4 @@
 \name{Sys.ps}
-\alias{Sys.PID}
 \alias{Sys.ps}
 \alias{Sys.ps.cmd}
 \alias{Sys.sizes}
@@ -9,7 +8,6 @@
   about the running \R process.
 }
 \usage{
-Sys.PID(ps.cmd = Sys.ps.cmd())
 Sys.ps.cmd()
 
 Sys.ps(process= Sys.getpid(),
@@ -32,10 +30,6 @@ Sys.sizes(process = Sys.getpid(), ps.cmd = Sys.ps.cmd())
   \item{warn.multi}{logical ...}
 }
 \details{
-  Note that our \code{Sys.PID(ps.cmd)} is only left for historical
-  reason since \R 1.7.0, where \code{\link{Sys.getpid}()} was
-  introduced.  It may be modified to find other process ID.
-
   Use \code{man ps} on your respective Unix system, to see what fields are
   supported exactly.  Unix dialects \emph{do} differ here, and,
   SunOS-Solaris even has more than one ps command\dots
