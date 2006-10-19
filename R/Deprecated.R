@@ -178,4 +178,14 @@ huberM <- function (x, k = 1.5, tol = 1e-06,
     list(mu = mu, s = s, it = it)
 }
 
-### --- rnls() --- to be replaced by  nlrob() in package  'robustbase' --------
+## keep a stub here [as from 2006-10-19; version 0.95-7] :
+rnls <- function(...)
+{
+    ## Purpose:
+    ##  Robust parameters estimation in the nonlinear model. The fitting is
+    ##  done by iterated reweighted least squares (IWLS) as in rlm() of the
+    ##  package MASS. In addition, see also 'nls'.
+
+    stop("rnls() in package 'sfsmisc' is defunct.",
+	"\n Do use nlrob() from the 'robustbase' package instead!\n")
+}
