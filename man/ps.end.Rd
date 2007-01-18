@@ -36,5 +36,8 @@ if(interactive() \dontshow{ || Sys.getenv("USER") == "maechler" }
     plot(sunspots)
     ps.end()
   }
+  ps.latex("ex2.eps")
+  plot(sunspots)
+  ps.end(call.gv = FALSE) # basically the same as dev.off()
 }
 \keyword{device}
