@@ -10,30 +10,36 @@ str_data <- function(pkgs, ...)
     stopifnot(is.character(pkgs))
     for(pkg in pkgs) {
 	cat("\nAll data sets in R package '",pkg,"' :",
-            "\n--------------------------","  ", rep("=", nchar(pkg)),
-            "\n\n", sep='')
+	    "\n--------------------------","  ", rep("=", nchar(pkg)),
+	    "\n\n", sep='')
 	dd <- data(package = pkg)
 	items <- dd$results[,"Item"]
+	## not those that are part of "another" (multi-object) one:
+	items <- items[- grep(".*\\(.*\\)$", items)]
+	##
+	## Gabor's wishes (2005-03-25):
+        ##    1) allow filtering on class(),
+	##    2) sorting according to size -- that needs 2 passes through...
 	dat.env <- new.env()
 	for(n in items) {
-	    if(length(grep(".*\\(.*\\)$", n)) == 0) {
-		cat(n, ": ")
-		data(list = n, package = pkg, envir = dat.env)
-		nms <- ls(envir = dat.env, all.names=TRUE)
-		if(length(nms) == 1) { ## one data set == normal case
-		    if(nms != n) cat(nms, ": ")
-		    str(get(nms, envir = dat.env), ...)
-		}
-		else { ## more than one data set
-		    cat("\n")
-		    for(nn in nms) {
-			cat(" ", nn, ": ")
-			str(get(nn, envir = dat.env), ...)
-		    }
-		}
-		cat("--------------\n")
-		rm(list = nms, envir = dat.env)
+	    data(list = n, package = pkg, envir = dat.env)
+	    nms <- ls(envir = dat.env, all.names=TRUE)
+	    cat(n, ": ")
+	    if(length(nms) == 1) { ## one data set == normal case
+		if(nms != n) cat(nms, ": ")
+		str(get(nms, envir = dat.env), ...)
 	    }
+	    else { ## more than one data set
+		cat("\n")
+		for(nn in nms) {
+		    cat(" ", nn, ": ")
+		    str(get(nn, envir = dat.env),
+			indent.str = paste(" ", ''), ...)
+		}
+	    }
+	    cat("--------------\n")
+	    rm(list = nms, envir = dat.env)
+
 	}
     }
 }
