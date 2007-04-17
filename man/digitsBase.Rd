@@ -58,7 +58,8 @@ digits(128, base = 8) # 2 0 0
 
 ## one way of pretty printing (base <= 10!)
 b2ch <- function(db)
-        noquote(gsub("^0+(.{1,})$"," \\1", apply(db, 2, paste, collapse = "")))
+        noquote(gsub("^0+(.{1,})$"," \\\\1", % \\\\  |--> \\ in example R core
+                apply(db, 2, paste, collapse = "")))
 b2ch(digitsBase(0:33, 2))  #->  0 1 10 11 100 101 ... 100001
 b2ch(digitsBase(0:33, 4))  #->  0 1 2 3 10 11 12 13 20 ... 200 201
 
