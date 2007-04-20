@@ -47,7 +47,12 @@ matplot(x1, H1, type = "l", main = "columns of smoother hat matrix")
 ## Example `pred.sm' arguments for hatMat() :
 pspl <-  function(x,y,...) predict(smooth.spline(x,y, ...), x = x)$y
 ploes <- function(x,y,...) predict(loess(y ~ x, ...))
-pksm <-  function(x,y,...) ksmooth(x,y,"normal", x.points=x, ...)$y
+pksm <-  function(x,y,...) ksmooth(sort(x),y, "normal", x.points=x, ...)$y
+## Rather than ksmooth():
+if(require("sm"))
+  pksm2 <- function(x,y,...)
+           sm.regression(x,y, display="none", eval.points=x, ...)$estimate
+
 % pRmean <- function(x,y,...) run.mean(y, ...)
 % pRline <- function(x,y,...) run.line(x,y, ...)$y
 
@@ -57,7 +62,7 @@ all.equal(sum(diag((hatMat(c(1:4, 7:12), df = 4)))),
 
 ## Loess() example:
 Hl <- hatMat(x1, pr = ploes)
-cat(sprintf("df = \%.2f\n", sum(diag(Hl))))
+cat(sprintf("df = \%.2f\\n", sum(diag(Hl))))
 image(Hl)
 
 %% should test these also for x with ties
