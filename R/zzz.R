@@ -26,6 +26,20 @@
 	}
 	options("eps_view" = cmd)
     }
+
 }
 
 ## was	.First.lib <- function(lib, pkg) { .. }
+
+
+if(getRversion() < "2.5") {
+
+    ## note that this remains hidden in "sfsmisc" namespace
+    parse <- function (file = "", n = NULL, text = NULL, prompt = "?",
+		       srcfile = NULL, encoding = "unknown")
+    {
+	## just drop 'srcfile' and 'encoding'
+	base::parse(file, n=n, text=text, prompt=prompt)
+    }
+
+}
