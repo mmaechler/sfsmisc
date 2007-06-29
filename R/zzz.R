@@ -3,7 +3,8 @@
     ## This assumes  "gv"  in your path --- ideally this would be configured!
     if(.Platform $ OS.type == "unix") {
 	SYS <- function(cmd) system(cmd, intern=TRUE, ignore.stderr=TRUE)
-	if(length(SYS("gv -h")) > 0) { ## 'gv'
+        doesRespond <- function(cmd) length(SYS(cmd)) > 0
+	if(doesRespond("gv -h")) { ## 'gv'
 	    cmd <- "gv -watch -geometry -0+0 -magstep -2 -media BBox -noantialias"
 	    hyphens <-
 		SYS(paste("gv -h | fgrep watch | head -1",
@@ -14,10 +15,12 @@
 			       sub(" --media ", " --media=",
 				   gsub(" -([a-z])", " --\\1", cmd))))
 	}
-	else if (length(SYS("ggv --version")) > 0) { ## try 'ggv'
+	else if (doesRespond("ggv --version")) { ## try 'ggv'
 	    cmd <- "ggv --geometry -0+0"
 	}
-	else if (length(SYS("kghostview --version")) > 0) { ## try 'kghostview'
+	else if (doesRespond("evince --version")) { ## try 'evince'
+	    cmd <- "evince" # no geometry options
+	else if (doesRespond("kghostview --version")) { ## try 'kghostview'
 	    cmd <- "kghostview --geometry -0+0"
 	} else {
 	    warning("no valid postscript previewer found; consider setting\n",
