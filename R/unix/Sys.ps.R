@@ -170,10 +170,9 @@ Sys.sizes <- function(process = Sys.getpid(),
 }
 
 
-###-------------- This is Linux - only :
-if(substr(R.version[["os"]], 1,5) == "linux") {
+if(identical(1:1, grep("linux", R.version[["os"]]))) { ##----- Linux - only ----
 
-Sys.cpuinfo <- function(procfile = "/proc/cpuinfo")
+Sys.procinfo <- function(procfile)
 {
   l2 <- strsplit(readLines(procfile),"[ \t]*:[ \t]*")
   r <- sapply(l2[sapply(l2, length) == 2],
@@ -182,6 +181,9 @@ Sys.cpuinfo <- function(procfile = "/proc/cpuinfo")
   class(r) <- "simple.list"
   r
 }
+
+Sys.cpuinfo <- function() Sys.procinfo("/proc/cpuinfo")
+Sys.meminfo <- function() Sys.procinfo("/proc/meminfo")
 
 Sys.MIPS <- function() as.numeric(Sys.cpuinfo()["bogomips"])
 
