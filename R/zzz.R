@@ -17,10 +17,9 @@
 	}
 	else if (doesRespond("ggv --version")) { ## try 'ggv'
 	    cmd <- "ggv --geometry -0+0"
-	}
-	else if (doesRespond("evince --version")) { ## try 'evince'
+	} else if (doesRespond("evince --version")) { ## try 'evince'
 	    cmd <- "evince" # no geometry options
-	else if (doesRespond("kghostview --version")) { ## try 'kghostview'
+	} else if (doesRespond("kghostview --version")) { ## try 'kghostview'
 	    cmd <- "kghostview --geometry -0+0"
 	} else {
 	    warning("no valid postscript previewer found; consider setting\n",
