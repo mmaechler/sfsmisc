@@ -4,6 +4,9 @@
 
 ## TODO: probaby add 'rescale.kind = c("diag", "trace")'
 ## ----  they would differ only when some EV's were negative
+
+### Higham's code by Ravi
+
 ## FIXME: Not sure if 'symmetric' (as argument) makes sense
 posdefify <- function(m, method = c("someEVadd", "allEVadd"),
                       symmetric, # = TRUE,
