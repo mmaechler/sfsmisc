@@ -1,10 +1,10 @@
-#### -*- mode: R ; delete-old-versions: never -*-
-####---- Prime numbers, factorization, etc. --- "illustatration of programming"
+#### -*- mode: R ; delete-old-versions: never -*--- $Id$
+####---- Prime numbers, factorization, etc. --- "illustration of programming"
 
 ###---- EXAMPLES --- of
 ##
 source("ftp://stat.ethz.ch/U/maechler/R/prime-numbers-fn.R")
-## was /u/maechler/R/MM/MISC/prime-numbers-fn.R
+## == /u/maechler/R/MM/MISC/prime-numbers-fn.R
 
 if(!is.R()) { ## for S-plus
     if(!existsFunction("system.time"))
@@ -26,13 +26,13 @@ str( factorizeBV(4:8) )
 N <- 1e7
 
 ## keep this working for  S+ ! compatible
-for(i in 1:3) print(system.time(p7 <- primes.(N), gcFirst=TRUE)[1:3])
+for(i in 1:3) print(system.time(p7 <- primes.(N))[1:3]) ## Bill Venables' original
 ##- [1] 3.86 1.93  8.75
 ##- [1] 4.02 1.60 11.34
 ##- [1] 4.14 1.60 11.51
 ## about 10-20% slower on 'lynne'
 
-for(i in 1:3) print(system.time(p7. <- primes(N), gcFirst=TRUE)[1:3])
+for(i in 1:3) print(system.time(p7. <- primes(N))[1:3]) ## Martin Maechler's slight improvement
 ##- [1] 2.29 0.76 6.47
 ##- [1] 2.58 0.73 6.67
 ##- [1] 2.71 0.59 6.64
@@ -40,9 +40,9 @@ stopifnot(p7 == p7.)
 
 ## On 'lynne' (AMD Athlon 64bit 2800+, 1G RAM), speedup somewhat similar;
 ## Also here
-system.time(for(i in 1:50) p5 <- primes(1e5), gcFirst=TRUE)[1:3]
+system.time(for(i in 1:50) p5 <- primes(1e5))[1:3]
 ## 1.17 0.06 1.23
-system.time(for(i in 1:50) p5. <- primes.(1e5), gcFirst=TRUE)[1:3]
+system.time(for(i in 1:50) p5. <- primes.(1e5))[1:3]
 ## 1.77 0.04 1.81
 stopifnot(p5 == p5.)
 
@@ -105,7 +105,7 @@ system.time(P1e4.2 <- prime.sieve( max=10000))
 ##-> 1.46 (sophie)   maybe a little longer
 stopifnot(identical(P1e4 , P1e4.2))
 
-system.time(P1e5 <- prime.sieve(P1e4, max=1e5))
+system.time(P1e5 <- prime.sieve(P1e4, max=1e5)) ## note!  primes() is faster!
 ##-> 105.7  (on sophie: fast Sparc 5)
 ##->  58.83 (on jessica: Ultra2)
 ##->   5.67 (on lynne: Pentium 4)
@@ -129,13 +129,12 @@ plot(P1e4,  seq(P1e4), type='l', main="Prime number theorem")
 lines(P1e4, P1e4/log(P1e4), col=2, lty=2, lwd=1.5)
 
 if(is.R()) stopifnot(require(sfsmisc)) # for this plot:
-u.dev.default()
 { ps.do("prime-number.ps")
   mult.fig(2, main="Prime number theorem")
   plot(P1e5,seq(P1e5), type='l', main="pi(n) &  n/log(n) ",
        xlab='n',ylab='pi(n)', log='xy', sub = 'log - log - scale')
   lines(P1e5, P1e5/log(P1e5), col=2, lty=2, lwd=1.5)
-  mtext(paste("/u/maechler/S/MISC/prime-numbers.S",u.Datumvonheute(Zeit=T),
+  mtext(paste("/u/maechler/R/MM/MISC/prime-numbers.S",u.Datumvonheute(Zeit=T),
 	      sep='\n'), side = 3, cex=.75, adj=1, line=3, outer=T)
 
   plot(P1e5, seq(P1e5) / (P1e5/log(P1e5)), type='b', pch='.',
