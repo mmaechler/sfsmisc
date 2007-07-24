@@ -1,14 +1,23 @@
-####---- Prime numbers, factorization, etc. --- "illustatration of programming"
+####---- Prime numbers, factorization, etc. --- "illustatration of programming"-- $Id$
 
 ###---- Function definitions -------- for examples, see "./prime-numbers.S"
 
 
-### NOTA BENE:
-### ---------
-### as I just found out [R 1.9.x, July 2004],
-##  the primes() function in Bill Venables "conf.design"
-### package is almost an ordner of magnitude faster than the
-##  primes() or prime.sieve() ones here..
+if(!exists("is.unsorted", mode = 'function'))## for S-plus and very old R:
+   is.unsorted <- function(x) (length(x) > 1) && any(diff(x) < 0)
+
+if((!is.R() || !require("sfsmisc")) && !exists("prt.DEBUG", mode="function"))
+    prt.DEBUG <- function(..., LEVEL = 1)
+    if (exists("DEBUG", w = 1) && DEBUG >= LEVEL )#
+    ##                  ~~~
+    cat(paste("in `", sys.call(sys.nframe()-1)[1], "':", sep = ""), ..., "\n")
+
+## NOTA BENE:
+## ---------
+## I found out [R 1.9.x, July 2004], that the primes() function
+## Bill Venables' "conf.design" package is almost an ordner of
+## magnitude faster than the primes.*() or prime.sieve() ones further
+## below !
 
 primes. <- function(n) {
     ## By Bill Venables <= 2001
@@ -48,12 +57,6 @@ primes <- function(n) {
     (1:n)[P]
 }
 
-##-- comparison >>> "./prime-numbers.R"
-##		     ~~~~~~~~~~~~~~~~~
-
-
-if(!exists("is.unsorted", mode = 'function'))## for S-plus and very old R:
-   is.unsorted <- function(x) (length(x) > 1) && any(diff(x) < 0)
 
 prime.sieve <- function(p2et = c(2,3,5), maxP = pM^2)
 {
