@@ -28,7 +28,7 @@ p.ts <-
             stop("'date.x' must be date vector of the same length as series")
         if(do.x.axis)
             date.x <- as.POSIXct(date.x)    # work, or give error now
-        if(is.unsorted(date.x)) {
+        if(is.unsorted(date.x, na.rm=TRUE)) {
             i <- order(date.x)
             x <- if(isMat) x[i,] else x[i]
             date.x <- date.x[i]
