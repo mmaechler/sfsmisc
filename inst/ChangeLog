@@ -1,3 +1,133 @@
+2007-09-03  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/p.ts.R (p.ts): is.unsorted(date.x, na.rm=TRUE)
+
+2007-07-17  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/ps.goodies.R (pdf.do): Bug fix: cannot use 'width= -1, height= -1'
+	as for ps.do() !
+
+2007-07-13  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/ps.goodies.R (ps.do, pdf.do): do *not* use ps.options(), since
+	you cannot pass all postscript() / pdf() options.
+
+2007-06-30  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 0.95-12 (released)
+	* R/ps.goodies.R (pdf.end): fix
+
+2007-06-29  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 0.95-11
+
+	* R/unix/Sys.ps.R (Sys.meminfo): added via new Sys.procInfo()
+
+	* R/zzz.R (options("eps_view")): add 'evince'
+
+2007-06-25  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Suggests): add 'tcltk' {needed for tkdensity()}
+
+2007-05-23  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* NAMESPACE: Sys.cpuinfo etc: only  if(... == "unix")
+
+2007-05-22  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* man/wrapFormula.Rd: new function wrapFormula() mainly for gam() etc.
+
+2007-04-26  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* NAMESPACE: now explicitly export (instead of pattern), keeping
+		predict and print S3 methods hidden.
+
+	* R/ps.goodies.R (pdf.do, pdf.end, pdf.latex): analogues to
+	ps.do() etc.
+	(dev.latex): instead of ps.latex();
+	(pdf.latex, ps.latex): now wrappers to dev.latex
+
+2007-04-20  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* man/hatMat.Rd (Examples): add sm.regression();  fix '\'
+
+2007-04-19  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/hatMat.R (hatMat): add test for sensible 'trace';
+	give a warning for unsorted 'x', since that can too quickly give
+	wrong answers (not for the default smoothing spline though).
+
+2007-04-17  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* man/digitsBase.Rd: double the \\ so it appears correctly in
+	help() and example()
+
+2007-03-26  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/str_data.R (str_data): use indent.str for multi-data datasets;
+	add note about Gabor's wishlist.
+
+2007-03-15  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 0.95-9 released
+
+	* R/tkdensity.R (tkdensity): fix to allow *several* 'kernels' to
+	be specified.
+	(tkdensity): temporarily reset par()s such as par("ask")
+		and only reset when quitting tk widget.
+
+	* man/tkdensity.Rd: complete unfinished 'nor1mix' example
+
+2007-01-24  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/str_data.R: new function; very useful to get overview
+	* man/str_data.Rd: over packages' datasets.
+
+	* R/Deprecated.R: HuberM() and plotCI() are now *Defunct*, i.e.,
+		no longer visible but in file Old_Defunct/ex-Deprecated.R
+
+2007-01-18  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 0.95-8 to be released
+
+	* R/ps.goodies.R (ps.end): make sure 'call.gv = FALSE' works
+
+2007-01-17  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/p.goodies.R: using rep.int() instead of rep() in a few places.
+	* R/misc-goodies.R: ditto
+
+2006-10-27  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* man/posdefify.Rd: note about litterature
+
+2006-10-19  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 0.95-7 to be released
+
+	* R/rnls.R (rnls): becomes defunct -- leave stub in
+	* R/Deprecated.R:
+	* man/rnls.Rd.R: removed, too
+
+	* R/unix/Sys.ps.R (Sys.PID): removed: has been deprecated for long.
+	* man/unix/Sys.ps.Rd: ditto
+
+	* R/zzz.R (.onLoad): replace \s by \\s
+
+
+2006-09-23  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/Deprecated.R: remove nna(), digits.v(), digits(),
+	tapply.num(), subtit(),
+	p.triangle(), p.panelL() and p.panelS() ---
+	These have been deprecated since Jan. 2004 (!)
+	* man/Deprecated.Rd: ditto
+
+2006-09-21  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/unix/Sys.ps.R (Sys.MIPS): if(.Linux-only.)
+	* man/unix/Sys.cpuinfo.Rd: ditto ==> should "work" on MacOS X
+
 2006-08-18  Martin Maechler  <maechler@stat.math.ethz.ch>
 
 	* R/mult.fig.R (mult.fig): no longer globally assign 'old.par'.
