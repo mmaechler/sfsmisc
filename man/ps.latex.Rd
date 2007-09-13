@@ -5,7 +5,8 @@
 \alias{ps.latex}
 \title{PostScript/PDF Preview Device with Optional `LaTeX' Touch}
 \usage{
-pdf.do(file, width = -1, height = -1, onefile = FALSE, title = NULL, \dots)
+pdf.do(file, paper = "default", onefile = FALSE,
+       title = NULL, version = "1.4", \dots)
 
 pdf.latex(file, height = 5 + main.space * 1.25,  width = 9.5,
           main.space=FALSE, lab.space = main.space,
@@ -32,6 +33,9 @@ ps.latex(file, height = 5 + main.space * 1.25,  width = 9.5,
   \item{title}{PostScript/PDF (not plot!) title passed to
     \code{\link{postscript}()} or \code{\link{pdf}()}; by default use a
     title with \R version and \code{file} in it.}
+  \item{version}{a string describing the PDF version that will be
+    required to view the output, see \code{\link{pdf}}; our (high)
+    default ensures alpha-transparency.}
   \item{main.space}{logical; if true, leave space for a main title
     (unusual for LaTeX figures!).}
   \item{lab.space}{logical; if true, leave space for x- and y- labels
