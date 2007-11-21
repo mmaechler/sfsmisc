@@ -3,8 +3,8 @@
 \docType{data}
 \title{Fisher's Potato Crop Data}
 \description{
-  %% FIXME
-  %% ----
+ Fisher's potato crop data set is of historical interest as an early
+ example of a multi-factor block design.
 }
 \usage{data(potatoes)}
 \format{
@@ -20,9 +20,9 @@
     \item{yield}{a numeric vector giving the yield of potatoes in ...}% << FIXME
   }
 }
-\details{
-  FIXME %%  more details than the __description__ above ~~
-}
+% \details{
+%   FIXME %%  more details than the __description__ above ~~
+% }  %% ----
 \source{
   Bennett, J. H. (1972)
   \emph{Collected Papers of R. A. Fischer} vol.~II, 1925-31;
