@@ -1,3 +1,45 @@
+			Dear Emacs, please make this -*-Text-*- mode!
+
+		CHANGES in sfsmisc VERSION 0.96-01  [2007-11-21]
+
+NEW FEATURES
+
+   o	new function eaxis() for "engineering" / "extended" axis
+   	drawing, notably for log-axis labeling
+
+
+		CHANGES in sfsmisc VERSION 0.95-13  [2007-09-13]
+
+BUG FIXES
+
+   o	pdf.latex(), pdf.do() ...
+
+
+		CHANGES in sfsmisc VERSION 0.95-12  [2007-06-30]
+NEW FEATURES
+   o
+BUG FIXES
+   o
+
+		CHANGES in sfsmisc VERSION 0.95-10  [2007-06-25]
+
+NEW FEATURES
+   o	new pdf.do(), pdf.end(), pdf.latex()), as analogues to ps.do() etc,
+
+   o	implemented as wrapper to new  dev.latex() utility function
+	(dev.latex): instead of ps.latex();
+	(pdf.latex, ps.latex): now wrappers to dev.latex
+
+
+		CHANGES in sfsmisc VERSION 0.95-9  [2007-03-15]
+   o
+
+		CHANGES in sfsmisc VERSION 0.95-8  [2007-01-18]
+   o
+
+	   	CHANGES in sfsmisc VERSION 0.95-7  [2006-10-19]
+   o
+
 
 		CHANGES in sfsmisc VERSION 0.95-6  [2006-06-26]
 
@@ -28,15 +70,18 @@
 
 		CHANGES in sfsmisc VERSION 0.95-1  [2005-04-25]
 
-   o    New:  rnls() for robust nonlinear regression;
-	      lseq() {seq() on log scale} utility
+NEW FEATURES
 
-   o    sfsmisc now has a NAMESPACE
+   o    rnls() for robust nonlinear regression;
+   	lseq() {seq() on log scale} utility
+
+   o    now has a NAMESPACE
 
 
 
 		CHANGES in sfsmisc VERSION 0.9-8  [2004-12-14]
 
+BUG FIXES
    o	TA.plot() now also works for lme() results.
 
 
@@ -56,14 +101,20 @@
 		CHANGES in sfsmisc VERSION 0.9-5  [2004-08-12]
 
 
-    o	New function posdefify()
+NEW FEATURES
 
-    o	New functions QUnif() and sHalton()
+    o	new posdefify(m) returns a positive definite matrix close to 'm'
+
+    o	New  QUnif() and sHalton() for quasi-random number generation
+
+BUG FIXES
+
+    o	fixed labeling bug in compresid2way().
+
+DEPRECATED & DEFUNCT
 
     o	mult.fig()'s global assignment to 'old.par' is now deprecated.
 		     do work with op <- mult.fig(...)$old.par instead !!
-
-    o	fixed labeling bug in compresid2way().
 
     o	plotCI() is now deprecated -- use the one from package "gregmisc"!
 
