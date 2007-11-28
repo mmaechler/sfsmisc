@@ -1,4 +1,4 @@
-#### $Id: misc-goodies.R,v 1.31 2005/04/25 10:06:57 maechler Exp $
+#### $Id: misc-goodies.R,v 1.32 2006/03/09 07:27:10 maechler Exp $
 #### misc-goodies.R
 #### ~~~~~~~~~~~~~~  SfS - R - goodies that are NOT in
 ####		"/u/sfs/R/SfS/R/u.goodies.R"
@@ -38,7 +38,7 @@ empty.dimnames <- function(a)
     ## 'Remove' all dimension names from an array for compact printing.
     n <- length(da <- dim(a))
     if(n == 0) return(a)
-    dimnames(a) <- lapply(1:n, function(i) rep("", da[i]))
+    dimnames(a) <- lapply(1:n, function(i) rep.int("", da[i]))
     a
 }
 
@@ -260,9 +260,30 @@ paste.vec <- function(name, digits = options()$digits)
 }
 signi <- function(x, digits = 6) round(x, digits - trunc(log10(abs(x))))
 
-bl.string <- function(no) paste(rep(" ", no), collapse = "")
+bl.string <- function(no) paste(rep.int(" ", no), collapse = "")
 
 ### symnum :  standard R function !!
+
+wrapFormula <- function(f, data, wrapString = "s(*)")
+{
+    ## Purpose: Mainly: Construct a useful gam() formula from  "Y ~ ."
+    ## ----------------------------------------------------------------------
+    ## Arguments: f   : the initial formula; typically something like "Y ~ ."
+    ##            data: data.frame to which the formula applies
+    ## ----------------------------------------------------------------------
+    ## Author: Martin Maechler, Date: 22 May 2007, 18:03
+
+    form <- formula(terms(f, data = data))
+    if(length(form) != 3)
+        stop("invalid formula; need something like  'Y ~ .'")
+    wrapS <- strsplit(wrapString, "\\*")[[1]]
+    stopifnot(length(wrapS) == 2)
+    cc <- gsub("([^+ ]+)", paste(wrapS[1], "\\1", wrapS[2], sep=''), format(form[[3]]))
+    form[[3]] <- parse(text = cc, srcfile = NULL)[[1]]
+    form
+}
+
+
 
 
 ##-#### "Calculus" Mathematical stuff ########
@@ -545,7 +566,7 @@ xy.grid <- function(x,y)
   ## Purpose: Produce the grid used by  persp, contour, .. as  N x 2 matrix
   nx <- length(x)
   ny <- length(y)
-  cbind(rep(x,rep.int(ny,nx)),	rep(y,nx))
+  cbind(rep.int(x,rep.int(ny,nx)),	rep.int(y,nx))
 }
 
 rot2 <- function(xy, phi)
@@ -625,7 +646,7 @@ xy.unique.x <- function(x,y, w, fun.mean = mean)
     }
     n <- length(x)
     if(n != length(y)) stop("lengths of x and y must match")
-    if(missing(w))  w <- rep(1,n)
+    if(missing(w))  w <- rep.int(1,n)
     else if(n != length(w)) stop("lengths of x and w must match")
     ##--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--
     gr <- match(x,unique(x))
@@ -644,7 +665,7 @@ lseq <- function(from, to, length)
     ## Purpose: seq(.) : equidistant on log scale
     ## ----------------------------------------------------------------------
     ## Author: Martin Maechler, Date:  3 Feb 2005, 08:34
-    2^seq(log2(from), log2(to), length.out = length)
+    exp(seq(log(from), log(to), length.out = length))
 }
 
 inv.seq <- function(i) {
