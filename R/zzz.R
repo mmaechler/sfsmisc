@@ -33,7 +33,7 @@
 
 ## was	.First.lib <- function(lib, pkg) { .. }
 
-
+## no longer used, now we require R >= 2.5.0  but keep as placeholder:
 if(getRversion() < "2.5") {
 
     ## note that this remains hidden in "sfsmisc" namespace
