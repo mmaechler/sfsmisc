@@ -3,6 +3,12 @@
 ###--- remove things from here to ../Old_Defunct/ex-Deprecated.R
 ###      ====                  == ==============================
 
+pl.ds <- function(...) {
+  warning("pl.ds() has been renamed to  plotDS().\n",
+          "Please change your code to use the new name")
+  plotDS(...)
+}
+
 p.pllines <- function(x,y,group,lty=c(1,3,2,4),...)
 {
   ## Purpose:   lines according to group
