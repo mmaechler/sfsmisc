@@ -47,14 +47,25 @@ pl.ds(x, yd, ys, xlab = "", ylab = "", ylim = rrange(c(yd, ys)),
  ys <- lowess(x, yd,f = .2)$y
  pl.ds(x, yd, ys)
 
+%%% FIXME: now use the new  seqXtend() here !!!
+ xx <- seqXtend(yd, 200)
+ pl.ds(x, yd, predict(smooth.spline(x,yd), xx))
+
  ## More interesting : Version of example(Theoph)
  data(Theoph)
  Th4 <- subset(Theoph, Subject == 4)
  fm1 <- nls(conc ~ SSfol(Dose, Time, lKe, lKa, lCl), data = Th4)
+
+ ## Simple
  pl.ds(Th4$Time, Th4$conc, fitted(fm1),
        sub  = "Theophylline data - Subject 4 only",
        segP = list(lty=1,col=2), las = 1)
- xvals <- seq(0, par("usr")[2], len = 55)
- lines(xvals, predict(fm1, newdata = list(Time = xvals)), col = 4)
+
+ ## Nicer: Draw the smoother not only at x = x[i] (observations):
+ xsm <- unique(sort(c(Th4$Time, seq(0, 25, length = 201))))
+ ysm <- c(predict(fm1, newdata = list(Time = xsm)))
+ pl.ds(Th4$Time, Th4$conc, ys = list(x=xsm, y=ysm),
+       sub  = "Theophylline data - Subject 4 only",
+       segP = list(lwd=2), las = 1)
 }
 \keyword{hplot}
