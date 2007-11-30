@@ -1,6 +1,26 @@
 			Dear Emacs, please make this -*-Text-*- mode!
 
 
+		CHANGES in sfsmisc VERSION 1.0-0  [2007-11-30]
+
+NEW FEATURES
+
+   o	plotDS() is new name for pl.ds() now allows 'ys' to be a smooth
+   	"fit structure".  That is now easily constructed via
+
+   o	new seqXtend() function for constructing a sequence which includes
+   	a give set of numbers x.
+
+   o	y <- roundfixS(x) yields integers y[i] with the same sum as x[i].
+
+
+
+NEW FEATURES
+
+   o	new function eaxis() for "engineering" / "extended" axis
+   	drawing, notably for log-axis labeling
+
+
 		CHANGES in sfsmisc VERSION 0.96-01  [2007-11-21]
 
 NEW FEATURES
