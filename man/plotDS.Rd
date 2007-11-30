@@ -21,11 +21,11 @@ plotDS(x, yd, ys, xlab = "", ylab = "", ylim = rrange(c(yd, ys)),
     \code{ys} accordingly.
 
     Alternatively, \code{ys} can be an x-y list (as resulting from
-    \code{\link{xycoords}}) containing fitted values on a finer grid
-    than the observations \code{x}.  In that case, the observational
-    values \code{x[]} \bold{must} be part of the larger set;
-    \code{\link{seqXtend}()} may be applied to construct such a set of
-    abscissa values.
+    \code{\link[grDevices]{xy.coords}}) containing fitted values on a
+    finer grid than the observations \code{x}.  In that case, the
+    observational values \code{x[]} \bold{must} be part of the larger
+    set; \code{\link{seqXtend}()} may be applied to construct such a set
+    of abscissa values.
   }
   \item{xlab, ylab}{x- and y- axis labels, as in \code{\link{plot.default}}.}
   \item{ylim}{limits of y-axis to be used; defaults to a \emph{robust}
@@ -44,23 +44,21 @@ plotDS(x, yd, ys, xlab = "", ylab = "", ylim = rrange(c(yd, ys)),
     line type, width and color for \dQuote{smooth curve lines}.}
   \item{\dots}{further arguments passed to \code{\link{plot}}.}
 }
-\author{Martin Maechler, 1990-1994}
+\author{Martin Maechler, since 1990}
 \note{Non-existing components in the lists \code{segP} or \code{linP}
   will result in the \code{\link{par}} defaults to be used.
 
   \code{plotDS()} used to be called \code{pl.ds} up to November 2007.
 }
-\seealso{\code{\link{seqXtend}()} to construct \code{ys}
-  \dQuote{objects} which are smoother than
+\seealso{\code{\link{seqXtend}()} to construct more smooth \code{ys}
+  \dQuote{objects}.
+}
 \examples{
  data(cars)
  x <-  cars$speed
  yd <- cars$dist
- ys <- lowess(x, yd,f = .2)$y
+ ys <- lowess(x, yd, f = .3)$y
  plotDS(x, yd, ys)
-
- xx <- seqXtend(yd, 200)
- plotDS(x, yd, predict(smooth.spline(x,yd), xx))
 
  ## More interesting : Version of example(Theoph)
  data(Theoph)
