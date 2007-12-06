@@ -1,5 +1,8 @@
-## Copyright (2007) Jens Oehlschlägel
-## GPL licence, no warranty, use at your own risk
+#### Copyright (2007) Jens Oehlschlägel
+#### GPL licence, no warranty, use at your own risk
+
+### NOTA BENE: nearPD() in package Matrix is a new version, slightly more elegant
+###            ^^^^^^^^ also using Matrix-builtin functionality
 
 nearcor <- function(  # Computes the nearest correlation matrix to an approximate correlation matrix, i.e. not positive semidefinite.
   R                   # n-by-n approx correlation matrix
