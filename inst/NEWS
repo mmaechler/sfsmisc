@@ -1,24 +1,18 @@
 			Dear Emacs, please make this -*-Text-*- mode!
 
 
-		CHANGES in sfsmisc VERSION 1.0-0  [2007-11-30]
+		CHANGES in sfsmisc VERSION 1.0-0  [2007-12-10]
 
 NEW FEATURES
 
    o	plotDS() is new name for pl.ds() now allows 'ys' to be a smooth
-   	"fit structure".  That is now easily constructed via
+	"fit structure".  That is now easily constructed via
 
    o	new seqXtend() function for constructing a sequence which includes
-   	a give set of numbers x.
+	a give set of numbers x.
 
    o	y <- roundfixS(x) yields integers y[i] with the same sum as x[i].
 
-
-
-NEW FEATURES
-
-   o	new function eaxis() for "engineering" / "extended" axis
-   	drawing, notably for log-axis labeling
 
 
 		CHANGES in sfsmisc VERSION 0.96-01  [2007-11-21]
@@ -26,21 +20,27 @@ NEW FEATURES
 NEW FEATURES
 
    o	new function eaxis() for "engineering" / "extended" axis
-   	drawing, notably for log-axis labeling
+	drawing, notably for log-axis labeling
 
 
 		CHANGES in sfsmisc VERSION 0.95-13  [2007-09-13]
 
+NEW FEATURES
+
+   o	new function nearcor() {find nearest correlation matrix};
+	almost as donated by Jens Oehlschlaegel.
+
 BUG FIXES
 
-   o	pdf.latex(), pdf.do() ...
+   o	pdf.latex(), pdf.do() : defaults; viewer specifications...
 
 
 		CHANGES in sfsmisc VERSION 0.95-12  [2007-06-30]
 NEW FEATURES
-   o
-BUG FIXES
-   o
+
+   o	New internal Sys.procinfo() function for cleaner implementation of
+   	Sys.cpuinfo() and Sys.meminfo().
+
 
 		CHANGES in sfsmisc VERSION 0.95-10  [2007-06-25]
 
@@ -182,5 +182,4 @@ DEPRECATED & DEFUNCT
     o	f.robftest() now returns an object of class "htest"
 
 
-
-   ----- for more, see the ../../ChangeLog file (source package only) -----
+   ----- for more, see the ./ChangeLog file -----
