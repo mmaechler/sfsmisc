@@ -169,8 +169,7 @@ Sys.sizes <- function(process = Sys.getpid(),
   r
 }
 
-
-if(identical(1:1, grep("linux", R.version[["os"]]))) { ##----- Linux - only ----
+if(identical(1L, grep("linux", R.version[["os"]]))) { ##----- Linux - only ----
 
 Sys.procinfo <- function(procfile)
 {
