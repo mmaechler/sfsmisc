@@ -171,19 +171,25 @@ Sys.sizes <- function(process = Sys.getpid(),
 
 if(identical(1L, grep("linux", R.version[["os"]]))) { ##----- Linux - only ----
 
-Sys.procinfo <- function(procfile)
-{
-  l2 <- strsplit(readLines(procfile),"[ \t]*:[ \t]*")
-  r <- sapply(l2[sapply(l2, length) == 2],
-              function(c2)structure(c2[2], names= c2[1]))
-  attr(r,"Name") <- procfile
-  class(r) <- "simple.list"
-  r
+ Sys.procinfo <- function(procfile)
+ {
+   l2 <- strsplit(readLines(procfile),"[ \t]*:[ \t]*")
+   r <- sapply(l2[sapply(l2, length) == 2],
+               function(c2)structure(c2[2], names= c2[1]))
+   attr(r,"Name") <- procfile
+   class(r) <- "simple.list"
+   r
+ }
+
+} else { ## non-Linux "unix" -- including MacOS X "Darwin"
+
+ Sys.procinfo <- function(procfile) {
+     stop("Sys.procinfo() is not yet implemented for non-Linux unix-alikes")
+ }
+
 }
 
 Sys.cpuinfo <- function() Sys.procinfo("/proc/cpuinfo")
 Sys.meminfo <- function() Sys.procinfo("/proc/meminfo")
 
 Sys.MIPS <- function() as.numeric(Sys.cpuinfo()["bogomips"])
-
-}## Linux - only
