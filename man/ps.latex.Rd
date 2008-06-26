@@ -5,7 +5,7 @@
 \alias{ps.latex}
 \title{PostScript/PDF Preview Device with Optional `LaTeX' Touch}
 \usage{
-pdf.do(file, paper = "default", onefile = FALSE,
+pdf.do(file, paper, onefile = FALSE,
        title = NULL, version = "1.4", \dots)
 
 pdf.latex(file, height = 5 + main.space * 1.25,  width = 9.5,
@@ -40,10 +40,10 @@ ps.latex(file, height = 5 + main.space * 1.25,  width = 9.5,
     (unusual for LaTeX figures!).}
   \item{lab.space}{logical; if true, leave space for x- and y- labels
     (by \emph{not} subtracting from \code{mar}).}
-  \item{paper}{character, see \code{\link{postscript}}.  Only if this is
-    \code{"special"} are your choices of \code{width} and \code{height}
-    completely honored (and this may lead to files that cannot print on
-    A4) with resizing.}
+  \item{paper}{character (or missing), see \code{\link{postscript}}.  Only
+    if this is \code{"special"} (or missing) are your choices of \code{width}
+    and \code{height} completely honored (and this may lead to files that
+    cannot print on A4) with resizing.}
   \item{lab}{integer of length 3, \code{lab[1:2]} are desired number of
     tick marks on x- and y- axis, see \code{\link{par}(lab=)}.}
   \item{mgp.lab}{three decreasing numbers determining space for axis
@@ -94,6 +94,10 @@ if(interactive()) {
  ps.do("ps_do_ex.ps")
    example(plot.function)
  ps.end()
+
+ pdf.do("pdf_do_ex.pdf", width=12, height=5)
+   plot(sunspots, main="Monthly Sunspot numbers (in Zurich, then Tokyo)")
+ pdf.end()
 }
 }
 \keyword{device}
