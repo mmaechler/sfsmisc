@@ -15,7 +15,8 @@ str_data <- function(pkgs, ...)
 	dd <- data(package = pkg)
 	items <- dd$results[,"Item"]
 	## not those that are part of "another" (multi-object) one:
-	items <- items[- grep(".*\\(.*\\)$", items)]
+        if(length(i <- grep(".*\\(.*\\)$", items)) > 0)
+            items <- items[- i]
 	##
 	## Gabor's wishes (2005-03-25):
         ##    1) allow filtering on class(),
