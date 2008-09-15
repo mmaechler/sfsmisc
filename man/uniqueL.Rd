@@ -6,13 +6,16 @@
   reverse (or \emph{invert}) to the original data.
 }
 \usage{
-uniqueL(x, isuniq = !duplicated(x))
+uniqueL(x, isuniq = !duplicated(x), need.sort = is.unsorted(x))
 }
 \arguments{
   \item{x}{numeric vector, of length \code{n}, say.}
   \item{isuniq}{logical vector of the same length as \code{x}.  For the
     reversion to work this should select at least all unique values of
     \code{x}.}
+  \item{need.sort}{logical indicating if \code{x} is not yet sorted.
+    Note that this argument exists only for speedup possibility when it
+    is known, and that it \emph{must be set correctly}.}
 }
 \value{
   list of two components,
@@ -26,7 +29,7 @@ uniqueL(x, isuniq = !duplicated(x))
  x0 <- c(1:3,2:7,8:4)
  str(r0 <- uniqueL(x0))
  with(r0, xU[ix]) ## == x0 !
-\testonly{
+\dontshow{
  for(n in 1:100) {
    x0 <- round((1+rpois(1,lam=1))*rnorm(40))
    r0 <- uniqueL(x0)
