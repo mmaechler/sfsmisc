@@ -10,10 +10,10 @@ integrate.xy <- function(x,fx, a,b, use.spline = TRUE, xtol = 2e-8)
   if(is.list(x)) {
     fx <- x$y; x <- x$x
     if(length(x) == 0)
-        stop("list `x' has no valid $x component")
+        stop("list 'x' has no valid $x component")
   }
   if((n <- length(x)) != length(fx))
-      stop("`fx' must have same length as `x'")
+      stop("'fx' must have same length as 'x'")
 
   if(is.unsorted(x)) { i <- sort.list(x); x <- x[i]; fx <- fx[i] }
   if(any(i <- duplicated(x))) {
@@ -23,17 +23,17 @@ integrate.xy <- function(x,fx, a,b, use.spline = TRUE, xtol = 2e-8)
       fx <- fx[!i]
   }
   if(any(diff(x) == 0))
-     stop("bug in `duplicated()' killed me: have still multiple x[]!")
+     stop("bug in 'duplicated()' killed me: have still multiple x[]!")
 
   if(missing(a)) a <- x[1]
-    else if(any(a < x[1])) stop("`a' must NOT be smaller than min(x)")
+    else if(any(a < x[1])) stop("'a' must NOT be smaller than min(x)")
   if(missing(b)) b <- x[n]
-    else if(any(b > x[n])) stop("`b' must NOT be larger  than max(x)")
+    else if(any(b > x[n])) stop("'b' must NOT be larger  than max(x)")
   if(length(a) != 1 && length(b) != 1 && length(a) != length(b))
-    stop("`a' and 'b' must have length 1 or same length !")
+    stop("'a' and 'b' must have length 1 or same length !")
     else {
       k <- max(length(a),length(b))
-      if(any(b < a))    stop("`b' must be elementwise >= `a'")
+      if(any(b < a))    stop("'b' must be elementwise >= 'a'")
     }
 
   if(use.spline) {
