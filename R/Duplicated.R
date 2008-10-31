@@ -4,8 +4,8 @@
 ## Date: Tue, 25 Sep 2007 14:29:46 +0200
 
 ### Changes and more arguments: entirely by MM
-Duplicated <- function(v, na.action = na.omit,
-                       incomparables = FALSE, fromLast = FALSE)
+Duplicated <- function(v, incomparables = FALSE, fromLast = FALSE,
+                       nomatch = NA_integer_)
 {
   ## Purpose: A counting-generalization of duplicated()
   ## ----------------------------------------------------------------------
@@ -13,9 +13,10 @@ Duplicated <- function(v, na.action = na.omit,
   ## ----------------------------------------------------------------------
   ## Author: Martin Maechler & Christoph Buser, Date: Sep 2007
 
-    uv <- unique(nv <- na.omit(v))
-    ## easier (but less general?): uv <- unique(nv <- v[!is.na(v)])
-    fv <- factor(nv, levels = uv)
-    match(v, nv[duplicated(as.integer(fv),
-			   incomparables = incomparables, fromLast = fromLast)])
+  uv <- unique(nv <- na.omit(v))
+  ## easier (but less general?): uv <- unique(nv <- v[!is.na(v)])
+  fv <- factor(nv, levels = uv)
+  dup <- duplicated(as.integer(fv),
+		    incomparables = incomparables, fromLast = fromLast)
+  match(v, nv[dup], incomparables = incomparables, nomatch = nomatch)
 }
