@@ -1,0 +1,12 @@
+Older
+Old_Defunct
+.*,v
+.*-ss
+.*mail
+.*-log
+.*-used-grep
+man/.*\.d$
+SfS-changes
+TODO-MM
+Unused.R
+inst/doc/CHANGES-dummy
