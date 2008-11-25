@@ -38,7 +38,7 @@ axTexpr <- function(side, at = axTicks(side, axp=axp, usr=usr, log=log),
 
 eaxis <- function(side, at = axTicks(side, log=log), labels = NULL, log = NULL,
                   f.smalltcl = 3/5, at.small = NULL, small.mult = NULL,
-                  outer.at = TRUE, drop.1 = TRUE)
+                  outer.at = TRUE, drop.1 = TRUE, las = 1, ...)
 {
     ## Purpose: "E"xtended, "E"ngineer-like (log-)axis
     ## ----------------------------------------------------------------------
@@ -52,9 +52,9 @@ eaxis <- function(side, at = axTicks(side, log=log), labels = NULL, log = NULL,
     use.expr <- log || format.info(as.numeric(at), digits=7)[3] > 0
     if(is.null(labels))
 	labels <- if(use.expr) pretty10exp(at, drop.1=drop.1) else TRUE
-    else if(is.na(labels)) # no 'plotmath'
+    else if(length(labels) == 1 && is.na(labels)) # no 'plotmath'
 	labels <- TRUE
-    axis(side, at = at, labels = labels)
+    axis(side, at = at, labels = labels, las=las, ...)
     if(is.null(at.small)) { ## create smart default, using small.mult
         at.small <-
             if(log) {
