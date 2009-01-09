@@ -46,7 +46,6 @@ p.ts(x, nrplots = max(1, min(8, n \%/\% 400)), overlap = nk \%/\% 16,
 }
 \author{Martin Maechler, \email{maechler@stat.math.ethz.ch}; July 1994
   (for S).}
-}
 \seealso{\code{p.ts()} calls \code{\link{mult.fig}()} for setup.
   Further, \code{\link{plot.ts}} and \code{\link{plot}}.
 }
