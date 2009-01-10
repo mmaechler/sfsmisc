@@ -62,7 +62,8 @@ ps.latex(file, height = 5 + main.space * 1.25,  width = 9.5,
   the file name for subsequent calls to \code{\link{ps.end}}.
 }
 \details{
-  \code{ps.latex} and \code{pdf.latex} have an additional \LaTeX flavor,
+  \code{ps.latex} and \code{pdf.latex} have an additional
+  \eqn{\LaTeX}{LaTeX} flavor,
   and just differ by some extra \code{\link{par}} settings from the
   \code{*.do} siblings: E.g., after \code{\link{ps.do}(..)}
   is called, the graphical parameters \code{c("mar", "mgp", "lab")} are
