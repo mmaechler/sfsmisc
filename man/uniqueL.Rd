@@ -24,7 +24,10 @@ uniqueL(x, isuniq = !duplicated(x), need.sort = is.unsorted(x))
   such that both \code{x[isuniq] === xU} and \code{xU[ix] === x}.
 }
 \author{Martin Maechler}
-\seealso{\code{\link{unique}}, \code{\link{duplicated}}.}
+\seealso{\code{\link{Duplicated}} from the \pkg{sfsmisc} package in
+  addition to the standard \code{\link{unique}} and
+  \code{\link{duplicated}}.
+}
 \examples{
  x0 <- c(1:3,2:7,8:4)
  str(r0 <- uniqueL(x0))
