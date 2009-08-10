@@ -177,6 +177,7 @@ if(identical(1L, grep("linux", R.version[["os"]]))) { ##----- Linux - only ----
    r <- sapply(l2[sapply(l2, length) == 2],
                function(c2)structure(c2[2], names= c2[1]))
    attr(r,"Name") <- procfile
+   names(r) <- make.names(names(r), unique = TRUE) # <- so the result can be name-indexed!
    class(r) <- "simple.list"
    r
  }
