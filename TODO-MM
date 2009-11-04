@@ -16,4 +16,9 @@ o) add Duplicated() {see ./Duplicated-fun.R } !!
 6) 2008-10-22: Copied  boxplot.matrix() to R-devel (2.9.0 to be)
    Remove this from 'sfsmisc' eventually.
 
-7) eaxis() :  allow  log2-scale and "2^..." labelling --- or log_k and 'k^..'
+7) eaxis() [ ./R/prettylab.R ] :
+   -  allow  log2-scale and "2^..." labelling --- or log_k and 'k^..'
+   -  this is a range where the *defaults* of eaxis are completely bad
+      --> but really it is because  axTicks(*, log=TRUE) can be bad:
+    curve(qgamma(1e-100, x, lower.tail=FALSE), 1e-110, 1e-70, log="xy", col=2, axes=FALSE)
+    eaxis(1);eaxis(2)
