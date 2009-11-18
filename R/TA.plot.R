@@ -1,4 +1,4 @@
-#### $Id: TA.plot.R,v 1.8 2004/01/31 19:00:59 maechler Exp $
+#### $Id: TA.plot.R,v 1.9 2004/02/18 22:08:46 maechler Exp $
 n.plot <-
     function(x, y=NULL, nam = NULL, abbr = n >= 20 || max(nchar(nam))>=8,
              xlab = NULL, ylab = NULL, log = "",
@@ -28,12 +28,12 @@ n.plot <-
 
 TA.plot <-
   function(lm.res, fit = fitted(lm.res),
-           res = residuals(lm.res, "pearson"),
+           res = residuals(lm.res, type = "pearson"),
            labels = NULL, main = mk.main(), xlab = "Fitted values",
            draw.smooth = n >= 10, show.call = TRUE, show.2sigma = TRUE,
            lo.iter = NULL, lo.cex = NULL,
-           par0line  = list(lty = 2, col = 2),
-           parSmooth = list(lwd = 1.5, lty = 4, col = 3),
+           par0line  = list(lty = 2, col = "gray"),
+           parSmooth = list(lwd = 1.5, lty = 4, col = 2),
            parSigma  = list(lwd = 1.2, lty = 3, col = 4),
            ...)
 {
@@ -51,24 +51,26 @@ TA.plot <-
   ## -------------------------------------------------------------------------
   ## Author: Martin Maechler, Date: Dec 92 / Nov.93;  for R: 1999/2000
   if(missing(main)) {
-    call0 <- call <- lm.res $ call
+    call <- lm.res $ call
     if(is.call(call[["formula"]]) && any(c("lm", "aov") == call[[1]]))
       call <- call[["formula"]]
-    else {  #-- only formula part; no extra  'ARG ='
-      if (length(call) >= 3)
-	call <- call[c(1, match("formula", names(call)))]
-      names(call)[2] <- ""
+    else {  #-- only formula part; no extra  'data ='
+        if (length(call) >= 3 && !is.na(m.f <- match("formula", names(call)))) {
+            call <- call[c(1, m.f)]
+            names(call)[2] <- ""
+        }
     }
     mk.main <- function() {
-      cal <- if(is.R()) call else get("call", frame = sys.parent())
+      cal <- call ## if(is.R()) call else get("call", frame = sys.parent())
       if(is.null(cal))
         "Tukey-Anscombe plot of ???"
       else {
-	  nc <- nchar(ccal <- deparse(cal)[1])
+	  nc <- nchar(ccal <- deparse(cal, width.cutoff = 200)[1])
 	  prt.DEBUG("|cal|=", length(cal), "; nchar(ccal) =", nc,": '", ccal,
 		    "'\n", sep="")
 	  if(nc > 36)
-	    warning("TA.plot: 'main' title is long; consider using  cex= .9")
+	      warning("TA.plot: 'main' title is long; consider using cex.main = 0.8",
+		      call. = FALSE)
 	  ##-- now should even go further:
 	  ##--  E.g. if  nc > 50,  use  cex = .8 in the call to n.plot below
 	  paste(if(nc < 13) "Tukey-Anscombe plot of :  "
