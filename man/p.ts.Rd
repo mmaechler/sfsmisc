@@ -6,7 +6,7 @@
   time-series plots over several subplots.
   p.ts(.) does this both automatically, and under manual control.
 
-  Actually, this is a generalization of \code{\link[base]{plot.ts}}
+  Actually, this is a generalization of \code{\link{plot.ts}}
   (with different defaults).
 }
 \usage{
