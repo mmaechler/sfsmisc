@@ -5,7 +5,7 @@
 \alias{ps.latex}
 \title{PostScript/PDF Preview Device with Optional `LaTeX' Touch}
 \usage{
-pdf.do(file, paper, onefile = FALSE,
+pdf.do(file, paper = "default", width = -1, height = -1, onefile = FALSE,
        title = NULL, version = "1.4", \dots)
 
 pdf.latex(file, height = 5 + main.space * 1.25,  width = 9.5,
@@ -59,7 +59,8 @@ ps.latex(file, height = 5 + main.space * 1.25,  width = 9.5,
 \description{
   All functions start a pseudo PostScript or Acrobat preview device, using
   \code{\link{postscript}} or \code{\link{pdf}}, and further registering
-  the file name for subsequent calls to \code{\link{ps.end}}.
+  the file name for subsequent calls to \code{\link{pdf.end}()} or
+  \code{ps.end()}.
 }
 \details{
   \code{ps.latex} and \code{pdf.latex} have an additional
@@ -70,6 +71,13 @@ ps.latex(file, height = 5 + main.space * 1.25,  width = 9.5,
   is called, the graphical parameters \code{c("mar", "mgp", "lab")} are
   reset (to values that typically are better than the defaults for LaTeX
   figures).
+
+  Whereas the defaults for \code{paper}, \code{width}, and \code{height}
+  \emph{differ} between \code{\link{pdf}} and  \code{\link{postscript}},
+  they are set such as to provide very similar functionality, for
+  the functions \code{ps.do()} and \code{pdf.do()}; e.g., by default,
+  both use a full plot on portrait-oriented page of the default paper,
+  as per \code{\link{getOption}("papersize")}.
 }
 \value{
   A list with components
