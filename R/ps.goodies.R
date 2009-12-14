@@ -1,9 +1,11 @@
 #### PostScript Goodies für R --- `a la /u/sfs/S/ps.goodies.S
 ####
-#### $Id: ps.goodies.R,v 1.13 2004/02/07 16:41:48 maechler Exp $
+#### $Id: ps.goodies.R,v 1.14 2005/05/09 08:45:02 maechler Exp $
 ####
 
-ps.latex <- function(file, height= 5+ main.space*1.25, width= 9.5,
+## hidden in the name space -- FIXME? maybe more useful ?? ---
+dev.latex <-
+    function(file, DEV, height= 5+ main.space*1.25, width= 9.5,
 		     main.space = FALSE, lab.space = main.space,
 		     paper = "special", title = NULL,
 		     lab = c(10, 10, 7), mgp.lab = c(1.6, 0.7, 0),
@@ -31,8 +33,8 @@ ps.latex <- function(file, height= 5+ main.space*1.25, width= 9.5,
   if(!missing(mar) && !(length(mar)==4 && is.numeric(mar) && all(mar >=0)))
     stop("'mar' must be non-negative numeric vector of length 4")
 
-  ps.do(file=file, height=height, width=width, paper=paper, title = title, ...)
-  ##===
+  DEV(file=file, height=height, width=width, paper=paper, title = title, ...)
+  ##=
 
   ## Now: just do the proper par(...) calls :
   mar.main.Extra  <- c(0,0, 3.2,0)
@@ -52,6 +54,29 @@ ps.latex <- function(file, height= 5+ main.space*1.25, width= 9.5,
   invisible(list(old.par=o.p, new.par= par(c("mar","mgp","lab"))))
 }
 
+ps.latex <- function(file, height= 5+ main.space*1.25, width= 9.5,
+		     main.space = FALSE, lab.space = main.space,
+		     paper = "special", title = NULL,
+		     lab = c(10, 10, 7), mgp.lab = c(1.6, 0.7, 0),
+		     mar = c(4, 4, 0.9, 1.1), ...)
+{
+  dev.latex(DEV = ps.do, file=file, height=height, width=width,
+            main.space=main.space, lab.space=lab.space, paper=paper,
+            title=title, lab=lab, mgp.lab=mgp.lab, mar=mar, ...)
+}
+
+pdf.latex <- function(file, height= 5+ main.space*1.25, width= 9.5,
+		     main.space = FALSE, lab.space = main.space,
+		     paper = "special", title = NULL,
+		     lab = c(10, 10, 7), mgp.lab = c(1.6, 0.7, 0),
+		     mar = c(4, 4, 0.9, 1.1), ...)
+{
+  dev.latex(DEV = pdf.do, file=file, height=height, width=width,
+            main.space=main.space, lab.space=lab.space, paper=paper,
+            title=title, lab=lab, mgp.lab=mgp.lab, mar=mar, ...)
+}
+
+
 ps.do <- function(file, width = -1, height = -1,
 		  onefile = FALSE, horizontal = FALSE, title = NULL, ...)
 {
@@ -69,12 +94,12 @@ ps.do <- function(file, width = -1, height = -1,
   ## --->>>>>> CONSIDER	  'ps.latex'   instead	for pictures !
 
   u.assign0("..ps.file", file)
-  if(length(l... <- list(...))) {
-    ## This does NOT work : pso are the *NEW*, not the *former* ones!
-    oldop <- ps.options()[names(l...)]
-    ps.options(...)
-    on.exit( do.call("ps.options", oldop) ) #- reset ps.options !
-  }
+##   if(length(l... <- list(...))) {
+##     ## This does NOT work : pso are the *NEW*, not the *former* ones!
+##     oldop <- ps.options()[names(l...)]
+##     ps.options(...)
+##     on.exit( do.call("ps.options", oldop) ) #- reset ps.options !
+##   }
 
   if(is.null(title))
       title <- paste("R", paste(R.version[c("major", "minor")], collapse = "."),
@@ -93,7 +118,7 @@ ps.end <- function(call.gv = NULL, command = getOption("eps_view"),
     ##	  Default:	  Find out if ghostview already runs on this file,
     ##			  If yes, do not call it again.
     ## MUST be called after ps.do(..) or ps.latex() !
-    ## Example:	 ps.end(com = "ghostview -a4")
+    ## Example:	 ps.end(com = "ghostview --media a4")
     ## ----------------------------------------------------------------
     ## Only if	postscript is running !! --
     if( names(dev.cur()) == "postscript")
@@ -103,10 +128,7 @@ ps.end <- function(call.gv = NULL, command = getOption("eps_view"),
 	return(FALSE)
     }
     if (is.null(call.gv)) {
-	ps.cmd <- if(u.sys("uname") == "Linux" ||
-		     substring(u.sys("uname -r"),1,1) == "4") #-- SunOS4
-	    "ps wx" else "/usr/bin/ps -u $USER -o args"
-	f <- u.sys(ps.cmd, " | grep '", command, "' | grep -v grep")
+	f <- u.sys(Sys.ps.cmd(), " | grep '", command, "' | grep -v grep")
 	if(debug) { cat("ps.end(): f:\n");print(f) }
 	call.gv <- length(f) == 0
 	if(!call.gv) {
@@ -123,11 +145,97 @@ ps.end <- function(call.gv = NULL, command = getOption("eps_view"),
 		    break #-- don't  call ghostview since it runs this file..
 	    }
 	}
-    }
+    } else if(identical(call.gv, FALSE))
+	fil <- "<unknown>"
     if (call.gv) {
 	fil <- ..ps.file
 	u.sys(command, " ", fil, "&", intern=FALSE)
     } else
-    cat("\n >> switch to   GV (Ghostview) window -- updated automagically!\n\n")
+    cat("\n >> switch to", sub(" .*", '', command),
+        "(postscript viewer) window -- updated automagically!\n\n")
+    invisible(fil)
+}
+
+
+###---  Using  pdf()  instead of postscript() --- otherwise "same" :
+
+pdf.do <- function(file, paper = "default",
+                   width = -1, height = -1, onefile = FALSE,
+                   title = NULL, version = "1.4", ...)
+{
+  ## Purpose: "PDF + view" device driver. --- to be "closed" by pdf.end(..) --
+  ## -------------------------------------------------------------------------
+  ## Arguments: file, width, height : file name and dims in inch; 1 in:=2.54 cm
+  ##		onefile = FALSE <==> "Encapsulated"
+  ##	...  :	passed to pdf.options
+  ## -------------------------------------------------------------------------
+  ## Author: Martin Maechler, April 26, 2007 {built on much older ps.do()}
+
+  u.assign0("..pdf.file", file)
+##   if(length(l... <- list(...))) {
+##       ## ps.options also used for pdf -- in some way
+##     oldop <- ps.options()[names(l...)]
+##     ps.options(...)
+##     on.exit( do.call("ps.options", oldop) ) #- reset ps.options !
+##   }
+
+  if(is.null(title))
+      title <- paste("R", paste(R.version[c("major", "minor")], collapse = "."),
+		     "plot:", file)
+  ## default for 'paper' is now 'missing'
+  pdf(file = file, version = version, paper = paper,
+      width = width, height = height,
+      onefile = onefile, title = title, ...)
+}
+
+pdf.end <- function(call.viewer = NULL, command = getOption("pdfviewer"),
+		   debug = getOption("verbose"))
+{
+    ## Purpose:	 A "ghostview" device driver (almost).
+    ## Author: Martin Maechler, Date:  April 26, 2007
+    ## ----------------------------------------------------------------
+    ## Arguments:   call.viewer: If TRUE,  call ghostview.
+    ##	  Default:	  Find out if ghostview already runs on this file,
+    ##			  If yes, do not call it again.
+    ## MUST be called after pdf.do(..) or pdf.latex() !
+    ## Example:	 pdf.end(com = "acroread")
+    ## ----------------------------------------------------------------
+    ## Only if	postscript is running !! --
+    if( names(dev.cur()) == "pdf")
+	dev.off()
+    if(.Platform $ OS.type != "unix") {
+	warning("using ps (process status) is currently not implemented for non-Unix")
+	return(FALSE)
+    }
+    if (is.null(call.viewer)) {
+        cmd <- basename(command)
+	f <- u.sys(Sys.ps.cmd(), " | grep '", cmd, "' | grep -v grep")
+	if(debug) { cat("pdf.end(): f:\n");print(f) }
+	call.viewer <- length(f) == 0
+	if(!call.viewer) {
+	    ##--- STILL does NOT work
+	    ##--- if you work with two different pictures simultaneously
+	    for(i in 1:length(f)) { #-- only NOT call if THIS pdf.file .. --
+		## find command in 'ps' output line (sub/gsub have no 'fixed=TRUE')
+		ic <- regexpr(cmd, f[i], fixed=TRUE)
+		## only keep the file name
+		fil <- substr(f[i], ic + attr(ic,"match.length") + 1, 1e4)
+		cat("pdf.end(): fil:",fil,"\n")
+		call.viewer <- length(fil) < 1 || all(..pdf.file != fil)
+		if(!call.viewer)
+		    break #-- don't  call ghostview since it runs this file..
+	    }
+	}
+    } else if(identical(call.viewer, FALSE))
+	fil <- "<unknown>"
+    if (call.viewer) {
+	fil <- ..pdf.file
+	u.sys(command, " ", fil, "&", intern=FALSE)
+    } else {
+	msg <- if(length(grep("acroread", command)))
+	    " acroread -- and refresh via C-w M-f 1 !"
+	else "	PDF viewer window and maybe refresh!"
+	cat("\n >> switch to", msg,"\n\n")
+    }
     invisible(fil)
 }
