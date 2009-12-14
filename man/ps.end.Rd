@@ -29,11 +29,12 @@ pdf.end(call.viewer= NULL, command = getOption("pdfviewer"),
   \code{\link{postscript}} or \code{\link{pdf}}.
 }
 \details{
-  Depends heavily on Unix tools, such as \code{ps}.
+  Depends on Unix tools, such as \command{ps}.
 }
 \author{Martin Maechler}
 \seealso{\code{\link{postscript}}, \code{\link{postscript}}
-  \code{\link{ps.do}},..
+  \code{\link{pdf.do}}, \code{\link{ps.do}}, %--> ./ps.latex.Rd
+  \dots
 }
 \examples{
 if(interactive() \dontshow{ || Sys.getenv("USER") == "maechler" }
