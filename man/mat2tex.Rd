@@ -40,8 +40,8 @@ mat2tex(x, file= "mat.tex", nam.center = "l", col.center = "c",
 }
 \examples{
 mex <- matrix(c(pi,pi/2,pi/4,exp(1),exp(2),exp(3)),nrow=2, byrow=TRUE,
-               dimnames = list(c("$\\pi$","$e$"),c("a","b","c")))
-mat2tex( mex, title="$\\pi, e$, etc." )
+               dimnames = list(c("$\\\\pi$","$e$"),c("a","b","c")))
+mat2tex( mex, title="$\\\\pi, e$, etc." )% double-esc -> 4 x backslash
 
 ## The last command produces the file "mat.tex" containing
 
