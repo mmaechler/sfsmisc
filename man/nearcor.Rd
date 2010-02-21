@@ -1,5 +1,6 @@
 % Copyright (2007) Jens Oehlschlägel
 % GPL licence, no warranty, use at your own risk
+% Copyright (2007-2010) Martin Maechler
 \name{nearcor}
 \alias{nearcor}
 \encoding{latin1}
@@ -107,7 +108,7 @@ nearcor(R, eig.tol = 1e-06, conv.tol = 1e-07, posd.tol = 1e-08,
     odat <- data.frame(x1, x2, x3, x4, y1, y2, y3, y4)
 
     xcor <- cor(dat)
-    pcor <- cor(odat)
+    pcor <- cor(data.matrix(odat)) # cor() no longer works for factors
     hcor <- hetcor(odat, ML=TRUE, std.err=FALSE)$correlations
     ncor <- nearcor(hcor)$cor
 
