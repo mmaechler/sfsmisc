@@ -63,6 +63,8 @@ plotDS(x, yd, ys, xlab = "", ylab = "", ylim = rrange(c(yd, ys)),
  ## More interesting : Version of example(Theoph)
  data(Theoph)
  Th4 <- subset(Theoph, Subject == 4)
+ ## just for "checking" purposes -- permute the observations:
+ Th4 <- Th4[sample(nrow(Th4)), ]
  fm1 <- nls(conc ~ SSfol(Dose, Time, lKe, lKa, lCl), data = Th4)
 
  ## Simple
