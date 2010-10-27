@@ -5,6 +5,9 @@
 \description{
   Simple constructors of a constant character string from one character,
   notably a \dQuote{blank} string of given string length.
+
+  M.M. is now \sQuote{\emph{mentally deprecating}} \code{bl.string} in
+  favor of using \code{repChar()} in all cases.
 }
 \usage{
 repChar(char, no)
@@ -21,14 +24,13 @@ bl.string(no)
 \author{Martin Maechler, early 1990's (for \code{bl.string}).}
 \seealso{\code{\link{paste}}, \code{\link{character}}, \code{\link{nchar}}.}
 \examples{
-r <- sapply(0:8, function(n) ccat(bl.string(n),n))
+r <- sapply(0:8, function(n) ccat(repChar(" ",n), n))
 cbind(r)
 
 repChar("-", 4)
 repChar("_", 6)
 ## it may make sense to a string of more than one character:
 repChar("-=- ", 6)
-
 
 ## show the very simple function definitions:
 repChar
