@@ -1,10 +1,10 @@
-#### $Id: misc-goodies.R,v 1.33 2007/11/28 09:28:41 maechler Exp $
+#### $Id: misc-goodies.R,v 1.34 2008/10/23 09:41:30 maechler Exp $
 #### misc-goodies.R
 #### ~~~~~~~~~~~~~~  SfS - R - goodies that are NOT in
 ####		"/u/sfs/R/SfS/R/u.goodies.R"
 ####		"/u/sfs/R/SfS/R/p.goodies.R"
 
-###--- Original: From `S' in /u/sfs/S/misc-goodies.S
+###--- Original: From 'S' in /u/sfs/S/misc-goodies.S
 ###--- ========  But start doing *less* here !
 
 ###==================================================================
@@ -266,7 +266,8 @@ paste.vec <- function(name, digits = options()$digits)
 }
 signi <- function(x, digits = 6) round(x, digits - trunc(log10(abs(x))))
 
-bl.string <- function(no) paste(rep.int(" ", no), collapse = "")
+repChar <- function(char, no) paste(rep.int(char, no), collapse = "")
+bl.string <- function(no) repChar(" ", no)
 
 ### symnum :  standard R function !!
 
@@ -325,6 +326,8 @@ polyn.eval <- function(coef, x)
   }
 }
 
+## negative x .. may make sense in some cases,.... but not yet :
+##digitsBase <- function(x, base = 2, ndigits = 1 + floor(log(max(abs(x)),base)))
 digitsBase <- function(x, base = 2, ndigits = 1 + floor(log(max(x),base)))
 {
     ## Purpose: Give the vector A of the base-_base_ representation of _n_:
@@ -334,8 +337,10 @@ digitsBase <- function(x, base = 2, ndigits = 1 + floor(log(max(x),base)))
     ## ----------------------------------------------------------------
     ## ---->  help(digitsBase) !
     ## ------------------------------
-    if(any((x <- as.integer(x)) < 0))
-        stop("`x' must be non-negative integers")
+    if(any(x < 0))
+	stop("'x' must be non-negative integers")
+    if(any(x != trunc(x)))
+	stop("'x' must be integer-valued")
     r <- matrix(0, nrow = ndigits, ncol = length(x))
     if(ndigits >= 1) for (i in ndigits:1) {
         r[i,] <- x %% base
@@ -382,7 +387,7 @@ sHalton <- function(n.max, n.min = 1, base = 2, leap = 1)
 
 QUnif <- function(n, min = 0, max = 1, n.min = 1, p, leap = 1)
 {
-  ## Purpose: p-dimensional ``Quasi Random'' sample in  [min,max]^p
+  ## Purpose: p-dimensional ''Quasi Random'' sample in  [min,max]^p
   ## ----------------------------------------------------------------------
   ## Author: Martin Maechler, Date: 29 Jul 2004, 21:43
   ## Example: plot(QUnif(1000, 2), cex=.6, pch=20, xaxs='i', yaxs='i')
@@ -423,7 +428,7 @@ chars8bit <- function(i = 1:255)
     ## this is an improved version of  make.ASCII() from ~/S/Good-string.S !
     ## ----------------------------------------------------------------
     i <- as.integer(i)
-    if(any(i < 0 | i > 255)) stop("`i' must be in 0:255")
+    if(any(i < 0 | i > 255)) stop("'i' must be in 0:255")
     if(any(i == 0))
 	warning("\\000 (= 'nul') is no longer allowed in R strings")
     i8 <- apply(digitsBase(i, base = 8), 2, paste, collapse="")
@@ -657,7 +662,7 @@ function(x, yd, ys, xlab = "", ylab = "", ylim = rrange(c(yd, ys)),
         i <- sort.list(x)
         x <- x[i]
         yd <- yd[i]
-        if(!hasMoreSmooth) ys <- ys[i]
+        ys <- ys[i]
     }
     addDefaults <- function(listArg) {
         ## trick such that user can call 'segP = list(col = "pink")' :
@@ -841,11 +846,12 @@ lseq <- function(from, to, length)
     ## Purpose: seq(.) : equidistant on log scale
     ## ----------------------------------------------------------------------
     ## Author: Martin Maechler, Date:  3 Feb 2005, 08:34
+    stopifnot(from > 0)
     exp(seq(log(from), log(to), length.out = length))
 }
 
 inv.seq <- function(i) {
-  ## Purpose: 'Inverse seq': Return a short expression for the 'index'  `i'
+  ## Purpose: 'Inverse seq': Return a short expression for the 'index'  'i'
   ## --------------------------------------------------------------------
   ## Arguments: i: vector of (usually increasing) integers.
   ## --------------------------------------------------------------------
@@ -889,7 +895,7 @@ n.code <- function(n, ndig = 1, dec.codes = c("","d","c","k"))
   nd <- length(dec.codes)
   e10 <- pmin(floor(log10(n) + 1e-12), nd - 1)
   if (any(e10 < 0)) {
-      e10 <- pmax(0, e10) ; warning("some `n' too small")
+      e10 <- pmax(0, e10) ; warning("some 'n' too small")
   }
   ## IDEA: Things like
   ## ---- n.code(c(2000,1e4,5e4,6e5,7e6,8e7),
@@ -938,11 +944,11 @@ unif <- function(n, round.dig = 1 + trunc(log10(n)))
 prt.DEBUG <- function(..., LEVEL = 1)
   if (exists("DEBUG", w = 1) && DEBUG >= LEVEL )#
   ##                  ~~~
-  cat(paste("in `", sys.call(sys.nframe()-1)[1], "':", sep = ""), ..., "\n")
+  cat(paste("in '", sys.call(sys.nframe()-1)[1], "':", sep = ""), ..., "\n")
 
 ##- ## Not w=1:
 ##- prt.DEBUG <- function(...)
 ##-   if (exists("DEBUG") && DEBUG )
-##-         cat(paste("in `", sys.call(sys.nframe()-1)[1], "':", sep=""),
+##-         cat(paste("in '", sys.call(sys.nframe()-1)[1], "':", sep=""),
 ##- 	    ..., "\n")
 #-- do NOT use  sep="" in cat(..)  --> fouls up  vectors of numbers
