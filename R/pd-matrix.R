@@ -10,6 +10,7 @@
 ## FIXME: Not sure if 'symmetric' (as argument) makes sense
 posdefify <- function(m, method = c("someEVadd", "allEVadd"),
                       symmetric, # = TRUE,
+                      eigen.m = eigen(m, symmetric= symmetric),
                       eps.ev = 1e-7)
 {
     ## Purpose: From a matrix m, make a "close" positive definite one
@@ -19,8 +20,7 @@ posdefify <- function(m, method = c("someEVadd", "allEVadd"),
     ## Author: Martin Maechler, Date: 19 Dec 1997; 7 Jul 2004
     stopifnot(is.numeric(m) && is.matrix(m))
     method <- match.arg(method)
-    ev.m <- eigen(m, symmetric= symmetric)
-    n <- length(lam <- ev.m $values)
+    n <- length(lam <- eigen.m $values)
     Eps <- eps.ev * abs(lam[1])# lam[1] is largest EV; "small" is *relative*
     ## lam[n] is the SMALLEST eigenvalue
     if(lam[n] < Eps) { # fix up small or negative values
@@ -28,7 +28,7 @@ posdefify <- function(m, method = c("someEVadd", "allEVadd"),
                "someEVadd" = lam[lam < Eps] <- Eps,
                "allEVadd" =  lam <- lam + Eps-lam[n]
                )
-        Q <- ev.m $vectors
+        Q <- eigen.m $vectors
         o.diag <- diag(m)# original one - for rescaling
         m <- Q %*% (lam * t(Q)) ## == Q %*% diag(lam) %*% t(Q)
         ## rescale to the original diagonal values
