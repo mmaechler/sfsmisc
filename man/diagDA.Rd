@@ -83,6 +83,15 @@ plot(tr1, cex=2, col = cl1, bg = cl1, pch = 20+cl1,
 xy <- cbind(x= runif(500, min=1,max=30), y = runif(500, min=0, max=10))
 points(xy, cex= 0.5, col = predict(r1, new = xy))
 abline(v=c( mean(c(5,25)), mean(c(25,29))))
+
+## example where one variable xj has  Var(xj) = 0:
+x4 <- matrix(c(2:4,7, 6,8,5,6,  7,2,3,1, 7,7,7,7), ncol=4)
+y <- c(2,2, 1,1)
+m4.1 <- dDA(x4, y, pool = FALSE)
+m4.2 <- dDA(x4, y, pool = TRUE)
+xx <- matrix(c(3,7,5,7), ncol=4)
+predict(m4.1, xx)## gave integer(0) previously
+predict(m4.2, xx)
 }
 \keyword{models}
 \keyword{classif}
