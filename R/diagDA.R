@@ -174,6 +174,13 @@ predict.dDA <- function(object, newdata, pool = object$pool, ...)
     }
     else { ## QDA
         sum.na <- function(x) sum(x, na.rm=TRUE)
+        ## zero - variances are not acceptable later
+	if(any(i0 <- Vr == 0)) {
+	    if(all(i0))
+		stop("all variances are 0 -- cannot predict")
+	    Vr[i0] <- 1e-7 * min(Vr[!i0])
+	}
+
 if(FALSE) { ## not yet quite : fails ../tests/dDA.R  -- FIXME
         for(k in 1:K) {
             y <- newdata - rep(mu[,k], each=nt)
