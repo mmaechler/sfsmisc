@@ -1,7 +1,7 @@
 ### --> these are from ~/R/MM/GRAPHICS/axis-prettylab.R
 
-### Help files: ../man/pretty10exp.Rd  ../man/axTexpr.Rd
-###                    --------------         ----------
+### Help files: ../man/pretty10exp.Rd  ../man/axTexpr.Rd   ../man/eaxis.Rd
+###                    --------------         ----------          --------
 
 pretty10exp <- function(x, drop.1 = FALSE)
 {
@@ -38,7 +38,7 @@ axTexpr <- function(side, at = axTicks(side, axp=axp, usr=usr, log=log),
 
 eaxis <- function(side, at = axTicks(side, log=log), labels = NULL, log = NULL,
                   f.smalltcl = 3/5, at.small = NULL, small.mult = NULL,
-                  outer.at = TRUE, drop.1 = TRUE, las = 1, ...)
+                  outer.at = TRUE, drop.1 = TRUE, las = 1, max.at = Inf,...)
 {
     ## Purpose: "E"xtended, "E"ngineer-like (log-)axis
     ## ----------------------------------------------------------------------
@@ -47,6 +47,11 @@ eaxis <- function(side, at = axTicks(side, log=log), labels = NULL, log = NULL,
     if(is.null(log)) {
         XY <- function(ch) paste(if (is.x) "x" else "y", ch, sep = "")
         log <- par(XY("log"))
+    }
+    if(is.finite(max.at <- round(max.at))) { ## "thin the 'at' values
+	if(max.at < 1) stop("'max.at' must be >= 1")
+	at <- quantile(at, (0:max.at)/max.at, names = FALSE,
+		       type = 3) ## <-- ensure that order statistics are used
     }
     ## use expression (i.e. plotmath) if 'log' or exponential format:
     use.expr <- log || format.info(as.numeric(at), digits=7)[3] > 0
@@ -88,6 +93,7 @@ eaxis <- function(side, at = axTicks(side, log=log), labels = NULL, log = NULL,
             at.small <- at.small[p.u[1] <= at.small & at.small <= p.u[2]]
         }
     }
-    axis(side, at = at.small, label = FALSE,
-         tcl = f.smalltcl * par("tcl"))
+    if(is.numeric(at.small) && any(is.finite(at.small))) ## can use  NA or FALSE to suppress
+	axis(side, at = at.small, label = FALSE,
+	     tcl = f.smalltcl * par("tcl"))
 }
