@@ -1,24 +1,17 @@
-####---- Prime numbers, factorization, etc. --- "illustatration of programming"-- $Id$
+####---- Prime numbers, factorization, etc. --- "illustatration of programming"
+## -- $Id: prime-numbers-fn.R,v 1.7 2007/07/24 18:23:30 maechler Exp maechler $
 
-###---- Function definitions -------- for examples, see "./prime-numbers.S"
+###---- Function definitions -------- for examples, see "../demo/prime-numbers.R"
 
+### MM: Currently only export  primes()  and factorize() ---- TODO: CLEAN UP!
 
-if(!exists("is.unsorted", mode = 'function'))## for S-plus and very old R:
-   is.unsorted <- function(x) (length(x) > 1) && any(diff(x) < 0)
-
-if((!is.R() || !require("sfsmisc")) && !exists("prt.DEBUG", mode="function"))
-    prt.DEBUG <- function(..., LEVEL = 1)
-    if (exists("DEBUG", w = 1) && DEBUG >= LEVEL )#
-    ##                  ~~~
-    cat(paste("in `", sys.call(sys.nframe()-1)[1], "':", sep = ""), ..., "\n")
 
 ## NOTA BENE:
 ## ---------
 ## I found out [R 1.9.x, July 2004], that the primes() function
-## Bill Venables' "conf.design" package is almost an ordner of
-## magnitude faster than the primes.*() or prime.sieve() ones further
-## below !
-
+## Bill Venables' "conf.design" package (== primes.() below) is almost an ordner of
+## magnitude faster than the primes.*() or prime.sieve() ones further below :
+## but read on: I'm improving it a bit:
 primes. <- function(n) {
     ## By Bill Venables <= 2001
 
@@ -80,7 +73,7 @@ prime.sieve <- function(p2et = c(2,3,5), maxP = pM^2)
   }
 }
 
-factorize <- function(n)
+factorize <- function(n, verbose = FALSE)
 {
   ## Purpose:  Prime factorization of integer(s) 'n'
   ## -------------------------------------------------------------------------
@@ -97,10 +90,10 @@ factorize <- function(n)
       n <- round(n)
   }
   N <- length(n)
-  M <- trunc(sqrt(max(n))) #-- check up to this prime number
+  M <- as.integer(sqrt(max(n))) #-- check up to this prime number
   ##-- for M > 100 to 200: should DIVIDE first and then go on ..
   ##-- Here, I am just (too) lazy:
-  k <- length(pr <- prime.sieve(maxP = M))
+  k <- length(pr <- primes(M))# was:  prime.sieve(maxP = M)
   nDp <- outer(pr, n, FUN = function(p,n) n %% p == 0) ## which are divisible?
   ## dim(nDp) = (k,N) ;
   ## Divide those that are divisible :
@@ -112,10 +105,10 @@ factorize <- function(n)
     nn <- n[i]
     if(any(Dp <- nDp[,i])) { #- Dp: which primes are factors
       nP <- length(pfac <- pr[Dp]) # all the small prime factors
-      if(exists("DEBUG")&& DEBUG) cat(nn," ")
+      if(verbose) cat(nn," ")
     } else { # nn is a prime
       res[[i]] <- cbind(p = nn, m = 1)
-      prt.DEBUG("direct prime", nn)
+      if(verbose) cat("direct prime", nn, "\n")
       next # i
     }
     m.pr <- rep(1,nP)# multiplicities
@@ -228,7 +221,7 @@ factorizeBV <- function(n) {
 ##-
 ##- I use the following factors(), which uses the enclosed primes():
 ##
-## MMä: mv'ed all examples to file ./prime-numbers.S
+## MMä: mv'ed all examples to file ./prime-numbers.R
 
 factors <- function(x)
 {
