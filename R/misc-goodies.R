@@ -1,4 +1,4 @@
-#### $Id: misc-goodies.R,v 1.34 2008/10/23 09:41:30 maechler Exp $
+#### $Id: misc-goodies.R,v 1.35 2010/10/27 08:57:32 maechler Exp $
 #### misc-goodies.R
 #### ~~~~~~~~~~~~~~  SfS - R - goodies that are NOT in
 ####		"/u/sfs/R/SfS/R/u.goodies.R"
@@ -48,6 +48,7 @@ empty.dimnames <- function(a)
 ##-### >>>>> "p.goodies.S" or "ps.goodies.S" ########
 
 errbar <- function(x, y, yplus, yminus, cap = 0.015,
+		   ylim = range(y, yplus, yminus),
                    xlab = deparse(substitute(x)),
                    ylab = deparse(substitute(y)), ... )
 {
@@ -58,7 +59,7 @@ errbar <- function(x, y, yplus, yminus, cap = 0.015,
   ## Arguments: --- see  help(..) page --->  ?errbar
   ## ----------------------------------------=======
 
-  plot( x, y, ylim = range(y,yplus,yminus), xlab = xlab, ylab = ylab, ... )
+  plot( x, y, ylim=ylim, xlab=xlab, ylab=ylab, ... )
   xcoord <- par()$usr[1:2]
   segments( x, yminus, x, yplus )
   smidge <- cap * ( xcoord[2] - xcoord[1] ) / 2
@@ -868,7 +869,8 @@ inv.seq <- function(i) {
   s1 <- i[!c(FALSE,di1)] # beginnings
   s2 <- i[!c(di1,FALSE)] # endings
   mkseq <- function(i, j) if (i==j) i else call(':', i, j)
-  as.call(c(list(as.name('c')), mapply(s1, s2, FUN=mkseq)))
+  as.call(c(list(as.name('c')),
+	    mapply(s1, s2, FUN=mkseq, SIMPLIFY=FALSE, USE.NAMES=FALSE)))
 }
 
 iterate.lin.recursion <- function(x, coeff, delta = 0, nr.it)
