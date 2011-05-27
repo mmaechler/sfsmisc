@@ -42,6 +42,7 @@ printTable2 <- function(table2, digits = 3)
 
 margin2table <- function(x, totName = "sum", name.if.empty=FALSE) {
     x <- as.matrix(x)
+    if(name.if.empty) x <- empty.dimnames(x)
     r <- rowSums(x)
     r <- rbind(cbind(x, r), c(colSums(x), sum(r)))
     dimnames(r) <-
@@ -50,10 +51,7 @@ margin2table <- function(x, totName = "sum", name.if.empty=FALSE) {
 		       if(!is.null(dnx[[2]])) c(dnx[[2]], totName))
 	    names(dn) <- names(dnx)
 	    dn
-	} else if(name.if.empty) {
-	    list(c(rep("", nrow(x)), totName),
-		 c(rep("", ncol(x)), totName))
-	}
+	} ## else NULL
     class(r) <- c("margin2table", "table")
     r
 }
@@ -64,8 +62,8 @@ print.margin2table <- function(x, digits = 3, quote = FALSE, right = TRUE, ...)
       stop("'x' is not a matrix")
   N <- d[1]; M <- d[2]
   cx <- format(round(x, digits))[c(1:N,N+1,N+1), c(1:M,M+1,M+1)]
-  cx[N+1,] <- rownames(cx)[N+1] <- "--"
-  cx[,M+1] <- colnames(cx)[M+1] <- "|"
+  cx[N+1,] <- "--"; if(!is.null(rownames(cx))) rownames(cx)[N+1] <- "--"
+  cx[,M+1] <- "|" ; if(!is.null(colnames(cx))) colnames(cx)[M+1] <- "|"
   ## TODO: think of implementing  zero.print = "." -- as in print.table()
   ## TODO(2): improve that in print.table(),
   ## (e.g. replace "0.0" or "0e0" by ".  ";  "00.0" by " .  ")
