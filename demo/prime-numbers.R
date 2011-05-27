@@ -1,16 +1,16 @@
-#### -*- mode: R ; delete-old-versions: never -*--- $Id$
+## -- $Id: prime-numbers.R,v 1.13 2007/07/24 18:23:17 maechler Exp maechler $
+
 ####---- Prime numbers, factorization, etc. --- "illustration of programming"
+####---- A Collection of pure S / R -- Experiments from the 1990's
+####---- mostly carried by discussions on the good old S-news mailing list
 
-###---- EXAMPLES --- of
-##
-source("ftp://stat.ethz.ch/U/maechler/R/prime-numbers-fn.R")
-## == /u/maechler/R/MM/MISC/prime-numbers-fn.R
-
-if(!is.R()) { ## for S-plus
-    if(!existsFunction("system.time"))
-        system.time <- function(expr, gcFirst=FALSE) unix.time(expr)
-    if(!existsFunction("gc")) gc <- function() {}
-}
+### Mostly using the functions currently hidden in sfsmisc namespace
+### FIXME: ---> Move these function definitons to ../inst/ ---> see  ../TODO (10)
+factorizeBV    <- sfsmisc:::factorizeBV
+primes.        <- sfsmisc:::primes.
+test.factorize <- sfsmisc:::test.factorize
+prime.sieve    <- sfsmisc:::prime.sieve
+factors        <- sfsmisc:::factors
 
 ##
 factorizeBV(6)
@@ -32,7 +32,7 @@ for(i in 1:3) print(system.time(p7 <- primes.(N))[1:3]) ## Bill Venables' origin
 ##- [1] 4.14 1.60 11.51
 ## about 10-20% slower on 'lynne'
 
-for(i in 1:3) print(system.time(p7. <- primes(N))[1:3]) ## Martin Maechler's slight improvement
+for(i in 1:3) print(system.time(p7. <- primes(N))[1:3]) ## Martin Maechler's improvement
 ##- [1] 2.29 0.76 6.47
 ##- [1] 2.58 0.73 6.67
 ##- [1] 2.71 0.59 6.64
@@ -40,10 +40,8 @@ stopifnot(p7 == p7.)
 
 ## On 'lynne' (AMD Athlon 64bit 2800+, 1G RAM), speedup somewhat similar;
 ## Also here
-system.time(for(i in 1:50) p5 <- primes(1e5))[1:3]
-## 1.17 0.06 1.23
+system.time(for(i in 1:50) p5  <- primes (1e5))[1:3]
 system.time(for(i in 1:50) p5. <- primes.(1e5))[1:3]
-## 1.77 0.04 1.81
 stopifnot(p5 == p5.)
 
 
@@ -117,31 +115,27 @@ stopifnot(p5 == P1e5,
 
 P1000 <- prime.sieve(max=1000)
 
-if(is.R())
-   save(list=c("P1000", "P1e4", "P1e5", "factorize.10000", "CPU.p1e4"),
-        file = "primefact.rda")
-
-
 plot(P1000,  seq(P1000), type='b', main="Prime number theorem")
 lines(P1000, P1000/log(P1000), col=2, lty=2, lwd=1.5)
 
 plot(P1e4,  seq(P1e4), type='l', main="Prime number theorem")
 lines(P1e4, P1e4/log(P1e4), col=2, lty=2, lwd=1.5)
 
-if(is.R()) stopifnot(require(sfsmisc)) # for this plot:
-{ ps.do("prime-number.ps")
-  mult.fig(2, main="Prime number theorem")
-  plot(P1e5,seq(P1e5), type='l', main="pi(n) &  n/log(n) ",
-       xlab='n',ylab='pi(n)', log='xy', sub = 'log - log - scale')
-  lines(P1e5, P1e5/log(P1e5), col=2, lty=2, lwd=1.5)
-  mtext(paste("/u/maechler/R/MM/MISC/prime-numbers.S",u.Datumvonheute(Zeit=T),
-	      sep='\n'), side = 3, cex=.75, adj=1, line=3, outer=T)
+stopifnot(require("sfsmisc"))
+## For a nice plot:
+ps.do("prime-number.ps")
+mult.fig(2, main="Prime number theorem")
+plot(P1e5,seq(P1e5), type='l', main="pi(n) &  n/log(n) ",
+     xlab='n',ylab='pi(n)', log='xy', sub = 'log - log - scale')
+lines(P1e5, P1e5/log(P1e5), col=2, lty=2, lwd=1.5)
+mtext("demo(\"prime-numbers\", package = \"sfsmisc\")",
+      side = 3, cex=.75, adj=1, line=3, outer=TRUE)
+plot(P1e5, seq(P1e5) / (P1e5/log(P1e5)), type='b', pch='.',
+     main= "Prime number theorem : pi(n) / {n/log(n)}", ylim =c(1,1.3),
+     xlab = 'n', ylab='pi(n) / (n/log(n)', log='x')
+abline(h=1, col=3, lty=2)
+ps.end()
 
-  plot(P1e5, seq(P1e5) / (P1e5/log(P1e5)), type='b', pch='.',
-       main= "Prime number theorem : pi(n) / {n/log(n)}", ylim =c(1,1.3),
-       xlab = 'n', ylab='pi(n) / (n/log(n)', log='x')
-  abline(h=1, col=3, lty=2)
-  ps.end() }
 
 ##  3)  the factors() from Bill Dunlap etc
 factors( round(gamma(13:14)))
