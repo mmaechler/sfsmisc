@@ -1,5 +1,5 @@
 ####---- Prime numbers, factorization, etc. --- "illustatration of programming"
-## -- $Id: prime-numbers-fn.R,v 1.7 2007/07/24 18:23:30 maechler Exp maechler $
+## -- $Id: prime-numbers-fn.R,v 1.8 2011/05/04 12:37:01 maechler Exp maechler $
 
 ###---- Function definitions -------- for examples, see "../demo/prime-numbers.R"
 
@@ -221,15 +221,14 @@ factorizeBV <- function(n) {
 ##-
 ##- I use the following factors(), which uses the enclosed primes():
 ##
-## MMä: mv'ed all examples to file ./prime-numbers.R
+## MMä: mv'ed all examples to file ... (now ../demo/prime-numbers.R )
 
 factors <- function(x)
 {
     factor1 <- function(y, max.factor, .Primes)
     {
-	if(missing(.Primes))
-	    .Primes <- primes(max.factor)
-	else .Primes <- primes(max.factor, .Primes)
+        .Primes <- if(missing(.Primes))
+            primes.t(max.factor) else primes.t(max.factor, .Primes)
 	f <- numeric(0)
 	while(y > 1) {
 	    ## note: 1 has no factors according to this
