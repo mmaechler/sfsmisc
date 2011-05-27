@@ -1,6 +1,6 @@
 #### PostScript Goodies für R --- `a la /u/sfs/S/ps.goodies.S
 ####
-#### $Id: ps.goodies.R,v 1.14 2005/05/09 08:45:02 maechler Exp $
+#### $Id: ps.goodies.R,v 1.15 2009/12/14 11:55:26 maechler Exp $
 ####
 
 ## hidden in the name space -- FIXME? maybe more useful ?? ---
@@ -123,7 +123,9 @@ ps.end <- function(call.gv = NULL, command = getOption("eps_view"),
     ## Only if	postscript is running !! --
     if( names(dev.cur()) == "postscript")
 	dev.off()
-    if(.Platform $ OS.type != "unix") {
+    if(.Platform $ OS.type == "unix") {
+        .set.eps_view()
+    } else { ## OS.type != "unix"  --- i.e. Windows :
 	warning("using ps, ghostview,...is currently not implemented for non-Unix")
 	return(FALSE)
     }
