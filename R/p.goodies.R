@@ -1,4 +1,4 @@
-#### $Id: p.goodies.R,v 1.15 2004/01/31 19:30:37 maechler Exp $
+#### $Id: p.goodies.R,v 1.16 2004/02/03 14:00:58 maechler Exp $
 #### Original is /u/sfs/S/p.goodies.S  [v 1.12 1999/05/06 10:17:00 sfs Exp ]
 ####
 ### p.goodies.S ---- SfS- S(plus) - Funktionen, welche
@@ -93,7 +93,8 @@ p.scales <- function(unit = relsysize * 2.54 * min(pin), relsysize = 0.05)
 
 
 p.profileTraces <-
-    function(x, cex=1, subtitle="t-Profil-Plot und Profilspuren")
+    function(x, cex=1, subtitle=paste("t-Profiles and traces of ",
+                       deparse(attr(x,"summary")$formula)))
 {
   nx <- names(x)
   np <- length(x)
@@ -153,7 +154,7 @@ p.profileTraces <-
 ## --> /u/sfs/ueb/fortgeschrittene/loesungen/loes-rg.truthennen.R
 
 ## mainly auxiliary of  hist.bxp() :
-p.hboxp <- function(x, y.lo, y.hi, boxcol = 3, medcol = 0,
+p.hboxp <- function(x, y.lo, y.hi, boxcol = 3, medcol = 2,
                     medlwd = 5, whisklty = 2, staplelty = 1)
 {
   if(missing(y.hi) && length(y.lo) == 2) { y.hi <- y.lo[2]; y.lo <- y.lo[1] }
@@ -177,21 +178,21 @@ p.hboxp <- function(x, y.lo, y.hi, boxcol = 3, medcol = 0,
           col = ifelse(boxcol == 0, par("col"), boxcol), lty = 1,
           density = ifelse(boxcol == 0, 0, -1)) #
   ## Median
-  lines(rep(st[3], 2), c(y.lo, y.hi),
+  lines(rep.int(st[3], 2), c(y.lo, y.hi),
         col = ifelse(boxcol == 0 && missing(medcol), par("col"), medcol),
         lwd = medlwd, lty = 1) #
   ## Border of the box
   lines(c(st[4], st[2], st[2], st[4]), llhh,
         col = ifelse(boxcol == 0, par("col"), boxcol), lty = 1) #
   ## Whiskers
-  lines(c(st[1:2], NA, st[4:5]), rep(m, 5), lty = whisklty) #
+  lines(c(st[1:2], NA, st[4:5]), rep.int(m, 5), lty = whisklty) #
   ## Staples
   k <- .01 * diff(range(x))
   lines(st[1]+ c(-k, 0, 0, -k), llhh, lty = staplelty)
   lines(st[5]+ c( k, 0, 0,  k), llhh, lty = staplelty)#
   ## Outliers
   for(out in b$out)
-    lines(rep(out, 2), c(y.lo, y.hi), lty = staplelty)
+    lines(rep.int(out, 2), c(y.lo, y.hi), lty = staplelty)
 }
 
 
@@ -218,17 +219,17 @@ p.arrows <- function(x1, y1, x2, y2,
   wx2 <- width* x^2
   y.arr <- c(- wx2 - delta, rev(wx2) + delta)
   ## Polar(x.., y..):
-  deg.arr <- c(atan(y.arr, x.arr), NA)# - NA to 'break' long polygon
+  deg.arr <- c(atan2(y.arr, x.arr), NA)# - NA to 'break' long polygon
   r.arr <- c(sqrt(x.arr^2 + y.arr^2), NA)
 
   ## Draw Arrow Head at (x2,y2)
-  theta <- atan((y2-y1)*uin[2], (x2-x1)*uin[1])
+  theta <- atan2((y2-y1)*uin[2], (x2-x1)*uin[1])
   lx <- length(x1)
-  Rep <- rep(length(deg.arr), lx)
-  x2 <- rep(x2, Rep)
-  y2 <- rep(y2, Rep)
-  theta <- rep(theta, Rep) + rep(deg.arr, lx)
-  r.arr <- rep(r.arr, lx)
+  Rep <- rep.int(length(deg.arr), lx)
+  x2 <- rep.int(x2, Rep)
+  y2 <- rep.int(y2, Rep)
+  theta <- rep.int(theta, Rep) + rep.int(deg.arr, lx)
+  r.arr <- rep.int(r.arr, lx)
   polygon(x2+ r.arr*cos(theta)/uin[1],
           y2+ r.arr*sin(theta)/uin[2], col= fill)
 }
