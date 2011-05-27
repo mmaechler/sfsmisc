@@ -1,10 +1,8 @@
-#### $Id: tkdensity.R,v 1.8 2002/05/21 08:39:54 sfs Exp $
-
 ###  demo(tkdensity) ## is at
 ### /u/maechler/R/D/r-devel/Linux-inst/library/tcltk/demo/tkdensity.R
 
 tkdensity <- function(y, n = 1024, log.bw = TRUE, showvalue = TRUE,
-                      xlim = NULL, do.rug = size < 1000,
+                      xlim = NULL, do.rug = size < 1000, kernels = NULL,
                       from.f = if(log.bw) -2   else 1/1000,
                       to.f   = if(log.bw) +2.2 else 2, col = 2)
 {
@@ -14,6 +12,16 @@ tkdensity <- function(y, n = 1024, log.bw = TRUE, showvalue = TRUE,
 
     require(tcltk) || stop("tcltk support is absent")
 
+    ## get R's density[.default] depending on R version
+    dFun <-
+        if(methods::existsFunction("density.default",
+                                   where = asNamespace("stats")))
+            stats::density.default
+        else stats::density
+    all.kerns <- eval(formals(dFun)$kernel)
+    kernels <-
+        if(is.null(kernels)) all.kerns
+        else match.arg(kernels, all.kerns, several.ok = TRUE)
     ynam <- deparse(substitute(y))
     size <- length(y)
     sd.y <- sqrt(var(y))
@@ -87,8 +95,9 @@ tkdensity <- function(y, n = 1024, log.bw = TRUE, showvalue = TRUE,
     xmid.frame <- tkframe(x.frame)
     tkpack(xr.frame, xmid.frame, side = "left", anchor = "s")
 
-    q.but <- tkbutton(base,text = "Quit", command = function()tkdestroy(base))
-
+    q.but <- tkbutton(base, text = "Quit", command =
+		      function() { par(op) ## see par() below !
+				   tkdestroy(base) })
     tkpack(base.frame,
            bw.frame, kern.frame,
            x.frame,
@@ -108,7 +117,7 @@ tkdensity <- function(y, n = 1024, log.bw = TRUE, showvalue = TRUE,
 
     ## Kernel Frame :
     tkpack(tklabel(kern.frame, text = "Kernel"))
-    for (k.name in eval(formals(density)$kernel))
+    for (k.name in kernels)
         tkpack(tkradiobutton(kern.frame, command = replot,
                              text = k.name, value = k.name, variable=kernel),
                anchor = "w")
@@ -130,6 +139,10 @@ tkdensity <- function(y, n = 1024, log.bw = TRUE, showvalue = TRUE,
                     resolution = xr0/2000,
                     length = 80, orient = "horiz"))
 
+
+    if((op <- par("ask")) || prod(par("mfrow")) > 1)
+        op <- par(ask = FALSE, mfrow = c(1,1))
+    ## on.exit(par(op)) is *NOT* sufficient; do it only when quitting tk !!
 
     ##Dbg cat("Before calling `replot()' : \n")
     replot()
