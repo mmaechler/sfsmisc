@@ -1,4 +1,4 @@
-#### $Id: misc-goodies.R,v 1.35 2010/10/27 08:57:32 maechler Exp $
+#### $Id: misc-goodies.R,v 1.36 2011/05/27 06:56:18 maechler Exp $
 #### misc-goodies.R
 #### ~~~~~~~~~~~~~~  SfS - R - goodies that are NOT in
 ####		"/u/sfs/R/SfS/R/u.goodies.R"
@@ -68,36 +68,6 @@ errbar <- function(x, y, yplus, yminus, cap = 0.015,
 }
 ## C.Monatsname , etc..  sind jetzt bei der zugehoerigen Funktion
 ##		u.Datumvonheute  in  /u/sfs/S/u.goodies.S
-
-if(getRversion() < "2.9") {
-boxplot.matrix <- function(x, use.cols = TRUE, ...)
-{
-  ## Purpose: Boxplot for each column or row [use.cols= TRUE / FALSE] of a matrix
-  ## -------------------------------------------------------------------------
-  ## Arguments: x: a numeric matrix;	  use.cols: logical, columns (T) or rows (F)
-  ##		...: further arguments to 'boxplot(r, ...)':
-  ##			range=NULL, width=NULL, varwidth=FALSE,
-  ##			notch=FALSE, names=NULL, plot=TRUE, old=FALSE
-  ##
-  ## use.cols = F is 10% slower (for 3 grps a 50 obs. each, on a Sparc 1) ---
-  ## -------------------------------------------------------------------------
-  ## Author: Martin Maechler@stat.math.ethz.ch , 1995
-
-  ## NOTE: For the case 'use.cols=TRUE', you can use
-  ##	 boxplot(as.list(as.data.frame(x)), ...)    [Renaud, S-news, 9/96]
-  groups <- if(use.cols)  split(x, rep.int(1:ncol(x),
-					 rep.int(nrow(x), ncol(x))))
-  else  split(x, seq(nrow(x)))
-  ##-- Make use of col/row names if present
-  ##if (!is.null(nam <- dimnames(x)[[1+use.cols]])) names(groups) <- nam
-  if (0 < length(nam <- dimnames(x)[[1+use.cols]])) names(groups) <- nam
-  invisible(boxplot(groups, ...))
-}
-} else { # R version >= 2.9.0
-  ## for now, since we also still have it in NAMESPACE and
-  ## ../man/boxplot.matrix.Rd
-  boxplot.matrix <- graphics::boxplot.matrix
-}
 
 cum.Vert.funkt <- function(x, Quartile = TRUE, titel = TRUE, Datum = TRUE,
                            rang.axis = n <= 20, xlab = "", main = "", ...)
