@@ -7,9 +7,8 @@
 
 ### Higham's code by Ravi
 
-## FIXME: Not sure if 'symmetric' (as argument) makes sense
 posdefify <- function(m, method = c("someEVadd", "allEVadd"),
-                      symmetric, # = TRUE,
+                      symmetric = TRUE,
                       eigen.m = eigen(m, symmetric= symmetric),
                       eps.ev = 1e-7)
 {
