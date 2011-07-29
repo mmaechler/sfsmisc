@@ -1,19 +1,13 @@
 ##' @title "Source + Attach" an R source file
-##' @param file file name
-##' @param pos  passed to attach()
-##' @param name character, with a smart default, passed to attach()
-##' @param keep.source logical, see ?sys.source()
-##' @param warn.conflicts logical, see ?attach
-##' @return { return value of attach() }
 ##' @author Martin Maechler, 29 Jul 2011
 sourceAttach <- function(file, pos = 2,
-                         name = paste(abbreviate(gsub(fsep, "", dirname(file)), 12,
-                                                 method="both.sides"),
-                                      filename(file), sep=fsep),
-                         keep.source = getOption("keep.source.pkgs"),
-                         warn.conflicts = TRUE)
+			 name = paste(abbreviate(gsub(fsep, "", dirname(file)), 12,
+						 method="both.sides"),
+				      basename(file), sep=fsep),
+			 keep.source = getOption("keep.source.pkgs"),
+			 warn.conflicts = TRUE)
 {
-    ENV <- new.env
+    ENV <- new.env()
     sys.source(file, envir = ENV, keep.source = keep.source)# also checks file
     fsep <- .Platform$file.sep
     attach(ENV, pos=pos, name=name, warn.conflicts=warn.conflicts)
