@@ -3,15 +3,15 @@
 ### Help files: ../man/pretty10exp.Rd  ../man/axTexpr.Rd   ../man/eaxis.Rd
 ###                    --------------         ----------          --------
 
-pretty10exp <- function(x, drop.1 = FALSE)
+pretty10exp <- function(x, drop.1 = FALSE, digits.fuzz = 7)
 {
     ## Purpose: produce "a 10^k"  label expressions instead of "a e<k>"
     ## ----------------------------------------------------------------------
     ## Arguments: x: numeric vector (e.g. axis tick locations)
     ## ----------------------------------------------------------------------
     ## Author: Martin Maechler, Date: 7 May 2004; 24 Jan 2006
-    eT <- floor(log10(abs(x))) # x == 0 case is dealt with below
-    mT <- x / 10^eT
+    eT <- floor(log10(abs(x)) + 10^-digits.fuzz) # x == 0 case is dealt with below
+    mT <- signif(x / 10^eT, digits.fuzz)
     ss <- vector("list", length(x))
     for(i in seq(along = x))
         ss[[i]] <-
@@ -35,10 +35,16 @@ axTexpr <- function(side, at = axTicks(side, axp=axp, usr=usr, log=log),
 ###
 ### Myaxis(.)  function with at least two options ("engineering/not")
 ### Really wanted: allow   xaxt = "p" (pretty) or "P" (pretty, "Engineer")
-
-eaxis <- function(side, at = axTicks(side, log=log), labels = NULL, log = NULL,
+### FIXME(2):  max.at is only needed because  axTicks() is sometimes too large
+eaxis <- function(side, at = if(log && getRversion() > "2.13")
+                  axTicks(side, log=log, nintLog=nintLog) else
+                  axTicks(side, log=log),
+                  labels = NULL, log = NULL,
                   f.smalltcl = 3/5, at.small = NULL, small.mult = NULL,
-                  outer.at = TRUE, drop.1 = TRUE, las = 1, max.at = Inf,...)
+                  draw.between.ticks = TRUE,
+                  outer.at = TRUE, drop.1 = TRUE, las = 1,
+                  nintLog = max(10, par("lab")[2L - is.x]),
+                  max.at = Inf,...)
 {
     ## Purpose: "E"xtended, "E"ngineer-like (log-)axis
     ## ----------------------------------------------------------------------
@@ -52,6 +58,10 @@ eaxis <- function(side, at = axTicks(side, log=log), labels = NULL, log = NULL,
 	if(max.at < 1) stop("'max.at' must be >= 1")
 	at <- quantile(at, (0:max.at)/max.at, names = FALSE,
 		       type = 3) ## <-- ensure that order statistics are used
+	if(!log && is.null(at.small) &&
+	   { d <- diff(at)
+	     any(abs(diff(d)) > 1e-3 * mean(d))}) ## at	 is not equidistant
+	    at.small <- FALSE
     }
     ## use expression (i.e. plotmath) if 'log' or exponential format:
     use.expr <- log || format.info(as.numeric(at), digits=7)[3] > 0
@@ -60,14 +70,25 @@ eaxis <- function(side, at = axTicks(side, log=log), labels = NULL, log = NULL,
     else if(length(labels) == 1 && is.na(labels)) # no 'plotmath'
 	labels <- TRUE
     axis(side, at = at, labels = labels, las=las, ...)
+    if(log) {
+	l1 <- (lat <- log10(at)) %% 1 ##  the 10^k ones
+	l.int <- l1 < 1e-5 | l1 > 1 - 1e-5
+	if(draw.between.ticks && all(l.int)) {
+	    ## check if have "thinned" but still want to draw ticks
+	    if(any(diff(lat <- sort(round(lat, 5))) > 1)) {
+		at <- 10^(lat[1]:lat[length(lat)])
+		axis(side, at = at, labels = FALSE, las=las, ...)
+	    }
+	}
+    }
     if(is.null(at.small)) { ## create smart default, using small.mult
-        at.small <-
-            if(log) {
-                if(is.null(small.mult)) small.mult <- 9
-                at. <- at[log10(at) %% 1 < 1e-3] ##  the 10^k ones:
-                if(length(at.))
-                    outer(2:small.mult, c(if(outer.at) at.[1]/10, at.))
-            } else {
+	at.small <-
+	    if(log) {
+		if(!all(l.int)) at <- at[l.int]
+		if(is.null(small.mult)) small.mult <- 9
+		if(length(at))
+		    outer(2:small.mult, c(if(outer.at) at[1]/10, at))
+	    } else {
                 ## assumes that 'at' is equidistant
                 d <- diff(at <- sort(at))
                 if(any(abs(diff(d)) > 1e-3 * (dd <- mean(d))))
