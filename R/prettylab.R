@@ -36,7 +36,7 @@ axTexpr <- function(side, at = axTicks(side, axp=axp, usr=usr, log=log),
 ### Myaxis(.)  function with at least two options ("engineering/not")
 ### Really wanted: allow   xaxt = "p" (pretty) or "P" (pretty, "Engineer")
 ### FIXME(2):  max.at is only needed because  axTicks() is sometimes too large
-eaxis <- function(side, at = if(log && getRversion() > "2.13")
+eaxis <- function(side, at = if(log && getRversion() >= "2.14.0")
                   axTicks(side, log=log, nintLog=nintLog) else
                   axTicks(side, log=log),
                   labels = NULL, log = NULL,
