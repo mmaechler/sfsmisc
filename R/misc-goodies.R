@@ -1,4 +1,4 @@
-#### $Id: misc-goodies.R,v 1.36 2011/05/27 06:56:18 maechler Exp $
+#### $Id: misc-goodies.R,v 1.37 2011/07/27 08:57:21 maechler Exp $
 #### misc-goodies.R
 #### ~~~~~~~~~~~~~~  SfS - R - goodies that are NOT in
 ####		"/u/sfs/R/SfS/R/u.goodies.R"
@@ -587,7 +587,8 @@ seqXtend <- function(x, length., method = c("simple","aim","interpolate"),
             }
             n <- length(x)
             dx <- x[-1] - x[-n] ## == diff(x)
-            w  <- x[n]  - x[1]  ## == sum(dx)
+            w  <- as.numeric(x[n]  - x[1])  ## == sum(dx);
+            ##    as.n..(.) -> works with "Date" etc
             nn <- length. - n ## need 'nn' new points in 'n - 1' intervals
             ## how many in each?
             ## Want them approximately equidistant, ie. of width ~=  w / (nn + 1)
