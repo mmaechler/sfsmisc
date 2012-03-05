@@ -76,10 +76,10 @@ nearcor <- function(  # Computes the nearest correlation matrix to an approximat
       X <- Q %*% (d * t(Q))
       D <- sqrt(pmax(Eps, o.diag)/diag(X))
       X[] <- D * X * rep(D, each = n)
+      ## force symmetry
+      X <- (X + t(X))/2
   }
   # end from posdefify(sfsmisc)
-  # force symmetry
-  X <- (X + t(X))/2
   diag(X) <- 1
   ret <- list(cor=X, fnorm=fnorm(R-X), iterations=iter, converged=converged)
   class(ret) <- "nearcor"
