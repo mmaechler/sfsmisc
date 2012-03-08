@@ -1,4 +1,4 @@
-#### $Id: misc-goodies.R,v 1.37 2011/07/27 08:57:21 maechler Exp $
+#### $Id: misc-goodies.R,v 1.38 2011/11/21 17:41:42 maechler Exp $
 #### misc-goodies.R
 #### ~~~~~~~~~~~~~~  SfS - R - goodies that are NOT in
 ####		"/u/sfs/R/SfS/R/u.goodies.R"
@@ -262,6 +262,40 @@ wrapFormula <- function(f, data, wrapString = "s(*)")
     form
 }
 
+##' Capture Output and print first and last parts, eliding middle parts.
+##' Particularly useful for teaching purposes, and e.g., in Sweave
+##'
+##' @title Capture output and Write / Print First and Last Parts
+##' @param EXPR the (literal) expression the output is to be captured
+##' @param first integer: how many lines should be printed at beginning
+##' @param last  integer: how many lines should be printed at the end.
+##' @param middle numeric (or NA logical):
+##' @param i.middle
+##' @param dotdots string to be used for elided lines
+##' @param n.dots
+##' @return
+##' @author Martin Maechler
+capture.and.write <- function(EXPR, first, last = 2,
+                              middle = NA, i.middle,
+                              dotdots = " ....... ", n.dots = 2) {
+    co <- capture.output(EXPR)
+    writeLines(head(co, first))
+    catDots <- function(M) cat(rep.int(paste(dotdots,"\n", sep=""), M), sep="")
+    catDots(n.dots)
+    if(is.numeric(middle)) {
+        stopifnot(length(middle) == 1, middle >= 0, middle == round(middle))
+        i0 <- first+2
+        if(missing(i.middle)) {
+            i.middle <- max(i0, length(co) %/% 2 - middle %/% 2)
+        } else { ## !missing(i.middle)
+            if(i.middle < i0)
+                stop("'i.middle' is too small, should be at least ", i0)
+        }
+        writeLines(co[i.middle-1 + seq_len(middle)])
+        catDots(n.dots)
+    }
+    writeLines(tail(co, last))
+}
 
 
 
