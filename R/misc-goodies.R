@@ -1,4 +1,4 @@
-#### $Id: misc-goodies.R,v 1.38 2011/11/21 17:41:42 maechler Exp $
+#### $Id: misc-goodies.R,v 1.39 2012/03/08 16:56:58 maechler Exp $
 #### misc-goodies.R
 #### ~~~~~~~~~~~~~~  SfS - R - goodies that are NOT in
 ####		"/u/sfs/R/SfS/R/u.goodies.R"
@@ -386,7 +386,7 @@ sHalton <- function(n.max, n.min = 1, base = 2, leap = 1)
     ## now do this via digitsBase(), later go directly
     nd <- as.integer(1 + log(n.max, base))
     dB <- digitsBase(if(leap == 1) n.min:n.max else seq(n.min, n.max, by=leap),
-                     base = base, ndig = nd)
+		     base = base, ndigits = nd)
     colSums(dB/base^(nd:1))
 }
 
@@ -949,8 +949,8 @@ unif <- function(n, round.dig = 1 + trunc(log10(n)))
 }
 
 prt.DEBUG <- function(..., LEVEL = 1)
-  if (exists("DEBUG", w = 1) && DEBUG >= LEVEL )#
-  ##                  ~~~
+  if (exists("DEBUG", where = 1) && DEBUG >= LEVEL )#
+  ##
   cat(paste("in '", sys.call(sys.nframe()-1)[1], "':", sep = ""), ..., "\n")
 
 ##- ## Not w=1:
