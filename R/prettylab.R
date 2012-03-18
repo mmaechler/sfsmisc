@@ -115,6 +115,6 @@ eaxis <- function(side, at = if(log && getRversion() >= "2.14.0")
         }
     }
     if(is.numeric(at.small) && any(is.finite(at.small))) ## can use  NA or FALSE to suppress
-	axis(side, at = at.small, label = FALSE,
+	axis(side, at = at.small, labels = FALSE,
 	     tcl = f.smalltcl * par("tcl"))
 }
