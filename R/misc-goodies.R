@@ -1,4 +1,4 @@
-#### $Id: misc-goodies.R,v 1.39 2012/03/08 16:56:58 maechler Exp $
+#### $Id: misc-goodies.R,v 1.40 2012/03/18 21:28:37 maechler Exp $
 #### misc-goodies.R
 #### ~~~~~~~~~~~~~~  SfS - R - goodies that are NOT in
 ####		"/u/sfs/R/SfS/R/u.goodies.R"
@@ -238,7 +238,10 @@ paste.vec <- function(name, digits = options()$digits)
 signi <- function(x, digits = 6) round(x, digits - trunc(log10(abs(x))))
 
 repChar <- function(char, no) paste(rep.int(char, no), collapse = "")
+## correct, but slower than the next one:
 bl.string <- function(no) repChar(" ", no)
+## faster:
+bl.string <- function(no) sprintf("%*s", no, "")
 
 ### symnum :  standard R function !!
 
@@ -268,12 +271,12 @@ wrapFormula <- function(f, data, wrapString = "s(*)")
 ##' @title Capture output and Write / Print First and Last Parts
 ##' @param EXPR the (literal) expression the output is to be captured
 ##' @param first integer: how many lines should be printed at beginning
-##' @param last  integer: how many lines should be printed at the end.
+##' @param last integer: how many lines should be printed at the end.
 ##' @param middle numeric (or NA logical):
-##' @param i.middle
+##' @param i.middle index start of middle part
 ##' @param dotdots string to be used for elided lines
-##' @param n.dots
-##' @return
+##' @param n.dots number of \code{dotdots}  ....{FIXME}
+##' @return return value of \code{\link{writeLines}}
 ##' @author Martin Maechler
 capture.and.write <- function(EXPR, first, last = 2,
                               middle = NA, i.middle,
