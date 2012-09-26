@@ -1,4 +1,4 @@
-### --> these are from ~/R/MM/GRAPHICS/axis-prettylab.R
+### --> these are from ~/R/MM/GRAPHICS/axis-prettylab.R-- $Id$
 
 ### Help files: ../man/pretty10exp.Rd  ../man/axTexpr.Rd   ../man/eaxis.Rd
 ###                    --------------         ----------          --------
@@ -41,10 +41,11 @@ eaxis <- function(side, at = if(log && getRversion() >= "2.14.0")
                   axTicks(side, log=log),
                   labels = NULL, log = NULL,
                   f.smalltcl = 3/5, at.small = NULL, small.mult = NULL,
+                  small.args = list(),
                   draw.between.ticks = TRUE,
                   outer.at = TRUE, drop.1 = TRUE, las = 1,
                   nintLog = max(10, par("lab")[2L - is.x]),
-                  max.at = Inf,...)
+                  max.at = Inf, ...)
 {
     ## Purpose: "E"xtended, "E"ngineer-like (log-)axis
     ## ----------------------------------------------------------------------
@@ -115,6 +116,8 @@ eaxis <- function(side, at = if(log && getRversion() >= "2.14.0")
         }
     }
     if(is.numeric(at.small) && any(is.finite(at.small))) ## can use  NA or FALSE to suppress
-	axis(side, at = at.small, labels = FALSE,
-	     tcl = f.smalltcl * par("tcl"))
+	## axis(side, at = at.small, .....)
+	do.call(axis, c(list(side, at = at.small, labels = FALSE,
+			     tcl = f.smalltcl * par("tcl")),
+			small.args))
 }
