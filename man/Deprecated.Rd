@@ -2,6 +2,7 @@
 \title{Deprecated 'sfsmisc' Functions}
 % NOTE: ../R/Deprecated.R   must be synchronized with this!
 %       ~~~~~~~~~~~~~~~~~
+\alias{hist.bxp}
 \alias{p.pllines}
 \alias{list2mat}
 % the whole set
@@ -20,6 +21,7 @@
   next release.
 }
 \usage{
+%% hist.bxp(x, ...)
 p.pllines(x,y,group,lty=c(1,3,2,4),\dots)
 
 list2mat(x, check = TRUE)
@@ -36,6 +38,9 @@ list2mat(x, check = TRUE)
     components have same length.}
 }
 \details{
+  \code{hist.bxp} is deprecated because CRAN checks \dQuote{decide} it
+  is an S3 method.
+
   \code{p.pllines} is deprecated because basic \R graphics (but not
   S-PLUS) provide its   functionality directly: Use \code{plot(x,y, lty
     = group, type = 'l', ...)}.
