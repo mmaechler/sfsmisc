@@ -1,13 +1,13 @@
-\name{hist.bxp}
+\name{histBxp}
 \encoding{latin1}
-\alias{hist.bxp}
+\alias{histBxp}
 \title{Plot a Histogram and a Boxplot}
 \description{
   Creates a histogram and a horizontal boxplot on the current graphics
   device.
 }
 \usage{
-hist.bxp(x, nclass, breaks, probability=FALSE, include.lowest=TRUE,
+histBxp(x, nclass, breaks, probability=FALSE, include.lowest=TRUE,
          xlab = deparse(substitute(x)),
          \dots,
          width=0.2, boxcol=3, medcol=2, medlwd=5, whisklty=2, staplelty=1)
@@ -80,8 +80,12 @@ hist.bxp(x, nclass, breaks, probability=FALSE, include.lowest=TRUE,
 \details{
   If \code{include.lowest} is \code{FALSE} the bottom breakpoint must be
   strictly less than the minimum of the data, otherwise (the default) it
-  must be less than or equal to the minimum of the data. The top
+  must be less than or equal to the minimum of the data.  The top
   breakpoint must be greater than or equal to the maximum of the data.
+
+  This function has been called \code{hist.bxp()} for 17 years; in 2012,
+  the increasingly strong CRAN policies required a new name (which could not
+  be confused with an S3 method name).
 }
 \author{S-Plus: Markus Keller, Christian Keller; port to \R: Martin Mächler.
 }
@@ -91,11 +95,11 @@ hist.bxp(x, nclass, breaks, probability=FALSE, include.lowest=TRUE,
 }
 \examples{
  lab <- "50 samples from a t distribution with 5 d.f."
- mult.fig(2*3, main = "Hist() + Rug()   and    Hist.bxp(*)")
+ mult.fig(2*3, main = "Hist() + Rug()   and    histBxp(*)")
  for(i in 1:3) {
    my.sample <-  rt(50, 5)
    hist(my.sample, main=lab); rug(my.sample)# for 50 obs., this is ok, too..
-   hist.bxp(my.sample, main=lab)
+   histBxp(my.sample, main=lab)
  }
 }
 \keyword{hplot}
