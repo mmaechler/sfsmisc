@@ -15,7 +15,7 @@
   Revert such a representation to integers.
 }
 \usage{
-digitsBase(x, base = 2, ndigits = 1 + floor(log(max(x),base)))
+digitsBase(x, base = 2, ndigits = 1 + floor(1e-9+ log(max(x),base)))
 \method{as.integer}{basedInt}(x, \dots)
 \method{print}{basedInt}(x, \dots)
 
