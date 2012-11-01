@@ -1,4 +1,4 @@
-#### $Id: misc-goodies.R,v 1.40 2012/03/18 21:28:37 maechler Exp $
+#### $Id: misc-goodies.R,v 1.41 2012/07/06 07:03:56 maechler Exp $
 #### misc-goodies.R
 #### ~~~~~~~~~~~~~~  SfS - R - goodies that are NOT in
 ####		"/u/sfs/R/SfS/R/u.goodies.R"
@@ -158,7 +158,7 @@ plotStep <- function(ti, y,
   invisible(list(t = ti, y = y))
 }
 
-hist.bxp <-
+histBxp <-
     function(x, nclass, breaks, probability = FALSE, include.lowest = TRUE,
              xlab = deparse(substitute(x)), ..., width = 0.2,
              boxcol = 3, medcol = 2, medlwd = 5, whisklty = 2, staplelty = 1)
@@ -217,6 +217,10 @@ hist.bxp <-
 	  medlwd = medlwd, whisklty = whisklty, staplelty = staplelty)
 }
 
+hist.bxp <- function(x, ...) {
+    warning("hist.bxp(..) is deprecated -- use  histBxp(..)  instead!")
+    histBxp(x, ...)
+}
 
 
 ##-#### Print & Strings  ########
@@ -336,7 +340,7 @@ polyn.eval <- function(coef, x)
 
 ## negative x .. may make sense in some cases,.... but not yet :
 ##digitsBase <- function(x, base = 2, ndigits = 1 + floor(log(max(abs(x)),base)))
-digitsBase <- function(x, base = 2, ndigits = 1 + floor(log(max(x),base)))
+digitsBase <- function(x, base = 2, ndigits = 1 + floor(1e-9+ log(max(x),base)))
 {
     ## Purpose: Give the vector A of the base-_base_ representation of _n_:
     ## -------  n = sum_{k=0}^M  A_{M-k} base ^ k ,   where  M = length(a) - 1
