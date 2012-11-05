@@ -40,7 +40,8 @@ ps.latex(file, height = 5 + main.space * 1.25,  width = 9.5,
     (unusual for LaTeX figures!).}
   \item{lab.space}{logical; if true, leave space for x- and y- labels
     (by \emph{not} subtracting from \code{mar}).}
-  \item{paper}{character (or missing), see \code{\link{postscript}}.  Only
+  \item{paper}{character (or missing), typically \code{"a4"} or
+    \code{"a4r"} in non-America, see \code{\link{postscript}}.  Only
     if this is \code{"special"} (or missing) are your choices of \code{width}
     and \code{height} completely honored (and this may lead to files that
     cannot print on A4) with resizing.}
