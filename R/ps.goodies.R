@@ -1,15 +1,15 @@
 #### PostScript Goodies für R --- `a la /u/sfs/S/ps.goodies.S
 ####
-#### $Id: ps.goodies.R,v 1.15 2009/12/14 11:55:26 maechler Exp $
+#### $Id: ps.goodies.R,v 1.16 2011/05/27 07:05:14 maechler Exp $
 ####
 
 ## hidden in the name space -- FIXME? maybe more useful ?? ---
 dev.latex <-
     function(file, DEV, height= 5+ main.space*1.25, width= 9.5,
-		     main.space = FALSE, lab.space = main.space,
-		     paper = "special", title = NULL,
-		     lab = c(10, 10, 7), mgp.lab = c(1.6, 0.7, 0),
-		     mar = c(4, 4, 0.9, 1.1), ...)
+             main.space = FALSE, lab.space = main.space,
+             paper = "special", title = NULL,
+             lab = c(10, 10, 7), mgp.lab = c(1.6, 0.7, 0),
+             mar = c(4, 4, 0.9, 1.1), ...)
 {
   ## Purpose: Setup for 1 LaTeX-includable picture SAVING on white space !
   ##	Calls  ps.do(.) ; par(.)  [ old par in global 'o.p']; USE  ps.end() !
@@ -25,12 +25,19 @@ dev.latex <-
   ## -------------------------------------------------------------------------
   ## Author: Martin Maechler, Date: Sep 94; Sept. 95
 
-  if(!missing(lab) && !(length(lab)==3 && is.numeric(lab) && all(lab >=0)))
+  ## Cannot use  missing(.) here, as all arg.s *are* specified
+  ## from the calling pdf.latex() etc ..
+  frms <- formals()
+  lab.def     <- identical(lab,     eval(frms[["lab"]]))
+  mar.def     <- identical(mar,     eval(frms[["mar"]]))
+  mgp.lab.def <- identical(mgp.lab, eval(frms[["mgp.lab"]]))
+
+  if(!lab.def && !(length(lab)==3 && is.numeric(lab) && all(lab >=0)))
     stop("'lab' must be numeric vector >= 0, of length 3")
-  if(!missing(mgp.lab) && !(length(mgp.lab)==3 && is.numeric(mgp.lab) &&
+  if(!mgp.lab.def && !(length(mgp.lab)==3 && is.numeric(mgp.lab) &&
 			    all(mgp.lab >=0) && all(diff(mgp.lab)<=0)))
     stop("'mgp.lab' must be non-increasing numeric vector >= 0, of length 3")
-  if(!missing(mar) && !(length(mar)==4 && is.numeric(mar) && all(mar >=0)))
+  if(!mar.def && !(length(mar)==4 && is.numeric(mar) && all(mar >=0)))
     stop("'mar' must be non-negative numeric vector of length 4")
 
   DEV(file=file, height=height, width=width, paper=paper, title = title, ...)
@@ -39,7 +46,7 @@ dev.latex <-
   ## Now: just do the proper par(...) calls :
   mar.main.Extra  <- c(0,0, 3.2,0)
   mar.nolab.Minus <- c(1,1, 0.3,0)
-  if(main.space && missing(mar))
+  if(main.space && mar.def)
     mar <- mar + mar.main.Extra
 
   if(!lab.space) {
