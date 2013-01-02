@@ -1,4 +1,5 @@
-### --> these are from ~/R/MM/GRAPHICS/axis-prettylab.R-- $Id$
+####-- $Id: prettylab.R,v 1.8 2012/09/26 09:00:46 maechler Exp maechler $
+### --> these are from ~/R/MM/GRAPHICS/axis-prettylab.R
 
 ### Help files: ../man/pretty10exp.Rd  ../man/axTexpr.Rd   ../man/eaxis.Rd
 ###                    --------------         ----------          --------
@@ -42,7 +43,7 @@ eaxis <- function(side, at = if(log && getRversion() >= "2.14.0")
                   labels = NULL, log = NULL,
                   f.smalltcl = 3/5, at.small = NULL, small.mult = NULL,
                   small.args = list(),
-                  draw.between.ticks = TRUE,
+                  draw.between.ticks = TRUE, between.max = 4,
                   outer.at = TRUE, drop.1 = TRUE, las = 1,
                   nintLog = max(10, par("lab")[2L - is.x]),
                   max.at = Inf, ...)
@@ -74,10 +75,20 @@ eaxis <- function(side, at = if(log && getRversion() >= "2.14.0")
     if(log) {
 	l1 <- (lat <- log10(at)) %% 1 ##  the 10^k ones
 	l.int <- l1 < 1e-5 | l1 > 1 - 1e-5
-	if(draw.between.ticks && all(l.int)) {
+	if(draw.between.ticks && all(l.int)) { ## all lat are integer
 	    ## check if have "thinned" but still want to draw ticks
 	    if(any(diff(lat <- sort(round(lat, 5))) > 1)) {
-		at <- 10^(lat[1]:lat[length(lat)])
+		nl <- length(lat0 <- lat)
+		## extend 'at' (new must contain the previous!)
+		lat <- lat[1]:lat[nl]
+		if(length(lat) > between.max*nl) { ## too many: thin them!
+		    lat <- unique(round(seqXtend(lat0, between.max*nl,
+						 "interpolate")))
+		    if(is.null(at.small) && median(diff(lat)) > 1.5)
+			## no small ticks, if large are mostly not 10^(k1..k2)
+			at.small <- FALSE
+		}
+		at <- 10^lat
 		axis(side, at = at, labels = FALSE, las=las, ...)
 	    }
 	}
