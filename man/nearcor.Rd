@@ -6,9 +6,12 @@
 \encoding{latin1}
 \title{Find the Nearest Proper Correlation Matrix}
 \description{
-  This function smooths an improper correlation matrix as it can result
+  This function \dQuote{smoothes} an improper correlation matrix as it can result
   from \code{\link{cor}} with \code{use="pairwise.complete.obs"} or
   \code{\link[polycor]{hetcor}}.
+
+  It is \emph{deprecated} now, in favor of
+  \code{\link[Matrix]{nearPD}()} from package \pkg{Matrix}.% 2013-01-16
 }
 \usage{
 nearcor(R, eig.tol = 1e-06, conv.tol = 1e-07, posd.tol = 1e-08,
@@ -45,7 +48,10 @@ nearcor(R, eig.tol = 1e-06, conv.tol = 1e-07, posd.tol = 1e-08,
 }
 \author{ Jens Oehlschlägel }
 \seealso{the slightly more flexible \code{\link[Matrix]{nearPD}} which also
-  returns a \emph{classed} matrix (class \code{dpoMatrix});
+  returns a \emph{classed} matrix (class \code{dpoMatrix}).
+  For new code, \code{nearPD()} is really preferred to \code{nearcor()},
+  which hence is considered deprecated.
+
   \code{\link[polycor]{hetcor}}, \code{\link{eigen}};
   \code{\link[sfsmisc]{posdefify}} for a simpler algorithm.
 }
