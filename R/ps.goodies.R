@@ -1,6 +1,6 @@
 #### PostScript Goodies für R --- `a la /u/sfs/S/ps.goodies.S
 ####
-#### $Id: ps.goodies.R,v 1.16 2011/05/27 07:05:14 maechler Exp $
+#### $Id: ps.goodies.R,v 1.17 2013/01/02 23:37:21 maechler Exp $
 ####
 
 ## hidden in the name space -- FIXME? maybe more useful ?? ---
@@ -170,7 +170,7 @@ ps.end <- function(call.gv = NULL, command = getOption("eps_view"),
 
 pdf.do <- function(file, paper = "default",
                    width = -1, height = -1, onefile = FALSE,
-                   title = NULL, version = "1.4", ...)
+                   title = NULL, version = "1.4", quiet=FALSE, ...)
 {
   ## Purpose: "PDF + view" device driver. --- to be "closed" by pdf.end(..) --
   ## -------------------------------------------------------------------------
@@ -187,6 +187,12 @@ pdf.do <- function(file, paper = "default",
 ##     ps.options(...)
 ##     on.exit( do.call("ps.options", oldop) ) #- reset ps.options !
 ##   }
+
+  if(missing(paper) && !missing(width) && !missing(height)) {
+      if(!quiet)
+	  message("as 'width' and 'height' are specified, setting 'paper = \"special\"")
+      paper <- "special"
+  }
 
   if(is.null(title))
       title <- paste("R", paste(R.version[c("major", "minor")], collapse = "."),
