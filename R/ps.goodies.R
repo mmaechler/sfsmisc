@@ -56,8 +56,7 @@ dev.latex <-
   }
   o.p <- par(mar = mar, mgp= mgp.lab)
   o.p <- c(o.p, par(lab=lab)) # need 2 step for	 bug ?
-  ## "frame 0 / GlobalEnv assignment:
-  u.assign0("o.par.psl", o.p)
+  ## "frame 0 / GlobalEnv assignment deprecated: u.assign0("o.par.psl", o.p)
   invisible(list(old.par=o.p, new.par= par(c("mar","mgp","lab"))))
 }
 
@@ -84,7 +83,9 @@ pdf.latex <- function(file, height= 5+ main.space*1.25, width= 9.5,
 }
 
 
-ps.do <- function(file, width = -1, height = -1,
+ps.do <- local({
+    myfile <- NULL
+    function(file, width = -1, height = -1,
 		  onefile = FALSE, horizontal = FALSE, title = NULL, ...)
 {
   ## Purpose: "Ghostview" device driver. --- to be "closed" by ps.end(..) --
@@ -100,7 +101,7 @@ ps.do <- function(file, width = -1, height = -1,
   ##
   ## --->>>>>> CONSIDER	  'ps.latex'   instead	for pictures !
 
-  u.assign0("..ps.file", file)
+    myfile <<- file
 ##   if(length(l... <- list(...))) {
 ##     ## This does NOT work : pso are the *NEW*, not the *former* ones!
 ##     oldop <- ps.options()[names(l...)]
@@ -113,7 +114,8 @@ ps.do <- function(file, width = -1, height = -1,
 		     "plot:", file)
   postscript(file = file, width = width, height = height, horizontal=horizontal,
 	     onefile = onefile, title = title, print.it = FALSE, ...)
-}
+}## ps.do()
+})## local(..)
 
 ps.end <- function(call.gv = NULL, command = getOption("eps_view"),
 		   debug = getOption("verbose"))
@@ -136,6 +138,7 @@ ps.end <- function(call.gv = NULL, command = getOption("eps_view"),
 	warning("using ps, ghostview,...is currently not implemented for non-Unix")
 	return(FALSE)
     }
+    ..ps.file <- environment(ps.do)$myfile
     if (is.null(call.gv)) {
 	f <- u.sys(Sys.ps.cmd(), " | grep '", command, "' | grep -v grep")
 	if(debug) { cat("ps.end(): f:\n");print(f) }
@@ -168,7 +171,9 @@ ps.end <- function(call.gv = NULL, command = getOption("eps_view"),
 
 ###---  Using  pdf()  instead of postscript() --- otherwise "same" :
 
-pdf.do <- function(file, paper = "default",
+pdf.do <- local({
+    pdf.file <- NULL
+    function(file, paper = "default",
                    width = -1, height = -1, onefile = FALSE,
                    title = NULL, version = "1.4", quiet=FALSE, ...)
 {
@@ -180,7 +185,6 @@ pdf.do <- function(file, paper = "default",
   ## -------------------------------------------------------------------------
   ## Author: Martin Maechler, April 26, 2007 {built on much older ps.do()}
 
-  u.assign0("..pdf.file", file)
 ##   if(length(l... <- list(...))) {
 ##       ## ps.options also used for pdf -- in some way
 ##     oldop <- ps.options()[names(l...)]
@@ -201,7 +205,9 @@ pdf.do <- function(file, paper = "default",
   pdf(file = file, version = version, paper = paper,
       width = width, height = height,
       onefile = onefile, title = title, ...)
-}
+}## pdf.do()
+})## local(..)
+
 
 pdf.end <- function(call.viewer = NULL, command = getOption("pdfviewer"),
 		   debug = getOption("verbose"))
@@ -222,6 +228,7 @@ pdf.end <- function(call.viewer = NULL, command = getOption("pdfviewer"),
 	warning("using ps (process status) is currently not implemented for non-Unix")
 	return(FALSE)
     }
+    ..pdf.file <- environment(pdf.do)$myfile
     if (is.null(call.viewer)) {
         cmd <- basename(command)
 	f <- u.sys(Sys.ps.cmd(), " | grep '", cmd, "' | grep -v grep")
