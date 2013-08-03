@@ -1,4 +1,4 @@
-#### $Id: misc-goodies.R,v 1.41 2012/07/06 07:03:56 maechler Exp $
+#### $Id: misc-goodies.R,v 1.42 2012/11/01 19:54:15 maechler Exp $
 #### misc-goodies.R
 #### ~~~~~~~~~~~~~~  SfS - R - goodies that are NOT in
 ####		"/u/sfs/R/SfS/R/u.goodies.R"
@@ -215,11 +215,6 @@ histBxp <-
 		     f = .8 - max(0, .15 - width)*(1+(par("mfg")[3] >= 3))),
 	  boxcol = boxcol, medcol = medcol,
 	  medlwd = medlwd, whisklty = whisklty, staplelty = staplelty)
-}
-
-hist.bxp <- function(x, ...) {
-    warning("hist.bxp(..) is deprecated -- use  histBxp(..)  instead!")
-    histBxp(x, ...)
 }
 
 
