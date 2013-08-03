@@ -61,15 +61,22 @@ list2mat <- function(x, check = TRUE)
   matrix(unlist(x), n,p, dimnames = list(NULL, collabs))
 }
 
+hist.bxp <- function(x, ...) {
+    warning("hist.bxp(..) is deprecated -- use  histBxp(..)  instead!")
+    histBxp(x, ...)
+}
 
-## keep a stub here [as from 2006-10-19; version 0.95-7] :
-rnls <- function(...)
-{
-    ## Purpose:
-    ##  Robust parameters estimation in the nonlinear model. The fitting is
-    ##  done by iterated reweighted least squares (IWLS) as in rlm() of the
-    ##  package MASS. In addition, see also 'nls'.
 
-    stop("rnls() in package 'sfsmisc' is defunct.",
-	"\n Do use nlrob() from the 'robustbase' package instead!\n")
+## Deprecation of these, as of  2013-08-03 :
+u.assign0 <- function(x, value, immediate = FALSE) {
+    ## Purpose: Simple function with identical UI for both R & S
+    ## Author: Martin Maechler, Date: 7 Jul 1999
+    warning("u.assign0(..) is deprecated, use assign(.., , envir = .GlobalEnv)\n",
+            "   {if you really must; that is deprecated in packages as well}")
+
+    assign(x, value, envir = .GlobalEnv)
+}
+u.get0 <- function(x) {
+    warning("u.get0(x) is deprecated, use get(x, envir = .GlobalEnv)")
+    get(x, envir = .GlobalEnv)
 }
