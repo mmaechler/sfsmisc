@@ -196,3 +196,12 @@ Sys.cpuinfo <- function() Sys.procinfo("/proc/cpuinfo")
 Sys.meminfo <- function() Sys.procinfo("/proc/meminfo")
 
 Sys.MIPS <- function() as.numeric(Sys.cpuinfo()["bogomips"])
+
+Sys.memGB <- function(kind = "MemTotal") {
+    mm <- drop(read.dcf("/proc/meminfo", fields=kind))
+    if(any(is.na(mm))) stop("Non-existing 'kind': ", names(mm)[is.na(mm)][1])
+    if(!all(grepl(" kB$", mm)))
+        stop("Memory info ", dQuote(kind), " is not returned in 'kB' aka kiloBytes")
+    ## return memory in giga bytes
+    as.numeric(sub(" kB$", "", mm)) / (1000 * 1024)
+}
