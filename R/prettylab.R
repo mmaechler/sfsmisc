@@ -1,4 +1,4 @@
-####-- $Id: prettylab.R,v 1.8 2012/09/26 09:00:46 maechler Exp maechler $
+####-- $Id: prettylab.R,v 1.9 2013/01/02 23:38:20 maechler Exp maechler $
 ### --> these are from ~/R/MM/GRAPHICS/axis-prettylab.R
 
 ### Help files: ../man/pretty10exp.Rd  ../man/axTexpr.Rd   ../man/eaxis.Rd
@@ -40,6 +40,9 @@ axTexpr <- function(side, at = axTicks(side, axp=axp, usr=usr, log=log),
 eaxis <- function(side, at = if(log && getRversion() >= "2.14.0")
                   axTicks(side, log=log, nintLog=nintLog) else
                   axTicks(side, log=log),
+## FIXME???  use  axisTicks() instead of axTicks():
+## set.seed(1);x <- runif(100,-0.18, 1.13)
+## par(mar=.1+c(5,4,2,4)); plot(x); eaxis(4)
                   labels = NULL, log = NULL,
                   f.smalltcl = 3/5, at.small = NULL, small.mult = NULL,
                   small.args = list(),
@@ -53,7 +56,7 @@ eaxis <- function(side, at = if(log && getRversion() >= "2.14.0")
     ## Author: Martin Maechler, Date: 13 Oct 2007
     is.x <- side%%2 == 1
     if(is.null(log)) {
-        XY <- function(ch) paste(if (is.x) "x" else "y", ch, sep = "")
+        XY <- function(ch) paste0(if (is.x) "x" else "y", ch)
         log <- par(XY("log"))
     }
     if(is.finite(max.at <- round(max.at))) { ## "thin the 'at' values

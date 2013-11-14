@@ -1,4 +1,4 @@
-#### $Id: misc-goodies.R,v 1.42 2012/11/01 19:54:15 maechler Exp $
+#### $Id: misc-goodies.R,v 1.43 2013/08/03 08:05:21 maechler Exp $
 #### misc-goodies.R
 #### ~~~~~~~~~~~~~~  SfS - R - goodies that are NOT in
 ####		"/u/sfs/R/SfS/R/u.goodies.R"
@@ -222,7 +222,7 @@ histBxp <-
 ##-###  ===============  ########
 
 ccat <-  ## character 'concat'
-  function(...)     paste(..., collapse = "", sep = "")
+  function(...)     paste0(..., collapse = "")
 vcat <- ## (numeric) vector 'concat'
   function(vec, sep = " ") paste(vec, collapse = sep)
 
@@ -258,7 +258,7 @@ wrapFormula <- function(f, data, wrapString = "s(*)")
         stop("invalid formula; need something like  'Y ~ .'")
     wrapS <- strsplit(wrapString, "\\*")[[1]]
     stopifnot(length(wrapS) == 2)
-    cc <- gsub("([^+ ]+)", paste(wrapS[1], "\\1", wrapS[2], sep=''),
+    cc <- gsub("([^+ ]+)", paste0(wrapS[1], "\\1", wrapS[2]),
 	       format(form[[3]]))
     form[[3]] <- parse(text = cc, srcfile = NULL)[[1]]
     form
@@ -282,7 +282,7 @@ capture.and.write <- function(EXPR, first, last = 2,
                               dotdots = " ....... ", n.dots = 2) {
     co <- capture.output(EXPR)
     writeLines(head(co, first))
-    catDots <- function(M) cat(rep.int(paste(dotdots,"\n", sep=""), M), sep="")
+    catDots <- function(M) cat(rep.int(paste0(dotdots,"\n"), M), sep="")
     catDots(n.dots)
     if(is.numeric(middle)) {
         stopifnot(length(middle) == 1, middle >= 0, middle == round(middle))
@@ -439,8 +439,8 @@ chars8bit <- function(i = 1:255)
     if(any(i == 0))
 	warning("\\000 (= 'nul') is no longer allowed in R strings")
     i8 <- apply(digitsBase(i, base = 8), 2, paste, collapse="")
-    c8 <- paste('"\\', i8, '"', sep="")
-    eval(parse(text = paste("c(",paste(c8, collapse=","),")", sep="")))
+    c8 <- paste0('"\\', i8, '"')
+    eval(parse(text = paste0("c(",paste(c8, collapse=","),")")))
 }
 
 strcodes <- function(x, table = chars8bit(1:255))
@@ -919,7 +919,7 @@ n.code <- function(n, ndig = 1, dec.codes = c("","d","c","k"))
 ##-           e10[ii] <- e10[ii] - 1
 ##-       }
 ##-   }
-  paste(round(n/ 10^(e10 + 1 - ndig)), dec.codes[1 + e10],  sep = "")
+  paste0(round(n/ 10^(e10 + 1 - ndig)), dec.codes[1 + e10])
 }
 
 code2n <- function(ncod, ndig = 1, dec.codes = c("","d","c","k"))
@@ -953,11 +953,10 @@ unif <- function(n, round.dig = 1 + trunc(log10(n)))
 prt.DEBUG <- function(..., LEVEL = 1)
   if (exists("DEBUG", where = 1) && DEBUG >= LEVEL )#
   ##
-  cat(paste("in '", sys.call(sys.nframe()-1)[1], "':", sep = ""), ..., "\n")
+  cat(paste0("in '", sys.call(sys.nframe()-1)[1], "':"), ..., "\n")
 
 ##- ## Not w=1:
 ##- prt.DEBUG <- function(...)
 ##-   if (exists("DEBUG") && DEBUG )
-##-         cat(paste("in '", sys.call(sys.nframe()-1)[1], "':", sep=""),
-##- 	    ..., "\n")
+##-         cat(paste0("in '", sys.call(sys.nframe()-1)[1], "':"), ..., "\n")
 #-- do NOT use  sep="" in cat(..)  --> fouls up  vectors of numbers
