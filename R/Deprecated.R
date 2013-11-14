@@ -1,5 +1,8 @@
 ###-- Synchronize with ../man/Deprecated.Rd !!
 
+if(getRversion() < "2.15")
+    paste0 <- function(...) paste(..., sep = '')
+
 ###--- remove things from here to ../Old_Defunct/ex-Deprecated.R
 ###      ====                  == ==============================
 
