@@ -1,10 +1,9 @@
 ####--- Utilities -----------------
 
-u.sys <- function(..., intern=TRUE)
-    system(paste(..., sep=""), intern=intern)
+u.sys <- function(..., intern=TRUE) system(paste0(...), intern=intern)
 
 u.date <- function(short = FALSE)
-  format(Sys.time(), paste("%d/%h/%Y", if(!short) ", %H:%M", sep=''))
+  format(Sys.time(), paste0("%d/%h/%Y", if(!short) ", %H:%M"))
 ## Unix-only:  u.sys("date '+%d/%h/%Y", if(!short) ", %H:%M", "'")
 
 u.Datumvonheute <- function(W.tag = 2, Zeit = FALSE)
@@ -15,7 +14,7 @@ u.Datumvonheute <- function(W.tag = 2, Zeit = FALSE)
   ## Unix-only: dat <- as.numeric(system("date '+%w %d %m %Y %H %M' | tr ' ' '\n'",TRUE))
   dat <- as.integer(strsplit(format(Sys.time(),"%w %d %m %Y %H %M"), " ")[[1]])
   ##						 1  2  3  4  5	6
-  DMY <- paste(dat[2], ". ", C.Monatsname[dat[3]], " ", dat[4], sep= "")
+  DMY <- paste0(dat[2], ". ", C.Monatsname[dat[3]], " ", dat[4])
   r <- if (W.tag) {				#-- wollen Wochentag
     W <- ifelse(dat[1]==0, 7, dat[1])
     if (W.tag==2) Wtag <- C.Wochentag[W]
