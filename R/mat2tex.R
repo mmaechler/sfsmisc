@@ -25,7 +25,7 @@ mat2tex <- function(x, file = "mat.tex",
     colspec <- "{|"
     if(has.rowlabs)
         colspec <- paste(colspec, nam.center, "||")
-    colspec <- paste(colspec, paste(col.center, "|", collapse=""), "}", sep = "")
+    colspec <- paste0(colspec, paste(col.center, "|", collapse=""), "}")
     cat(paste("\\begin{tabular}", colspec, " \n"), file = file, append = append)
 
     span <- nc.x + if(has.rowlabs) 1 else 0
