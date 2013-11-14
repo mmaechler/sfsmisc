@@ -10,16 +10,14 @@
 ## Cc: Kjetil Halvorsen <kjetilh@umsanet.edu.bo>, r-help@stat.math.ethz.ch
 
 ### Note -- this is related to the pkstwo() function inside ks.test()
-### ====    in the ctest package: ~/R/D/r-devel/R/src/library/ctest/R/ks.test.R
+### ====    in stats : ~/R/D/r-devel/R/src/library/stats/R/ks.test.R
 
 ecdf.ksCI <- function(x, main = NULL, sub = NULL,
                       xlab = deparse(substitute(x)), ci.col = "red", ...)
 {
     force(xlab)
-    stopifnot(require(stats))# for ecdf() ; or importfrom ( namespace )
     if(is.null(main))
-        main <- paste("ecdf(",deparse(substitute(x)),") + 95% K.S. bands",
-                      sep="")
+        main <- paste0("ecdf(",deparse(substitute(x)),") + 95% K.S. bands")
     n <- length(x)
     if(is.null(sub))
         sub <- paste("n = ", n)
