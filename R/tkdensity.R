@@ -12,12 +12,7 @@ tkdensity <- function(y, n = 1024, log.bw = TRUE, showvalue = TRUE,
 
     require(tcltk) || stop("tcltk support is absent")
 
-    ## get R's density[.default] depending on R version
-    dFun <-
-        if(methods::existsFunction("density.default",
-                                   where = asNamespace("stats")))
-            stats::density.default
-        else stats::density
+    dFun <- density.default
     all.kerns <- eval(formals(dFun)$kernel)
     kernels <-
         if(is.null(kernels)) all.kerns
