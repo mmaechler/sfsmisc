@@ -1,4 +1,4 @@
-if(paste(R.version$major, R.version$minor, sep=".") < "2.2")
+if(getRversion() < "2.2")
     ## R 2.2.0 and later contain this in 'utils'
 glob2rx <- function(pattern, trim.head = FALSE, trim.tail = TRUE)
 {
@@ -7,7 +7,7 @@ glob2rx <- function(pattern, trim.head = FALSE, trim.tail = TRUE)
     ## -------------------------------------------------------------------------
     ## Author: Martin Maechler ETH Zurich, ~ 1991
     ##	       New version using [g]sub() : 2004
-    p <- gsub('\\.','\\\\.', paste('^', pattern, '$', sep=''))
+    p <- gsub('\\.','\\\\.', paste0('^', pattern, '$'))
     p <- gsub('\\?',	 '.',  gsub('\\*',  '.*', p))
     ## these are trimming '.*$' and '^.*' - in most cases only for esthetics
     if(trim.tail) p <- sub("\\.\\*\\$$", '', p)
