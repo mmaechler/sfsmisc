@@ -7,7 +7,7 @@
     ## This assumes  "gv"  in your path --- ideally this would be configured!
     if(!is.character(getOption("eps_view")) && .Platform $ OS.type == "unix") {
 	SYS <- function(cmd) system(cmd, intern=TRUE, ignore.stderr=TRUE)
-        doesRespond <- function(cmd) length(SYS(cmd)) > 0
+        ## doesRespond <- function(cmd) length(SYS(cmd)) > 0
         doesRespond <- function(cmd) ## should be portable (thanks BDR):
             all(system(paste(cmd,"> /dev/null")) != c(1,256)*127)
 	if(doesRespond("gv -h")) { ## 'gv'
