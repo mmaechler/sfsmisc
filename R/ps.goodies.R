@@ -1,6 +1,6 @@
 #### PostScript Goodies für R --- `a la /u/sfs/S/ps.goodies.S
 ####
-#### $Id: ps.goodies.R,v 1.17 2013/01/02 23:37:21 maechler Exp $
+#### $Id: ps.goodies.R,v 1.19 2013/08/03 08:06:41 maechler Exp $
 ####
 
 ## hidden in the name space -- FIXME? maybe more useful ?? ---
@@ -172,7 +172,7 @@ ps.end <- function(call.gv = NULL, command = getOption("eps_view"),
 ###---  Using  pdf()  instead of postscript() --- otherwise "same" :
 
 pdf.do <- local({
-    pdf.file <- NULL
+    myfile <- NULL
     function(file, paper = "default",
                    width = -1, height = -1, onefile = FALSE,
                    title = NULL, version = "1.4", quiet=FALSE, ...)
@@ -191,6 +191,7 @@ pdf.do <- local({
 ##     ps.options(...)
 ##     on.exit( do.call("ps.options", oldop) ) #- reset ps.options !
 ##   }
+    myfile <<- file
 
   if(missing(paper) && !missing(width) && !missing(height)) {
       if(!quiet)
