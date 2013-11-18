@@ -7,6 +7,8 @@ Old_Defunct
 .*-used-grep
 man/.*\.d$
 SfS-changes
+Done
 TODO-MM
+approx2.R
 Unused.R
 inst/doc/CHANGES-dummy
