@@ -1,6 +1,9 @@
 ###  demo(tkdensity) ## is at
 ### /u/maechler/R/D/r-devel/Linux-inst/library/tcltk/demo/tkdensity.R
 
+## only to work around false positives of codetools' check [in R CMD check --as-cran]:
+globalVariables(c("._nbw", "._xZ", "._xM"))
+
 tkdensity <- function(y, n = 1024, log.bw = TRUE, showvalue = TRUE,
                       xlim = NULL, do.rug = size < 1000, kernels = NULL,
                       from.f = if(log.bw) -2   else 1/1000,
@@ -51,17 +54,17 @@ tkdensity <- function(y, n = 1024, log.bw = TRUE, showvalue = TRUE,
         if (is.null(y)) return() # too early...
 
         b <- if(log.bw) 10 ^ (lbw <<- as.numeric(tclvalue(Lbw))) else
-                              nbw <<- as.numeric(tclvalue(bw))
+                              ._nbw <<- as.numeric(tclvalue(bw))
         ##Dbg cat("b = ", formatC(b),"\n")
 
         k <- tclvalue(kernel) # *is* char
 
-        xZ <<- as.numeric(tclvalue(xZoom))
-        xM <<- as.numeric(tclvalue(xlmid))
+        ._xZ <<- as.numeric(tclvalue(xZoom))
+        ._xM <<- as.numeric(tclvalue(xlmid))
         ##Dbg cat("tclvalue(kernel)"); str(k)
 
-        xr.half <- (xr0 / 2) * 100 / xZ
-        xlim <- xM + c(-xr.half, xr.half)
+        xr.half <- (xr0 / 2) * 100 / ._xZ
+        xlim <- ._xM + c(-xr.half, xr.half)
         eval(substitute(plot(density(y, bw = b, kernel = k, n = n),
                              main =  paste("density(",ynam,
                              ", bw = ",format(b, dig = 3),
@@ -72,9 +75,9 @@ tkdensity <- function(y, n = 1024, log.bw = TRUE, showvalue = TRUE,
 
     replot.maybe <- function(...)
         if ((log.bw  && as.numeric(tclvalue(Lbw)) != lbw) ||
-            (!log.bw && as.numeric(tclvalue(bw))  != nbw) ||
-            as.numeric(tclvalue(xZoom)) != xZ ||
-            as.numeric(tclvalue(xlmid)) != xM
+            (!log.bw && as.numeric(tclvalue(bw))  != ._nbw) ||
+            as.numeric(tclvalue(xZoom)) != ._xZ ||
+            as.numeric(tclvalue(xlmid)) != ._xM
             )
             replot()
 
