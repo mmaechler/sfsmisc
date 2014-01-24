@@ -1,3 +1,5 @@
+##-*- org -*-
+
 3) Feb.2004 : Close before CRAN release
 
    - Improve ps.end(): should return something useful
@@ -25,3 +27,4 @@
     (a new file)             ./inst/primes-extra-fns.R
     and source() that from   ./demo/prime-numbers.R    !!
 
+11) Work on R/approx2.R -- implement remaining "vectorized" part
