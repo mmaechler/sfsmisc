@@ -6,12 +6,7 @@
 \alias{p.pllines}
 \alias{list2mat}
 % the whole set
-\alias{rnls}
-\alias{print.rnls}
-\alias{fitted.rnls}
-\alias{predict.rnls}
-\alias{residuals.rnls}
-\alias{summary.rnls}
+% removed, see ../Old_Defunct/ \alias{rnls}
 %
 %------ PLEASE: put \alias{.} here for EACH !
 %
