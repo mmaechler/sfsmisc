@@ -1,30 +1,30 @@
 ##-*- org -*-
 
-3) Feb.2004 : Close before CRAN release
+* Feb.2004 : Close before CRAN release
 
-   - Improve ps.end(): should return something useful
+** Improve ps.end(): should return something useful
      ==> new ./tests/psend-ex.R which tests that 2 x {ps.do() ... ps.end()}
      *does* work properly
 
-   - Make use of R/p.res.2x.formula.R --> generic function with
+** Make use of R/p.res.2x.formula.R --> generic function with
      default and formula method where the latter calls the former.
 
 
-5) mat2tex() is really not flexible enough; and there are better functions
+* mat2tex() is really not flexible enough; and there are better functions
    in other packages, e.g. latex in 'Hmisc' --> deprecate this! [2005-04]
 
-6) 2008-10-22: Copied  boxplot.matrix() to R-devel (2.9.0 to be)
+* 2008-10-22: Copied  boxplot.matrix() to R-devel (2.9.0 to be)
    Remove this from 'sfsmisc' eventually.
 
-7) eaxis() [ ./R/prettylab.R ] :
-   -  allow  log2-scale and "2^..." labelling --- or log_k and 'k^..'
-   -  this is a range where the *defaults* of eaxis are completely bad
+* eaxis() [ ./R/prettylab.R ] :
+** allow  log2-scale and "2^..." labelling --- or log_k and 'k^..'
+** this is a range where the *defaults* of eaxis are completely bad
       --> but really it is because  axTicks(*, log=TRUE) can be bad:
     curve(qgamma(1e-100, x, lower.tail=FALSE), 1e-110, 1e-70, log="xy", col=2, axes=FALSE)
     eaxis(1);eaxis(2)
 
-10) clean up R/prime-numbers-fn.R -- move all non-exported functions to
-    (a new file)             ./inst/primes-extra-fns.R
-    and source() that from   ./demo/prime-numbers.R    !!
+* clean up R/prime-numbers-fn.R -- move all non-exported functions to
+ - (a new file)             ./inst/primes-extra-fns.R
+ - and source() that from   ./demo/prime-numbers.R    !!
 
-11) Work on R/approx2.R -- implement remaining "vectorized" part
+* Work on R/approx2.R -- implement remaining "vectorized" part
