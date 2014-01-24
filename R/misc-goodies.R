@@ -1,4 +1,4 @@
-#### $Id: misc-goodies.R,v 1.43 2013/08/03 08:05:21 maechler Exp $
+#### $Id: misc-goodies.R,v 1.44 2013/11/14 11:33:58 maechler Exp $
 #### misc-goodies.R
 #### ~~~~~~~~~~~~~~  SfS - R - goodies that are NOT in
 ####		"/u/sfs/R/SfS/R/u.goodies.R"
@@ -950,10 +950,13 @@ unif <- function(n, round.dig = 1 + trunc(log10(n)))
   }
 }
 
-prt.DEBUG <- function(..., LEVEL = 1)
+globalVariables("DEBUG")
+prt.DEBUG <- function(..., LEVEL = 1) {
+  warning("prt.DEBUG() is deprecated: use a 'verbose' argument or options(verbose=.) instead")
   if (exists("DEBUG", where = 1) && DEBUG >= LEVEL )#
   ##
   cat(paste0("in '", sys.call(sys.nframe()-1)[1], "':"), ..., "\n")
+}
 
 ##- ## Not w=1:
 ##- prt.DEBUG <- function(...)
