@@ -1,4 +1,4 @@
-#### $Id: p.goodies.R,v 1.16 2004/02/03 14:00:58 maechler Exp $
+#### $Id: p.goodies.R,v 1.17 2011/05/27 07:07:30 maechler Exp $
 #### Original is /u/sfs/S/p.goodies.S  [v 1.12 1999/05/06 10:17:00 sfs Exp ]
 ####
 ### p.goodies.S ---- SfS- S(plus) - Funktionen, welche
@@ -40,12 +40,14 @@ p.datum <- function(outer = FALSE, cex = 0.75, ...)
 
 ## curve(.. xlim..) only satisfactory from R version 1.2 on ..
 p.dchisq <- function(nu, h0.col = "light gray", ...) {
+  x <- NULL # against codetools' FP warning
   curve(dchisq(x, nu), xlim= qchisq(c(1e-5,.999), nu),
         ylab = paste("dchisq(x, nu=",format(nu),")"), ...)
   abline(h=0, col = h0.col)
 }
 
 p.dgamma <- function(shape, h0.col = "light gray", ...) {
+  x <- NULL # against codetools' FP warning
   curve(dgamma(x, shape), xlim= qgamma(c(1e-5,.999), shape),
         ylab = paste("dgamma(x, shape=",format(shape),")"), ...)
   abline(h=0, col = h0.col)
