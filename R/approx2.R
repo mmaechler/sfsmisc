@@ -3,6 +3,8 @@
 #### The more general situation is handled by the algorithms in the
 #### 'akima' package
 
+##' not yet exported as  'not yet implemented' below :
+
 ## approx(x, y = NULL, xout, method = "linear", n = 50,
 ##        yleft, yright, rule = 1, f = 0, ties = mean)
 approx2 <- function(x, y, z, ##-- similar to 'image':
@@ -27,6 +29,6 @@ approx2 <- function(x, y, z, ##-- similar to 'image':
             ((f01 <- z[i.xo,  i.yo+1])- f00)*(ty <- (yout - y0)/dy) +
             (z[i.xo+1, i.yo+1] + f00 - (f10+f01))* tx*ty
     } else {
-        stop("not yet implemented \"parallel\" interpolation at more than one location")
+        stop("not yet implemented \"vectorized\" interpolation at more than one location")
     }
 }
