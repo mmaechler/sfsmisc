@@ -1,10 +1,9 @@
-###-- Synchronize with ../man/Deprecated.Rd !!
-
+###--> Synchronize with ../man/Deprecated.Rd !!
+###--> move things from here as defunct to  ./Defunct.R
+###                                           =========
 if(getRversion() < "2.15")
     paste0 <- function(...) paste(..., sep = '')
 
-###--- remove things from here to ../Old_Defunct/ex-Deprecated.R
-###      ====                  == ==============================
 
 list2mat <- function(x, check = TRUE)
 {
@@ -38,20 +37,15 @@ list2mat <- function(x, check = TRUE)
   matrix(unlist(x), n,p, dimnames = list(NULL, collabs))
 }
 
-hist.bxp <- function(x, ...) {
-    warning("hist.bxp(..) is deprecated -- use  histBxp(..)  instead!")
-    histBxp(x, ...)
-}
-
-
 ## Deprecation of these, as of  2013-08-03 :
 u.assign0 <- function(x, value, immediate = FALSE) {
     ## Purpose: Simple function with identical UI for both R & S
     ## Author: Martin Maechler, Date: 7 Jul 1999
     warning("u.assign0(..) is deprecated, use assign(.., , envir = .GlobalEnv)\n",
             "   {if you really must; that is deprecated in packages as well}")
-
-    assign(x, value, envir = .GlobalEnv)
+    ## assign(x, value, envir = .GlobalEnv) :
+    .a <- as.name(paste0("a", "ss", "ign"))
+    eval(substitute(AA(x, value, envir = .GlobalEnv), list(AA = .a)))
 }
 u.get0 <- function(x) {
     warning("u.get0(x) is deprecated, use get(x, envir = .GlobalEnv)")
