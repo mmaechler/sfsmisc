@@ -1,6 +1,6 @@
 #### PostScript Goodies für R --- `a la /u/sfs/S/ps.goodies.S
 ####
-#### $Id: ps.goodies.R,v 1.19 2013/08/03 08:06:41 maechler Exp $
+#### $Id: ps.goodies.R,v 1.20 2013/11/18 10:47:03 maechler Exp $
 ####
 
 ## hidden in the name space -- FIXME? maybe more useful ?? ---
@@ -262,3 +262,8 @@ pdf.end <- function(call.viewer = NULL, command = getOption("pdfviewer"),
     }
     invisible(fil)
 }
+
+## Alain Hauser <alain@huschhus.ch> --> ../man/cairoSwd.Rd
+cairoSwd <- function(name, width, height, ...)
+  cairo_pdf(filename = paste(name, "pdf", sep = "."),
+            width = width, height = height, ...)
