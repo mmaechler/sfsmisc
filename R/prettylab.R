@@ -1,4 +1,4 @@
-####-- $Id: prettylab.R,v 1.12 2014/04/23 18:13:39 maechler Exp maechler $
+####-- $Id: prettylab.R,v 1.13 2014/04/23 18:24:31 maechler Exp maechler $
 ### --> these are from ~/R/MM/GRAPHICS/axis-prettylab.R
 
 ### Help files: ../man/pretty10exp.Rd  ../man/axTexpr.Rd   ../man/eaxis.Rd
@@ -162,12 +162,12 @@ eaxis <- function(side, at = if(log && getRversion() >= "2.14.0")
 ## FIXME: add argument for '\\cdot'
 ## ??:    is 'digits = 0' really *the* default; or should we have none?
 toLatex.numeric <- function(object, digits = 0L,
-                            scientific = format.info(object)[3] > 0)
+                            scientific = format.info(object)[3] > 0, ...)
 {
     sround <- function(x, digits) sprintf("%0.*f", digits, x)
     if(scientific) {
         ## Strings in scientific format
-### pretty10exp() is slightly smarter --- use it here !!
+### pretty10exp() is slightly smarter --- use it here, or same rounding!!
         exponent <- floor(log10(abs(object)))
         sprintf("%s \\cdot 10^{%d}",
                 sround(object/10^exponent, digits), exponent)
