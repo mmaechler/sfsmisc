@@ -1,10 +1,10 @@
-####-- $Id: prettylab.R,v 1.9 2013/01/02 23:38:20 maechler Exp maechler $
+####-- $Id: prettylab.R,v 1.10 2013/11/14 11:33:32 maechler Exp maechler $
 ### --> these are from ~/R/MM/GRAPHICS/axis-prettylab.R
 
 ### Help files: ../man/pretty10exp.Rd  ../man/axTexpr.Rd   ../man/eaxis.Rd
 ###                    --------------         ----------          --------
 
-pretty10exp <- function(x, drop.1 = FALSE, digits.fuzz = 7)
+pretty10exp <- function(x, drop.1 = FALSE, sub10 = FALSE, digits.fuzz = 7)
 {
     ## Purpose: produce "a 10^k"  label expressions instead of "a e<k>"
     ## ----------------------------------------------------------------------
@@ -12,11 +12,19 @@ pretty10exp <- function(x, drop.1 = FALSE, digits.fuzz = 7)
     ## ----------------------------------------------------------------------
     ## Author: Martin Maechler, Date: 7 May 2004; 24 Jan 2006
     eT <- floor(log10(abs(x)) + 10^-digits.fuzz) # x == 0 case is dealt with below
-    mT <- signif(x / 10^eT, digits.fuzz)
+    mT <- signif(x / 10^eT, digits.fuzz) # m[antissa]
     ss <- vector("list", length(x))
+    if(sub.10 <- !identical(sub10, FALSE)) {
+	sub10 <- as.integer(sub10)
+	if(sub10 < 0)
+	    stop("'sub10' must be FALSE or non negative integer valued")
+	noE <- eT <= sub10
+	mT[noE] <- mT[noE] * 10^eT[noE]
+    }
     for(i in seq(along = x))
         ss[[i]] <-
             if(x[i] == 0) quote(0)
+            else if(sub.10 &&  noE[i]    ) substitute( A, list(A = mT[i]))
             else if(drop.1 && mT[i] ==  1) substitute( 10^E, list(E = eT[i]))
             else if(drop.1 && mT[i] == -1) substitute(-10^E, list(E = eT[i]))
             else substitute(A %*% 10^E, list(A = mT[i], E = eT[i]))
@@ -37,12 +45,14 @@ axTexpr <- function(side, at = axTicks(side, axp=axp, usr=usr, log=log),
 ### Myaxis(.)  function with at least two options ("engineering/not")
 ### Really wanted: allow   xaxt = "p" (pretty) or "P" (pretty, "Engineer")
 ### FIXME(2):  max.at is only needed because  axTicks() is sometimes too large
+### FIXME(3): ??  axisTicks() instead of axTicks():
+## set.seed(1);x <- runif(100,-0.18, 1.13)
+## par(mar=.1+c(5,4,2,4)); plot(x,axes=FALSE)
+##  eaxis(4) # ugly
+##  eaxis(2, at=axisTicks(par("usr")[3:4],log=FALSE)) # much better
 eaxis <- function(side, at = if(log && getRversion() >= "2.14.0")
                   axTicks(side, log=log, nintLog=nintLog) else
                   axTicks(side, log=log),
-## FIXME???  use  axisTicks() instead of axTicks():
-## set.seed(1);x <- runif(100,-0.18, 1.13)
-## par(mar=.1+c(5,4,2,4)); plot(x); eaxis(4)
                   labels = NULL, log = NULL,
                   f.smalltcl = 3/5, at.small = NULL, small.mult = NULL,
                   small.args = list(),
