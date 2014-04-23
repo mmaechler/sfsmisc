@@ -1,18 +1,26 @@
-####-- $Id: prettylab.R,v 1.11 2014/04/23 18:12:11 maechler Exp maechler $
+####-- $Id: prettylab.R,v 1.12 2014/04/23 18:13:39 maechler Exp maechler $
 ### --> these are from ~/R/MM/GRAPHICS/axis-prettylab.R
 
 ### Help files: ../man/pretty10exp.Rd  ../man/axTexpr.Rd   ../man/eaxis.Rd
 ###                    --------------         ----------          --------
 
-pretty10exp <- function(x, drop.1 = FALSE, sub10 = FALSE, digits.fuzz = 7)
+pretty10exp <- function(x, drop.1 = FALSE, sub10 = FALSE,
+                        digits = 7, digits.fuzz)
 {
     ## Purpose: produce "a 10^k"  label expressions instead of "a e<k>"
     ## ----------------------------------------------------------------------
     ## Arguments: x: numeric vector (e.g. axis tick locations)
     ## ----------------------------------------------------------------------
     ## Author: Martin Maechler, Date: 7 May 2004; 24 Jan 2006
-    eT <- floor(log10(abs(x)) + 10^-digits.fuzz) # x == 0 case is dealt with below
-    mT <- signif(x / 10^eT, digits.fuzz) # m[antissa]
+    if(!missing(digits.fuzz)) {
+	if(!missing(digits))
+	    stop("No sense to specify both 'digits' and 'digits.fuzz'")
+	## Later: use warning():
+	message("'digits.fuzz' is deprecated; use 'digits' instead")
+	digits <- digits.fuzz
+    }
+    eT <- floor(log10(abs(x)) + 10^-digits) # x == 0 case is dealt with below
+    mT <- signif(x / 10^eT, digits) # m[antissa]
     ss <- vector("list", length(x))
     if(sub.10 <- !identical(sub10, FALSE)) {
 	sub10 <- as.integer(sub10)
