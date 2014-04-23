@@ -26,8 +26,8 @@ tkdensity <- function(y, n = 1024, log.bw = TRUE, showvalue = TRUE,
 
     ## Use Silverman's  Rule of Thumb initially :
     hi <- sd.y
-    if (!(lo <- min(hi, IQR(y)/1.34)))
-        (lo <- hi) || (lo <- abs(x[1])) || (lo <- 1)
+    if ((lo <- min(hi, IQR(y)/1.34)) == 0)
+        (lo <- hi) || (lo <- abs(y[1])) || (lo <- 1)
     bw <- bw0 <- 0.9 * lo * size^(-0.2)
     if(log.bw) lbw <- lbw0 <- log10(bw0)
 
