@@ -1,5 +1,5 @@
 ####---- Prime numbers, factorization, etc. --- "illustatration of programming"
-## -- $Id: prime-numbers-fn.R,v 1.8 2011/05/04 12:37:01 maechler Exp maechler $
+## -- $Id: prime-numbers-fn.R,v 1.9 2011/05/27 07:03:28 maechler Exp maechler $
 
 ###---- Function definitions -------- for examples, see "../demo/prime-numbers.R"
 
@@ -139,7 +139,7 @@ test.factorize <- function(res)
   ## -------------------------------------------------------------------------
   ## Author: Martin Maechler, Date: 29 Jan 96, 10:29
   n <- as.numeric(names(res))# as.integer() may fail for *large* ones
-  n == sapply(res, function(pf) prod(pf[,"p"] ^ pf[,"m"]))
+  n == vapply(res, function(pf) prod(pf[,"p"] ^ pf[,"m"]), 1.)
 }
 
 ##- From: Bill Venables <wvenable@attunga.stats.adelaide.edu.au>
