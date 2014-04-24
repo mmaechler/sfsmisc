@@ -36,7 +36,7 @@ compresid2way <-
     fac <- if (is.numeric(fac)) fac+1 else match(fac,names(lmm))
     if (any(is.na(fac)))
 	stop("factor(s) not found")
-    if (any(!sapply(lmm[,fac],is.factor)))
+    if (!all(vapply(lmm[,fac], is.factor, NA)))
 	stop("variables are not both factors")
     ## coefficients, components of the fit
     lcf <- dummy.coef(aov)
