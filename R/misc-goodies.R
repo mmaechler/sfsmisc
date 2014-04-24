@@ -1,4 +1,4 @@
-#### $Id: misc-goodies.R,v 1.44 2013/11/14 11:33:58 maechler Exp $
+#### $Id: misc-goodies.R,v 1.45 2014/01/24 08:31:12 maechler Exp $
 #### misc-goodies.R
 #### ~~~~~~~~~~~~~~  SfS - R - goodies that are NOT in
 ####		"/u/sfs/R/SfS/R/u.goodies.R"
@@ -358,12 +358,15 @@ digitsBase <- function(x, base = 2, ndigits = 1 + floor(1e-9+ log(max(x),base)))
     r
 }
 
+bi2int <- function(xlist, base)
+    vapply(xlist, function(u) polyn.eval(rev(u), base), numeric(1))
+
 as.intBase <- function(x, base = 2) {
    xl <- if(is.character(x)) lapply(strsplit(x,""), as.integer)
         else if(is.numeric(x) && is.matrix(x)) tapply(x, col(x), c)
         else if(!is.list(x))
             stop("'x' must be character, list or a digitsBase() like matrix")
-   sapply(xl, function(u) polyn.eval(rev(u), base), USE.NAMES = FALSE)
+   bi2int(xl, base)
 }
 
 as.integer.basedInt <- function(x, ...)
