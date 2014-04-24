@@ -1,7 +1,7 @@
 \name{digitsBase}
 \alias{digitsBase}
 \alias{as.intBase}
-%% TODO: use NAMESPACE to exclude:
+\alias{bi2int}
 \alias{as.integer.basedInt}
 \alias{print.basedInt}
 \title{Digit/Bit Representation of Integers in any Base}
@@ -20,6 +20,7 @@ digitsBase(x, base = 2, ndigits = 1 + floor(1e-9+ log(max(x),base)))
 \method{print}{basedInt}(x, \dots)
 
 as.intBase(x, base = 2)
+bi2int(xlist, base)
 }
 \arguments{
   \item{x}{For \code{digitsBase()}: non-negative integer (vector) whose
@@ -33,6 +34,9 @@ as.intBase(x, base = 2)
   \item{ndigits}{number of bits/digits to use.}
   \item{\dots}{potential further arguments passed to methods, notably
     \code{\link{print}}.}
+  \item{xlist}{a \code{\link{list}} of integer vectors with entries
+    typically in \code{0:(base-1)}, such as resulting from
+    \code{digitsBase()}.}
 }
 \value{
   For \code{digitsBase()}, an object, say \code{m}, of class
@@ -43,9 +47,10 @@ as.intBase(x, base = 2)
 
   \code{as.intBase()} and the \code{\link{as.integer}} method for
   \code{basedInt} objects return an \code{\link{integer}} vector.
+  \cr \code{bi2int()} is the low-level workhorse of \code{as.intBase()}.
 }
-\note{\code{digits} and \code{digits.v} are now deprecated and will be
-  removed from the \pkg{sfsmisc} package.
+\note{Some of these functions existed under names \code{digits} and
+  \code{digits.v} in previous versions of the \pkg{sfsmisc} package.
 }
 \author{Martin Maechler, Dec 4, 1991 (for S-plus; then called \code{digits.v}).}
 \examples{
@@ -54,6 +59,7 @@ empty.dimnames(digitsBase(0:33, 2)) # binary
 
 ## This may be handy for just one number (and default decimal):
 digits <- function(n, base = 10) as.vector(digitsBase(n, base = base))
+digits(128982734)     # 1 2 8 9 8 2 7 3 4
 digits(128, base = 8) # 2 0 0
 
 ## one way of pretty printing (base <= 10!)
@@ -69,6 +75,21 @@ M <- digitsBase(i, 16)
 hexdig <- c(0:9, LETTERS[1:6])
 cM <- hexdig[1 + M]; dim(cM) <- dim(M)
 b2ch(cM) #->  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F 10 11 ... 6A
+
+## IP (Internet Protocol) numbers coding:  <n>.<n>.<n>.<n>  <-->  longinteger
+ip_ntoa <- function(n)
+        apply(digitsBase(n, base = 256), 2, paste, collapse=".")
+ip_ntoa(2130706430 + (0:9))# "126.255.255.254" ... "127.0.0.7" 
+## and the inverse:
+ip_aton <- function(a)
+        bi2int(lapply(strsplit(a, ".", fixed=TRUE), as.integer), 256)
+
+n <- 2130706430 + (0:9)
+head(ip <- ip_ntoa(n))
+head(ip_aton(ip))
+stopifnot( n == ip_aton(ip_ntoa(n )),
+          ip == ip_ntoa(ip_aton(ip)))
+
 
 ## Inverse of digitsBase() : as.integer method for the "basedInt" class
 as.integer(M)
