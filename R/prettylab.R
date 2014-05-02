@@ -1,17 +1,20 @@
-####-- $Id: prettylab.R,v 1.13 2014/04/23 18:24:31 maechler Exp maechler $
+####-- $Id$
 ### --> these are from ~/R/MM/GRAPHICS/axis-prettylab.R
 
 ### Help files: ../man/pretty10exp.Rd  ../man/axTexpr.Rd   ../man/eaxis.Rd
 ###                    --------------         ----------          --------
 
 pretty10exp <- function(x, drop.1 = FALSE, sub10 = FALSE,
-                        digits = 7, digits.fuzz)
+                        digits = 7, digits.fuzz,
+                        lab.type = c("plotmath","latex"),
+                        lab.sep = c("cdot","times"))
 {
     ## Purpose: produce "a 10^k"  label expressions instead of "a e<k>"
     ## ----------------------------------------------------------------------
     ## Arguments: x: numeric vector (e.g. axis tick locations)
     ## ----------------------------------------------------------------------
     ## Author: Martin Maechler, Date: 7 May 2004; 24 Jan 2006
+
     if(!missing(digits.fuzz)) {
 	if(!missing(digits))
 	    stop("No sense to specify both 'digits' and 'digits.fuzz'")
@@ -19,6 +22,9 @@ pretty10exp <- function(x, drop.1 = FALSE, sub10 = FALSE,
 	message("'digits.fuzz' is deprecated; use 'digits' instead")
 	digits <- digits.fuzz
     }
+    lab.type <- match.arg(lab.type)
+    lab.sep <- match.arg(lab.sep)
+
     eT <- floor(log10(abs(x)) + 10^-digits) # x == 0 case is dealt with below
     mT <- signif(x / 10^eT, digits) # m[antissa]
     ss <- vector("list", length(x))
@@ -29,14 +35,28 @@ pretty10exp <- function(x, drop.1 = FALSE, sub10 = FALSE,
 	noE <- eT <= sub10
 	mT[noE] <- mT[noE] * 10^eT[noE]
     }
-    for(i in seq(along = x))
-        ss[[i]] <-
-            if(x[i] == 0) quote(0)
-            else if(sub.10 &&  noE[i]    ) substitute( A, list(A = mT[i]))
-            else if(drop.1 && mT[i] ==  1) substitute( 10^E, list(E = eT[i]))
-            else if(drop.1 && mT[i] == -1) substitute(-10^E, list(E = eT[i]))
-            else substitute(A %*% 10^E, list(A = mT[i], E = eT[i]))
-    do.call("expression", ss)
+    if (lab.type == "plotmath") {
+	for(i in seq(along = x))
+	    ss[[i]] <-
+		if(x[i] == 0) quote(0)
+		else if(sub.10 &&  noE[i]    ) substitute( A, list(A = mT[i]))
+		else if(drop.1 && mT[i] ==  1) substitute( 10^E, list(E = eT[i]))
+		else if(drop.1 && mT[i] == -1) substitute(-10^E, list(E = eT[i]))
+		else substitute(A %*% 10^E, list(A = mT[i], E = eT[i]))
+	do.call("expression", ss)
+    } else { ## lab.type=="latex"
+	## TO DO: allow format specifier??
+	mTf <- format(mT)
+	eTf <- format(eT)
+	for(i in seq(along = x))
+	    ss[[i]] <-
+		if(x[i] == 0) ""
+		else if(sub.10 &&  noE[i]    ) mTf[i]
+		else if(drop.1 && mT[i] ==  1) sprintf("$10^{%s}$",eTf[i])
+		else if(drop.1 && mT[i] == -1) sprintf("$-10^{%s}$",eTf[i])
+		else sprintf("$%s \\%s 10^{%s}", mTf[i], lab.sep, eTf[i])
+	ss  ## perhaps unlist(ss) ?
+    }
 }
 
 axTexpr <- function(side, at = axTicks(side, axp=axp, usr=usr, log=log),
@@ -67,7 +87,7 @@ eaxis <- function(side, at = if(log && getRversion() >= "2.14.0")
                   draw.between.ticks = TRUE, between.max = 4,
                   outer.at = TRUE, drop.1 = TRUE, las = 1,
                   nintLog = max(10, par("lab")[2L - is.x]),
-                  max.at = Inf, ...)
+                  max.at = Inf, lab.type="plotmath", lab.sep="cdot", ...)
 {
     ## Purpose: "E"xtended, "E"ngineer-like (log-)axis
     ## ----------------------------------------------------------------------
@@ -86,10 +106,12 @@ eaxis <- function(side, at = if(log && getRversion() >= "2.14.0")
 	     any(abs(diff(d)) > 1e-3 * mean(d))}) ## at	 is not equidistant
 	    at.small <- FALSE
     }
-    ## use expression (i.e. plotmath) if 'log' or exponential format:
+    ## use expression (i.e. plotmath/latex) if 'log' or exponential format:
     use.expr <- log || format.info(as.numeric(at), digits=7)[3] > 0
     if(is.null(labels))
-	labels <- if(use.expr) pretty10exp(at, drop.1=drop.1) else TRUE
+	labels <- if(use.expr) {
+            pretty10exp(at, drop.1=drop.1, lab.type=lab.type, lab.sep=lab.sep)
+        } else TRUE
     else if(length(labels) == 1 && is.na(labels)) # no 'plotmath'
 	labels <- TRUE
     axis(side, at = at, labels = labels, las=las, ...)
