@@ -1,4 +1,4 @@
-#### $Id: TA.plot.R,v 1.10 2009/11/18 13:38:48 maechler Exp $
+#### $Id: TA.plot.R,v 1.11 2012/03/18 21:53:39 maechler Exp $
 n.plot <-
     function(x, y=NULL, nam = NULL, abbr = n >= 20 || max(nchar(nam))>=8,
              xlab = NULL, ylab = NULL, log = "",
@@ -35,7 +35,7 @@ TA.plot <-
            par0line  = list(lty = 2, col = "gray"),
            parSmooth = list(lwd = 1.5, lty = 4, col = 2),
            parSigma  = list(lwd = 1.2, lty = 3, col = 4),
-           ...)
+           verbose = FALSE, ...)
 {
   ## Purpose: Produce a Tukey-Anscombe plot of a linear model fit
   ##	      Note that residuals and fitted are UN-correlated (IFF intercept..)
@@ -66,8 +66,8 @@ TA.plot <-
         "Tukey-Anscombe plot of ???"
       else {
 	  nc <- nchar(ccal <- deparse(cal, width.cutoff = 200)[1])
-	  prt.DEBUG("|cal|=", length(cal), "; nchar(ccal) =", nc,": '", ccal,
-		    "'\n", sep="")
+	  if(verbose)
+	      cat("|cal|=", length(cal), "; nchar(ccal) =", nc,": '", ccal, "'\n", sep="")
 	  if(nc > 36)
 	      warning("TA.plot: 'main' title is long; consider using cex.main = 0.8",
 		      call. = FALSE)
