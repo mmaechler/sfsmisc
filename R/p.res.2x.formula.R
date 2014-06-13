@@ -1,4 +1,6 @@
 if(FALSE) ##: This is not yet ready for prime time
+## NOTE we have had  p.res.2x(x,y,z, ...) forever in --> ./p.res.2x.WSt.R
+## ---               ~~~~~~~~~            -------          ~~~~~~~~~~~~~~~
 p.res.2x.formula <-  ## Change the name ;  no 'lm'
     ## take graphics:::mosaicplot.formula() as example
 function(formula = ~., data, restricted = NULL, size = 1,
@@ -46,41 +48,7 @@ function(formula = ~., data, restricted = NULL, size = 1,
     if(is.null(xlab)) xlab <- names(t.d)[2]
     if(is.null(ylab)) ylab <- names(t.d)[3]
 
-    ##
-    ##--- restrict z values: ---
-    az <- abs(z)
-    has.restr <-
-        if(is.null(restricted)) FALSE else any(restr <- az > restricted)
-    if(has.restr) {
-        z[z >   restricted] <- restricted
-        z[z < - restricted] <- - restricted
-    }
-    ## if (is.null(xlim)) xlim <- range(x)
-    ## if (is.null(ylim)) ylim <- range(y)
-    rx <- range(x)
-    ry <- range(y)
-    ##--- fix plot region: ---
-    pcm <- par("pin") * 2.54            #damit in cm
-    ##--- damit im Plot das Symbol wirklich die Groesse size hat:
-    size <- size/(2 * sqrt(2))
-    fx <- (size * diff(rx))/(pcm[1] - 2 * size)/2
-    fy <- (size * diff(ry))/(pcm[2] - 2 * size)/2
-    ##--
-    plot(x, y, xlim = rx + c(-1,1)* fx, ylim = ry + c(-1,1)* fy, pch = ".",
-         xlab = xlab, ylab = ylab, ...)
-
-    ##--- draw symbols: ---
-    z <- z/max(abs(z), na.rm = TRUE)
-    usr <- par("usr")
-    sxz <-     diff(usr[1:2])/pcm[1] * size * z
-    syz <- abs(diff(usr[3:4])/pcm[2] * size * z)
-    segments(x - sxz, y - syz,  x + sxz, y + syz, lwd = slwd, col = scol)
-
-    ##--- mark restricted observations: ---
-    if(any(restr)) {
-        points((x - sxz)[restr], (y - syz)[restr], pch = 8, mkh = 1/40)
-        points((x + sxz)[restr], (y + syz)[restr], pch = 8, mkh = 1/40)
-    }
-
+    p.res.2x.numeric(x,y,z, restricted=restricted, size=size, slwd=slwd, scol=scol,
+                     xlab=xlab, ylab=ylab, xlim=xlim, ylim=ylim, ...)
 }
 

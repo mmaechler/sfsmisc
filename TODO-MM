@@ -6,10 +6,6 @@
      ==> new ./tests/psend-ex.R which tests that 2 x {ps.do() ... ps.end()}
      *does* work properly
 
-** Make use of R/p.res.2x.formula.R --> generic function with
-     default and formula method where the latter calls the former.
-
-
 * mat2tex() is really not flexible enough; and there are better functions
    in other packages, e.g. latex in 'Hmisc' --> deprecate this! [2005-04]
 
