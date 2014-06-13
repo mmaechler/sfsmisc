@@ -42,3 +42,6 @@
 
 o) add Duplicated()
 
+** Make use of R/p.res.2x.formula.R --> generic function with
+     default and formula method where the latter calls the former.
+
