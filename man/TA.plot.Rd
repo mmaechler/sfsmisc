@@ -15,6 +15,7 @@ TA.plot(lm.res,
         par0line  = list(lty = 2, col = "gray"),
         parSmooth = list(lwd = 1.5, lty = 4, col = 2),
         parSigma  = list(lwd = 1.2, lty = 3, col = 4),
+        verbose = FALSE,
         \dots)
 }
 \arguments{
@@ -50,6 +51,8 @@ TA.plot(lm.res,
     default) for drawing the smooth curve (if \code{draw.smooth} is
     true), or the horizontal sigma boundaries (if \code{show.2sigma} is
     true) respectively.}
+  \item{verbose}{logical indicating if some construction details should
+    be reported (\code{\link{print}()}ed).}
   \item{\dots}{further graphical parameters are passed to
     \code{\link{n.plot}(.)}.}
 }
