@@ -1,4 +1,4 @@
-####-- $Id: prettylab.R,v 1.15 2014/05/02 21:12:42 maechler Exp $
+####-- $Id: prettylab.R,v 1.16 2014/06/15 15:20:08 maechler Exp maechler $
 ### --> these are from ~/R/MM/GRAPHICS/axis-prettylab.R
 
 ### Help files: ../man/pretty10exp.Rd  ../man/axTexpr.Rd   ../man/eaxis.Rd
@@ -181,7 +181,6 @@ eaxis <- function(side, at = if(log && getRversion() >= "2.14.0")
 ## @author Alain Hauser <alain@huschhus.ch>
 ## @date 2014-02-12 originally
 
-## FIXME:
 toLatex.numeric <- function(object,
                             digits = format.info(object)[2],
                             scientific = format.info(object)[3] > 0,
