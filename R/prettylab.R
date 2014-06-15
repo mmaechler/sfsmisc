@@ -1,4 +1,4 @@
-####-- $Id$
+####-- $Id: prettylab.R,v 1.15 2014/05/02 21:12:42 maechler Exp $
 ### --> these are from ~/R/MM/GRAPHICS/axis-prettylab.R
 
 ### Help files: ../man/pretty10exp.Rd  ../man/axTexpr.Rd   ../man/eaxis.Rd
@@ -181,18 +181,22 @@ eaxis <- function(side, at = if(log && getRversion() >= "2.14.0")
 ## @author Alain Hauser <alain@huschhus.ch>
 ## @date 2014-02-12 originally
 
-## FIXME: add argument for '\\cdot'
-## ??:    is 'digits = 0' really *the* default; or should we have none?
-toLatex.numeric <- function(object, digits = 0L,
-                            scientific = format.info(object)[3] > 0, ...)
+## FIXME:
+toLatex.numeric <- function(object,
+                            digits = format.info(object)[2],
+                            scientific = format.info(object)[3] > 0,
+                            times = "\\cdot", ...)
 {
     sround <- function(x, digits) sprintf("%0.*f", digits, x)
     if(scientific) {
-        ## Strings in scientific format
-### pretty10exp() is slightly smarter --- use it here, or same rounding!!
-        exponent <- floor(log10(abs(object)))
-        sprintf("%s \\cdot 10^{%d}",
-                sround(object/10^exponent, digits), exponent)
+        ## Strings in scientific format -- isn't regex a funny thing? ;-)
+        # res <- as.character(pretty10exp(object, digits = digits + 1))
+        # res <- sub("%\\*%", gsub("\\\\", "\\\\\\\\", times), res)
+        # sub("10\\^(.*)$", "10^{\\1}", res)
+        ## Original version without pretty10exp and regex:
+        eT <- floor(log10(abs(object)) + 10^(-digits-1))
+        sprintf("%s %s 10^{%d}",
+               sround(object/10^eT, digits), times, eT)
     } else {
         ## Actual output strings
         sround(object, digits)
