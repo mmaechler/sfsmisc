@@ -1,4 +1,4 @@
-#### $Id: misc-goodies.R,v 1.45 2014/01/24 08:31:12 maechler Exp $
+#### $Id: misc-goodies.R,v 1.46 2014/04/24 10:09:36 maechler Exp $
 #### misc-goodies.R
 #### ~~~~~~~~~~~~~~  SfS - R - goodies that are NOT in
 ####		"/u/sfs/R/SfS/R/u.goodies.R"
@@ -483,6 +483,28 @@ uniqueL <- function(x, isuniq = !duplicated(x), need.sort = is.unsorted(x))
     list(ix = ix, xU = x[isuniq])
 }
 
+
+is.whole <- function(x, tolerance = sqrt(.Machine$double.eps))
+{
+    ## Tests if a numeric scalar (or vector, matrix or array) is a whole
+    ## number; returns an boolean object of the same dimension as x, each entry
+    ## indicating whether the corresponding entry in x is whole.
+    is.whole.scalar <-
+	if (is.integer(x)) {
+	    function(x) TRUE
+	} else if (is.numeric(x)) {
+	    function(x) isTRUE(all.equal(x, round(x), tolerance = tolerance))
+	} else if (is.complex(x)) {
+	    function(x)
+		isTRUE(all.equal(Re(x), round(Re(x)), tolerance = tolerance)) &&
+		isTRUE(all.equal(Im(x), round(Im(x)), tolerance = tolerance))
+	} else stop("Input must be of type integer, numeric or complex.")
+
+    if (is.null(dim(x)))
+	vapply(x, is.whole.scalar, NA)
+    else
+	apply(x, seq_len(dim(x)), is.whole.scalar)
+}
 
 ###
 ### autoreg(),  mean.cor()  etc ... not yet
