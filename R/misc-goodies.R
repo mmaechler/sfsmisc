@@ -1,4 +1,4 @@
-#### $Id: misc-goodies.R,v 1.46 2014/04/24 10:09:36 maechler Exp $
+#### $Id: misc-goodies.R,v 1.47 2014/06/15 15:17:03 maechler Exp $
 #### misc-goodies.R
 #### ~~~~~~~~~~~~~~  SfS - R - goodies that are NOT in
 ####		"/u/sfs/R/SfS/R/u.goodies.R"
@@ -503,7 +503,7 @@ is.whole <- function(x, tolerance = sqrt(.Machine$double.eps))
     if (is.null(dim(x)))
 	vapply(x, is.whole.scalar, NA)
     else
-	apply(x, seq_len(dim(x)), is.whole.scalar)
+	apply(x, seq_along(dim(x)), is.whole.scalar)
 }
 
 ###
