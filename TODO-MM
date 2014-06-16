@@ -1,5 +1,9 @@
 ##-*- org -*-
 
+* Reverse Dep. status: 2014-06-16 http://stat.ethz.ch/CRAN/web/packages/sfsmisc/
+** Reverse depends: ascrda, catIrt, distr, ICEbox, lordif, modiscloud, plfm, polycor, random.polychor.pa
+** Reverse imports: CDM, Demerelate, FrF2, lokern, mcmcplots, ReliabilityTheory, simsalapar, sirt, TAM
+
 * Feb.2004 : Close before CRAN release
 
 ** Improve ps.end(): should return something useful
