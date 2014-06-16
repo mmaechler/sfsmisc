@@ -18,6 +18,8 @@ export (
 
 	"AsciiToInt",
 	"as.intBase", "bi2int",
+    ## FIXME: currently needed from FrF2 (Ulrike Groemping):
+        "as.integer.basedInt",
 	"axTexpr",
 	"repChar", "bl.string",
 	"capture.and.write",
