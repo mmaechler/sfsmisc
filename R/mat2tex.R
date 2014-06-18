@@ -1,7 +1,7 @@
 ### Port to R and a few small improvements:
 ### Copyright © 2000 Martin Maechler, ETH Zurich
 
-mat2tex <- function(x, file = "mat.tex",
+mat2tex <- function(x, file = "mat.tex", envir = c("tabular", "array"),
                     nam.center = "l", col.center = "c",
                     append = TRUE, digits = 3, title)
 {
@@ -9,6 +9,7 @@ mat2tex <- function(x, file = "mat.tex",
         stop("'x' must be a matrix like object with dim(x) of length 2")
     if(any(d.x <= 0))
         stop("'dim(x)' must be positive")
+    envir <- match.arg(envir)
     nr.x <- d.x[1]
     nc.x <- d.x[2]
     c2ind <- (1:nc.x)[-1] # possibly empty
