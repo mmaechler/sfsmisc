@@ -1,4 +1,4 @@
-####-- $Id: prettylab.R,v 1.16 2014/06/15 15:20:08 maechler Exp maechler $
+####-- $Id: prettylab.R,v 1.17 2014/06/15 15:31:08 maechler Exp maechler $
 ### --> these are from ~/R/MM/GRAPHICS/axis-prettylab.R
 
 ### Help files: ../man/pretty10exp.Rd  ../man/axTexpr.Rd   ../man/eaxis.Rd
@@ -85,7 +85,7 @@ eaxis <- function(side, at = if(log && getRversion() >= "2.14.0")
                   f.smalltcl = 3/5, at.small = NULL, small.mult = NULL,
                   small.args = list(),
                   draw.between.ticks = TRUE, between.max = 4,
-                  outer.at = TRUE, drop.1 = TRUE, las = 1,
+                  outer.at = TRUE, drop.1 = TRUE, sub10 = FALSE, las = 1,
                   nintLog = max(10, par("lab")[2L - is.x]),
                   max.at = Inf, lab.type="plotmath", lab.sep="cdot", ...)
 {
@@ -110,7 +110,8 @@ eaxis <- function(side, at = if(log && getRversion() >= "2.14.0")
     use.expr <- log || format.info(as.numeric(at), digits=7)[3] > 0
     if(is.null(labels))
 	labels <- if(use.expr) {
-            pretty10exp(at, drop.1=drop.1, lab.type=lab.type, lab.sep=lab.sep)
+            pretty10exp(at, drop.1=drop.1, sub10=sub10,
+                        lab.type=lab.type, lab.sep=lab.sep)
         } else TRUE
     else if(length(labels) == 1 && is.na(labels)) # no 'plotmath'
 	labels <- TRUE
