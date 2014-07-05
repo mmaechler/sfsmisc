@@ -32,7 +32,7 @@ ecdf.ksCI <- function(x, main = NULL, sub = NULL,
 
     ## Plots -- all calling  plot.stepfun
 
-    plot(ec, main = main, sub = sub, xlab = xlab)## no "..." here ???  __hmm..__
+    plot(ec, main = main, sub = sub, xlab = xlab, ...)
     plot(ecu, add=TRUE, verticals=TRUE, do.points=FALSE,
          col.hor= ci.col, col.vert= ci.col, ...)
     plot(ecl, add=TRUE, verticals=TRUE, do.points=FALSE,
