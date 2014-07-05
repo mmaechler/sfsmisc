@@ -1,3 +1,12 @@
+2014-07-05  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/KS-confint.R (ecdf.ksCI): '...' now also passed to first of
+	three plot() calls to plot.stepfun().
+
+2014-07-01  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/prettylab.R (eaxis): sub10 (=FALSE) can be set for pretty10exp()
+
 2014-06-15  Martin Maechler  <maechler@stat.math.ethz.ch>
 
 	* R/prettylab.R (toLatex.numeric): times="\\cdot" .. from Alain
@@ -22,7 +31,7 @@
 
 2014-04-23  Martin Maechler  <maechler@stat.math.ethz.ch>
 
-	* DESCRIPTION (Version): 1.0-26
+	* DESCRIPTION (Version): 1.0-26, released to CRAN on 2014-06-16
 	* R/prettylab.R (pretty10exp): new 'sub10' option
 	* R/prettylab.R (toLatex.numeric): new, original from Alain
 
