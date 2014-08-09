@@ -3,12 +3,16 @@
 \alias{mat2tex}
 \title{Produce LaTeX commands to print a matrix}
 \usage{
-mat2tex(x, file= "mat.tex", nam.center = "l", col.center = "c",
+mat2tex(x, file= "mat.tex", envir = "tabular",
+        nam.center = "l", col.center = "c",
         append = TRUE, digits = 3, title)
 }
 \arguments{
   \item{x}{a matrix}
   \item{file}{names the file to which LaTeX commands should be written}
+  \item{envir}{a string, the LaTeX environment name; default is
+    \code{"tabular"}; useful maybe \code{"array"}, or other versions of
+    tabular environments.}
   \item{nam.center}{character specifying row names should be center;
     default \code{"l"}.}
   \item{col.center}{character (vector) specifying how the columns should
