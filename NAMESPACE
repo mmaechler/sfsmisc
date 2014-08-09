@@ -22,6 +22,7 @@ export (
         "as.integer.basedInt",
 	"axTexpr",
 	"repChar", "bl.string",
+	"cairoSwd",
 	"capture.and.write",
 	"ccat",
 	"chars8bit",
