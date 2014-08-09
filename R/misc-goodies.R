@@ -1,4 +1,3 @@
-#### $Id: misc-goodies.R,v 1.47 2014/06/15 15:17:03 maechler Exp $
 #### misc-goodies.R
 #### ~~~~~~~~~~~~~~  SfS - R - goodies that are NOT in
 ####		"/u/sfs/R/SfS/R/u.goodies.R"

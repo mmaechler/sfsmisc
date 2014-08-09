@@ -1,4 +1,5 @@
-####-- $Id: prettylab.R,v 1.17 2014/06/15 15:31:08 maechler Exp maechler $
+#### Pretty Labels for "plotmath" axes -- Main function:  eaxis()
+
 ### --> these are from ~/R/MM/GRAPHICS/axis-prettylab.R
 
 ### Help files: ../man/pretty10exp.Rd  ../man/axTexpr.Rd   ../man/eaxis.Rd

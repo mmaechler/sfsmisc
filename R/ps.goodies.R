@@ -1,6 +1,5 @@
 #### PostScript Goodies für R --- `a la /u/sfs/S/ps.goodies.S
 ####
-#### $Id: ps.goodies.R,v 1.20 2013/11/18 10:47:03 maechler Exp $
 ####
 
 ## hidden in the name space -- FIXME? maybe more useful ?? ---
