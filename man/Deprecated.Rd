@@ -33,19 +33,15 @@ list2mat(x, check = TRUE)
     components have same length.}
 }
 \details{
-  \code{hist.bxp} is deprecated because CRAN checks \dQuote{decide} it
-  is an S3 method.
+  \code{hist.bxp} is deprecated in favor of \code{\link{histBxp}}
+  because it looked too much like an S3 method to the CRAN checks.
 
   \code{p.pllines} is deprecated because basic \R graphics (but not
-  S-PLUS) provide its   functionality directly: Use \code{plot(x,y, lty
+  S-PLUS) provide its functionality directly: Use \code{plot(x,y, lty
     = group, type = 'l', ...)}.
 
   \code{list2mat(x)} is usually the same as \code{sapply(x, c)} (where
   the latter does not construct column names where \code{x} has no names).
-
-  \code{rnls(formula, data, ......)} has been available, improved
-  in package \pkg{robustbase} for almost a year and been replaced by a
-  stub here.  All \code{*.rnls} methods have been completely removed.
 }
 
 \keyword{documentation}
