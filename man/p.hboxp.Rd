@@ -3,7 +3,7 @@
 \title{Add a Horizontal Boxplot to the Current Plot}
 \description{
   Add a horizontal boxplot to the current plot.  This is mainly an
-  auxiliary function for \code{\link{hist.bxp}}, since
+  auxiliary function for \code{\link{histBxp}}, since
   \code{\link{boxplot}(*, horizontal = TRUE, add = TRUE)} is usually
   much preferable to this.
 }
@@ -27,7 +27,7 @@ p.hboxp(x, y.lo, y.hi, boxcol = 3,
 \seealso{\code{\link{boxplot}(**, horizontal = TRUE, add= TRUE)}.}
 \examples{
 %% FIXME: add!
-  ## ==>  See code in 'hist.bxp' (.)  and  example(hist.bxp) !
+  ## ==>  See code in 'histBxp' (.)  and  example(histBxp) !
   ##
 }
 \keyword{aplot}

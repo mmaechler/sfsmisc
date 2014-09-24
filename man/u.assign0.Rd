@@ -6,7 +6,9 @@
   \R doesn't have S' concept of \code{frame = 0}, aka \sQuote{session
     frame}.  These two function were an attempt to provide a portable
   way for working with frame 0, particularly when porting code
-  \emph{from} S.  Its author, MM, no longer recommends them.
+  \emph{from} S.
+
+  They have been \bold{deprecated} since August 2013.
 }
 \usage{
 u.assign0(x, value, immediate = FALSE)
