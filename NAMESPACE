@@ -108,7 +108,7 @@ export (
 	"quadrant",
 	"QUnif",
 
-	"rot2",
+	"rot2", "rotn",
 	"roundfixS",
 	"rrange",
 	"sHalton",
