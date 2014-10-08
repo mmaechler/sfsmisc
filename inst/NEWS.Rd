@@ -2,6 +2,58 @@
 \title{sfsmisc News}
 \encoding{UTF-8}
 
+\section{CHANGES in sfsmisc VERSION 1.0-27 [2014-..................]}{
+
+  Moved sources to Github (\url{https://github.com/mmaechler/sfsmisc}),
+  on Aug. 9, 2014, from years emacs backups and a few RCS "archives"
+  and blogged about it on \url{http://mmaechler.blogspot.ch/}.
+
+  \subsection{NEW FEATURES}{
+    \itemize{
+      \item new \code{rotn()} "utility".
+      \item \code{eaxis()} gets an optional \code{sub10} argument.
+      \item \code{mat2tex()} gets new option \code{envir = "tabular"}.
+    }
+  }
+  \subsection{BUG FIXES}{
+    \itemize{
+      \item \code{cairoSwd()} adapted to new Sweave conventions.
+    }
+  }
+}
+
+\section{CHANGES in sfsmisc VERSION 1.0-26 [2014-06-16]}{
+  \subsection{NEW FEATURES}{
+    \itemize{
+      \item new \code{is.whole()} to test if numbers are integer valued.
+      \item new \code{cairoSwd()} from Alain Hauser (not yet exported).
+      \item new \code{bi2int()} utility (called from \code{as.intBase()})
+      with a nice IP numbers transformation example.
+      \item \code{toLatex.numeric()} gets \code{times} arg (from Alain).
+      \item \code{pretty10exp()} gets new args \code{lab.type} and
+      \code{lab.sep} from Ben Bolker.
+    }
+  }
+  \subsection{BUG FIXES}{
+    \itemize{
+      \item not using \code{prt.DEBUG()} anymore ourselves, as it has been
+      deprecated.
+    }
+  }
+}
+
+\section{CHANGES in sfsmisc VERSION 1.0-25 [2014-01-24]}{
+  \subsection{NEW FEATURES}{
+    \itemize{
+      \item better docu on \code{Sys.cpuinfo()}
+    }
+  }
+  \subsection{BUG FIXES}{
+    \itemize{
+      \item finally deprecate \code{prt.DEBUG()}
+    }
+  }
+}
 
 \section{CHANGES in sfsmisc VERSION 1.0-24 [2013-08-03]}{
   \subsection{BUG FIXES}{
@@ -17,7 +69,7 @@
 \section{CHANGES in sfsmisc VERSION 1.0-13 [2010-10-20]}{
   \subsection{NEW FEATURES}{
     \itemize{
-      \item new  demo(hatMat)  being more explicit than ?hatMat
+      \item new \code{demo(hatMat)}  being more explicit than \code{?hatMat}
     }
   }
 }
@@ -25,7 +77,7 @@
 \section{CHANGES in sfsmisc VERSION 1.0-12 [2010-09-04]}{
   \subsection{BUG FIXES}{
     \itemize{
-      \item plotDS() bug fix
+      \item \code{plotDS()} bug fix
     }
   }
 }
