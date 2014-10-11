@@ -3,11 +3,13 @@
 \encoding{UTF-8}
 
 \section{CHANGES in sfsmisc VERSION 1.0-27 [2014-..................]}{
-
-  Moved sources to Github (\url{https://github.com/mmaechler/sfsmisc}),
-  on Aug. 9, 2014, from years emacs backups and a few RCS "archives"
-  and blogged about it on \url{http://mmaechler.blogspot.ch/}.
-
+  \subsection{Repository}{
+    \itemize{
+      \item Moved sources to Github (\url{https://github.com/mmaechler/sfsmisc}),
+      on Aug. 9, 2014, from years of emacs backups and a few RCS \dQuote{archives}.
+      Blogged about it on \url{http://mmaechler.blogspot.ch/}.
+    }
+  }
   \subsection{NEW FEATURES}{
     \itemize{
       \item new \code{rotn()} "utility".
@@ -350,9 +352,12 @@
   \itemize{
     \item new function compresid2way() from Werner Stahel.
     \item f.robftest() now returns an object of class "htest"
+
+    \cr \cr
+%% FIXME: It seems wrong that this cannot be put into a final \note{.}
+%%   tools:::.build_news_db_from_package_NEWS_Rd("~/R/Pkgs/sfsmisc/inst/NEWS.Rd")
+
+    \item For more details, see the \file{ChangeLog} file!
   }
 }
 
-\section{NOTE}{
-  For more details, see the \file{ChangeLog} file!
-}
