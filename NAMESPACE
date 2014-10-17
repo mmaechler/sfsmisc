@@ -60,6 +60,7 @@ export (
 	"lseq",
 	"margin2table",
 	"mat2tex",
+    "missingCh",
 	"mpl",
 	"mult.fig",
 ## FIXME: This is deprecated (but was never announced anyway...) :
