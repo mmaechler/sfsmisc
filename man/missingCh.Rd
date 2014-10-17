@@ -47,5 +47,10 @@ Tst(1,,3)
 ## FALSE  TRUE FALSE  TRUE  TRUE
 ## .....       .....
 ## as 'a' and 'cc' where not missing()
+
+## Formal testing:
+stopifnot(tst1(), !tst1(,3,3), Tst(),
+                  Tst(1,,3, b=2, E="bar") == c(F,F,T,F,F))
+## maybe surprising that ^^this becomes 'dd' and only 'cc' is missing
 }
 \keyword{programming}
