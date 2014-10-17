@@ -12,6 +12,7 @@
   }
   \subsection{NEW FEATURES}{
     \itemize{
+      \item New \code{missingCh()} utility, also for didactical purposes;
       \item new \code{rotn()} "utility".
       \item \code{eaxis()} gets an optional \code{sub10} argument.
       \item \code{mat2tex()} gets new option \code{envir = "tabular"}.
