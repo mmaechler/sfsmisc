@@ -50,7 +50,7 @@ Tst(1,,3)
 
 ## Formal testing:
 stopifnot(tst1(), !tst1(,3,3), Tst(),
-                  Tst(1,,3, b=2, E="bar") == c(F,F,T,F,F))
-## maybe surprising that ^^this becomes 'dd' and only 'cc' is missing
+                        Tst(1,,3, b=2, E="bar") == c(0,0,1,0,0))
+## maybe surprising that this ^^ becomes 'dd' and only 'cc' is missing
 }
 \keyword{programming}
