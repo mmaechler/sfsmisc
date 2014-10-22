@@ -4,9 +4,15 @@
 \alias{dDA}
 \alias{print.dDA}
 \alias{predict.dDA}
+\keyword{naive Bayes classifier}
 \description{
   This function implements a simple Gaussian maximum likelihood
   discriminant rule, for diagonal class covariance matrices.
+
+  In machine learning lingo, this is called \dQuote{Naive Bayes} (for
+  continuous predictors).  Note that naive Bayes is more general, as it
+  models discrete predictors as multinomial, i.e., binary predictor
+  variables as Binomial / Bernoulli.
 }
 \usage{
 dDA(x, cll, pool = TRUE)
@@ -52,7 +58,8 @@ diagDA(ls, cll, ts, pool = TRUE)
   who also introduced \code{dDA} etc.
 }
 \seealso{\code{\link[MASS]{lda}} and \code{\link[MASS]{qda}} from the
-  \pkg{MASS} package.
+  \pkg{MASS} package;
+  \code{\link[e1071]{naiveBayes}} from \pkg{e1071}.
 }
 \examples{
 ## two artificial examples by Andreas Greutert:
