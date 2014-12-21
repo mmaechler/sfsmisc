@@ -974,7 +974,7 @@ unif <- function(n, round.dig = 1 + trunc(log10(n)))
   }
 }
 
-globalVariables("DEBUG")
+if(getRversion() >= "2.15.1") globalVariables("DEBUG")
 prt.DEBUG <- function(..., LEVEL = 1) {
   warning("prt.DEBUG() is deprecated: use a 'verbose' argument or options(verbose=.) instead")
   if (exists("DEBUG", where = 1) && DEBUG >= LEVEL )#

@@ -2,7 +2,7 @@
 ### /u/maechler/R/D/r-devel/Linux-inst/library/tcltk/demo/tkdensity.R
 
 ## only to work around false positives of codetools' check [in R CMD check --as-cran]:
-globalVariables(c("._nbw", "._xZ", "._xM"))
+if(getRversion() >= "2.15.1") globalVariables(c("._nbw", "._xZ", "._xM"))
 
 tkdensity <- function(y, n = 1024, log.bw = TRUE, showvalue = TRUE,
                       xlim = NULL, do.rug = size < 1000, kernels = NULL,

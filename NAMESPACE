@@ -3,7 +3,7 @@ importFrom(stats, density.default)
 ## Using "::" in code -> no need here:
 importFrom("methods", existsFunction)
 importFrom("utils", head, toLatex, #<- S3 generics !
-           capture.output
+           capture.output, globalVariables
            ) # and probably more __FIXME: move utils from Depends to Imports
 importFrom("grDevices", cairo_pdf)
 
