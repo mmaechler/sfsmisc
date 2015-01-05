@@ -1,5 +1,10 @@
+2015-01-05  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* R/prettylab.R (pretty10exp): extended 'sub10' possibilities
+
 2014-07-05  Martin Maechler  <maechler@stat.math.ethz.ch>
 
+	* DESCRIPTION (Version): 1.0-27, released to CRAN on 2015   <<<<<<<
 	* R/KS-confint.R (ecdf.ksCI): '...' now also passed to first of
 	three plot() calls to plot.stepfun().
 

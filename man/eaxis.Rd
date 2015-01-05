@@ -57,8 +57,9 @@ eaxis(side, at =,% For R >= 2.14.0:  axTicks(side, log=log, nintLog=nintLog)
     corresponding \code{\link{par}("usr")}.}
   \item{drop.1}{logical specifying if \eqn{1 \times}{1 *} should be dropped
     from labels, passed to \code{\link{pretty10exp}()}.}
-  \item{sub10}{logical or non-negative integer number indicating if
-    \eqn{10^0} up to \eqn{10^k} for \code{k = sub10} should be simplified.}
+  \item{sub10}{logical, integer (of length 1 or 2) or \code{"10"}, indicating if
+    some \eqn{10^k} should be simplified to \dQuote{traditional}
+    formats, see \code{\link{pretty10exp}}.}
   \item{nintLog}{only used in \R > 2.13.x, when \code{log} is true:
     approximate (lower bound on) number of intervals for log scaling.}
   \item{max.at}{maximal number of \code{at} values to be used
@@ -130,6 +131,14 @@ par(op)
 ## the nice axis:
        axt <- axTicks(1)
        eaxis(1, at = axt, labels = pretty10exp(10^axt, drop.1=TRUE))
-       eaxis(1, at = axt, labels = pretty10exp(10^axt, drop.1=TRUE, sub10=2))
+## or
+       plot(r, xaxt="n")
+       eaxis(1, at = axt, labels = pretty10exp(10^axt, drop.1=TRUE, sub10 = 2))
+## or
+       plot(r, xaxt="n")
+       eaxis(1, at = axt, labels = pretty10exp(10^axt, drop.1=TRUE, sub10 = "10"))
+## or
+       plot(r, xaxt="n")
+       eaxis(1, at = axt, labels = pretty10exp(10^axt, drop.1=TRUE, sub10 = c(-2, 2)))
 }
 \keyword{aplot}

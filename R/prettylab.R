@@ -30,10 +30,21 @@ pretty10exp <- function(x, drop.1 = FALSE, sub10 = FALSE,
     mT <- signif(x / 10^eT, digits) # m[antissa]
     ss <- vector("list", length(x))
     if(sub.10 <- !identical(sub10, FALSE)) {
+	if(identical(sub10, TRUE))
+	    sub10 <- c(0,0)
+	else if(identical(sub10, "10"))
+	    sub10 <- 0:1
 	sub10 <- as.integer(sub10)
-	if(sub10 < 0)
-	    stop("'sub10' must be FALSE or non negative integer valued")
-	noE <- eT <= sub10
+	noE <-
+	    if(length(sub10) == 1) {
+		if(sub10 < 0)
+		    stop("'sub10' must not be negative if a single number")
+		eT <= sub10
+	    } else if(length(sub10) == 2) {
+		stopifnot(sub10[1] <= sub10[2])
+		sub10[1] <= eT & eT <= sub10[2]
+	    } else stop("invalid 'sub10'")
+	## for noE's, mt := value (instead of mantissa):
 	mT[noE] <- mT[noE] * 10^eT[noE]
     }
     if (lab.type == "plotmath") {
@@ -53,9 +64,9 @@ pretty10exp <- function(x, drop.1 = FALSE, sub10 = FALSE,
 	    ss[[i]] <-
 		if(x[i] == 0) ""
 		else if(sub.10 &&  noE[i]    ) mTf[i]
-		else if(drop.1 && mT[i] ==  1) sprintf("$10^{%s}$",eTf[i])
+		else if(drop.1 && mT[i] ==  1) sprintf("$10^{%s}$", eTf[i])
 		else if(drop.1 && mT[i] == -1) sprintf("$-10^{%s}$",eTf[i])
-		else sprintf("$%s \\%s 10^{%s}", mTf[i], lab.sep, eTf[i])
+		else sprintf("$%s \\%s 10^{%s}", mTf[i], lab.sep,   eTf[i])
 	ss  ## perhaps unlist(ss) ?
     }
 }

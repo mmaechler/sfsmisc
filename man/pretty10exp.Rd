@@ -14,8 +14,20 @@ pretty10exp(x, drop.1 = FALSE, sub10 = FALSE, digits = 7, digits.fuzz,
   \item{x}{numeric vector (e.g. axis tick locations)}
   \item{drop.1}{logical indicating if \eqn{1 \times}{1 *} should be
     dropped from the resulting expressions.}
-  \item{sub10}{logical or non-negative integer number indicating if
-    \eqn{10^0} up to \eqn{10^k} for \code{k = sub10} should be simplified.}
+  \item{sub10}{logical, \code{"10"}, a non-negative integer number or
+    an integer vector of length two, say \eqn{(k_1,k_2)}{(k1,k2)}, indicating if some
+    \eqn{10^j} expressions for \eqn{j \in J}{j in J} should be formatted
+    traditionally, notably e.g., \eqn{10^0 \equiv 1}{10^0 == 1}.
+    \cr
+    When a (non-negative) number, say \eqn{k}, \eqn{J = \{j; j \le k\}}{%
+      J = {j; j \le k}} are all simplified, when a length--2 vector,
+    \eqn{J = \{j; k_1 \le j \le k_2\}}{J = {j; k1 \le j \le k2}} are.
+
+    Special cases: \code{sub10 = TRUE} means to use
+    \eqn{1} instead of \eqn{10^0} and \code{sub10 = "10"} uses both
+    \eqn{1} for \eqn{10^0} and \eqn{10} for \eqn{10^1}; these are short
+    forms of \code{sub10 = c(0,0)} and \code{sub10 = c(0,1)} respectively.
+  }
   \item{digits}{number of digits for mantissa (\eqn{a}) construction;
     the number of \emph{significant} digits, see \code{\link{signif}}.}
   \item{digits.fuzz}{the old deprecated name for \code{digits}.}
@@ -53,11 +65,11 @@ pretty10exp(x, drop.1 = FALSE, sub10 = FALSE, digits = 7, digits.fuzz,
 \author{Martin Maechler;  Ben Bolker contributed \code{lab.type = "latex"}
   and \code{lab.sep}.}
 \seealso{\code{\link{axTexpr}} and \code{\link{eaxis}()} which build on
-  \code{pretty10exp()}.
+  \code{pretty10exp()}, notably the \code{eaxis()} example plots.
+
   The new \code{\link{toLatex.numeric}} method which gives very similar
   results with option \code{scientific = TRUE}.
-
-  Further, \code{\link{axis}}, \code{\link{axTicks}}.
+  \cr Further, \code{\link{axis}}, \code{\link{axTicks}}.
 }
 \examples{
 pretty10exp(-1:3 * 1000)
@@ -78,6 +90,8 @@ stopifnot(identical(pretty10exp(numeric(0)), expression()))
 }
 ax <- 10^(-6:0) - 2e-16
 pretty10exp(ax, drop.1=TRUE) # nice for plotting
+pretty10exp(ax, drop.1=TRUE, sub10=TRUE)
+pretty10exp(ax, drop.1=TRUE, sub10=c(-2,2))
 
 ## in sfsmisc version <= 1.0-16, no 'digits',
 ## i.e., implicitly had  digits := #{double precision digits} ==
