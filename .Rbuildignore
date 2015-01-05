@@ -1,5 +1,6 @@
 Older
 Old_Defunct
+NOTES-I-know
 .*,v
 .*-ss
 .*mail
@@ -8,7 +9,6 @@ Old_Defunct
 man/.*\.d$
 SfS-changes
 Done
-TODO-MM
 approx2.R
 Unused.R
 inst/doc/CHANGES-dummy

@@ -1,0 +1,29 @@
+As already for  sfsmisc 1.0-25 and 1.0-26:
+When checking (with --as-cran)  I get 2  NOTE s  which I don't think are
+easy to workaround :
+
+NOTES:
+------
+1)
+  * checking R code for possible problems ... NOTE
+  tkdensity : replot: no visible binding for '<<-' assignment to ‘._nbw’
+  tkdensity : replot: no visible binding for '<<-' assignment to ‘._xZ’
+  tkdensity : replot: no visible binding for '<<-' assignment to ‘._xM’
+
+2)
+  Found the following calls to attach():
+  File ‘sfsmisc/R/sourceAttach.R’:
+    attach(ENV, pos = pos, name = name, warn.conflicts = warn.conflicts)
+  See section ‘Good practice’ in ‘?attach’.
+
+EXPLANATIONS:
+------------
+
+1) I've already used globalVariables() there, and the '<<-' is
+   relevant and related to the special tcltk semantics in use there.
+
+2) sourceAttach() is a utility which uses source() and does not
+  do that into the globalenv but rather into a new position in the
+  search() path, something which can well desirable compared
+  to the default source()ing into globalenv.
+
