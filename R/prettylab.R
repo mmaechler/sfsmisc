@@ -129,6 +129,7 @@ eaxis <- function(side, at = if(log && getRversion() >= "2.14.0")
 	labels <- TRUE
     axis(side, at = at, labels = labels, las=las, ...)
     if(log) {
+	if(any(at <= 0)) stop("invalid 'log=TRUE' for at <= 0: not a true log scale plot?")
 	l1 <- (lat <- log10(at)) %% 1 ##  the 10^k ones
 	l.int <- l1 < 1e-5 | l1 > 1 - 1e-5
 	if(draw.between.ticks && all(l.int)) { ## all lat are integer
