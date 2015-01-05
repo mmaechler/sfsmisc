@@ -15,7 +15,7 @@ f.robftest <- function(object, var = -1)
     ## -------------------------------------------------------------------------
     ## Author: Werner Stahel, Date: 14 Jul 2000;  MM, 2000-07-14
 
-    if (!inherits(object,"rlm"))
+    if (!inherits(object, "rlm"))
         stop("f.robftest() only works for 'rlm' objects")
 
     ## determine and check coefficients to be tested
@@ -28,7 +28,7 @@ f.robftest <- function(object, var = -1)
     if (0 == (t.nv <- length(cf)))
         stop("no variables to be tested")
     ## covariance matrix of estimated coefficients: calls summary.rlm():
-    stopifnot(require("MASS"))
+    stopifnot(requireNamespace("MASS"))
     t.r <- summary(object, method="XtWX")
     ## Nota BENE: vcov() calls vcov.lm() which uses $sigma instead of $stddev !
     t.cov <- t.r$cov.unscaled[iind,iind] * t.r$stddev ^ 2

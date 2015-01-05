@@ -131,7 +131,7 @@ par(op)
 ## the nice axis:
        axt <- axTicks(1)
        eaxis(1, at = axt, labels = pretty10exp(10^axt, drop.1=TRUE))
-## or
+## Additionally demo'ing   'sub10' options:
        plot(r, xaxt="n")
        eaxis(1, at = axt, labels = pretty10exp(10^axt, drop.1=TRUE, sub10 = 2))
 ## or

@@ -13,7 +13,7 @@ tkdensity <- function(y, n = 1024, log.bw = TRUE, showvalue = TRUE,
     ## -----------------------------------------------------------------------
     ## Author: Martin Maechler, Date: 8 Nov 2000, 19:00
 
-    require(tcltk) || stop("tcltk support is absent")
+    requireNamespace("tcltk") || stop("tcltk support is absent")
 
     dFun <- density.default
     all.kerns <- eval(formals(dFun)$kernel)
