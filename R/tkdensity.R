@@ -14,6 +14,12 @@ tkdensity <- function(y, n = 1024, log.bw = TRUE, showvalue = TRUE,
     ## Author: Martin Maechler, Date: 8 Nov 2000, 19:00
 
     requireNamespace("tcltk") || stop("tcltk support is absent")
+    tclVar <- tcltk::tclVar
+    tclvalue <- tcltk::tclvalue
+    tkframe <- tcltk::tkframe
+    tkpack <- tcltk::tkpack
+    tklabel <- tcltk::tklabel
+    tkscale <- tcltk::tkscale
 
     dFun <- density.default
     all.kerns <- eval(formals(dFun)$kernel)
@@ -81,21 +87,21 @@ tkdensity <- function(y, n = 1024, log.bw = TRUE, showvalue = TRUE,
             )
             replot()
 
-    base <- tktoplevel()
-    tkwm.title(base, paste("Tk Density(",ynam,")"))
+    base <- tcltk::tktoplevel()
+    tcltk::tkwm.title(base, paste("Tk Density(",ynam,")"))
 
     base.frame <- tkframe(base, borderwidth = 2)
     bw.frame   <- tkframe(base.frame, relief = "groove", borderwidth = 3)
     kern.frame <- tkframe(base.frame, relief = "groove", borderwidth = 2)
 
-    x.frame   <- tkframe(base.frame)
+    x.frame    <- tkframe(base.frame)
     xr.frame   <- tkframe(x.frame)
     xmid.frame <- tkframe(x.frame)
     tkpack(xr.frame, xmid.frame, side = "left", anchor = "s")
 
-    q.but <- tkbutton(base, text = "Quit", command =
-		      function() { par(op) ## see par() below !
-				   tkdestroy(base) })
+    q.but <- tcltk::tkbutton(base, text = "Quit", command = function() {
+	par(op) ## see par() below !
+	tcltk::tkdestroy(base) })
     tkpack(base.frame,
            bw.frame, kern.frame,
            x.frame,
@@ -116,8 +122,8 @@ tkdensity <- function(y, n = 1024, log.bw = TRUE, showvalue = TRUE,
     ## Kernel Frame :
     tkpack(tklabel(kern.frame, text = "Kernel"))
     for (k.name in kernels)
-        tkpack(tkradiobutton(kern.frame, command = replot,
-                             text = k.name, value = k.name, variable=kernel),
+        tkpack(tcltk::tkradiobutton(kern.frame, command = replot,
+                                    text = k.name, value = k.name, variable=kernel),
                anchor = "w")
 
     ## [x Zoom] Frame :
