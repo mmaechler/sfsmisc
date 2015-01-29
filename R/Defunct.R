@@ -27,10 +27,3 @@ p.pllines <- function(x,y,group,lty=c(1,3,2,4),...)
     if(sum(ii)) lines(x[ii],y[ii],lty=lty[1+(gg-1)%%length(lty)])
   }
 }
-
-hist.bxp <- function(x, ...) {
-    stop("hist.bxp(..) is defunct -- use  histBxp(..)  instead!")
-    histBxp(x, ...)
-}
-
-
