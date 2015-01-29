@@ -49,7 +49,7 @@ abline(a=0,b= tan( 30 *pi/180), col=2, lty = 2)
 abline(a=0,b= tan(120 *pi/180), col=3, lty = 2)
 
 ## NB: use x11(type = "Xlib") for the following if you can
-if(dev.interactive()) {
+if(dev.interactive(TRUE)) {
   ## Movie : rotating ellipse  :
   nTurns <- 4 # #{full 360 deg turns}
   for(al in 1:(nTurns*360)) {
