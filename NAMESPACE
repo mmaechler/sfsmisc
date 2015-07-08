@@ -1,11 +1,24 @@
-importFrom(stats, density.default)
+importFrom("grDevices", boxplot.stats, cairo_pdf,
+	   dev.cur, dev.off, n2mfrow, pdf, postscript, xy.coords)
+
+importFrom("graphics", abline, arrows, axTicks, axis, axis.POSIXct,
+	   boxplot, curve, frame, hist, lines, matplot, mtext,
+	   par, plot, plot.new, points, polygon,
+	   rug, segments, text, xyinch)
+
+importFrom("stats",
+	   IQR, approx, as.formula, as.ts, dchisq, dgamma, density.default,
+	   dnorm, dummy.coef, ecdf, end, fitted, formula, is.ts, lowess,
+	   mad, median, model.frame, na.exclude, na.omit, napredict,
+	   pchisq, pf, plot.ts, predict, qchisq, qgamma, qnorm, qt, quantile,
+	   resid, residuals, smooth.spline, spline, splinefun, start, stepfun,
+	   terms, time, update.formula, var, window)
+
+importFrom("utils", head, tail, toLatex, #<- S3 generics !
+	   capture.output, globalVariables)
 
 ## Using "::" in code -> no need here:
 importFrom("methods", existsFunction)
-importFrom("utils", head, toLatex, #<- S3 generics !
-           capture.output, globalVariables
-           ) # and probably more __FIXME: move utils from Depends to Imports
-importFrom("grDevices", cairo_pdf)
 
 
 ### Export almost all
