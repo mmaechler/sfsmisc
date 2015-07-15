@@ -17,6 +17,7 @@ importFrom("stats",
 importFrom("utils", head, tail, toLatex, #<- S3 generics !
 	   capture.output, globalVariables)
 
+
 ## Using "::" in code -> no need here:
 importFrom("methods", existsFunction)
 

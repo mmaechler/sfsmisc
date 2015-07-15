@@ -9,6 +9,7 @@
     \itemize{
       \item \code{tkdensity()} is tweaked such as to look more standard
       to \pkg{codetools}.
+      \item similarly (much less) for \code{factorize()} and \code{roundfixS()}.
     }
   }
   \subsection{BUG FIXES}{

@@ -83,17 +83,17 @@ factorize <- function(n, verbose = FALSE)
   ##			 then use this function recursively only "small" factors
   ## -------------------------------------------------------------------------
   ## Author: Martin Maechler, Date: 26--30 Jan 96
-  if(all(n < .Machine$integer.max))
-      n <- as.integer(n)
-  else {
+  n <- if(all(n < .Machine$integer.max)) as.integer(n)
+    else {
       warning("factorizing large int ( > maximal integer )")
-      n <- round(n)
-  }
+      round(n)
+    }
   N <- length(n)
   M <- as.integer(sqrt(max(n))) #-- check up to this prime number
   ##-- for M > 100 to 200: should DIVIDE first and then go on ..
   ##-- Here, I am just (too) lazy:
-  k <- length(pr <- primes(M))# was:  prime.sieve(maxP = M)
+  pr <- primes(M) # was:  prime.sieve(maxP = M)
+  ## k <- length(pr)
   nDp <- outer(pr, n, FUN = function(p,n) n %% p == 0) ## which are divisible?
   ## dim(nDp) = (k,N) ;
   ## Divide those that are divisible :

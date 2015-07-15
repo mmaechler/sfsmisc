@@ -36,7 +36,7 @@ tkdensity <- function(y, n = 1024, log.bw = TRUE, showvalue = TRUE,
     if(log.bw) lbw <- lbw0 <- log10(bw0)
 
     ry <- range(y)
-    xlim <- xl0 <- if(is.null(xlim)) ry + c(-2,2)* bw0 else as.numeric(xlim)
+    xlim <- if(is.null(xlim)) ry + c(-2,2)* bw0 else as.numeric(xlim)
     xlmid <- xm0 <- mean(xlim)
     xr0 <- diff(xlim)
 
@@ -52,7 +52,7 @@ tkdensity <- function(y, n = 1024, log.bw = TRUE, showvalue = TRUE,
 
     kernel <- tclVar("gaussian")
 
-    Tvar <- function(v) as.numeric(tclvalue(substitute(v)))
+    ## Tvar <- function(v) as.numeric(tclvalue(substitute(v)))
 
     replot <- function(...) {
         if (is.null(y)) return() # too early...
@@ -67,6 +67,8 @@ tkdensity <- function(y, n = 1024, log.bw = TRUE, showvalue = TRUE,
         xM <<- as.numeric(tclvalue(xlmid))
         ##Dbg cat("tclvalue(kernel)"); str(k)
 
+	if(FALSE) ## codetools don't think we use these
+	    b <- xlim + b + k
         xr.half <- (xr0 / 2) * 100 / xZ
         xlim <- xM + c(-xr.half, xr.half)
         eval(substitute(plot(density(y, bw = b, kernel = k, n = n),
