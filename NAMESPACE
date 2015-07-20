@@ -15,7 +15,7 @@ importFrom("stats",
 	   terms, time, update.formula, var, window)
 
 importFrom("utils", head, tail, toLatex, #<- S3 generics !
-	   capture.output, globalVariables)
+	   capture.output, data, globalVariables, str)
 
 
 ## Using "::" in code -> no need here:
