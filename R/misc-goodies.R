@@ -560,8 +560,8 @@ roundfixS <- function(x, method = c("offset-round", "round+fix", "1greedy"))
            "round+fix" = {
                r <- round(e)
                if((del <- S - sum(r)) != 0) { # need to add +/- 1 to 'del' entries
-		   ## s <- sign(del) ## +1 or -1: add +1 only to r < x entries,
-		   aD <- abs(del)    ##           and -1 only to r > x entries,
+		   s <- sign(del) ## +1 or -1: add +1 only to r < x entries,
+		   aD <- abs(del) ##          and -1 only to r > x entries,
                    ## those with the "worst" rounding are made a bit worse
                    if(del > 0) {
                        iCand <- e > r
@@ -571,7 +571,7 @@ roundfixS <- function(x, method = c("offset-round", "round+fix", "1greedy"))
                        dx <- (e - x)[iCand] # > 0
                    }
                    ii <- sort.list(dx, decreasing = TRUE)[1:aD]
-                   r[iCand][ii] <- r[iCand][ii] + sign(del)
+		   r[iCand][ii] <- r[iCand][ii] + s
                }
 
                return(x0 + r)
