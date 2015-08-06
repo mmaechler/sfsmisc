@@ -66,7 +66,7 @@ pretty10exp <- function(x, drop.1 = FALSE, sub10 = FALSE,
 		else if(sub.10 &&  noE[i]    ) mTf[i]
 		else if(drop.1 && mT[i] ==  1) sprintf("$10^{%s}$", eTf[i])
 		else if(drop.1 && mT[i] == -1) sprintf("$-10^{%s}$",eTf[i])
-		else sprintf("$%s \\%s 10^{%s}", mTf[i], lab.sep,   eTf[i])
+		else sprintf("$%s \\%s 10^{%s}$", mTf[i], lab.sep,  eTf[i])
 	ss  ## perhaps unlist(ss) ?
     }
 }
@@ -124,7 +124,9 @@ eaxis <- function(side, at = if(log && getRversion() >= "2.14.0")
 	labels <- if(use.expr) {
             pretty10exp(at, drop.1=drop.1, sub10=sub10,
                         lab.type=lab.type, lab.sep=lab.sep)
-        } else TRUE
+        } else if(lab.type == "latex")
+            paste("$", at, "$", sep="")
+        else TRUE
     else if(length(labels) == 1 && is.na(labels)) # no 'plotmath'
 	labels <- TRUE
     axis(side, at = at, labels = labels, las=las, ...)
