@@ -20,8 +20,7 @@ primes(n)
 \value{
   numeric vector of all prime numbers \eqn{\le n}{<= n}.
 }
-\author{
-  Bill Venables (<= 2001); Martin Maechler gained another 40\% speed,
+\author{Bill Venables (<= 2001); Martin Maechler gained another 40\% speed,
   working with logicals and integers.
 }
 \seealso{

@@ -1,12 +1,10 @@
 \name{ecdf.ksCI}
 \alias{ecdf.ksCI}
-\title{
-  Plot the Empirical Distribution Function Together With
-  95\% Confidence Curves.
-}
+\title{Plot Empirical Distribution Function With 95\% Confidence Curves}
 \description{
-  Plots the empirical distribution function for univariate data,
-  together with upper and lower simultaneous 95\% confidence curves.
+  Plots the empirical (cumulative) distribution function (ECDF) for
+  univariate data, together with upper and lower simultaneous 95\% confidence curves,
+  computed via Kolmogorov-Smirnov' \eqn{D}, see \code{\link{KSd}}.
 }
 \usage{
 ecdf.ksCI(x, main = NULL, sub = NULL, xlab = deparse(substitute(x)),

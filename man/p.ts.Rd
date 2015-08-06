@@ -44,8 +44,7 @@ p.ts(x, nrplots = max(1, min(8, n \%/\% 400)), overlap = nk \%/\% 16,
   A page of \code{nrplots} subplots is drawn on the current
   graphics device.
 }
-\author{Martin Maechler, \email{maechler@stat.math.ethz.ch}; July 1994
-  (for S).}
+\author{Martin Maechler, \email{maechler@stat.math.ethz.ch}; July 1994 (for S).}
 \seealso{\code{p.ts()} calls \code{\link{mult.fig}()} for setup.
   Further, \code{\link{plot.ts}} and \code{\link{plot}}.
 }

@@ -33,9 +33,7 @@ factorize(n, verbose = FALSE)
   multiplities), i.e., for a prime number \code{n}, the resulting matrix
   is \code{cbind(p = n, m = 1)}.
 }
-\author{
-Martin Maechler, Jan. 1996.
-}
+\author{Martin Maechler, Jan. 1996.}
 \seealso{
   \code{\link{primes}}.
 

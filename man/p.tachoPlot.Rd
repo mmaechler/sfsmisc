@@ -48,9 +48,7 @@ p.tachoPlot(x, y, z, angle=c(pi/4,3*pi/4), size,
   variable z is given by the direction of a pointer (similar to a
   tachometer). Observations whose z-coordinate is missing are marked by a dot.
 }
-\author{
-  Christian Keller \email{keller@stat.math.ethz.ch}, June 1995
-}
+\author{Christian Keller, June 1995}
 \seealso{\code{\link{symbols}}}
 \examples{
 data(state)

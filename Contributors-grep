@@ -1,0 +1,93 @@
+-*- mode: grep; default-directory: "~/R/Pkgs/sfsmisc/man/" -*-
+Grep started at Thu Aug  6 10:08:45
+
+grep -a -nH -e '\\author' *.Rd */*.Rd
+AsciiToInt.Rd:51:\author{Martin Maechler, partly in 1991 for S-plus}
+axTexpr.Rd:32:\author{Martin Maechler}
+cairoSwd.Rd:26:\author{Alain Hauser}
+capture-n-write.Rd:29:\author{Martin Maechler, ETH Zurich}
+col01scale.Rd:22:\author{Martin Maechler}
+compresid2way.Rd:59:\author{Werner Stahel \email{stahel@stat.math.ethz.ch}}
+cum.Vert.funkt.Rd:31:\author{Martin Maechler et al.}
+D1D2.Rd:54:\author{Martin Maechler, in 1992 (for S).}
+D2ss.Rd:67:\author{Martin Maechler, in 1992 (for S).}
+diagDA.Rd:53:\author{
+diagX.Rd:18:\author{Martin Maechler, 1992.}
+digitsBase.Rd:55:\author{Martin Maechler, Dec 4, 1991 (for S-plus; then called \code{digits.v}).}
+Duplicated.Rd:36:\author{Christoph Buser and Martin Maechler, Seminar fuer Statistik, ETH
+eaxis.Rd:77:\author{Martin Maechler}
+ecdf.ksCI.Rd:24:\author{Kjetil Halvorsen}
+ellipsePoints.Rd:30:\author{Martin Maechler, March 2002.}
+empty.dimnames.Rd:16:\author{Bill Venables / Martin Maechler, Sept 1993.}
+errbar.Rd:27:\author{Originally Charles Geyer, U.Chicago, early 1991;
+factorize.Rd:36:\author{Martin Maechler, Jan. 1996.}
+f.robftest.Rd:33:\author{Werner Stahel, Jul.2000; updates by Martin Maechler.}
+hatMat.Rd:37:\author{Martin Maechler \email{maechler@stat.math.ethz.ch}}
+histBxp.Rd:90:\author{S-Plus: Markus Keller, Christian Keller; port to \R: Martin Mächler.
+integrate.xy.Rd:30:\author{Martin Maechler, May 1994 (for S).}
+inv.seq.Rd:21:\author{Martin Maechler, October 1995; more elegant implementation from Tony Plate.}
+is.whole.Rd:28:\author{Alain Hauser <alain@huschhus.ch>}
+iterate.lin.recursion.Rd:28:\author{Martin Maechler}
+KSd.Rd:29:\author{Kjetil Halvorsen and Martin Maechler}
+last.Rd:24:\author{Werner Stahel (\email{stahel@stat.math.ethz.ch}), and independently,
+linesHyberb.lm.Rd:28:\author{Martin Maechler, Oct 1995}
+mat2tex.Rd:37:\author{For S: Vincent Carey \email{vjcarey@sphunix.sph.jhu.edu}, from a
+missingCh.Rd:27:\author{Martin Maechler}
+mpl.Rd:27:\author{Martin Maechler}
+mult.fig.Rd:51:\author{Martin Maechler, UW Seattle, 1990.}
+n.code.Rd:34:\author{Martin Maechler}
+nearcor.Rd:49:\author{ Jens Oehlschlägel }
+n.plot.Rd:36:\author{Martin Maechler, since 1992}
+nr.sign.chg.Rd:17:\author{Martin Maechler, 17 Feb 1993.}
+p.arrows.Rd:19:\author{Andreas Ruckstuhl, 19 May 1994; (cosmetic by MM).}
+paste.vec.Rd:20:\author{Martin Maechler, about 1992.}
+p.dnorm.Rd:30:\author{Werner Stahel et al.}
+p.hboxp.Rd:26:\author{Martin Maechler building on code from Markus and Christian Keller.}
+plotDS.Rd:47:\author{Martin Maechler, since 1990}
+plotStep.Rd:49:\author{Martin Maechler, Seminar for Statistics, ETH Zurich,
+pmax.sa.Rd:21:\author{Martin Maechler}
+polyn.eval.Rd:28:\author{Martin Maechler, ages ago.}
+posdefify.Rd:45:\author{Martin Maechler, July 2004}
+p.profileTraces.Rd:27:\author{Andreas Ruckstuhl, \R port by Isabelle Flückiger and Marcel Wolbers}
+p.res.2fact.Rd:29:\author{Lorenz Gygax \email{logyg@wild.unizh.ch} and Martin Maechler, Jan.95;
+p.res.2x.Rd:53:\author{Andreas Ruckstuhl in June 1991 and
+pretty10exp.Rd:65:\author{Martin Maechler;  Ben Bolker contributed \code{lab.type = "latex"}
+primes.Rd:23:\author{Bill Venables (<= 2001); Martin Maechler gained another 40\% speed,
+printTable2.Rd:46:\author{Martin Maechler, Feb.1993; then Dec 2003}
+prt.DEBUG.Rd:22:\author{Martin Maechler, originally for S-PLUS.}
+p.scales.Rd:21:\author{Werner Stahel, 1990;  simplification: M.Maechler, 1993, 2004}
+ps.end.Rd:34:\author{Martin Maechler}
+ps.latex.Rd:92:\author{Martin Maechler}
+p.tachoPlot.Rd:51:\author{Christian Keller, June 1995}
+p.ts.Rd:47:\author{Martin Maechler, \email{maechler@stat.math.ethz.ch}; July 1994
+QUnif.Rd:55:\author{Martin Maechler}
+repChar.Rd:24:\author{Martin Maechler, early 1990's (for \code{bl.string}).}
+rot13.Rd:25:\author{Martin Maechler}
+rot2.Rd:19:\author{Martin Maechler, Oct.1994}
+roundfixS.Rd:46:\author{Martin Maechler, November 2007}
+rrange.Rd:31:\author{Martin Maechler, 1990.}
+seqXtend.Rd:43:\author{Martin Maechler}
+signi.Rd:18:\author{Martin Maechler, in prehistoric times (i.e. before 1990).}
+sourceAttach.Rd:26:\author{Martin Maechler, 29 Jul 2011}
+str_data.Rd:28:\author{Martin Maechler}
+TA.plot.Rd:62:\author{
+tapplySimpl.Rd:31:\author{Martin Maechler, 14 Jun 1993 (for S-plus).}
+tkdensity.Rd:45:\author{Martin Maechler, building on \code{demo(tkdensity)}.}
+toLatex.numeric.Rd:36:\author{
+u.assign0.Rd:22:\author{Martin Maechler}
+u.boxplot.x.Rd:22:\author{Martin Maechler}
+u.date.Rd:15:\author{Martin Maechler, ca. 1992}
+u.datumdecode.Rd:21:\author{?? (someone at SfS ETH)}
+u.Datumvonheute.Rd:34:\author{Caterina Savi, Martin Maechler}
+u.log.Rd:26:\author{Martin Maechler, 24 Jan 1995}
+unif.Rd:23:\author{Martin Maechler, ca 1990}
+uniqueL.Rd:26:\author{Martin Maechler}
+u.sys.Rd:18:\author{Martin Maechler}
+vcat.Rd:27:\author{Martin Maechler, early 1990's.}
+wrapFormula.Rd:26:\author{Martin Maechler, May 2007.}
+xy.grid.Rd:19:\author{Martin Maechler, 26 Oct 1994.}
+xy.unique.x.Rd:25:\author{Martin Maechler, 8 Mar 1993.}
+unix/Sys.cpuinfo.Rd:47:\author{Martin Maechler}
+unix/Sys.ps.Rd:466:\author{Martin Maechler}
+
+Grep finished (matches found) at Thu Aug  6 10:08:45

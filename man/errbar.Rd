@@ -24,9 +24,7 @@ errbar(x, y, yplus, yminus, cap = 0.015,
   \item{\dots}{Graphical parameters (see \code{\link{par}}) may also
     be supplied as arguments to this function.}
 }
-\author{Originally Charles Geyer, U.Chicago, early 1991;
-  then Martin Mächler.
-}
+\author{Originally Charles Geyer, U.Chicago, early 1991; then Martin Mächler.}
 \seealso{\code{\link[Hmisc]{errbar}} in package \pkg{Hmisc} is similar.
 %% maybe deprecate ours?  FIXME
 }

@@ -12,15 +12,13 @@ inv.seq(i)
   \item{i}{vector of (usually increasing) integers.}
 }
 %%\details{
-%%
 %%}
 \value{
   a \code{\link{call}} (\dQuote{the inside of an
     \code{\link{expression}}}) to be \code{\link{eval}()}ed to
   return the original \code{i}.
 }
-\author{Martin Maechler, October 1995; more elegant implementation from
-  Tony Plate.}
+\author{Martin Maechler, October 1995; more elegant implementation from Tony Plate.}
 \seealso{\code{\link{rle}} for another kind of integer vector coding.}
 \examples{
 (rr <- inv.seq(i1 <- c(3:12, 20:24, 27, 30:33)))

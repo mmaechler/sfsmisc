@@ -46,8 +46,7 @@ plotStep(ti, y,
   Calls plot(..), points(..),  segments(..) appropriately
   and plots on current graphics device.
 }
-\author{
-  Martin Maechler, Seminar for Statistics, ETH Zurich,
+\author{Martin Maechler, Seminar for Statistics, ETH Zurich,
   \email{maechler@stat.math.ethz.ch}, 1991 ff.
 }
 \seealso{

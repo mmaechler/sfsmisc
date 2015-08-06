@@ -1,0 +1,22 @@
+
+* Authors of CRAN R Package *sfsmisc* -- apart from Martin Maechler
+
+** built from ../Authors
+
+|------------------+---------------+----------------------+----------------|
+| First Lastname   | Function(s)   | help pages           | Notes          |
+|------------------+---------------+----------------------+----------------|
+| Alain Hauser     | cairoSwd      | man/cairoSwd.Rd      |                |
+| Werner Stahel    | compresid2way | man/compresid2way.Rd |                |
+|                  |               |                      |                |
+| Sandrine Dudoit, |               |                      | original, less |
+| Jane Fridlyand   | diagDA        | man/diagDA.Rd        | optimized      |
+|                  |               |                      |                |
+| Christoph Buser  | Duplicated    | man/Duplicated.Rd    | joint w MM     |
+| Kjetil Halvorsen | ecdf.ksCI     | man/ecdf.ksCI.Rd     |                |
+| Kjetil Halvorsen | KSd           | man/KSd.Rd           | joint w MM     |
+|                  |               |                      |                |
+
+
+
+

@@ -24,9 +24,7 @@ missingCh(x, envir = parent.frame())
   caller of \code{missingCh}, but see the use of \code{envir} in the
   \code{vapply} example.
 }
-\author{
-  Martin Maechler
-}
+\author{Martin Maechler}
 \seealso{
   \code{\link{missing}}
 }
