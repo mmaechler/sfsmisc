@@ -9,6 +9,6 @@ Description: Useful utilities ['goodies'] from Seminar fuer Statistik ETH
 Depends: R (>= 2.15.0)
 Imports: grDevices, methods, utils, stats
 Suggests: datasets, tcltk, cluster, MASS, Matrix, nlme, lokern
-Enhances: mgcv, rpart, nor1mix, polycor, sm
+Enhances: mgcv, rpart, nor1mix, polycor, sm, tikzDevice
 Encoding: latin1
 License: GPL (>= 2)

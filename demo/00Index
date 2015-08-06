@@ -1,2 +1,3 @@
 hatmat-ex	hat matrix / smoother Matrix examples
 prime-numbers	Prime numbers, factorization, etc: (Simple) implementations
+pretty-lab	Pretty axis labels, including using tikz
