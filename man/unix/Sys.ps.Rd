@@ -1,15 +1,13 @@
 \name{Sys.ps}
+\title{Return Process Status (Unix 'ps') Information}
 \alias{Sys.ps}
-\alias{Sys.ps.cmd}
+%\alias{Sys.ps.cmd}-> now in ../u.sys.Rd
 \alias{Sys.sizes}
-\title{Return Process Status (unix ps) Information}
 \description{
   These functions return process id and status information, typically
   about the running \R process.
 }
 \usage{
-Sys.ps.cmd()
-
 Sys.ps(process= Sys.getpid(),
        fields = c("pid", "pcpu", "time", "vsz", "comm"),
        usefile = length(fields) > 10,
@@ -470,5 +468,8 @@ Sys.sizes(process = Sys.getpid(), ps.cmd = Sys.ps.cmd())
 \examples{
 (.pid <- Sys.getpid()) ## process ID of current process
 Sys.sizes(.pid)
+
+## The default process statistics about the running R process
+try( Sys.ps() )
 }
-\keyword{utilities}%-- one or more ...
+\keyword{utilities}

@@ -1,5 +1,24 @@
 ####--- Utilities -----------------
 
+## Was in ./unix/  -- but is called from pdf.end() / ps.end()  which are here: ./ps.goodies.R
+Sys.ps.cmd <- function() {
+  sys <- (si <- Sys.info())[["sysname"]]
+  if(sys == "Linux") {
+    s.rel <- si[["release"]] ## 2013-7: Kurt sees s.rel <- "3.9-1-amd64"
+    rel <- c(as.integer(strsplit(s.rel,"[[:punct:]]")[[1]][1:2]) %*% c(1000,1))
+    if(is.na(rel)) rel <- 3000
+    if(rel >= 2006) "/bin/ps w" ## Linux kernel >= 2.6 (this is true for Ubuntu!)
+    else if(rel >= 2002) "/bin/ps --width 1000" ## Linux >= 2.2
+    else structure("/bin/ps w",type="BSD")
+  }
+  else if(sys == "SunOS") "/usr/bin/ps"
+  else {
+    warning("Unknown OS [Operating System]; 'ps' may not be compatible")
+    "ps"
+  }
+}
+
+
 u.sys <- function(..., intern=TRUE) system(paste0(...), intern=intern)
 
 u.date <- function(short = FALSE)

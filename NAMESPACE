@@ -147,9 +147,10 @@ export (
 	"xy.grid", "xy.unique.x"
 	)
 
+export("Sys.ps.cmd") # now in general.. even though possibly nonfunctional in non-unix
 if(tools:::.OStype() == "unix") { ## those are inside R/unix/
 
-    export("Sys.ps", "Sys.ps.cmd", "Sys.sizes")
+    export("Sys.ps", "Sys.sizes")
 
     if(identical(1L, grep("linux", R.version[["os"]]))) { ##--- Linux - only ---
 	export("Sys.cpuinfo", "Sys.meminfo", "Sys.MIPS", "Sys.memGB")
