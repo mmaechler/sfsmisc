@@ -23,6 +23,11 @@ wrapFormula(f, data, wrapString = "s(*)")
   a \code{\link{formula}} very similar to \code{f}; just replacing each
   \emph{additive} term by its wrapped version.
 }
+\note{
+  There are limits for this to work correctly; notably the right hand
+  side of the formula \code{f} should not be nested or otherwise
+  complicated, rather typically just \code{ . } as in the examples.
+}
 \author{Martin Maechler, May 2007.}
 \seealso{\code{\link{formula}};
   \code{\link[mgcv]{gam}} from package \pkg{mgcv} (or also from
