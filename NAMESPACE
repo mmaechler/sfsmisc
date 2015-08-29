@@ -123,6 +123,7 @@ export (
 	"quadrant",
 	"QUnif",
 
+        read.org.table,
 	"rot2", "rotn",
 	"roundfixS",
 	"rrange",

@@ -987,3 +987,52 @@ prt.DEBUG <- function(..., LEVEL = 1) {
 ##-   if (exists("DEBUG") && DEBUG )
 ##-         cat(paste0("in '", sys.call(sys.nframe()-1)[1], "':"), ..., "\n")
 #-- do NOT use  sep="" in cat(..)  --> fouls up  vectors of numbers
+
+##' .. content for \description{} (no empty lines) ..
+##'
+
+
+##' @title Read an Emacs Org Table by read.table()
+read.org.table <- function(file, header = TRUE, skip = 0, fileEncoding = "", text, ...) {
+    ## file - text   handling --- cut'n'paste from read.table()'s header
+    if (missing(file) && !missing(text)) {
+	file <- textConnection(text, encoding = "UTF-8")
+	encoding <- "UTF-8"
+	on.exit(close(file))
+    }
+    if(is.character(file)) {
+        file <- if(nzchar(fileEncoding))
+            file(file, "rt", encoding = fileEncoding) else file(file, "rt")
+        on.exit(close(file))
+    }
+    if(!inherits(file, "connection"))
+        stop("'file' must be a character string or connection")
+    if(!isOpen(file, "rt")) {
+        open(file, "rt")
+        on.exit(close(file))
+    }
+
+    if(skip > 0L) readLines(file, skip)
+    ll <- readLines(file)
+    close(file); on.exit()
+    ## drop |--------+---------+--------+--|  :
+    if(any(i <- grep("---+\\+--", ll[1:3]))) ll <- ll[-i]
+    ## drop beginning and ending "|" :
+    ll <- sub("^ *\\|", "",
+              sub("\\| *$", "", ll))
+    if(header) { ## assume header in first 2 lines
+        ii <- if(nchar(ll[1]) < 2) 2 else 1
+        ## header line
+        hl <- ll[ii]
+        ## drop header line(s)
+        ll <- ll[-seq_len(ii)]
+        ## split the header lines into column names
+        col.names <- sub("^ +", "", sub(" +$", "", strsplit(hl, " *\\| *") [[1L]]))
+    }
+    ## drop empty lines at end only
+    while(grepl("^ *$", tail(ll, 1L))) ll <- ll[-length(ll)]
+    f.ll <- textConnection(ll, encoding = "UTF-8")
+    on.exit(close(f.ll))
+    read.table(f.ll, header=FALSE, sep = "|",
+               col.names = col.names, encoding = "UTF-8", ...)
+}

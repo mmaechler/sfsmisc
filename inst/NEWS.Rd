@@ -4,6 +4,16 @@
 \title{sfsmisc News}
 \encoding{UTF-8}
 
+\section{CHANGES in sfsmisc VERSION 1.0-29 [2015-..-..]}{
+  \subsection{NEW FEATURES}{
+    \itemize{
+      \item new function \code{read.org.table()} to read emacs
+      \file{org} files via \code{\link{read.table}()}.
+    }
+  }
+}
+
+
 \section{CHANGES in sfsmisc VERSION 1.0-28 [2015-08-06]}{
   \subsection{NEW FEATURES}{
     \itemize{
