@@ -3,7 +3,8 @@
 \alias{read.org.table}
 \description{
   Read an emacs \dQuote{Org} table (in \code{file} or \code{text}) by
-  \code{\link{read.table}()}.
+  \code{\link{read.table}()}. % FIXME: Should be easy to made to work for some of the
+  %% Markdown formats for tables.
 }
 \usage{
 read.org.table(file, header = TRUE, skip = 0, fileEncoding = "", text, \dots)
@@ -16,10 +17,19 @@ read.org.table(file, header = TRUE, skip = 0, fileEncoding = "", text, \dots)
   \item{fileEncoding}{see \code{\link{read.table}}}
   \item{text}{instead of \code{file}, a \code{\link{character}} or
     string (of a few lines, typically).}
-  \item{\dots}{further arguments passed to \code{\link{read.table}}.}
+  \item{\dots}{further arguments passed to \code{\link{read.table}}.
+    You should \emph{not} use \code{encoding} (but possibly
+    \code{fileEncoding}!) here, as we do not call
+    \code{\link{read.table}} on \code{file} (but on a
+    \code{\link{textConnection}}).}
 }
 \value{
   a \code{\link{data.frame}}
+}
+\note{TODO: It should be easy to extend \code{read.org.table()}  to also
+  work for some of the proposed Markdown formats for tables.
+  Please write to \code{\link{maintainer}("sfsmisc")} or open a
+  github issue if you are interested.
 }
 \references{
   Org-Mode Manual on Tables, \url{http://orgmode.org/manual/Tables.html}
