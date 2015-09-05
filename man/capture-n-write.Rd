@@ -5,6 +5,15 @@
   Capture output and print first and last parts, eliding
   middle parts.  Particularly useful for teaching purposes, and, e.g.,
   in Sweave (\code{\link{RweaveLatex}}).
+
+  By default, when \code{middle = NA}, \code{capture.output(EXPR, first, last)}
+  basically does
+  \preformatted{
+    co <- capture.output(EXPR)
+    writeLines(head(co, first))
+    cat( ... dotdots ...)
+    writeLines(tail(co, last))
+  }
 }
 \usage{
 capture.and.write(EXPR, first, last = 2, middle = NA,
@@ -21,7 +30,7 @@ capture.and.write(EXPR, first, last = 2, middle = NA,
   \item{n.dots}{number of \code{dotdots} lines added between parts.}
 }
 \value{
-  return value of \code{\link{writeLines}}.
+  return value of \code{\link{capture.output}(EXPR)}.
 }
 \seealso{
   \code{\link{head}}, \code{\link{tail}}
@@ -29,10 +38,13 @@ capture.and.write(EXPR, first, last = 2, middle = NA,
 \author{Martin Maechler, ETH Zurich}
 \examples{
 x <- seq(0, 10, by = .1)
+
 ## for matrix, dataframe, .. first lines include a header line:
 capture.and.write( cbind(x, log1p(exp(x))),  first = 5)
+
+## first, *middle* and last :
 capture.and.write( cbind(x, x^2, x^3), first = 4, middle = 3, n.dots= 1)
 }
-%% MM's  own "real use" examples:
+%% some of MM's  own "real use" examples:
 %% ~/R/Meetings-Kurse-etc/2012-Rmpfr-ZurichR/BinCoef.Rnw
 %% ~/R/MM/NUMERICS/log1exp/log1exp-note.Rnw

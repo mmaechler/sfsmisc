@@ -274,8 +274,9 @@ wrapFormula <- function(f, data, wrapString = "s(*)")
 ##' @param i.middle index start of middle part
 ##' @param dotdots string to be used for elided lines
 ##' @param n.dots number of \code{dotdots}  ....{FIXME}
-##' @return return value of \code{\link{writeLines}}
+##' @return return value of \code{\link{capture.output}(EXPR)}
 ##' @author Martin Maechler
+## -> ../man/capture-n-write.Rd
 capture.and.write <- function(EXPR, first, last = 2,
                               middle = NA, i.middle,
                               dotdots = " ....... ", n.dots = 2) {
@@ -296,6 +297,7 @@ capture.and.write <- function(EXPR, first, last = 2,
         catDots(n.dots)
     }
     writeLines(tail(co, last))
+    invisible(co)
 }
 
 
@@ -993,11 +995,11 @@ prt.DEBUG <- function(..., LEVEL = 1) {
 
 
 ##' @title Read an Emacs Org Table by read.table()
+## --> ../man/read.org.table.Rd
 read.org.table <- function(file, header = TRUE, skip = 0, fileEncoding = "", text, ...) {
     ## file - text   handling --- cut'n'paste from read.table()'s header
     if (missing(file) && !missing(text)) {
 	file <- textConnection(text, encoding = "UTF-8")
-	encoding <- "UTF-8"
 	on.exit(close(file))
     }
     if(is.character(file)) {
@@ -1011,6 +1013,8 @@ read.org.table <- function(file, header = TRUE, skip = 0, fileEncoding = "", tex
         open(file, "rt")
         on.exit(close(file))
     }
+    if("encoding" %in% names(list(...)))
+       warning("'encoding' does not make sense here")
 
     if(skip > 0L) readLines(file, skip)
     ll <- readLines(file)
