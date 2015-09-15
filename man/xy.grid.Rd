@@ -13,7 +13,7 @@ xy.grid(x, y)
   \item{x,y}{any vectors of same mode.}
 }
 \value{
-  a 2-column matrix of ``points'' for each combination of \code{x} and
+  a 2-column matrix of \dQuote{points} for each combination of \code{x} and
   \code{y}, i.e. with \code{length(x) * length(y)} rows.
 }
 \author{Martin Maechler, 26 Oct 1994.}

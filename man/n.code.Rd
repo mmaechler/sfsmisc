@@ -3,7 +3,7 @@
 \alias{code2n}
 \title{Convert "Round" Integers to Short Strings and Back}
 \description{
-  \code{n.code} convert ``round integers'' to short character strings.
+  \code{n.code} convert \dQuote{round integers} to short character strings.
   This is useful to build up variable names in simulations, e.g.
 
   \code{code2n} is the \emph{inverse} function of \code{n.code()}.

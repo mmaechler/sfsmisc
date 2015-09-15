@@ -32,8 +32,8 @@ p.tachoPlot(x, y, z, angle=c(pi/4,3*pi/4), size,
     the values of the minimum and maximum direction of the pointer is drawn.}
   \item{show.method}{logical flag, defaulting to \code{legend}; if true,
     the method name is printed.}
-  \item{xlab,ylab}{labels for x and y axis; defaults to the `expression'
-    used in the function call.}
+  \item{xlab,ylab}{labels for x and y axis; defaults to the
+    \sQuote{expression} used in the function call.}
   \item{xlim,ylim}{numeric of length 2, the limits for the x and y axis,
     respectively; see \code{\link{plot.default}}.}
   \item{\dots}{further arguments to \code{\link{plot}}.  Graphical

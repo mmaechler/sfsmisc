@@ -12,10 +12,10 @@ xy.unique.x(x, y, w, fun.mean = mean)
 }
 \arguments{
   \item{x,y}{numeric vectors of same length.  Alternatively, \code{x}
-    can be ``xy'' like structure.}
+    can be a \sQuote{xy} like structure, see \code{\link{xy.coords}}.}
   \item{w}{numeric vector of non-negative weights -- or missing which
     corresponds to all weights equal.}
-  \item{fun.mean}{the mean function to use.}
+  \item{fun.mean}{the mean \code{\link{function}} to use.}
 }
 \value{
   Numeric matrix with three columns, named

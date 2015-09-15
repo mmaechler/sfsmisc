@@ -2,7 +2,7 @@
 \alias{hatMat}
 \title{Hat Matrix of a Smoother}
 \description{
-  Compute the hat matrix or smoother matrix, of `any' (linear) smoother,
+  Compute the hat matrix or smoother matrix, of \sQuote{any} (linear) smoother,
   smoothing splines, by default.
 }
 \usage{
@@ -46,7 +46,7 @@ H1 <- hatMat(x1, spar = 0.5) # default : smooth.spline()
 
 matplot(x1, H1, type = "l", main = "columns of smoother hat matrix")
 
-## Example `pred.sm' arguments for hatMat() :
+## Example 'pred.sm' arguments for hatMat() :
 pspl <-  function(x,y,...) predict(smooth.spline(x,y, ...), x = x)$y
 pksm <-  function(x,y,...) ksmooth(sort(x),y, "normal", x.points=x, ...)$y
 ## Rather than ksmooth():
