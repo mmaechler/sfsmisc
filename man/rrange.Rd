@@ -1,10 +1,10 @@
 \name{rrange}
 \alias{rrange}
-\title{Robust Range using Boxplot `Quartiles'}
+\title{Robust Range using Boxplot 'Quartiles'}
 \description{
   Compute a robust range, i.e. the usual \code{\link{range}()} as long
-  as there are no outliers,  using the ``whisker boundaries'' of
-  \code{\link{boxplot}}.
+  as there are no outliers,  using the \dQuote{whisker boundaries} of
+  \code{\link{boxplot}}, i.e., \code{\link{boxplot.stats}}.
 }
 \usage{
 rrange(x, range=1, coef = 1.5, na.rm = TRUE)
@@ -14,7 +14,7 @@ rrange(x, range=1, coef = 1.5, na.rm = TRUE)
   \item{range}{number for S compatibility; \code{1.5 * range} is
     equivalent to \code{coef}.}
   \item{coef}{numeric multiplication factor definying the outlier
-    boundary, see ``Details'' below.}
+    boundary, see \sQuote{Details} below.}
   \item{na.rm}{logical indicating how \code{\link{NA}} values should be
     handled;  they are simply dropped when \code{na.rm = TRUE} as by default.}
 }
@@ -29,7 +29,14 @@ rrange(x, range=1, coef = 1.5, na.rm = TRUE)
   strictly) inside \code{range(x) = c(min(x),max(x))}.
 }
 \author{Martin Maechler, 1990.}
-\seealso{\code{\link{range}}, \code{\link{fivenum}}, \code{\link{boxplot}}.}
+\seealso{\code{\link{range}}, \code{\link{fivenum}},
+  \code{\link{boxplot}} and \code{\link{boxplot.stats}}.
+
+  A more sophisticated robust range for (strongly) asymmetric data can
+  be derived from the skewness adjusted boxplot statistics
+  \code{\link[robustbase]{adjboxStats}} which is a generalization of
+  \code{\link{boxplot.stats}}.
+}
 \examples{
 stopifnot(rrange(c(1:10,1000)) == c(1,10))
 }

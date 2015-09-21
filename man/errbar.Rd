@@ -3,7 +3,7 @@
 \title{Scatter Plot with Error Bars}
 \alias{errbar}
 \description{
-  Draws a scatter plot, adding vertical ``error bars'' to all the points.
+  Draws a scatter plot, adding vertical \dQuote{error bars} to all the points.
 }
 \usage{
 errbar(x, y, yplus, yminus, cap = 0.015,

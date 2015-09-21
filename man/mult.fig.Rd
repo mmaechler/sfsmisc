@@ -23,7 +23,7 @@ mult.fig(nr.plots, mfrow, mfcol,
  \item{mfcol}{\emph{instead} of \code{nr.plots}: integer(2) vector
    giving the rectangular figure layout for \code{\link{par}(mfcol= .)}.}
  \item{marP}{numeric(4) vector of figure margins to \emph{add}
-   (``\bold{P}lus'') to default \code{mar}, see below.}
+   (\dQuote{\bold{P}lus}) to default \code{mar}, see below.}
  \item{mgp}{argument for \code{\link{par}(mpg= .)} with a smaller
    default than usual.}
  \item{mar}{argument for \code{\link{par}(mar= .)} with a smaller

@@ -21,7 +21,7 @@
       10^k} should be used.  The default behaves the same as \R's
     \code{\link{format}()}.}
   \item{times}{character string indicating the LaTeX symbol to be used for
-    the ``times'' sign.}
+    the \sQuote{times} sign.}
   \item{\dots}{unused; for compatibility with \code{\link{toLatex}}.}
 }
 \note{We use \code{digits} for \code{\link{round}}, i.e., round after

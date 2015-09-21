@@ -10,7 +10,7 @@
 quadrant(x, y=NULL)
 }
 \arguments{
-  \item{x,y}{numeric vectors of the same length, or \code{x} is an `x-y'
+  \item{x,y}{numeric vectors of the same length, or \code{x} is an \eqn{x-y}
     structure and \code{y=NULL}, see \code{\link{xy.coords}}.}
 }
 \value{

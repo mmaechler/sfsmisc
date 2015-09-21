@@ -2,7 +2,7 @@
 \alias{u.boxplot.x}
 \title{Utility Returning x-Coordinates of Boxplot}
 \description{
-  Return the x-coordinates in an `n-way' side-by-side boxplot.
+  Return the x-coordinates in an \sQuote{n-way} side-by-side boxplot.
   This is an auxiliary function and exists mainly for backcompatibility
   with S-plus.
 }

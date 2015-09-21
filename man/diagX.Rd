@@ -1,6 +1,6 @@
 \name{diagX}
 \alias{diagX}
-\title{The ``Other'' Diagonal Matrix}
+\title{The \dQuote{Other} Diagonal Matrix}
 \description{
   Compute the \emph{other} diagonal identity matrix.
   The result is basically a \emph{fast} version of \code{diag(n)[, n:1]}.

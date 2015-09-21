@@ -20,7 +20,7 @@ polyn.eval(coef, x)
     be a vector.}
 }
 \details{
-  The stable ``Horner rule'' is used for evaluation in any case.
+  The stable \dQuote{Horner rule} is used for evaluation in any case.
 }
 \value{
   numeric vector or array, depending on input dimensionalities, see above.

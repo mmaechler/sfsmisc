@@ -29,7 +29,7 @@ margin2table(x, totName = "sum", name.if.empty=FALSE)
     but with different default values.}
   \item{totName}{string to use as row- and column- name if \code{x} has
     corresponding \code{\link{dimnames}}.}
-  \item{name.if.empty}{logical indicating if the margin ``totals''
+  \item{name.if.empty}{logical indicating if the margin \dQuote{totals}
     should be named in any case.}
   \item{\dots}{further potential arguments, unused currently.}
 }

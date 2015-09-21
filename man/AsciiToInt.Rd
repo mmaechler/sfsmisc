@@ -70,7 +70,7 @@ $place
 }
  myloc <- Sys.getlocale()
 
-if(.Platform $ OS.type == "unix") { # ``should work'' here
+if(.Platform $ OS.type == "unix") { # ''should work'' here
   try( Sys.setlocale(locale = "de_CH") )# "try": just in case
   print(strcodes(c(a= "ABC", ch="1234", place = "Zürich"))) # no NA hopefully
   print(AsciiToInt(chars8bit()))# -> 1:255  {if setting latin1 succeeded above}

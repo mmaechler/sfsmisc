@@ -3,7 +3,7 @@
 \title{Prettified Arrows Plots}
 \description{
   Draws arrows, like the \code{\link{arrows}} function, but with
-  ``nice'' \emph{filled} arrow heads.
+  \dQuote{nice} \emph{filled} arrow heads.
 }
 \usage{
 p.arrows(x1, y1, x2, y2, size = 1, width, fill = 2, ...)

@@ -96,6 +96,6 @@ pretty10exp(ax, drop.1=TRUE, sub10=c(-2,2))
 ## in sfsmisc version <= 1.0-16, no 'digits',
 ## i.e., implicitly had  digits := #{double precision digits} ==
 (dig. <- .Machine$double.digits * log10(2)) # 15.95
-pretty10exp(ax, drop.1=TRUE, digits= dig.)  # ``ugly''
+pretty10exp(ax, drop.1=TRUE, digits= dig.)  # ''ugly''
 }
 \keyword{dplot}

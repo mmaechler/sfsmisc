@@ -18,7 +18,7 @@ C.Wochentagkurz
 C.weekday
 }
 \arguments{
-  \item{W.tag}{logical or integer specifying you want weekday (`Wochentag').
+  \item{W.tag}{logical or integer specifying you want weekday (\sQuote{Wochentag}).
     \code{0} or \code{FALSE} gives no,  \code{1} or \code{TRUE} gives a
     short and \code{2} the long version of the day of the week.}
   \item{Zeit}{logical or integer specifying if time ("Zeit") is desired.
@@ -28,7 +28,7 @@ C.weekday
 \value{
   A string with the current date/time, in the form specified by the arguments.
 
-  The \code{C.*} are \code{\link{character}} vector ``constants'',
+  The \code{C.*} are \code{\link{character}} vector \dQuote{constants},
   the German ones actually used by \code{u.Datumvonheute}.
 }
 \author{Caterina Savi, Martin Maechler}

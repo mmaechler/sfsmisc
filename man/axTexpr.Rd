@@ -50,7 +50,7 @@ par(op)
 plot(x,y, xaxt= "n", log = "x")
 aX <- axTicks(1); axis(1, at=aX, label= axTexpr(1, aX))
 
-## Now an `` engineer's version '' ( more ticks; only label "10 ^ k" ) :
+## Now an "engineer's version" ( more ticks; only label "10 ^ k" ) :
 
 axp <- par("xaxp") #-> powers of 10 *inside* 'usr'
 axp[3] <- 1 # such that only 10^. are labeled
@@ -61,7 +61,7 @@ v <- c(outer(1:9, e10[1]:e10[2], function(x,E) x * 10 ^ E))
 v <- v[xu[1] <= v & v <= xu[2]]
 
 plot(x,y, xaxt= "n", log = "x", main = "engineer's version of x - axis")
-axis(1, at = aX, label = axTexpr(1, aX, drop.1=TRUE)) # `default'
+axis(1, at = aX, label = axTexpr(1, aX, drop.1=TRUE)) # 'default'
 axis(1, at = v,  label = FALSE, tcl = 2/3 * par("tcl"))
 }
 \keyword{dplot}

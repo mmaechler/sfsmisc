@@ -12,7 +12,7 @@ signi(x, digits = 6)
   \item{digits}{number of significant digits required.}
 }
 \value{
-  numeric vector ``close'' to \code{x}, i.e. by at least \code{digits}
+  numeric vector \dQuote{close} to \code{x}, i.e. by at least \code{digits}
   significant digits.
 }
 \author{Martin Maechler, in prehistoric times (i.e. before 1990).}

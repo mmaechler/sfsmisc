@@ -28,7 +28,7 @@ list2mat(x, check = TRUE)
   \item{group}{grouping vector of same length as x or y.}
   \item{lty}{line types to use for the groups (recycled).}
   \item{\dots}{further arguments passed to (plot) methods.}
-% list2mat() - `x' already documented
+% list2mat() - 'x' already documented
   \item{check}{logical specifiying if it should be checked that list
     components have same length.}
 }

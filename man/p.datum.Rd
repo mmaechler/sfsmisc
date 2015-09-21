@@ -1,6 +1,6 @@
 \name{p.datum}
 \alias{p.datum}
-\title{Plot `Datum' (deutsch!) unten rechts}
+\title{Plot 'Datum' (deutsch!) unten rechts}
 \description{
   Plot the date (and time, if required) in German, at the lower right hand
   margin of your plot.date

@@ -3,7 +3,7 @@
 \alias{pdf.latex}
 \alias{ps.do}
 \alias{ps.latex}
-\title{PostScript/PDF Preview Device with Optional `LaTeX' Touch}
+\title{PostScript/PDF Preview Device with Optional \sQuote{LaTeX} Touch}
 \usage{
 pdf.do(file, paper = "default", width = -1, height = -1, onefile = FALSE,
        title = NULL, version = "1.4", quiet = FALSE, \dots)

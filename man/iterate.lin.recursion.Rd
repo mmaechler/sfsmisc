@@ -36,7 +36,7 @@ iterate.lin.recursion(0:1, c(1,1), nr = 12)
 stopifnot(iterate.lin.recursion(4,1, d=2, nr=20)
           == seq(4, by=2, length=1+20))
 
-## ``Deterministic AR(2)'' :
+## ''Deterministic AR(2)'' :
 round(iterate.lin.recursion(1:4, c(-0.7, 0.9), d = 2, nr=15), dig=3)
 ## slowly decaying :
 plot(ts(iterate.lin.recursion(1:4, c(-0.9, 0.95), nr=150)))

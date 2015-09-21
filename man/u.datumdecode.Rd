@@ -1,6 +1,6 @@
 \name{u.datumdecode}
 \alias{u.datumdecode}
-\title{Convert ``Numeric'' Dates}
+\title{Convert \dQuote{Numeric} Dates}
 \description{
   Daten der Form 8710230920 aufspalten in Jahr, Monat, Tag, Std, Min
 }
@@ -20,7 +20,7 @@ u.datumdecode(d, YMDHMnames = c("Jahr", "Monat", "Tag", "Std", "Min"))
 }
 \author{?? (someone at SfS ETH)}
 \note{
-  MM: This is a wrong concept, and also suffers from the ``millenium bug''
+  MM: This is a wrong concept, and also suffers from the \dQuote{millenium bug}
   (by using only 2 digits for the year).
 }
 \seealso{\R's \emph{proper} date-time coding: \code{\link{DateTimeClasses}};
