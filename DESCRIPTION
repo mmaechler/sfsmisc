@@ -1,14 +1,14 @@
 Package: sfsmisc
 Title: Utilities from "Seminar fuer Statistik" ETH Zurich
 Version: 1.0-29
-Date: 2015-..-..
+Date: 2015-11-..
 Author: Martin Maechler et al.
 Maintainer: Martin Maechler <maechler@stat.math.ethz.ch>
 Description: Useful utilities ['goodies'] from Seminar fuer Statistik ETH
   Zurich, quite a few related to graphics; many ported from S-plus times.
 Depends: R (>= 2.15.0)
 Imports: grDevices, methods, utils, stats
-Suggests: datasets, tcltk, cluster, MASS, Matrix, nlme, lokern
+Suggests: datasets, tcltk, cluster, lattice, MASS, Matrix, nlme, lokern
 Enhances: mgcv, rpart, nor1mix, polycor, sm, tikzDevice
 Encoding: latin1
 License: GPL (>= 2)

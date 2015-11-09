@@ -1,11 +1,10 @@
 loessDemo <-
-    function(x, y, span = 1/2, degree = 1, nearest = FALSE,
+    function(x, y, span = 1/2, degree = 1, family = c("gaussian", "symmetric"),
+	     nearest = FALSE, nout = 501,
 	     xlim = numeric(0), ylim = numeric(0), strictlim=TRUE, verbose = TRUE,
-	     nout = 501, family = c("gaussian","symmetric"),
 	     inch.sym = 0.25, pch = 4,
 	     shade = TRUE, w.symbols = TRUE,
 	     sym.col = "blue", w.col = "light blue", line.col = "steelblue")
-
 {
     ## function to demonstrate the locally weighted regression function loess
     ## written and posted to S-news, Thu, 27 Sep 2001 07:48
