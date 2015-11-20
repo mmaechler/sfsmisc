@@ -9,30 +9,34 @@ str_data <- function(pkgs, filterFUN, ...)
     ## Author: Martin Maechler, Date: 17 Jun 2005, 09:04
     stopifnot(is.character(pkgs))
     ans <- as.list(pkgs); names(ans) <- pkgs
-    noFilter <- missing(filterFUN)
+    if(hasFilter <- !missing(filterFUN)) {
+	stopifnot(is.function(filterFUN))
+	filtName <- deparse(substitute(filterFUN))
+    }
     for(pkg in pkgs) {
 	cat("\nAll data sets in R package '",pkg,"' ",
-	    if(!noFilter)
-	    paste(" filtered by", paste(format(filterFUN), collapse=" ")),
+	    if(hasFilter)
+		paste0(" filtered by ", paste(filtName, collapse=" "),"()"),
 	    ":\n--------------------------","  ", rep("=", nchar(pkg)),
 	    "\n\n", sep='')
 	dd <- data(package = pkg)
-	items <- dd$results[,"Item"]
+	items <- unique( dd$results[,"Item"] ) # unique(): bug in data(), R <= 3.2.2
 	## not those that are part of "another" (multi-object) one:
 	if(length(i <- grep(".*\\(.*\\)$", items)) > 0)
 	    items <- items[- i]
 	its <- vector("list", length=length(items)); names(its) <- items
 	##
-	## Gabor's wishes (2005-03-25):
+	## TODO Gabor's wishes (2005-03-25):
 	##    1) allow filtering on class(),
 	##    2) sorting according to size -- that needs 2 passes through...
+        ## MM: [optionally?] *return* class; also *return* dim(), length()
 	dat.env <- new.env()
 	for(n in items) {
 	    data(list = n, package = pkg, envir = dat.env)
-	    nms <- ls(envir = dat.env, all.names=TRUE)
-	    if(!noFilter)
-		nms <- nms[vapply(nms, function(n)
-				  filterFUN(get(n, envir = dat.env)), TRUE)]
+	    nm0 <- ls(envir = dat.env, all.names=TRUE)## all objects created from above data(.)
+	    nms <- if(hasFilter)
+		       nm0[vapply(nm0, function(n) filterFUN(get(n, envir = dat.env)), TRUE)]
+		   else nm0
 	    if(length(nms)) {
 		cat(n, ": ")
 		if(length(nms) == 1) { ## one data set == normal case
@@ -50,8 +54,11 @@ str_data <- function(pkgs, filterFUN, ...)
 		cat("--------------\n")
 		its[[n]] <- nms
 	    }
-	    else its[n] <- NULL # delete that list entry
-	    rm(list = nms, envir = dat.env)
+	    else {
+		if(!hasFilter) warning(gettextf("no objects found from data(\"%s\")", n))
+		its[n] <- NULL # delete that list entry
+	    }
+	    rm(list = nm0, envir = dat.env)
 	}
 	ans[[pkg]] <- its
     }

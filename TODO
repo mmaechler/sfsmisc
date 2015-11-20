@@ -1,25 +1,30 @@
 ##-*- org -*-
 
+* TODO mat2tex() is really not flexible enough; and there are better functions
+   in other packages, e.g. latex in 'Hmisc' --> deprecate this! [2005-04]
+
+* TODO str_data() could become more flexible (class = ".";
+  also (optionally) return class + dim()/length(); see 'TODO' in [[R/str_data.R]]
+* TODO is.whole() [[R/misc-goodies.R]] conflicts with gmp::is.whole() -- as it has a 'tolerance'
+
+* TODO move some demo/*.R to vignettes/*.Rmd -- notably the prime-numbers (for those, see also below)
 * Reverse Dep. status: 2014-06-16 http://stat.ethz.ch/CRAN/web/packages/sfsmisc/
 ** Reverse depends: ascrda, catIrt, distr, ICEbox, lordif, modiscloud, plfm, polycor, random.polychor.pa
 ** Reverse imports: CDM, Demerelate, FrF2, lokern, mcmcplots, ReliabilityTheory, simsalapar, sirt, TAM
 
-* TODO is.whole() [[./R/misc-goodies.R]] conflicts with gmp::is.whole() -- as it has a 'tolerance'
-* Feb.2004 : Close before CRAN release
-** Improve ps.end(): should return something useful
-     ==> new ./tests/psend-ex.R which tests that 2 x {ps.do() ... ps.end()}
-     *does* work properly
-* mat2tex() is really not flexible enough; and there are better functions
-   in other packages, e.g. latex in 'Hmisc' --> deprecate this! [2005-04]
-* 2008-10-22: Copied  boxplot.matrix() to R-devel (2.9.0 to be)
-   Remove this from 'sfsmisc' eventually.
-* eaxis() [ ./R/prettylab.R ] :
-** allow  log2-scale and "2^..." labelling --- or log_k and 'k^..'
-** this is a range where the *defaults* of eaxis are completely bad
+* TODO Improve ps.end(): should return something useful
+  ==> new ./tests/psend-ex.R which tests that 2 x {ps.do() ... ps.end()}
+  *does* work properly
+* TODO eaxis() [ ./R/prettylab.R ] :
+** TODO allow  log2-scale and "2^..." labelling --- or log_k and 'k^..'
+** TODO this is a range where the *defaults* of eaxis are completely bad
       --> but really it is because  axTicks(*, log=TRUE) can be bad:
     curve(qgamma(1e-100, x, lower.tail=FALSE), 1e-110, 1e-70, log="xy", col=2, axes=FALSE)
     eaxis(1);eaxis(2)
-* clean up R/prime-numbers-fn.R -- move all non-exported functions to
- - (a new file)             ./inst/primes-extra-fns.R
- - and source() that from   ./demo/prime-numbers.R    !!
-* Work on R/approx2.R -- implement remaining "vectorized" part
+* TODO clean up R/prime-numbers-fn.R -- move all non-exported functions to
+** TODO (a new file)             ./inst/primes-extra-fns.R
+** TODO and source() that from   ./demo/prime-numbers.R    !!
+* TODO Work on R/approx2.R -- implement remaining "vectorized" part
+
+* DONE 2008-10-22: Copied  boxplot.matrix() to R-devel (2.9.0 to be)
+   Remove this from 'sfsmisc' eventually.

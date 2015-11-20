@@ -13,6 +13,13 @@
       \code{loess.demo()}.
     }
   }
+  \subsection{BUG FIXES}{
+    \itemize{
+      \item (workaround R (<= 3.2.2) bug:) the (invisible) return value
+      \code{str_data()} no longer contains extraneous \code{NULL}
+      entries in the filtering case.
+    }
+  }
 }
 
 

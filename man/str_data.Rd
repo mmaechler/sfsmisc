@@ -35,9 +35,7 @@ str_data("datasets", max=0, give.attr = FALSE)
 
 ## Filtering (and return value)
 dfl <- str_data("datasets", filterFUN=is.data.frame)
-df.d <- dfl$datasets
-## work around bug in R < 2.14.1 (?) {for *some* setups only}:
-str(df.d <- df.d[sapply(df.d, is.character)])
+str(df.d <- dfl$datasets)
 ## dim() of all those data frames:
 t(sapply(unlist(df.d), function(.) dim(get(.))))
 
