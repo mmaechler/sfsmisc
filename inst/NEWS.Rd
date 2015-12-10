@@ -9,8 +9,11 @@
     \itemize{
       \item new function \code{read.org.table()} to read emacs
       \file{org} files via \code{\link{read.table}()}.
+
       \item new \code{loessDemo()}, providing a version of an old
       \code{loess.demo()}.
+
+      \item new \code{sessionInfoX()} utility (with \code{print()} method).
     }
   }
   \subsection{BUG FIXES}{

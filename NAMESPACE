@@ -16,7 +16,8 @@ importFrom("stats",
 	   terms, time, update.formula, var, window)
 
 importFrom("utils", head, tail, toLatex, #<- S3 generics !
-	   capture.output, data, globalVariables, str)
+	   capture.output, data, globalVariables,
+           sessionInfo, str)
 
 
 ## Using "::" in code -> no need here:
@@ -131,6 +132,7 @@ export (
 	"rrange",
 	"sHalton",
 	"seqXtend",
+    sessionInfoX,
 	"signi",
         "sourceAttach",
 	"strcodes",
@@ -163,6 +165,7 @@ if(tools:::.OStype() == "unix") { ## those are inside R/unix/
 S3method(predict, dDA)
 S3method(print, dDA)
 S3method(print, basedInt)
+S3method(print, sessionInfoX)
 S3method(as.integer, basedInt)
 
 S3method(print, margin2table)
