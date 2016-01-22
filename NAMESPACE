@@ -2,21 +2,22 @@ importFrom("grDevices", boxplot.stats, cairo_pdf,
 	   dev.cur, dev.off, n2mfrow, pdf, postscript, xy.coords)
 
 importFrom("graphics", abline, arrows, axTicks, axis, axis.POSIXct,
-	   boxplot, curve, frame, hist, lines, matplot, mtext,
+	   boxplot, curve, frame, hist, lines, locator, matplot, mtext,
 	   par, plot, plot.new, points, polygon,
-	   rug, segments, text, xyinch)
+	   rug, segments, symbols, text, xyinch)
 
 importFrom("stats",
 	   IQR, approx, as.formula, as.ts, dchisq, dgamma, density.default,
-	   dnorm, dummy.coef, ecdf, end, fitted, formula, is.ts, lowess,
-           loess, loess.control,
+	   dnorm, dummy.coef, ecdf, end, fitted, formula, is.ts,
+	   lm, lowess, loess, loess.control,
 	   mad, median, model.frame, na.exclude, na.omit, napredict,
 	   pchisq, pf, plot.ts, predict, qchisq, qgamma, qnorm, qt, quantile,
 	   resid, residuals, smooth.spline, spline, splinefun, start, stepfun,
 	   terms, time, update.formula, var, window)
 
 importFrom("utils", head, tail, toLatex, #<- S3 generics !
-	   capture.output, data, sessionInfo, str)
+	   capture.output, data, packageDescription, read.table,
+	   sessionInfo, str)
 
 ## Using "::" in code -> no need here:
 importFrom("methods", existsFunction)
