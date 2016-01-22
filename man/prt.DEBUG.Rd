@@ -2,7 +2,7 @@
 \alias{prt.DEBUG}
 \title{Utility Printing in DEBUG mode}
 \description{
-  This is \bold{deprecated} now:
+  This is \bold{defunct} now:
   The global \code{DEBUG} has been a cheap precursor to \R's
   \code{\link{options}(verbose= .)} (or a \code{verbose} function argument).
 
@@ -20,9 +20,9 @@ prt.DEBUG(\dots, LEVEL = 1)
   \item{LEVEL}{integer (or logical) indicating a debugging level for printing.}
 }
 \author{Martin Maechler, originally for S-PLUS.}
-\note{This is mainly kept for historical reasons (and old code
-  fragments), but sometimes I still consider renaming it and have it
-  work using \code{getOption("verbose")} alone.
-}
+%% \note{This is mainly kept for historical reasons (and old code
+%%   fragments), but sometimes I still consider renaming it and have it
+%%   work using \code{getOption("verbose")} alone.
+%% }
 \keyword{debugging}
 

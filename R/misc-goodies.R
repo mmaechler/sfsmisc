@@ -976,22 +976,13 @@ unif <- function(n, round.dig = 1 + trunc(log10(n)))
   }
 }
 
-if(getRversion() >= "2.15.1") globalVariables("DEBUG")
 prt.DEBUG <- function(..., LEVEL = 1) {
-  warning("prt.DEBUG() is deprecated: use a 'verbose' argument or options(verbose=.) instead")
-  if (exists("DEBUG", where = 1) && DEBUG >= LEVEL )#
-  ##
-  cat(paste0("in '", sys.call(sys.nframe()-1)[1], "':"), ..., "\n")
+  stop("prt.DEBUG() is defunct: use a 'verbose' argument or options(verbose=.) instead")
+  ## if (exists("DEBUG", where = 1) && DEBUG >= LEVEL )#
+  ## ##
+  ## cat(paste0("in '", sys.call(sys.nframe()-1)[1], "':"), ..., "\n")
 }
 
-##- ## Not w=1:
-##- prt.DEBUG <- function(...)
-##-   if (exists("DEBUG") && DEBUG )
-##-         cat(paste0("in '", sys.call(sys.nframe()-1)[1], "':"), ..., "\n")
-#-- do NOT use  sep="" in cat(..)  --> fouls up  vectors of numbers
-
-##' .. content for \description{} (no empty lines) ..
-##'
 
 
 ##' @title Read an Emacs Org Table by read.table()
