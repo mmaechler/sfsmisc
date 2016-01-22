@@ -4,6 +4,7 @@ Older
 Old_Defunct
 LICENSE.md
 NOTES-I-know
+.travis.yml
 ^git.*
 .*,v
 .*-ss
