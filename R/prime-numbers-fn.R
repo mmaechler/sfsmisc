@@ -36,39 +36,42 @@ primes <- function(n) {
     ##
     ## By Bill Venables <= 2001
     ## MM: work with logical(), keep to integer --> another 40% speedier for R
+    ## --- 2016-01:  replacing seq() by seq.int() in loop got another 20% !!
     if ((M2 <- max(n)) <= 1)
         return(integer(0))
-    P <- rep.int(TRUE, M2)
+    n <- as.integer(M2)
+    P <- rep.int(TRUE, n)
     P[1] <- FALSE
     M <- as.integer(sqrt(M2))
-    n <- as.integer(M2)
     ## p <- 1:1
     ## while((p <- p + 1:1) <= M)
-    for(p in 1:M)
+    for(p in seq_len(M))
         if(P[p])# p is prime, sieve with it
-            P[seq(p*p, n, p)] <- FALSE
-    (1:n)[P]
+            P[seq.int(p*p, n, p)] <- FALSE
+    seq_len(n)[P]
 }
 
 
-prime.sieve <- function(p2et = c(2,3,5), maxP = pM^2)
+## much slower than primes (even after improvement Jan.2016)
+prime.sieve <- function(maxP = pM*pM, p2et = c(2,3,5))
 {
   ## Purpose: Produce ALL prime numbers from 2, 3.., using 2,3,5,7,...
   ## -------------------------------------------------------------------------
-  ## Arguments: p2et: primes c(2,3,5,..., pM);
-  ##		maxP : want primes up to maxP
+  ## Arguments: maxP : want primes up to maxP
+  ##            p2et: primes c(2,3,5,..., pM);
   ## -------------------------------------------------------------------------
   ## Author: Martin Maechler, Date: 26 Jan 96, 15:08
-  if(any(p2et[1:2] != 2:3) || is.unsorted(p2et) || !is.numeric(p2et))
+  if(any(p2et[1:2] != 2:3) || is.unsorted(p2et <- as.integer(p2et)))
 	stop("argument 'p2et' must contain SORTED primes 2,3,..")
   k <- length(p2et)
   pM <- p2et[k]
-  if(maxP <= pM+1) p2et #- no need to compute more
-  else if(maxP > pM^2)	prime.sieve(prime.sieve(p2et), maxP = maxP)
+  if(maxP <= pM+1L) p2et #- no need to compute more
+  else if((maxP <- as.integer(maxP)) > pM*pM)
+      prime.sieve(maxP, prime.sieve(pM*pM, p2et))
   else { #-- pM < maxP <= pM^2
-    r <- seq(from = pM+2, to = maxP, by = 2)
-    for(j in 1:k)
-      if(0 == length(r <- r[r%% p2et[j] != 0])) break
+    r <- seq.int(from = pM+2L, to = maxP, by = 2L)
+    for(pr in p2et[p2et <= sqrt(maxP)])
+      if(0 == length(r <- r[r %% pr != 0])) break
     c(p2et,r)
   }
 }
@@ -78,7 +81,7 @@ factorize <- function(n, verbose = FALSE)
   ## Purpose:  Prime factorization of integer(s) 'n'
   ## -------------------------------------------------------------------------
   ## Arguments: n vector of integers to factorize (into prime numbers)
-  ##	--> needs 'prime.sieve'
+  ##	--> needs a primes() function [originally prime.sieve]
   ## >> Better would be: Define class 'primefactors' and "multiply" method
   ##			 then use this function recursively only "small" factors
   ## -------------------------------------------------------------------------
@@ -107,25 +110,24 @@ factorize <- function(n, verbose = FALSE)
       nP <- length(pfac <- pr[Dp]) # all the small prime factors
       if(verbose) cat(nn," ")
     } else { # nn is a prime
-      res[[i]] <- cbind(p = nn, m = 1)
+      res[[i]] <- cbind(p = nn, m = 1L)
       if(verbose) cat("direct prime", nn, "\n")
       next # i
     }
-    m.pr <- rep(1,nP)# multiplicities
+    m.pr <- rep(1L, nP)# multiplicities
     Ppf <- prod(pfac)
     while(1 < (nn <- nn %/% Ppf)) { #-- have multiple or only bigger factors
       Dp <- nn %% pfac == 0
       if(any(Dp)) { # have more smaller factors
-	m.pr[Dp] <- m.pr[Dp] + 1
+	m.pr[Dp] <- m.pr[Dp] + 1L
 	Ppf <- prod(pfac[Dp])
       } else { #-- the remainder is a bigger prime
 	pfac <- c(pfac,nn)
-	m.pr <- c(m.pr, 1)
+	m.pr <- c(m.pr, 1L)
 	break # out of while(.)
       }
     }
-    res[[i]] <- cbind(p = pfac,m = m.pr)
-
+    res[[i]] <- cbind(p = pfac, m = m.pr)
   } # end for(i ..)
 
   res
@@ -255,6 +257,8 @@ factors <- function(x)
     val
 }
 
+## MM: this version (Bill Dunlap's maybe slightly modified ?) is
+## --  *much* slower than primes() above !
 primes.t <- function(n, .Primes = c(2, 3, 5, 7, 11, 13, 17, 19,
                         23, 29, 31, 37, 41, 43))
 {
