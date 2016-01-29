@@ -30,7 +30,8 @@ primes. <- function(n) {
     x[x > 0]
 }
 
-primes <- function(n) {
+##' New 'pSeq' is still (almost ?) always **slower** than pSeq = NULL !!!!
+primes <- function(n, pSeq = NULL) {
     ## Find all primes less than n (or max(n) if length(n) > 1).
     ## Uses an obvious sieve method.  Nothing flash.
     ##
@@ -40,8 +41,20 @@ primes <- function(n) {
     if ((M2 <- max(n)) <= 1)
         return(integer(0))
     n <- as.integer(M2)
-    P <- rep.int(TRUE, n)
-    P[1] <- FALSE
+    if(is.null(pSeq)) {
+	P <- rep.int(TRUE, n)
+	P[1] <- FALSE
+    } else { ## assume pSeq = c(2, 3, 5, ..., P_max)
+	## stopifnot(pSeq[1:2] == 2:3, !is.unsorted(pSeq))
+	if(!is.integer(pSeq)) pSeq <- as.integer(pSeq)
+	maxP1 <- pSeq[nP <- length(pSeq)] + 1L
+	if(maxP1 >= n)
+	    return(pSeq)
+	## else (maxP1 := max(pSeq) + 1)  < n
+	P <- logical(maxP1) # all FALSE
+	P[pSeq] <- TRUE
+	P <- c(P, rep.int(TRUE, n - maxP1))
+    }
     M <- as.integer(sqrt(M2))
     ## p <- 1:1
     ## while((p <- p + 1:1) <= M)
