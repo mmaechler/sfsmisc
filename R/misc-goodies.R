@@ -396,28 +396,33 @@ sHalton <- function(n.max, n.min = 1, base = 2, leap = 1)
     colSums(dB/base^(nd:1))
 }
 
-QUnif <- function(n, min = 0, max = 1, n.min = 1, p, leap = 1)
+QUnif <- function(n, min = 0, max = 1, n.min = 1, p, leap = 1, silent = FALSE)
 {
   ## Purpose: p-dimensional ''Quasi Random'' sample in  [min,max]^p
   ## ----------------------------------------------------------------------
   ## Author: Martin Maechler, Date: 29 Jul 2004, 21:43
   ## Example: plot(QUnif(1000, 2), cex=.6, pch=20, xaxs='i', yaxs='i')
-    stopifnot(1 <= (p <- as.integer(p)),
-              1 <= (n <- as.integer(n)),
-              1 <= (leap <- as.integer(leap)),
-              1 <= (n.min <- as.integer(n.min)))
-    stopifnot((n.max <- n.min + (n - 1:1)*leap) < .Machine$integer.max)
+    stopifnot(1 <= (n <- as.integer(n)), length(n) == 1,
+              1 <= (p <- as.integer(p)), length(p) == 1,
+	      length(min) == p || length(min) == 1,
+	      length(max) == p || length(max) == 1,
+	      1 <= (n.min <- as.integer(n.min)),
+              1 <= (leap  <- as.integer(leap)),
+              (n.max <- n.min + (n - 1:1)*leap) < .Machine$integer.max)
     pr. <- c(2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,
              89,97,101,103,107,109,113,127,131,137,139,149,151,157,163,167,173,
              179,181,191, 193,197,199,211,223,227,229,233,239,241,251,257,263,
              269,271,277,281,283,293,307,311,313,317,331,337,347,349,353,359,
              367,373,379,383,389,397,401,409,419,421,431,433,439,443,449,457)
-    if(length(pr.) < p) stop("primes not yet available for p=",p)
+    if(length(pr.) < p) {
+	if(!silent)
+	    message("enlarging internal prime table for \"large\" p=",p)
+	Lp <- log(p)
+	pr. <- primes(p*(Lp + log(Lp))) ## using p_n/n < log n + log log n
+    }
     pr <- pr.[1:p]
-    if(leap > 1 && any(leap == pr) && length(pr.) >= p+1)
+    if(leap > 1 && any(leap == pr) && length(pr.) >= p+1) # take a non-leap pr
         pr <- c(pr[leap != pr], pr.[p+1])
-    stopifnot(length(max) == p || length(max) == 1,
-              length(min) == p || length(min) == 1)
     max <- rep.int(max, p)
     min <- rep.int(min, p)
     dU <- max - min
@@ -836,7 +841,7 @@ u.log <- function(x, c = 1)
   r
 }
 
-xy.unique.x <- function(x,y, w, fun.mean = mean)
+xy.unique.x <- function(x, y, w, fun.mean = mean, ...)
 {
     ## Purpose: given 'smoother data' (x_i, y_i) [and maybe weight  w_i]
     ##	      with multiple x_i, use unique x's, replacing y's by their mean
@@ -864,8 +869,8 @@ xy.unique.x <- function(x,y, w, fun.mean = mean)
     if(missing(w))  w <- rep.int(1,n)
     else if(n != length(w)) stop("lengths of x and w must match")
     ##--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--
-    gr <- match(x,unique(x))
-    cbind(x = unique(x),
+    gr <- match(x, ux <- unique(x, ...))
+    cbind(x = ux,
           y = tapply(y, gr, FUN = fun.mean),
           w = tapply(w, gr, FUN = sum))
 }

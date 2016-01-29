@@ -8,7 +8,7 @@
   accordingly.
 }
 \usage{
-xy.unique.x(x, y, w, fun.mean = mean)
+xy.unique.x(x, y, w, fun.mean = mean, \dots)
 }
 \arguments{
   \item{x,y}{numeric vectors of same length.  Alternatively, \code{x}
@@ -16,6 +16,7 @@ xy.unique.x(x, y, w, fun.mean = mean)
   \item{w}{numeric vector of non-negative weights -- or missing which
     corresponds to all weights equal.}
   \item{fun.mean}{the mean \code{\link{function}} to use.}
+  \item{\dots}{optional arguments all passed to \code{\link{unique}}.}
 }
 \value{
   Numeric matrix with three columns, named
@@ -27,10 +28,15 @@ xy.unique.x(x, y, w, fun.mean = mean)
   this internally.}
 \examples{
 ## simple example:
-xy.unique.x(c(1,1,1,2,4), 1:5)
+x <- c(1,1,2,4,3,1)
+y <- 1:6
+rbind(x, y)
+xy.unique.x(x, y)
 #   x y w
-# 1 1 2 3
-# 2 2 4 1
-# 3 4 5 1
+# 1 1 3 3
+# 2 2 3 1
+# 3 4 4 1
+# 4 3 5 1
+xy.unique.x(x, y, fromLast = TRUE)
 }
 \keyword{utilities}
