@@ -60,14 +60,14 @@ tkdensity <- function(y, n = 1024, log.bw = TRUE, showvalue = TRUE,
         b <- if(log.bw) 10 ^ (lbw <<- as.numeric(tclvalue(Lbw))) else
                               nbw <<- as.numeric(tclvalue(bw))
         ##Dbg cat("b = ", formatC(b),"\n")
-
         k <- tclvalue(kernel) # *is* char
+        ##Dbg cat("tclvalue(kernel)"); str(k)
 
         xZ <<- as.numeric(tclvalue(xZoom))
         xM <<- as.numeric(tclvalue(xlmid))
-        ##Dbg cat("tclvalue(kernel)"); str(k)
 
-	if(FALSE) ## "dear codetools, pleasse don't think we would *not* use these"
+	## "codetools, please do believe that we do use 'b', 'k', 'xlim' !":
+	if(0 > 1)
 	    b <- xlim + b + k
         xr.half <- (xr0 / 2) * 100 / xZ
         xlim <- xM + c(-xr.half, xr.half)

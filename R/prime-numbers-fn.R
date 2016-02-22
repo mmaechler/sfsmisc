@@ -47,7 +47,7 @@ primes <- function(n, pSeq = NULL) {
     } else { ## assume pSeq = c(2, 3, 5, ..., P_max)
 	## stopifnot(pSeq[1:2] == 2:3, !is.unsorted(pSeq))
 	if(!is.integer(pSeq)) pSeq <- as.integer(pSeq)
-	maxP1 <- pSeq[nP <- length(pSeq)] + 1L
+	maxP1 <- pSeq[length(pSeq)] + 1L
 	if(maxP1 >= n)
 	    return(pSeq)
 	## else (maxP1 := max(pSeq) + 1)  < n
