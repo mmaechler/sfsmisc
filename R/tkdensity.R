@@ -67,8 +67,8 @@ tkdensity <- function(y, n = 1024, log.bw = TRUE, showvalue = TRUE,
         xM <<- as.numeric(tclvalue(xlmid))
         ##Dbg cat("tclvalue(kernel)"); str(k)
 
-	## codetools: don't think we use these
-        b <- xlim + b + k
+	if(FALSE) ## "dear codetools, pleasse don't think we would *not* use these"
+	    b <- xlim + b + k
         xr.half <- (xr0 / 2) * 100 / xZ
         xlim <- xM + c(-xr.half, xr.half)
         eval(substitute(plot(density(y, bw = b, kernel = k, n = n),
