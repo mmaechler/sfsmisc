@@ -1,14 +1,16 @@
-As already for  sfsmisc 1.0-25 and 1.0-26:
+As already for  sfsmisc 1.0-26 and later:
 When checking (with --as-cran)  I get 2  NOTE s  which I don't think are
-easy to workaround :
+easy to workaround and should be acceptable here :
 
 NOTES:
 ------
 1)
-  * checking R code for possible problems ... NOTE
-  tkdensity : replot: no visible binding for '<<-' assignment to ‘._nbw’
-  tkdensity : replot: no visible binding for '<<-' assignment to ‘._xZ’
-  tkdensity : replot: no visible binding for '<<-' assignment to ‘._xM’
+  * checking CRAN incoming feasibility ... NOTE
+  Maintainer: ‘Martin Maechler <maechler@stat.math.ethz.ch>’
+
+  The Title field should be in title case, current version then in title case:
+  ‘Utilities from "Seminar fuer Statistik" ETH Zurich’
+  ‘Utilities from "Seminar Fuer Statistik" ETH Zurich’
 
 2)
   Found the following calls to attach():
@@ -19,11 +21,11 @@ NOTES:
 EXPLANATIONS:
 ------------
 
-1) I've already used globalVariables() there, and the '<<-' is
-   relevant and related to the special tcltk semantics in use there.
+1) English capitalization would look *very wrong* for this German language part
 
 2) sourceAttach() is a utility which uses source() and does not
   do that into the globalenv but rather into a new position in the
-  search() path, something which can well desirable compared
+  search() path, something which can well be desirable compared
   to the default source()ing into globalenv.
+
 
