@@ -1,4 +1,5 @@
 \name{QUnif}
+\title{Quasi Randum Numbers via Halton Sequences}
 \alias{QUnif}
 \alias{sHalton}
 %
@@ -6,14 +7,13 @@
 \concept{low discrepancy sequence}
 \concept{space filling}
 %
-\title{Quasi Randum Numbers via Halton Sequences}
 \description{
   These functions provide quasi random numbers or \emph{space filling} or
   \emph{low discrepancy} sequences in the \eqn{p}-dimensional unit cube.
 }
 \usage{
 sHalton(n.max, n.min = 1, base = 2, leap = 1)
- QUnif (n, min = 0, max = 1, n.min = 1, p, leap = 1)
+ QUnif (n, min = 0, max = 1, n.min = 1, p, leap = 1, silent = FALSE)
 }
 \arguments{
   \item{n.max}{maximal (sequence) number.}
@@ -29,6 +29,8 @@ sHalton(n.max, n.min = 1, base = 2, leap = 1)
     generated.}
   \item{leap}{integer indicating (if \eqn{> 1}) if the series should be
     leaped, i.e., only every \code{leap}th entry should be taken.}
+  \item{silent}{logical asking to suppress the message about enlarging
+    the prime table for large \code{p}.}
 }
 \value{
   \code{sHalton(n,m)} returns a numeric vector of length \code{n-m+1} of
