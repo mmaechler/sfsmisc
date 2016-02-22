@@ -4,7 +4,7 @@
 \title{News for \R Package \pkg{sfsmisc}}
 \encoding{UTF-8}
 
-\section{CHANGES in sfsmisc VERSION 1.1-0 [2016-..-..]}{
+\section{CHANGES in sfsmisc VERSION 1.1-0 [2016-02-22]}{
   \subsection{NEW FEATURES}{
     \itemize{
       \item \code{primes()} has optional \code{pSeq} argument,
