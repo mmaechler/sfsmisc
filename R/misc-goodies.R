@@ -512,6 +512,31 @@ is.whole <- function(x, tolerance = sqrt(.Machine$double.eps))
 	apply(x, seq_along(dim(x)), is.whole.scalar)
 }
 
+##'
+##' @title Generate Random Date/Time Sequences
+##' @param n number of entries to generate
+##' @param min, max character strings or \R objects inheriting from \code{"POSIXt"}.
+##' @return vector
+##' @author Martin Maechler
+##
+## __ NOT YET EXPORTED
+## FIXME: consider  'mean = Sys.time(), delta.tim = "1 month"'
+## -----  ==> min = mean - as.difftime(delta.tim),
+##            max = mean - as.difftime(delta.tim)
+##  now <- Sys.time(); del <- as.difftime(100, units="weeks")
+##  rDatetime(100, now-del, now+del)
+rDatetime <- function(n, min = "1900-01-01", max = "2100-12-31") {
+    if(is.character(min) || inherits(min, "POSIXt"))
+        min <- as.POSIXct(min)
+    else stop("'min' must be string (coercable to \"POSIXct\") or \"POSIXt\" object")
+    if(is.character(max) || inherits(max, "POSIXt"))
+        max <- as.POSIXct(max)
+    else stop("'max' must be string (coercable to \"POSIXct\") or \"POSIXt\" object")
+    stopifnot(length(min) == 1, length(max) == 1)
+    structure(runif(n, as.numeric(min), as.numeric(max)),
+              class = c("POSIXct", "POSIXt"), tzone = "")
+}
+
 ###
 ### autoreg(),  mean.cor()  etc ... not yet
 ###

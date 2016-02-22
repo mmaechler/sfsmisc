@@ -12,7 +12,8 @@ importFrom("stats",
 	   lm, lowess, loess, loess.control,
 	   mad, median, model.frame, na.exclude, na.omit, napredict,
 	   pchisq, pf, plot.ts, predict, qchisq, qgamma, qnorm, qt, quantile,
-	   resid, residuals, smooth.spline, spline, splinefun, start, stepfun,
+	   resid, residuals, runif,
+           smooth.spline, spline, splinefun, start, stepfun,
 	   terms, time, update.formula, var, window)
 
 importFrom("utils", head, tail, toLatex, #<- S3 generics !
