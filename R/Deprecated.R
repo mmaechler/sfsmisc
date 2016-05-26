@@ -1,9 +1,6 @@
 ###--> Synchronize with ../man/Deprecated.Rd !!
 ###--> move things from here as defunct to  ./Defunct.R
 ###                                           =========
-if(getRversion() < "2.15")
-    paste0 <- function(...) paste(..., sep = '')
-
 
 list2mat <- function(x, check = TRUE)
 {

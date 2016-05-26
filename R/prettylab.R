@@ -90,9 +90,8 @@ axTexpr <- function(side, at = axTicks(side, axp=axp, usr=usr, log=log),
 ## par(mar=.1+c(5,4,2,4)); plot(x,axes=FALSE)
 ##  eaxis(4) # ugly
 ##  eaxis(2, at=axisTicks(par("usr")[3:4],log=FALSE)) # much better
-eaxis <- function(side, at = if(log && getRversion() >= "2.14.0")
-                  axTicks(side, log=log, nintLog=nintLog) else
-                  axTicks(side, log=log),
+eaxis <- function(side, at = if(log) axTicks(side, log=log, nintLog=nintLog)
+                             else    axTicks(side, log=log),
                   labels = NULL, log = NULL,
                   f.smalltcl = 3/5, at.small = NULL, small.mult = NULL,
                   small.args = list(),

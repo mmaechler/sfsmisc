@@ -121,7 +121,6 @@ eaxis(3, labels=FALSE)
 plot(x, sin(x)/x, type = "l", xaxt = "n")
 eaxis(1, max.at=6)
 par(op)
-## From R version 2.14.0, on, this looks better
 
 ### Answering R-help "How do I show real values on a log10 histogram", 26 Mar 2013
 ## the data:
