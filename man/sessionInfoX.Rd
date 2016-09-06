@@ -21,6 +21,7 @@ sessionInfoX(pkgs = NULL, list.libP = FALSE, extraR.env = TRUE)
   \item{extraR.env}{logical indicating if \emph{all} environment
     variables should be recorded which start with \code{"R_"} or
     \code{"_R_"}.}
+%% print():
   \item{x}{typically the result of \code{sessionInfoX()}.}
   \item{locale}{logical, passed to \code{\link{print.sessionInfo}()}
     indicating if the locale information should be printed.}

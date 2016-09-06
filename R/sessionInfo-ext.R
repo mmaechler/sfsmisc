@@ -32,21 +32,21 @@ print.sessionInfoX <- function(x, locale = TRUE, RLIBS = TRUE, Renv = TRUE, ...)
     }
     cat("Capabilities:\n")
     print(symnum(x$capabilities, symbols = c("-", "X")), ...)
-    cat("Sys.info:"); print(cbind(" " = x$sysInf[c("nodename", "user")]),
-                              quote=FALSE, ...)
-    if(!is.null(x$LAPACK)) cat("\nLAPACK version:", x$LAPACK, "\n")
+    cat("Sys.info:\n")
+    print(structure(x$sysInf[c("nodename", "user")], class="Dlist"), ...)
+    cat("\n")
+    if(!is.null(x$LAPACK)) cat("LAPACK version:", x$LAPACK, "\n")
     if(!is.null(x$extSoft)) {
-        cat("External software (versions):")
-        es <- cbind(version = unlist(x$extSoft)); names(dimnames(es)) <- c("name", "")
-        print(noquote(es), ...)
+        cat("External software (versions):\n")
+        print(structure(x$extSoft, class="Dlist"), ...)
     }
     ## if(!is.null(x$pcre)) {
     ##     cat("\nPCRE (regex) config.: ")
     ##     print(........)
     ## }
-
+    cat("\n")
     if(RLIBS) {
-        cat("\nR_LIBS:\n")
+        cat("R_LIBS:\n")
         cbind(x$RLIBS)
         xtr.lp <- setdiff(x$libPath,
                           union(normalizePath(x$.Library), x$n.RLIBS))
