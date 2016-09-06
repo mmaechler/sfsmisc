@@ -24,6 +24,10 @@ sessionInfoX(pkgs = NULL, list.libP = FALSE, extraR.env = TRUE)
 \value{an object of S3 class \code{"sessionInfoX"}, a \code{\link{list}}
   with components (there may be more, experimental and not yet listed here):
  \item{sInfo}{simply the value of \code{\link{sessionInfo}()}.}
+ \item{capabilities}{the value of \code{\link{capabilities}()}.}
+ \item{extSoft}{for \R 3.2.0 and newer, the value of \code{\link{extSoftVersion}()}.}
+ \item{LAPACK}{for \R 3.0.3 and newer, the value of \code{\link{La_version}()}.}
+ \item{pcre}{for \R 3.1.3 and newer, the value of \code{\link{pcre_config}()}.}
  \item{pkgDescr}{If \code{pkgs} was non-empty, a named
    \code{\link{list}} of \code{\link{packageDescription}()}s for each
    entry in \code{pkgs}.}
