@@ -32,12 +32,13 @@ read.org.table(file, header = TRUE, skip = 0, fileEncoding = "", text, \dots)
   github issue if you are interested.
 }
 \references{
-  Org-Mode Manual on Tables, \url{http://orgmode.org/manual/Tables.html}
+  Org-Mode \emph{Manual} on tables, \url{http://orgmode.org/manual/Tables.html}
 
-  Org tutorial for tables, \url{http://orgmode.org/manual/Tables.html}
+  Org \emph{tutorial} for tables, \url{http://orgmode.org/worg/org-tutorials/tables.html}
 }
 \seealso{
-  CRAN package \CRANpkg{ascii} can \emph{write} org tables.
+  CRAN package \pkg{ascii} % \CRANpkg{ascii} % <- needs R >= 3.2.0
+  can \emph{write} org tables.
   \code{\link{read.table}}
 }
 \examples{
