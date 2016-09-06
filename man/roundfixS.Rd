@@ -48,9 +48,9 @@ roundfixS(x, method = c("offset-round", "round+fix", "1greedy"))
   Michel Balinski and H. Peyton Young (1982)
   \bold{Fair Representation: Meeting the Ideal of One Man, One Vote};
 
-  \url{http://en.wikipedia.org/wiki/Apportionment_paradox}
+  \url{https://en.wikipedia.org/wiki/Apportionment_paradox}
 
-  \url{http://www.ams.org/samplings/feature-column/fcarc-apportionii3}
+  \url{https://www.ams.org/samplings/feature-column/fcarc-apportionii3}
 }
 \seealso{\code{\link{round}} etc
 }
