@@ -21,7 +21,7 @@ sessionInfoX <- function(pkgs=NULL, list.libP = FALSE, extraR.env = TRUE) {
              })))
 }
 
-print.sessionInfoX <- function(x, locale = TRUE, ...) {
+print.sessionInfoX <- function(x, locale = TRUE, RLIBS = TRUE, Renv = TRUE, ...) {
     cat("Extended  sessionInfo():",
         "-----------------------", sep="\n")# does add a final '\n'
     if(!is.null(pkgD <- x$pkgDescr)) {
@@ -32,30 +32,38 @@ print.sessionInfoX <- function(x, locale = TRUE, ...) {
     cat("Capabilities:\n")
     print(symnum(x$capabilities, symbols = c("-", "X")), ...)
 
-    if(!is.null(LA <- x$LAPACK)) cat("\nLAPACK version:", LA, "\n")
-    if(!is.null(extS <- x$extSoft)) {
+    if(!is.null(x$LAPACK)) cat("\nLAPACK version:", x$LAPACK, "\n")
+    if(!is.null(x$extSoft)) {
         cat("External software (versions):")
         es <- cbind(version = unlist(x$extSoft)); names(dimnames(es)) <- c("name", "")
         print(noquote(es), ...)
     }
+    ## if(!is.null(x$pcre)) {
+    ##     cat("\nPCRE (regex) config.: ")
+    ##     print(........)
+    ## }
 
-    cat("\nR_LIBS:\n")
-    cbind(x$RLIBS)
-    xtr.lp <- setdiff(x$libPath,
-                      union(normalizePath(x$.Library), x$n.RLIBS))
-    if(length(xtr.lp)) {
-        cat("libPath [.libPaths()] contents in addition to R_LIBS and .Library:\n")
-        print(xtr.lp)
-    } else
-        cat("libPath contains not more than RLIBS and .Library (normalized)\n")
-    if(length(xx <- setdiff(x$n.RLIBS, x$libPath))) { ## typically empty
-        cat("** RLIBS has entries not in .libPaths():\n")
-        print(xx)
+    if(RLIBS) {
+        cat("\nR_LIBS:\n")
+        cbind(x$RLIBS)
+        xtr.lp <- setdiff(x$libPath,
+                          union(normalizePath(x$.Library), x$n.RLIBS))
+        if(length(xtr.lp)) {
+            cat("libPath [.libPaths()] contents in addition to R_LIBS and .Library:\n")
+            print(xtr.lp)
+        } else
+            cat("libPath contains not more than RLIBS and .Library (normalized)\n")
+        if(length(xx <- setdiff(x$n.RLIBS, x$libPath))) { ## typically empty
+            cat("** RLIBS has entries not in .libPaths():\n")
+            print(xx)
+        }
     }
-    cat("Main R env. variables",
-        if(!is.null(x$xR.env)) " (for more, inspect the 'xR.env' component)",
-        ":\n", sep="")
-    print(cbind(x$R.env), ...)
+    if(Renv) {
+        cat("Main R env. variables",
+            if(!is.null(x$xR.env)) " (for more, inspect the 'xR.env' component)",
+            ":\n", sep="")
+        print(cbind(x$R.env), ...)
+    }
     cat("---------------- standard sessionInfo():\n")
     print(x$sInf, locale=locale, ...)
     invisible(x)

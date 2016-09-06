@@ -9,6 +9,8 @@
 }
 \usage{
 sessionInfoX(pkgs = NULL, list.libP = FALSE, extraR.env = TRUE)
+
+\method{print}{sessionInfoX}(x, locale = TRUE, RLIBS = TRUE, Renv = TRUE, \dots)
 }
 \arguments{
   \item{pkgs}{an optional \code{\link{character}} vector of \R packages,
@@ -17,7 +19,16 @@ sessionInfoX(pkgs = NULL, list.libP = FALSE, extraR.env = TRUE)
     \code{\link{.libPaths}} entries, the files should be listed via
     \code{\link{list.files}}.}
   \item{extraR.env}{logical indicating if \emph{all} environment
-    variables should be recorded which start with \code{"R_"} or \code{"_R_"}.}
+    variables should be recorded which start with \code{"R_"} or
+    \code{"_R_"}.}
+  \item{x}{typically the result of \code{sessionInfoX()}.}
+  \item{locale}{logical, passed to \code{\link{print.sessionInfo}()}
+    indicating if the locale information should be printed.}
+  \item{RLIBS}{logical indicating if the information about R_LIBS should
+    be printed.}
+  \item{Renv}{logical indicating if the information about R environment
+    variables should be printed.}
+  \item{\dots}{passed to \code{\link{print}} methods.}
 }
 %% \details{
 %% }

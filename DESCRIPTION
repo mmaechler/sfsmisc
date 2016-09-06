@@ -1,7 +1,7 @@
 Package: sfsmisc
 Title: Utilities from 'Seminar fuer Statistik' ETH Zurich
 Version: 1.1-1
-Date: 2016-05-20
+Date: 2016-09-06
 Author: Martin Maechler et al.
 Maintainer: Martin Maechler <maechler@stat.math.ethz.ch>
 Description: Useful utilities ['goodies'] from Seminar fuer Statistik ETH

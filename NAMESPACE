@@ -13,7 +13,7 @@ importFrom("stats",
 	   mad, median, model.frame, na.exclude, na.omit, napredict,
 	   pchisq, pf, plot.ts, predict, qchisq, qgamma, qnorm, qt, quantile,
 	   resid, residuals, runif,
-           smooth.spline, spline, splinefun, start, stepfun,
+	   smooth.spline, spline, splinefun, start, stepfun, symnum,
 	   terms, time, update.formula, var, window)
 
 importFrom("utils", head, tail, toLatex, #<- S3 generics !
