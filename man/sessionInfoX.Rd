@@ -35,6 +35,7 @@ sessionInfoX(pkgs = NULL, list.libP = FALSE, extraR.env = TRUE)
 \value{an object of S3 class \code{"sessionInfoX"}, a \code{\link{list}}
   with components (there may be more, experimental and not yet listed here):
  \item{sInfo}{simply the value of \code{\link{sessionInfo}()}.}
+ \item{sysInf}{the value of \code{\link{Sys.info}()}.}
  \item{capabilities}{the value of \code{\link{capabilities}()}.}
  \item{extSoft}{for \R 3.2.0 and newer, the value of \code{\link{extSoftVersion}()}.}
  \item{LAPACK}{for \R 3.0.3 and newer, the value of \code{\link{La_version}()}.}

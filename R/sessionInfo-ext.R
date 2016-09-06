@@ -6,7 +6,8 @@ sessionInfoX <- function(pkgs=NULL, list.libP = FALSE, extraR.env = TRUE) {
     si <- sessionInfo()
     Rver <- package_version(si$R.version)
     structure(class = "sessionInfoX",
-        list(sInfo = si,
+        list(sInfo  = si,
+             sysInf = Sys.info(),
 	     capabilities = capabilities(),
 	     extSoft = if(Rver >= "3.2.0") extSoftVersion(),
 	     LAPACK  = if(Rver >= "3.0.3") La_version(),
@@ -31,7 +32,8 @@ print.sessionInfoX <- function(x, locale = TRUE, RLIBS = TRUE, Renv = TRUE, ...)
     }
     cat("Capabilities:\n")
     print(symnum(x$capabilities, symbols = c("-", "X")), ...)
-
+    cat("Sys.info:"); print(cbind(" " = x$sysInf[c("nodename", "user")]),
+                              quote=FALSE, ...)
     if(!is.null(x$LAPACK)) cat("\nLAPACK version:", x$LAPACK, "\n")
     if(!is.null(x$extSoft)) {
         cat("External software (versions):")
