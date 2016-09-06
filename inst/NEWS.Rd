@@ -4,6 +4,23 @@
 \title{News for \R Package \pkg{sfsmisc}}
 \encoding{UTF-8}
 
+\section{CHANGES in sfsmisc VERSION 1.1-1 [2016-..-..]}{
+  \subsection{NEW FEATURES}{
+    \itemize{
+      \item \code{sessionInfoX()} now also reports \code{capabilities()}
+      (and more, depending on \R's version).
+%%% TODO:
+      %% \item New \code{rDatetime()} for random date/time sequences
+      %% within a specified time range.
+    }
+  }
+  %% \subsection{BUG FIXES}{
+  %%   \itemize{
+  %%     \item
+  %%   }
+  %% }
+}
+
 \section{CHANGES in sfsmisc VERSION 1.1-0 [2016-02-22]}{
   \subsection{NEW FEATURES}{
     \itemize{
