@@ -9,6 +9,9 @@
     \itemize{
       \item \code{sessionInfoX()} now also reports \code{capabilities()}
       (and more, depending on \R's version).
+
+      \item \code{mult.fig()}'s default for \code{mgp} now adapts to a
+      non-default value of \code{par("las")}.
 %%% TODO:
       %% \item New \code{rDatetime()} for random date/time sequences
       %% within a specified time range.

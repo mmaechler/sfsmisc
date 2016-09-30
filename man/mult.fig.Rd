@@ -7,12 +7,11 @@
   defaults for several \code{\link{par}} calls.
 }
 \usage{
-mult.fig(nr.plots, mfrow, mfcol,
-         marP = rep(0, 4), mgp = c(1.5, 0.6, 0),
+mult.fig(nr.plots, mfrow, mfcol, marP = rep(0, 4),
+         mgp = c(if(par("las") != 0) 2. else 1.5, 0.6, 0),
          mar = marP + 0.1 + c(4,4,2,1), oma = c(0,0, tit.wid, 0),
          main = NULL,
          tit.wid = if (is.null(main)) 0 else 1 + 1.5*cex.main,
-         quiet = .Device == "postscript",
          cex.main = par("cex.main"), line.main = cex.main - 1/2,
          col.main = par("col.main"), font.main = par("font.main"), \dots)
 }
@@ -38,8 +37,6 @@ mult.fig(nr.plots, mfrow, mfcol,
  \item{line.main}{numeric; the line at which the title.}
  \item{col.main, font.main}{color and font for main title; see
    \code{\link{par}(*)} for details.}
- \item{quiet}{logical; if \code{TRUE}, do \emph{not} write the reminder
-   about resetting \code{\link{par}}.}
  \item{\dots}{Further arguments to \code{\link{mtext}} for the main title.}
 }
 \value{

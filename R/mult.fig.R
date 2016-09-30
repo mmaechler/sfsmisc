@@ -1,9 +1,8 @@
 mult.fig <-
 function(nr.plots, mfrow, mfcol,
-         marP = rep(0, 4), mgp = c(1.5, 0.6, 0),
+         marP = rep(0, 4), mgp = c(if(par("las") != 0) 2. else 1.5, 0.6, 0),
          mar = marP + 0.1 + c(4,4,2,1), oma = c(0,0, tit.wid, 0),
          main = NULL, tit.wid = if (is.null(main)) 0 else 1 + 1.5*cex.main,
-         quiet = .Device == "postscript",
          cex.main = par("cex.main"), line.main = cex.main - 1/2,
          col.main = par("col.main"),
          font.main = par("font.main"),
@@ -25,9 +24,8 @@ function(nr.plots, mfrow, mfcol,
       else  mfrow <- n2mfrow (nr.plots)
     }
   old.par <-
-    if(use.row) par(mfrow = mfrow, oma= oma, mar = mar, mgp= mgp)
-    else        par(mfcol = mfcol, oma= oma, mar = mar, mgp= mgp)
-  ##if(!quiet) cat("Execute\n\t par(old.par) \n later to restore graphical par\n")
+    if(use.row) par(mfrow = mfrow, oma = oma, mar = mar, mgp= mgp)
+    else        par(mfcol = mfcol, oma = oma, mar = mar, mgp= mgp)
   ##---- now go ahead :
   if(!is.R())
       frame()
