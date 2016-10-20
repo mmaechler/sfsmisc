@@ -4,7 +4,7 @@
 \description{
     Find all prime numbers aka \sQuote{primes} less than \eqn{n}.
 
-    Uses an obvious sieve method (and some care, working with
+    Uses an obvious sieve method (and some care), working with
     \code{\link{logical}} and and \code{\link{integer}}s to be quite fast.
 }
 \usage{
@@ -37,7 +37,7 @@ primes(n, pSeq = NULL)
   numeric vector of all prime numbers \eqn{\le n}{<= n}.
 }
 \author{Bill Venables (<= 2001); Martin Maechler gained another 40\% speed,
-  working with logicals and integers.
+  carefully working with logicals and integers.
 }
 \seealso{
   \code{\link{factorize}}.  For large \eqn{n}, use the \pkg{gmp} package
@@ -49,7 +49,7 @@ primes(n, pSeq = NULL)
  system.time(p1k <- primes(1000)) # still lightning fast
  stopifnot(length(p1k) == 168)
 \donttest{
- system.time(p.e7 <- primes(1e7)) # 2015 (i7): still only 0.3 sec
+ system.time(p.e7 <- primes(1e7)) # still only 0.3 sec (2015 (i7))
  stopifnot(length(p.e7) == 664579)
  ## The famous  pi(n) :=  number of primes <= n:
  pi.n <- approxfun(p.e7, seq_along(p.e7), method = "constant")
