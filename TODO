@@ -1,5 +1,9 @@
 ##-*- org -*-
 
+* TODO New utilities for MASS::boxcox() "diagnostics", notably histogram nicely labeled
+** --> ~/R/MM/Pkg-ex/microbenchmark/seq-mb.R
+** Maybe ask Brian about willingness to improve:  boxcox(*, plotit=TRUE) looks nice,
+** but the estimate + conf.interval computations are inside the plotting, not available as numbers
 * TODO mat2tex() is really not flexible enough; and there are better functions
    in other packages, e.g. latex in 'Hmisc' --> deprecate this! [2005-04]
 
