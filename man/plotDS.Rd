@@ -1,6 +1,5 @@
 \name{plotDS}
 \alias{plotDS}
-\alias{pl.ds}% <-- old name; deprecated from 2007 to 2013; defunct since 2014-01
 \title{Plot Data and Smoother / Fitted Values}
 \description{
   For one-dimensional nonparametric regression, plot the data and fitted

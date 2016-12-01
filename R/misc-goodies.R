@@ -766,32 +766,6 @@ col01scale <- function(mat, scale.func = function(x) diff(range(x)),
   sweep( mat, 2, apply(mat,2, scale.func), "/")
 }
 
-pmax.sa <- function(scalar, arr)
-{
-    ##-- special system "pmax" which gives back more-dim. arrays --
-    if(is.na(scalar))
-        arr[] <- scalar
-    else {
-        l <- scalar > arr
-        l[is.na(arr)] <- FALSE
-        arr[l] <- scalar
-    }
-    arr
-}
-
-pmin.sa <- function(scalar, arr)
-{
-    ##-- special system "pmin" which gives back more-dim. arrays --
-    if(is.na(scalar))
-        arr[] <- scalar
-    else {
-      l <- scalar < arr
-      l[is.na(arr)] <- FALSE
-      arr[l] <- scalar
-    }
-    arr
-}
-
 ## diag.ex <- function(n)  --- now renamed :
 diagX <- function(n)
 {

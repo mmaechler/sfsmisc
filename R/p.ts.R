@@ -62,7 +62,7 @@ p.ts <-
             Form <- function(x)
                 paste("(",paste(formatC(x, digits=6, width=1), collapse=", "),
                       ")",sep='')
-        pp <- mult.fig(mfrow=c(nrplots,1), main = main.tit, quiet= TRUE,
+        pp <- mult.fig(mfrow=c(nrplots,1), main = main.tit,
                        mgp = mgp, marP = c(-1,-1,-2,0))
         on.exit(par(pp $ old.par))
         for(i in 1:nrplots) {

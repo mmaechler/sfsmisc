@@ -3,6 +3,23 @@
 ###--- remove things from here to ../Old_Defunct/ex-Deprecated.R
 ###      ====                  == ==============================
 
+###___ add on top ___
+
+## Deprecated in 2005; defunctified 2016-12-01 :
+list2mat <- function(x, check = TRUE)
+{
+  ## Purpose:  list -> matrix
+  ## -------------------------------------------------------------------------
+  ## Arguments: x a list whose first 2 el.  MUST be equal length vectors
+  ##		check: if T, check if lengths are ok.   F: "quick & dirty"
+  ## -------------------------------------------------------------------------
+  ## Author: Martin Maechler, Date: 19 May 93, 09:46
+
+    stop("list2mat(x) has been deprecated in 2005  and is defunct now.
+  Use  sapply(x, c)  or vapply(..) instead!")
+}
+
+
 pl.ds <- function(...) {
     stop("pl.ds() has been renamed to  plotDS() and is defunct now.\n",
           "Please change your code to use the new name")
