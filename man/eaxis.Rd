@@ -107,12 +107,13 @@ eaxis(1, labels=NA)
 x <- lseq(.001, 0.1, length = 1000)
 plot(x, sin(1/x)*x, type = "l", xaxt = "n", log = "x")
 eaxis(1)
+eaxis(3, n.axp = 1)# -> xaxp[3] = 1:  only  10^j (main) ticks
 
 ## non- log-scale : draw small ticks, but no "10^k" if not needed:
 x <- seq(-100, 100, length = 1000)
 plot(x, sin(x)/x, type = "l", xaxt = "n")
 eaxis(1)           # default -> {1, 2, 5} * 10^j  ticks
-eaxis(3, n.axp = 1)# -> xaxp[3] = 1:  only  10^j ticks
+eaxis(3, n.axp = 2)# -> xaxp[3] := 2 -- approximately two (main) ticks
 
 x <- seq(-1, 1, length = 1000)
 plot(x, sin(x)/x, type = "l", xaxt = "n")
