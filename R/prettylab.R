@@ -90,23 +90,33 @@ axTexpr <- function(side, at = axTicks(side, axp=axp, usr=usr, log=log),
 ## par(mar=.1+c(5,4,2,4)); plot(x,axes=FALSE)
 ##  eaxis(4) # ugly
 ##  eaxis(2, at=axisTicks(par("usr")[3:4],log=FALSE)) # much better
-eaxis <- function(side, at = if(log) axTicks(side, log=log, nintLog=nintLog)
-                             else    axTicks(side, log=log),
+eaxis <- function(side, at = if(log) axTicks(side, axp=axp, log=log, nintLog=nintLog)
+                             else    axTicks(side, axp=axp, log=log),
                   labels = NULL, log = NULL,
                   f.smalltcl = 3/5, at.small = NULL, small.mult = NULL,
                   small.args = list(),
                   draw.between.ticks = TRUE, between.max = 4,
                   outer.at = TRUE, drop.1 = TRUE, sub10 = FALSE, las = 1,
-                  nintLog = max(10, par("lab")[2L - is.x]),
+                  nintLog = max(10, par("lab")[2L - is.x]), axp = NULL, n.axp = NULL,
                   max.at = Inf, lab.type="plotmath", lab.sep="cdot", ...)
 {
     ## Purpose: "E"xtended, "E"ngineer-like (log-)axis
     ## ----------------------------------------------------------------------
     ## Author: Martin Maechler, Date: 13 Oct 2007
+
+    ## first part: same as graphics::axTicks() [also by MM] :
     is.x <- side%%2 == 1
-    if(is.null(log)) {
-        XY <- function(ch) paste0(if (is.x) "x" else "y", ch)
-        log <- par(XY("log"))
+    XY <- function(ch) paste0(if (is.x) "x" else "y", ch)
+    if(is.null(log)) log <- par(XY("log"))
+    if(is.null(axp)) {
+	axp <- par(XY("axp"))
+	if(!is.null(n.axp)) {
+	    if(is.numeric(n.axp) && length(n.axp) == 1 && n.axp == as.integer(n.axp))
+		axp[3] <- n.axp
+	    else stop(gettextf(
+		     "'n.axp' must be an integer to be used as '%s', see ?par and there 'xaxp'",
+		     XY("axp")), domain=NA)
+	}
     }
     if(is.finite(max.at <- round(max.at))) { ## "thin the 'at' values
 	if(max.at < 1) stop("'max.at' must be >= 1")

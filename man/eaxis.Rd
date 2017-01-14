@@ -11,13 +11,15 @@
   used (see \code{\link{pretty10exp}}).
 }
 \usage{
-eaxis(side, at =,% For R >= 2.14.0:  axTicks(side, log=log, nintLog=nintLog)
+eaxis(side, at = if(log) axTicks(side, axp=axp, log=log, nintLog=nintLog)
+                 else    axTicks(side, axp=axp, log=log),
       labels = NULL, log = NULL,
       f.smalltcl = 3/5, at.small = NULL, small.mult = NULL,
       small.args = list(),
       draw.between.ticks = TRUE, between.max = 4,
       outer.at = TRUE, drop.1 = TRUE, sub10 = FALSE, las = 1,
-      nintLog = max(10, par("lab")[2 - is.x]), max.at = Inf,
+      nintLog = max(10, par("lab")[2 - is.x]),
+      axp = NULL, n.axp = NULL, max.at = Inf,
       lab.type = "plotmath", lab.sep = "cdot",
       \dots)
 }
@@ -62,6 +64,17 @@ eaxis(side, at =,% For R >= 2.14.0:  axTicks(side, log=log, nintLog=nintLog)
     formats, see \code{\link{pretty10exp}}.}
   \item{nintLog}{only used in \R > 2.13.x, when \code{log} is true:
     approximate (lower bound on) number of intervals for log scaling.}
+  \item{axp}{to be passed to \code{\link{axTicks}()} if \code{at} is not
+    specified.}
+  \item{n.axp}{to be set to \code{axp[3]} when \code{axp} and \code{at}
+    are not specified, in order to tweak the \emph{number} of (non-small)
+    tick marks produced from \code{\link{axTicks}(..)}, notably when
+    \code{log} is true, set \code{n.axp} to 1, 2, or 3:
+    \describe{
+        \item{1:}{will produce tick marks at \eqn{10^j} for integer \eqn{j},}
+        \item{2:}{gives marks  \eqn{k 10^j} with \eqn{k \in \{1, 5\}}{k in {1,5}},}
+        \item{3:}{gives marks  \eqn{k 10^j} with \eqn{k \in \{1, 2, 5\}}{k in {1,2,5}}}
+      } see \code{'xaxp'} on the \code{\link{par}} help page.}
   \item{max.at}{maximal number of \code{at} values to be used
     effectively.  If you don't specify \code{at} yourself carefully, it
     is recommended to set this to something like \code{25}, but this is
@@ -98,7 +111,8 @@ eaxis(1)
 ## non- log-scale : draw small ticks, but no "10^k" if not needed:
 x <- seq(-100, 100, length = 1000)
 plot(x, sin(x)/x, type = "l", xaxt = "n")
-eaxis(1)
+eaxis(1)           # default -> {1, 2, 5} * 10^j  ticks
+eaxis(3, n.axp = 1)# -> xaxp[3] = 1:  only  10^j ticks
 
 x <- seq(-1, 1, length = 1000)
 plot(x, sin(x)/x, type = "l", xaxt = "n")

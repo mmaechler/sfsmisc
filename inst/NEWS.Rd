@@ -4,7 +4,7 @@
 \title{News for \R Package \pkg{sfsmisc}}
 \encoding{UTF-8}
 
-\section{CHANGES in sfsmisc VERSION 1.1-1 [2016-..-..]}{
+\section{CHANGES in sfsmisc VERSION 1.1-1 [2017-01-14]}{
   \subsection{NEW FEATURES}{
     \itemize{
       \item \code{sessionInfoX()} now also reports \code{capabilities()}
@@ -15,6 +15,9 @@
 %%% TODO:
       %% \item New \code{rDatetime()} for random date/time sequences
       %% within a specified time range.
+
+      \item \code{eaxis()} gets new options \code{axp} and \code{n.axp}
+      for more flexible automatic tick marks.
     }
   }
   %% \subsection{BUG FIXES}{
