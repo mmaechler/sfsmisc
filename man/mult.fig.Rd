@@ -17,10 +17,10 @@ mult.fig(nr.plots, mfrow, mfcol, marP = rep(0, 4),
 }
 \arguments{
  \item{nr.plots}{integer; the number of plot figures you'll want to draw.}
- \item{mfrow}{\emph{instead} of \code{nr.plots}: integer(2) vector
-   giving the rectangular figure layout for \code{\link{par}(mfrow= .)}.}
- \item{mfcol}{\emph{instead} of \code{nr.plots}: integer(2) vector
-   giving the rectangular figure layout for \code{\link{par}(mfcol= .)}.}
+ \item{mfrow, mfcol}{\emph{instead} of \code{nr.plots}: integer(2) vectors
+   giving the rectangular figure layout for \code{\link{par}(mfrow = *)},
+   or \code{\link{par}(mfcol=*)}, respectively.  The default is to use
+   \code{mfrow = \link{n2mfrow}(nr.plots)}.}
  \item{marP}{numeric(4) vector of figure margins to \emph{add}
    (\dQuote{\bold{P}lus}) to default \code{mar}, see below.}
  \item{mgp}{argument for \code{\link{par}(mpg= .)} with a smaller
@@ -34,10 +34,11 @@ mult.fig(nr.plots, mfrow, mfcol, marP = rep(0, 4),
    main title; note that this is only used for the default value of
    \code{oma} (s. above).}
  \item{cex.main}{numeric; the character size to be used for the main title.}
- \item{line.main}{numeric; the line at which the title.}
- \item{col.main, font.main}{color and font for main title; see
-   \code{\link{par}(*)} for details.}
- \item{\dots}{Further arguments to \code{\link{mtext}} for the main title.}
+ \item{line.main}{numeric; the margin line at which the title is written
+   (via \code{\link{mtext}(main, side=3, outer=TRUE, line = line.main, ....)}).}
+ \item{col.main, font.main}{color and font for main title, passed to
+   \code{\link{mtext}()}, see also \code{\link{par}(*)}.}
+ \item{\dots}{further arguments to \code{\link{mtext}} for the main title.}
 }
 \value{
   A \code{\link{list}} with two components that are lists themselves, a
@@ -45,7 +46,7 @@ mult.fig(nr.plots, mfrow, mfcol, marP = rep(0, 4),
   \item{new.par}{the current \code{par} settings.}
   \item{old.par}{the \code{par} \emph{before} the call.}
 }
-\author{Martin Maechler, UW Seattle, 1990.}
+\author{Martin Maechler, UW Seattle, 1990 (for \command{S}).}
 \seealso{\code{\link{par}}, \code{\link{layout}}.}
 \examples{
 opl <- mult.fig(5, main= expression("Sine Functions " * sin(n * pi * x)))

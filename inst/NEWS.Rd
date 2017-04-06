@@ -4,7 +4,7 @@
 \title{News for \R Package \pkg{sfsmisc}}
 \encoding{UTF-8}
 
-\section{CHANGES in sfsmisc VERSION 1.1-1 [2017-01-14]}{
+\section{CHANGES in sfsmisc VERSION 1.1-1 [2017-04-06]}{
   \subsection{NEW FEATURES}{
     \itemize{
       \item \code{sessionInfoX()} now also reports \code{capabilities()}
