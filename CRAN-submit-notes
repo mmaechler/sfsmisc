@@ -1,0 +1,24 @@
+
+Submitter's comment: As already since  sfsmisc 1.0-25 :
+when checking (with --as-cran)  I get NOTE  which is a false positive :
+
+NOTE:
+----
+
+  Found the following calls to attach():
+  File ‘sfsmisc/R/sourceAttach.R’:
+
+   attach(ENV, pos = pos, name = name, warn.conflicts = warn.conflicts)
+
+  See section ‘Good practice’ in ‘?attach’.
+
+EXPLANATION:
+------------
+
+  sourceAttach() is a utility which uses source() and does not do that into
+  the globalenv but rather into a new position in the search() path,
+  something which can well desirable compared to the default source()ing
+  into globalenv.
+
+
+
