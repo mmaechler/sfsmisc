@@ -30,3 +30,16 @@ stopifnot(identical(is.whole(a), a == round(a)),
 
 ## Numbers of class integer are always whole
 stopifnot(is.whole(dim(a)), is.whole(length(v)), is.whole(-1L))
+
+
+## From: Liping Seng <rainey_tree@yahoo.com.sg>
+## Subject: Bug with integrate.xy()?
+## Date: Wed, 7 Jun 2017 12:24:12 +0000
+##  MM simplified
+set.seed(1776)
+y <- rnorm(200)
+fit <- density(y, bw = 0.3773427, n=1024, kernel="epanechnikov")
+integrate.xy(fit$x, fit$y, min(fit$x), 1.7927854, xtol=3.16228e-7)
+## Fixed (2017-06-08)
+## Error in seq.default(a, length = max(0, b - a - 1)) :
+##   'length.out' must be a non-negative number

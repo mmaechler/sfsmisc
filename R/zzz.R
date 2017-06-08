@@ -3,6 +3,10 @@
 
 ## }
 
+## if(!exists("rep_len", mode = "function")) # old R version
+##     rep_len <- function(x, length.out) rep(x, length.out=length.out)
+
+
 .set.eps_view <- function() {
     ## This assumes  "gv"  in your path --- ideally this would be configured!
     if(!is.character(getOption("eps_view")) && .Platform $ OS.type == "unix") {

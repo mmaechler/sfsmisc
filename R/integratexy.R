@@ -3,10 +3,6 @@
 
 integrate.xy <- function(x,fx, a,b, use.spline = TRUE, xtol = 2e-8)
 {
-  dig <- round(-log10(xtol)) #
-  f.match <- function(x,table) match(signif(x,dig), signif(table,dig))
-  ## was (S+) f.match <- function(x,table) match(as.single(x), as.single(table))
-
   if(is.list(x)) {
     fx <- x$y; x <- x$x
     if(length(x) == 0)
@@ -31,10 +27,10 @@ integrate.xy <- function(x,fx, a,b, use.spline = TRUE, xtol = 2e-8)
     else if(any(b > x[n])) stop("'b' must NOT be larger  than max(x)")
   if(length(a) != 1 && length(b) != 1 && length(a) != length(b))
     stop("'a' and 'b' must have length 1 or same length !")
-    else {
+  else {
       k <- max(length(a),length(b))
       if(any(b < a))    stop("'b' must be elementwise >= 'a'")
-    }
+  }
 
   if(use.spline) {
     xy <- spline(x,fx, n = max(1024, 3*n))
@@ -50,9 +46,8 @@ integrate.xy <- function(x,fx, a,b, use.spline = TRUE, xtol = 2e-8)
   }
 
   ab <- unique(c(a,b))
-  xtol <- xtol * max(b - a)
-  BB <- abs(outer(x,ab,"-")) < xtol
-  if(any(j <- 0 == apply(BB,2,sum))) { #the j-th element(s) of ab are not in x[]
+  BB <- abs(outer(x,ab,"-")) < (xtol * max(b - a))
+  if(any(j <- 0 == colSums(BB))) { # the j-th element(s) of ab are not in x[]
     y <- approx(x,fx, xout = ab[j])$y
     x <- c(ab[j],x)
     i <- sort.list(x)
@@ -62,8 +57,12 @@ integrate.xy <- function(x,fx, a,b, use.spline = TRUE, xtol = 2e-8)
   ##--- now we could use 'Simpson's formula IFF the x[i] are equispaced... --
   ##--- Since this may well be wrong, just use 'trapezoid formula':
 
-  ai <- rep(f.match(a,x), length = k)
-  bi <- rep(f.match(b,x), length = k)
+  dig0 <- floor(-log10(xtol)) #
+  f.match <- function(x,table,dig) match(signif(x,dig), signif(table,dig))
+  ## was (S+) f.match <- function(x,table) match(as.single(x), as.single(table))
+
+  d <- dig0; while(anyNA(ai <- f.match(a,x, d))) d <- d - 1/8 ; ai <- rep_len(ai, k)
+  d <- dig0; while(anyNA(bi <- f.match(b,x, d))) d <- d - 1/8 ; bi <- rep_len(bi, k)
   dfx <- fx[-c(1,n)] * diff(x,lag = 2)
   r <- numeric(k)
   for (i in 1:k) {

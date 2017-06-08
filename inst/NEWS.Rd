@@ -4,7 +4,7 @@
 \title{News for \R Package \pkg{sfsmisc}}
 \encoding{UTF-8}
 
-\section{CHANGES in sfsmisc VERSION 1.1-1 [2017-04-06]}{
+\section{CHANGES in sfsmisc VERSION 1.1-1 [2017-06-08]}{
   \subsection{NEW FEATURES}{
     \itemize{
       \item \code{sessionInfoX()} now also reports \code{capabilities()}
@@ -20,11 +20,12 @@
       for more flexible automatic tick marks.
     }
   }
-  %% \subsection{BUG FIXES}{
-  %%   \itemize{
-  %%     \item
-  %%   }
-  %% }
+  \subsection{BUG FIXES}{
+    \itemize{
+      \item \code{integrate.xy()} is more careful in matching "data"
+      with grid points, thanks to a bug report by Loraine Liping Seng.
+    }
+  }
 }
 
 \section{CHANGES in sfsmisc VERSION 1.1-0 [2016-02-22]}{
