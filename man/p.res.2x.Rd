@@ -50,8 +50,7 @@ p.res.2x(x, \dots)
   ..........
 }
 \references{Stahel, W. (1996) ........}
-\author{Andreas Ruckstuhl in June 1991 and
-  Martin Maechler, in 1992, '94, 2003-4.}
+\author{Andreas Ruckstuhl in June 1991 and Martin Maechler, in 1992, '94, 2003-4.}
 \seealso{\code{\link{p.res.2fact}},
   \code{\link{plot.lm}},
   \code{\link{TA.plot}}.

@@ -59,8 +59,7 @@ TA.plot(lm.res,
 \section{Side Effects}{
   The above mentioned plot is produced on the current graphic device.
 }
-\author{
-  Martin Maechler, Seminar fuer Statistik, ETH Zurich, Switzerland;
+\author{Martin Maechler, Seminar fuer Statistik, ETH Zurich, Switzerland;
   \email{maechler@stat.math.ethz.ch}
 }
 \seealso{\code{\link{plot.lm}} which also does a QQ normal plot and more.

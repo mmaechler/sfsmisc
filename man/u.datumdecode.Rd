@@ -19,7 +19,7 @@ u.datumdecode(d, YMDHMnames = c("Jahr", "Monat", "Tag", "Std", "Min"))
   month, etc.
 }
 \author{?? (someone at SfS ETH)}
-\note{
+\note{%% Hence: DEPRECATE !?
   MM: This is a wrong concept, and also suffers from the \dQuote{millenium bug}
   (by using only 2 digits for the year).
 }

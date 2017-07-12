@@ -50,7 +50,7 @@ diagDA(ls, cll, ts, pool = TRUE)
   Using Gene Expression Data.
   (Statistics, UC Berkeley, June 2000, Tech Report \#576)
 }
-\author{
+\author{% grep:   Sandrine Dudoit, Jane Fridlyand, and Martin Maechler
   Sandrine Dudoit, \email{sandrine@stat.berkeley.edu}  and\cr
   Jane Fridlyand, \email{janef@stat.berkeley.edu} originally wrote
   \code{stat.diag.da()} in CRAN package \pkg{sma} which was modified

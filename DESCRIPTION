@@ -1,11 +1,49 @@
 Package: sfsmisc
 Title: Utilities from 'Seminar fuer Statistik' ETH Zurich
-Version: 1.1-1
-Date: 2017-06-08
-Author: Martin Maechler et al.
+Version: 1.1-2
+Date: 2017-07-12
+Authors@R: c(person("Martin","Maechler", role=c("aut","cre"), email="maechler@stat.math.ethz.ch")
+	   , person("Werner", "Stahel", role = "ctb",
+	   	   comment = "Functions: compresid2way(), f.robftest(), last(), p.scales(), p.dnorm()")
+	   , person("Andreas", "Ruckstuhl", role = "ctb",
+	   	   comment = "Functions: p.arrows(), p.profileTraces(), p.res.2x()")
+	   , person("Christian", "Keller", role = "ctb",
+	   	   comment = "Functions: histBxp(), p.tachoPlot()")
+	   , person("Kjetil", "Halvorsen", role = "ctb",
+	   	   comment = "Functions: KSd(), ecdf.ksCI()")
+	   , person("Alain", "Hauser", role = "ctb",
+	   	   comment = "Functions: cairoSwd(), is.whole(), toLatex.numeric()*")
+	   , person("Christoph", "Buser", role = "ctb",
+	   	   comment = "to function Duplicated()")
+	   , person("Lorenz", "Gygax", role = "ctb",
+	   	   comment = "to function p.res.2fact()")
+	   , person("Bill", "Venables", role = "ctb",
+	   	   comment = "Functions: empty.dimnames(), primes()")
+	   , person("Tony", "Plate", role = "ctb", comment = "to inv.seq()")
+	   # minor contributors:
+	   , person("Isabelle", "Flückiger", role = "ctb")
+	   , person("Marcel", "Wolbers", role = "ctb")
+	   , person("Markus", "Keller", role = "ctb")
+	   , person("Sandrine", "Dudoit", role = "ctb")
+	   , person("Jane", "Fridlyand", role = "ctb")
+	   , person("Greg", "Snow", role = "ctb", comment = "to loessDemo()")
+	   , person("Henrik", "Nielsen", middle = "Aa.", role = "ctb", comment = "to loessDemo()")
+	   , person("Vincent", "Carey", role = "ctb")
+	   , person("Ben", "Bolker", role = "ctb")
+	   , person("Philippe", "Grosjean", role = "ctb")
+	   , person("Frédéric", "Ibanez", role = "ctb")
+	   , person("Caterina", "Savi", role = "ctb")
+	   , person("Charles", "Geyer", role = "ctb")
+	   , person("Jens", "Oehlschlägel", role = "ctb")
+ )
 Maintainer: Martin Maechler <maechler@stat.math.ethz.ch>
-Description: Useful utilities ['goodies'] from Seminar fuer Statistik ETH
-  Zurich, quite a few related to graphics; some were ported from S-plus.
+Description: Useful utilities ['goodies'] from Seminar fuer Statistik ETH Zurich;
+	     some were ported from S-plus in the 1990's.
+  Graphics:      Pretty (Log-scale) Axes, histogram+boxplot, 2d-residual
+		 plots, tachoPlot; pretty arrows, etc.
+  Robustness: Robust F test; robust range
+  Miscellaneous: simple efficient prime numbers; integer codes; Duplicated(), is.whole()
+  Linux:         More access to system and CPU information
 Depends: R (>= 3.0.1)
 Imports: grDevices, methods, utils, stats
 Suggests: datasets, tcltk, cluster, lattice, MASS, Matrix, nlme, lokern

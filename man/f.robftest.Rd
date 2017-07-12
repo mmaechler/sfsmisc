@@ -30,7 +30,7 @@ f.robftest(object, var = -1)
 \references{
   FIXME --- Need some here !
 }
-\author{Werner Stahel, Jul.2000; updates by Martin Maechler.}
+\author{Werner Stahel, July 2000; updates by Martin Maechler.}
 \seealso{\code{\link[MASS]{rlm}}, \code{\link{summary.aov}}, etc.}
 \examples{
 if(require("MASS")) {

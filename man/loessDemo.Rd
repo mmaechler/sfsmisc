@@ -47,15 +47,9 @@ loessDemo(x, y, span = 1/2, degree = 1, family = c("gaussian", "symmetric"),
   \item{sym.col, w.col, line.col}{colors for the symbols, weights and
     lines, respectively.}
 }
-%% \details{
-%% %%  ~~ If necessary, more details than the description above ~~
-%% }
 %% \value{
 %% }
-%% \references{
-%% %% ~put references to the literature/web site here ~
-%% }
-\author{
+\author{%%for grep: Greg Snow, ... Henrik Aa. Nielsen ..
   As function \code{loess.demo()},  written and posted to S-news, on 27
   Sep 2001, by Greg Snow, Brigham Young University, % gls@byu.edu
   it was modified by Henrik Aa. Nielsen, IMM, DTU, % han@imm.dtu.dk

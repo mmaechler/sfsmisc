@@ -33,8 +33,7 @@
   a \code{\link{character}} vector of the same length as \code{object},
   containing the formatted numbers.
 }
-\author{
-  Alain Hauser% and Martin -- E-mail ? for harvesters
+\author{Alain Hauser% and Martin -- E-mail ? for harvesters
 }
 \seealso{
   \code{\link{pretty10exp}} which gives \code{\link{expression}}s

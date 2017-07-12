@@ -25,8 +25,9 @@ ecdf.ksCI(x, main = NULL, sub = NULL, xlab = deparse(substitute(x)),
 
 \note{Presently, will only work if \code{length(x)} > 9. }
 
-\seealso{\code{\link{ecdf}} and \code{\link{plot.stepfun}} in package
-          \code{\link{stepfun}}. }
+\seealso{\code{\link{ecdf}} and \code{\link{plot.stepfun}} in standard
+  \R.
+}
 
 \examples{
 ecdf.ksCI( rchisq(50,3) )
