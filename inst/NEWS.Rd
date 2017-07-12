@@ -4,6 +4,15 @@
 \title{News for \R Package \pkg{sfsmisc}}
 \encoding{UTF-8}
 
+\section{CHANGES in sfsmisc VERSION 1.1-2 [2017-..-..]}{
+  \subsection{NEW FEATURES}{
+    \itemize{
+      \item new \code{funEnv()} utility: \code{list()}-like construction
+      of a set of functions (and more) which all share the same environment.
+    }
+  }
+}
+
 \section{CHANGES in sfsmisc VERSION 1.1-1 [2017-06-08]}{
   \subsection{NEW FEATURES}{
     \itemize{

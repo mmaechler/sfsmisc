@@ -490,6 +490,21 @@ uniqueL <- function(x, isuniq = !duplicated(x), need.sort = is.unsorted(x))
 }
 
 
+##' Constructor of a "list" (really an environment) of functions (and more)
+##' which all *share* the same environment in which they exist -----> ../man/funEnv.Rd
+if(getR
+
+funEnv <- function(..., envir = NULL, parent = parent.frame(),
+                   hash = (...length() > 100), size = max(29L, ...length())) {
+    e <- list2env(list(...), envir=envir, parent=parent, hash=hash, size=size)
+    for(n in names(e)) ## iff function or formula, set environment to 'e':
+	if(is.function(e[[n]]) || (is.call(e[[n]]) &&
+				   inherits(e[[n]], "formula")))
+	    environment(e[[n]]) <- e
+    e
+}
+
+
 is.whole <- function(x, tolerance = sqrt(.Machine$double.eps))
 {
     ## Tests if a numeric scalar (or vector, matrix or array) is a whole

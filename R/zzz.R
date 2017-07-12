@@ -6,6 +6,11 @@
 ## if(!exists("rep_len", mode = "function")) # old R version
 ##     rep_len <- function(x, length.out) rep(x, length.out=length.out)
 
+if(!is.function(.BaseNamespaceEnv$...length)) # ...length() only in R >= 3.5.0
+    ## This substitute is kludgy  by using parent.env() -- but it works (sometimes)
+    ## in funEnv() -- see ../R/misc-goodies.R
+    ...length <- function() eval(quote(length(list(...))), envir = parent.frame())
+
 
 .set.eps_view <- function() {
     ## This assumes  "gv"  in your path --- ideally this would be configured!

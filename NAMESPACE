@@ -62,6 +62,7 @@ export (
 	"empty.dimnames",
 	"errbar",
 	"f.robftest",
+    funEnv,
 	"hatMat",
         "histBxp", # defunct: "hist.bxp"
 	"ichar",
