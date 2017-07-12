@@ -491,9 +491,9 @@ uniqueL <- function(x, isuniq = !duplicated(x), need.sort = is.unsorted(x))
 
 
 ##' Constructor of a "list" (really an environment) of functions (and more)
-##' which all *share* the same environment in which they exist -----> ../man/funEnv.Rd
-if(getR
-
+##' which all *share* the same environment in which they exist
+##' --> ../man/funEnv.Rd
+##'  	~~~~~~~~~~~~~~~~
 funEnv <- function(..., envir = NULL, parent = parent.frame(),
                    hash = (...length() > 100), size = max(29L, ...length())) {
     e <- list2env(list(...), envir=envir, parent=parent, hash=hash, size=size)
