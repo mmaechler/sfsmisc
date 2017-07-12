@@ -22,23 +22,24 @@
 |--------------------+------------------+------------------------+---------------------|
 | Christoph Buser    | Duplicated       | man/Duplicated.Rd      | joint w MM          |
 |--------------------+------------------+------------------------+---------------------|
-| Marcel Wolbers     | p.profileTraces  | man/p.profileTraces.Rd |                     |
-| Isabelle Flückiger | p.profileTraces  | man/p.profileTraces.Rd |                     |
-|--------------------+------------------+------------------------+---------------------|
 | Alain Hauser       | cairoSwd         | man/cairoSwd.Rd        |                     |
 | Alain Hauser       | is.whole         | man/is.whole.Rd        |                     |
 | Alain Hauser       | toLatex.numeric* | man/toLatex.numeric.Rd |                     |
-|                    |                  |                        |                     |
+|--------------------+------------------+------------------------+---------------------|
 | Lorenz Gygax       | p.res.2fact      | man/p.res.2fact.Rd     |                     |
-|                    |                  |                        |                     |
+|--------------------+------------------+------------------------+---------------------|
 | Kjetil Halvorsen   | ecdf.ksCI        | man/ecdf.ksCI.Rd       |                     |
 | Kjetil Halvorsen   | KSd              | man/KSd.Rd             | joint w MM          |
+|--------------------+------------------+------------------------+---------------------|
 |                    |                  |                        |                     |
 | Bill Venables      | empty.dimnames   | man/empty.dimnames.Rd  | + MM                |
 | Bill Venables      | primes           | man/primes.Rd          | + MM                |
 |                    |                  |                        |                     |
+| Isabelle Flückiger | p.profileTraces  | man/p.profileTraces.Rd |                     |
+| Marcel Wolbers     | p.profileTraces  | man/p.profileTraces.Rd |                     |
+|                    |                  |                        |                     |
 | Tony Plate         | inv.seq          | man/inv.seq.Rd         |                     |
-| Markus Keller      | histBxp          | man/histBxp.Rd         |                     |
+| Markus Keller      | histBxp          | man/histBxp.Rd         | (Diplomand)         |
 |                    |                  |                        |                     |
 | Sandrine Dudoit,   |                  |                        | original, less      |
 | Jane Fridlyand     | diagDA           | man/diagDA.Rd          | optimized           |
