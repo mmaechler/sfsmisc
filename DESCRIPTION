@@ -27,7 +27,7 @@ Authors@R: c(person("Martin","Maechler", role=c("aut","cre"), email="maechler@st
 	   , person("Sandrine", "Dudoit", role = "ctb")
 	   , person("Jane", "Fridlyand", role = "ctb")
 	   , person("Greg", "Snow", role = "ctb", comment = "to loessDemo()")
-	   , person("Henrik", "Nielsen", middle = "Aa.", role = "ctb", comment = "to loessDemo()")
+	   , person("Henrik Aa.", "Nielsen", role = "ctb", comment = "to loessDemo()")
 	   , person("Vincent", "Carey", role = "ctb")
 	   , person("Ben", "Bolker", role = "ctb")
 	   , person("Philippe", "Grosjean", role = "ctb")
