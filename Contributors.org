@@ -1,22 +1,60 @@
 
 * Authors of CRAN R Package *sfsmisc* -- apart from Martin Maechler
 
-** built from ../Authors
+** built from ../Authors  and ./Contributors-grep
 
-|------------------+---------------+----------------------+----------------|
-| First Lastname   | Function(s)   | help pages           | Notes          |
-|------------------+---------------+----------------------+----------------|
-| Alain Hauser     | cairoSwd      | man/cairoSwd.Rd      |                |
-| Werner Stahel    | compresid2way | man/compresid2way.Rd |                |
-|                  |               |                      |                |
-| Sandrine Dudoit, |               |                      | original, less |
-| Jane Fridlyand   | diagDA        | man/diagDA.Rd        | optimized      |
-|                  |               |                      |                |
-| Christoph Buser  | Duplicated    | man/Duplicated.Rd    | joint w MM     |
-| Kjetil Halvorsen | ecdf.ksCI     | man/ecdf.ksCI.Rd     |                |
-| Kjetil Halvorsen | KSd           | man/KSd.Rd           | joint w MM     |
-|                  |               |                      |                |
-
-
-
+|--------------------+------------------+------------------------+---------------------|
+| First Lastname     | Function(s)      | help pages             | Notes               |
+|--------------------+------------------+------------------------+---------------------|
+|--------------------+------------------+------------------------+---------------------|
+| Werner Stahel      | compresid2way    | man/compresid2way.Rd   |                     |
+| Werner Stahel      | f.robftest       | man/f.robftest.Rd      |                     |
+| Werner Stahel      | last             | man/last.Rd            |                     |
+| Werner Stahel      | p.dnorm  ...     | man/p.dnorm.Rd         |                     |
+| Werner Stahel      | p.scales         | man/p.scales.Rd        |                     |
+|--------------------+------------------+------------------------+---------------------|
+| Andreas Ruckstuhl  | p.arrows         | man/p.arrows.Rd        |                     |
+| Andreas Ruckstuhl  | p.profileTraces  | man/p.profileTraces.Rd |                     |
+| Andreas Ruckstuhl  | p.res.2x         | man/p.res.2x.Rd        |                     |
+|--------------------+------------------+------------------------+---------------------|
+| Christian Keller   | histBxp          | man/histBxp.Rd         |                     |
+| Christian Keller   | p.tachoPlot      | man/p.tachoPlot.Rd     |                     |
+|--------------------+------------------+------------------------+---------------------|
+| Christoph Buser    | Duplicated       | man/Duplicated.Rd      | joint w MM          |
+|--------------------+------------------+------------------------+---------------------|
+| Marcel Wolbers     | p.profileTraces  | man/p.profileTraces.Rd |                     |
+| Isabelle Flückiger | p.profileTraces  | man/p.profileTraces.Rd |                     |
+|--------------------+------------------+------------------------+---------------------|
+| Alain Hauser       | cairoSwd         | man/cairoSwd.Rd        |                     |
+| Alain Hauser       | is.whole         | man/is.whole.Rd        |                     |
+| Alain Hauser       | toLatex.numeric* | man/toLatex.numeric.Rd |                     |
+|                    |                  |                        |                     |
+| Lorenz Gygax       | p.res.2fact      | man/p.res.2fact.Rd     |                     |
+|                    |                  |                        |                     |
+| Kjetil Halvorsen   | ecdf.ksCI        | man/ecdf.ksCI.Rd       |                     |
+| Kjetil Halvorsen   | KSd              | man/KSd.Rd             | joint w MM          |
+|                    |                  |                        |                     |
+| Bill Venables      | empty.dimnames   | man/empty.dimnames.Rd  | + MM                |
+| Bill Venables      | primes           | man/primes.Rd          | + MM                |
+|                    |                  |                        |                     |
+| Tony Plate         | inv.seq          | man/inv.seq.Rd         |                     |
+| Markus Keller      | histBxp          | man/histBxp.Rd         |                     |
+|                    |                  |                        |                     |
+| Sandrine Dudoit,   |                  |                        | original, less      |
+| Jane Fridlyand     | diagDA           | man/diagDA.Rd          | optimized           |
+|                    |                  |                        |                     |
+| Greg Snow          | loessDemo        | man/loessDemo.Rd       |                     |
+| Henrik Aa. Nielsen | loessDemo        | man/loessDemo.Rd       |                     |
+| Vincent Carey      | mat2tex          | man/mat2tex.Rd         | 1991 (for S)        |
+| Ben Bolker         | pretty10exp      | man/pretty10exp.Rd     |                     |
+|                    |                  |                        |                     |
+| Philippe Grosjean  | last             | man/last.Rd            |                     |
+| Frédéric Ibanez    | last             | man/last.Rd            |                     |
+|                    |                  |                        |                     |
+|--------------------+------------------+------------------------+---------------------|
+| Caterina Savi      | u.Datumvonheute  | man/u.Datumvonheute.Rd | ((semi-deprecated)) |
+|--------------------+------------------+------------------------+---------------------|
+| Charles Geyer      | errbar           | man/errbar.Rd          | (semi-deprecated)   |
+| Jens Oehlschlägel  | nearcor          | man/nearcor.Rd         | _deprecated_        |
+|--------------------+------------------+------------------------+---------------------|
 
