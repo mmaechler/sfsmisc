@@ -170,17 +170,17 @@ histBxp <-
   ##						calls  p.hboxp(.) !
 
   ## determine the height of the plot
-  if(missing(breaks)){
-    if(missing(nclass))
-      h <- hist(x, probability = probability, include.lowest = include.lowest,
-		plot = FALSE)
+  h <-
+    if(missing(breaks)){
+      if(missing(nclass))
+        hist(x, include.lowest = include.lowest, plot = FALSE)
       else
-	h <- hist(x, nclass = nclass, probability = probability,
-		  include.lowest = include.lowest, plot = FALSE)
-  }
+	hist(x, nclass = nclass,
+             include.lowest = include.lowest, plot = FALSE)
+    }
     else
-      h <- hist(x, breaks = breaks, probability = probability,
-		include.lowest = include.lowest, plot = FALSE)
+        hist(x, breaks = breaks,
+             include.lowest = include.lowest, plot = FALSE)
   ymax <- max(h$counts)
   ymin <-  - ymax * width # range:  (-w,1)*ymax  instead of  (0,1)*ymax
 

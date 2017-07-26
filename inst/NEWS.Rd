@@ -11,6 +11,12 @@
       of a set of functions (and more) which all share the same environment.
     }
   }
+  \subsection{BUG FIXES}{
+    \itemize{
+      \item \code{histBxp()} no longer evokes a warning from
+      \code{hist.default()}.
+    }
+  }
 }
 
 \section{CHANGES in sfsmisc VERSION 1.1-1 [2017-06-08]}{

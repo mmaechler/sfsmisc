@@ -154,7 +154,7 @@ p.profileTraces <-
 
 ## --> /u/sfs/ueb/fortgeschrittene/loesungen/loes-rg.truthennen.R
 
-## mainly auxiliary of  hist.bxp() :
+## mainly auxiliary of  histBxp() [in ./misc-goodies.R ] :
 p.hboxp <- function(x, y.lo, y.hi, boxcol = 3, medcol = 2,
                     medlwd = 5, whisklty = 2, staplelty = 1)
 {

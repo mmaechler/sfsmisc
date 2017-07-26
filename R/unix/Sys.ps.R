@@ -1,7 +1,6 @@
 #### Martin Maechler, Aug.2000, originally in /u/maechler/R/MISC/ps.R
 
 ### --> ../../man/unix/Sys.ps.Rd to see more comments
-### --> ../../man/unix/Sys.ps.Rd to see more comments
 
 ## I would really like builtin   Sys.ps() for these
 
