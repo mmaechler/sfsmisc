@@ -1,7 +1,7 @@
 Package: sfsmisc
 Title: Utilities from 'Seminar fuer Statistik' ETH Zurich
 Version: 1.1-2
-Date: 2017-07-25
+Date: 2017-07-26
 Authors@R: c(person("Martin","Maechler", role=c("aut","cre"), email="maechler@stat.math.ethz.ch")
 	   , person("Werner", "Stahel", role = "ctb",
 	   	   comment = "Functions: compresid2way(), f.robftest(), last(), p.scales(), p.dnorm()")
@@ -39,11 +39,14 @@ Authors@R: c(person("Martin","Maechler", role=c("aut","cre"), email="maechler@st
 Maintainer: Martin Maechler <maechler@stat.math.ethz.ch>
 Description: Useful utilities ['goodies'] from Seminar fuer Statistik ETH Zurich,
   some of which were ported from S-plus in the 1990's.
-  Graphics:      Pretty (Log-scale) Axes, enhanced Tukey-Anscombe plot; histogram+boxplot,
-    	         2d-residual plots, 'tachoPlot'; pretty arrows, etc.
-  Robustness:    Robust F test; robust range
-  Miscellaneous: simple efficient prime numbers; integer codes; Duplicated(), is.whole()
-  Linux:         'Sys.*()' with more access to system and CPU information
+  For graphics, have pretty (Log-scale) axes, an enhanced Tukey-Anscombe
+  plot, combining histogram and boxplot, 2d-residual plots, a "tachoPlot",
+  pretty arrows, etc.
+  For robustness, have a robust F test and robust range().
+  For system support, notably on Linux, provides Sys.*() functions with
+  more access to system and CPU information.
+  Finally, miscellaneous utilities such as simple efficient prime numbers,
+  integer codes, Duplicated(), toLatex.numeric() and is.whole().
 Depends: R (>= 3.0.1)
 Imports: grDevices, methods, utils, stats
 Suggests: datasets, tcltk, cluster, lattice, MASS, Matrix, nlme, lokern
