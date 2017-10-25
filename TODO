@@ -1,6 +1,6 @@
 ##-*- org -*-
 
-* TODO in [[DESCRIPTION]], use Authors@R with Werner, Andreas, .., Alain, ..
+* TODO finish and export pkgLibs() R/unix/package-props.R
 * TODO New utilities for MASS::boxcox() "diagnostics", notably histogram nicely labeled
 ** --> ~/R/MM/Pkg-ex/microbenchmark/seq-mb.R
 ** Maybe ask Brian about willingness to improve:  boxcox(*, plotit=TRUE) looks nice,
@@ -32,5 +32,6 @@
     eaxis(1);eaxis(2)
 * TODO Work on R/approx2.R, for now [[approx2.R]] -- implement remaining "vectorized" part
 
+* DONE 2017-08-xx: in [[DESCRIPTION]], use Authors@R with Werner, Andreas, .., Alain, ..
 * DONE 2008-10-22: Copied  boxplot.matrix() to R-devel (2.9.0 to be)
    Remove this from 'sfsmisc' eventually.

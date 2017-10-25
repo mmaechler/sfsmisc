@@ -1,7 +1,7 @@
 Package: sfsmisc
 Title: Utilities from 'Seminar fuer Statistik' ETH Zurich
 Version: 1.1-2
-Date: 2017-07-26
+Date: 2017-10-25
 Authors@R: c(person("Martin","Maechler", role=c("aut","cre"), email="maechler@stat.math.ethz.ch")
 	   , person("Werner", "Stahel", role = "ctb",
 	   	   comment = "Functions: compresid2way(), f.robftest(), last(), p.scales(), p.dnorm()")

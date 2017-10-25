@@ -4,7 +4,7 @@
 \title{News for \R Package \pkg{sfsmisc}}
 \encoding{UTF-8}
 
-\section{CHANGES in sfsmisc VERSION 1.1-2 [2017-..-..]}{
+\section{CHANGES in sfsmisc VERSION 1.1-2 [2017-10-25]}{
   \subsection{NEW FEATURES}{
     \itemize{
       \item new \code{funEnv()} utility: \code{list()}-like construction
@@ -13,8 +13,9 @@
   }
   \subsection{BUG FIXES}{
     \itemize{
-      \item \code{histBxp()} no longer evokes a warning from
-      \code{hist.default()}.
+      \item \code{histBxp()} no longer evokes a warning from \code{hist.default()}.
+
+      \item \code{digitsBase(0)} now works.
     }
   }
 }

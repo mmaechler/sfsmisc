@@ -11,6 +11,7 @@ ee <- 0:30
 for(base in 2:64)
     stopifnot((be <- base^ee) > 0, any(ok <- be < 2^52),
 	      ee == floor(1e-9+ log(be, base)),
+              0 == as.integer(digitsBase(0, base=base)), # failed
 	      be[ok] == as.integer(digitsBase(be[ok], base=base)))
 ## failed, e.g. for 3^5, in sfsmisc <= 1.0-22
 
