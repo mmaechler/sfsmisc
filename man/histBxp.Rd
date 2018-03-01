@@ -91,7 +91,7 @@ histBxp(x, nclass, breaks, probability=FALSE, include.lowest=TRUE,
 
 \seealso{\code{\link{hist}}, \code{\link{barplot}},
   \code{\link{boxplot}}, \code{\link{rug}} and
-  \code{\link[Hmisc]{scat1d}} in the \pkg{Hmisc} package.
+  \code{\link[Hmisc]{scat1d}} in the \CRANpkg{Hmisc} package.
 }
 \examples{
  lab <- "50 samples from a t distribution with 5 d.f."

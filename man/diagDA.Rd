@@ -53,13 +53,13 @@ diagDA(ls, cll, ts, pool = TRUE)
 \author{% grep:   Sandrine Dudoit, Jane Fridlyand, and Martin Maechler
   Sandrine Dudoit, \email{sandrine@stat.berkeley.edu}  and\cr
   Jane Fridlyand, \email{janef@stat.berkeley.edu} originally wrote
-  \code{stat.diag.da()} in CRAN package \pkg{sma} which was modified
+  \code{stat.diag.da()} in CRAN package \CRANpkg{sma} which was modified
   for speedup by Martin Maechler \email{maechler@R-project.org}
   who also introduced \code{dDA} etc.
 }
 \seealso{\code{\link[MASS]{lda}} and \code{\link[MASS]{qda}} from the
-  \pkg{MASS} package;
-  \code{\link[e1071]{naiveBayes}} from \pkg{e1071}.
+  \CRANpkg{MASS} package;
+  \code{\link[e1071]{naiveBayes}} from \CRANpkg{e1071}.
 }
 \examples{
 ## two artificial examples by Andreas Greutert:

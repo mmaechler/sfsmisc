@@ -27,7 +27,9 @@ polyn.eval(coef, x)
 }
 \author{Martin Maechler, ages ago.}
 \seealso{For much more sophisticated handling of polynomials, use the
-  \code{polynom} package, e.g. \code{\link[polynom]{predict.polynomial}}.
+  \CRANpkg{polynom} package, see, e.g., \code{\link[polynom]{predict.polynomial}}.
+  For multivariate polynomials (and also for nice interface to the
+  \CRANpkg{orthopolynom} package), consider the \CRANpkg{mpoly} package.
 }
 \examples{
 polyn.eval(c(1,-2,1), x = 0:3)# (x - 1)^2

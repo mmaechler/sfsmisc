@@ -35,7 +35,7 @@ Duplicated(v, incomparables = FALSE, fromLast = FALSE, nomatch = NA_integer_)
 }
 \author{Christoph Buser and Martin Maechler, Seminar fuer Statistik, ETH
   Zurich, Sep.2007}
-\seealso{\code{\link{uniqueL}} (also in \pkg{sfsmisc});
+\seealso{\code{\link{uniqueL}} (also in this \pkg{sfsmisc} package);
   \code{\link{duplicated}}, \code{\link{match}}.
 }
 \examples{

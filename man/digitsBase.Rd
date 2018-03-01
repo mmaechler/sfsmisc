@@ -79,7 +79,7 @@ b2ch(cM) #->  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F 10 11 ... 6A
 ## IP (Internet Protocol) numbers coding:  <n>.<n>.<n>.<n>  <-->  longinteger
 ip_ntoa <- function(n)
         apply(digitsBase(n, base = 256), 2, paste, collapse=".")
-ip_ntoa(2130706430 + (0:9))# "126.255.255.254" ... "127.0.0.7" 
+ip_ntoa(2130706430 + (0:9))# "126.255.255.254" ... "127.0.0.7"
 ## and the inverse:
 ip_aton <- function(a)
         bi2int(lapply(strsplit(a, ".", fixed=TRUE), as.integer), 256)

@@ -45,7 +45,7 @@ posdefify(m, method = c("someEVadd", "allEVadd"),
 \author{Martin Maechler, July 2004}
 \note{As we found out, there are more sophisticated algorithms to solve
   this and related problems.  See the references and the
-  \code{\link[Matrix]{nearPD}()} function in the \pkg{Matrix} package.
+  \code{\link[Matrix]{nearPD}()} function in the \CRANpkg{Matrix} package.
 }
 \references{
   Section 4.4.2 of
@@ -71,7 +71,7 @@ posdefify(m, method = c("someEVadd", "allEVadd"),
   Science in the Faculty of Science and Engeneering.
 }
 \seealso{\code{\link{eigen}} on which the current methods rely.
-  \code{\link[Matrix]{nearPD}()} in the \pkg{Matrix} package.
+  \code{\link[Matrix]{nearPD}()} in the \CRANpkg{Matrix} package.
 }
 \examples{
  set.seed(12)

@@ -37,7 +37,7 @@ factorize(n, verbose = FALSE)
 \seealso{
   \code{\link{primes}}.
 
-  For factorization of moderately or really large numbers, see the \pkg{gmp}
+  For factorization of moderately or really large numbers, see the \CRANpkg{gmp}
   package, and its \code{\link[gmp]{factorize}()}.
 }
 \examples{

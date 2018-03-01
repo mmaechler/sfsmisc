@@ -25,7 +25,7 @@ errbar(x, y, yplus, yminus, cap = 0.015,
     be supplied as arguments to this function.}
 }
 \author{Originally Charles Geyer, U.Chicago, early 1991; then Martin Mächler.}
-\seealso{\code{\link[Hmisc]{errbar}} in package \pkg{Hmisc} is similar.
+\seealso{\code{\link[Hmisc]{errbar}} in package \CRANpkg{Hmisc} is similar.
 %% maybe deprecate ours?  FIXME
 }
 \examples{

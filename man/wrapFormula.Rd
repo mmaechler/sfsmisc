@@ -30,8 +30,8 @@ wrapFormula(f, data, wrapString = "s(*)")
 }
 \author{Martin Maechler, May 2007.}
 \seealso{\code{\link{formula}};
-  \code{\link[mgcv]{gam}} from package \pkg{mgcv} (or also from
-  package \pkg{gam}).
+  \code{\link[mgcv]{gam}} from package \CRANpkg{mgcv} (or also from
+  package \CRANpkg{gam}).
 }
 \examples{
 myF <- wrapFormula(Fertility ~ . , data = swiss)

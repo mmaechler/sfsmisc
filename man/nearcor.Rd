@@ -11,7 +11,7 @@
   \code{\link[polycor]{hetcor}}.
 
   It is \emph{deprecated} now, in favor of
-  \code{\link[Matrix]{nearPD}()} from package \pkg{Matrix}.% 2013-01-16
+  \code{\link[Matrix]{nearPD}()} from package \CRANpkg{Matrix}.% 2013-01-16
 }
 \usage{
 nearcor(R, eig.tol = 1e-06, conv.tol = 1e-07, posd.tol = 1e-08,

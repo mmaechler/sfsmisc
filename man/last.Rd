@@ -29,7 +29,7 @@ last(x, length.out = 1, na.rm = FALSE)
   function \code{\link{tail}()}.
 
   Useful for the \code{\link[pastecs]{turnogram}()} function in package
-  \pkg{pastecs}.
+  \CRANpkg{pastecs}.
 }
 
 \seealso{\code{\link[pastecs]{first}}, \code{\link[pastecs]{turnogram}}

@@ -4,11 +4,22 @@
 \title{News for \R Package \pkg{sfsmisc}}
 \encoding{UTF-8}
 
-\section{CHANGES in sfsmisc VERSION 1.1-2 [2017-10-25]}{
+%%% TODO:
+      %% \item New \code{rDatetime()} for random date/time sequences
+      %% within a specified time range.
+
+\section{CHANGES in sfsmisc VERSION 1.1-2 [2018-03-01]}{
   \subsection{NEW FEATURES}{
     \itemize{
       \item new \code{funEnv()} utility: \code{list()}-like construction
-      of a set of functions (and more) which all share the same environment.
+      of a set of functions (and more) which all share the same
+      environment.
+
+      \item Using \code{Authors@R} in \file{DESCRIPTION} and so finally
+      honor the many contributors by listing them.
+
+      \item Requiring R >= 3.2.0, so we can use \code{\\CRANpkg{.}} in
+      help files.
     }
   }
   \subsection{BUG FIXES}{
@@ -28,9 +39,6 @@
 
       \item \code{mult.fig()}'s default for \code{mgp} now adapts to a
       non-default value of \code{par("las")}.
-%%% TODO:
-      %% \item New \code{rDatetime()} for random date/time sequences
-      %% within a specified time range.
 
       \item \code{eaxis()} gets new options \code{axp} and \code{n.axp}
       for more flexible automatic tick marks.

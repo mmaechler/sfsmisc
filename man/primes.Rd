@@ -40,7 +40,7 @@ primes(n, pSeq = NULL)
   carefully working with logicals and integers.
 }
 \seealso{
-  \code{\link{factorize}}.  For large \eqn{n}, use the \pkg{gmp} package
+  \code{\link{factorize}}.  For large \eqn{n}, use the \CRANpkg{gmp} package
   and its \code{\link[gmp]{isprime}} and \code{\link[gmp]{nextprime}}
   functions.
 }

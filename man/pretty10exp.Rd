@@ -35,7 +35,7 @@ pretty10exp(x, drop.1 = FALSE, sub10 = FALSE, digits = 7, digits.fuzz,
     By default, (\code{\link{plotmath}}-compatible)
     \code{\link{expression}}s are returned. Alternatively,
     \code{lab.type = "plotmath"} returns LaTeX formatted strings for
-    labels.  (The latter is useful, e.g., when using the \pkg{tikzDevice}
+    labels.  (The latter is useful, e.g., when using the \CRANpkg{tikzDevice}
     package to generate LaTeX-processed figures.)}
   \item{lab.sep}{character separator between mantissa and exponent for
     LaTeX labels; it will be prepended with a backslash,

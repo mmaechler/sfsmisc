@@ -37,7 +37,7 @@ read.org.table(file, header = TRUE, skip = 0, fileEncoding = "", text, \dots)
   Org \emph{tutorial} for tables, \url{http://orgmode.org/worg/org-tutorials/tables.html}
 }
 \seealso{
-  CRAN package \pkg{ascii} % \CRANpkg{ascii} % <- needs R >= 3.2.0
+  CRAN package \CRANpkg{ascii} % \CRANpkg{ascii} % <- needs R >= 3.2.0
   can \emph{write} org tables.
   \code{\link{read.table}}
 }

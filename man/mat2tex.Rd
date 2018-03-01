@@ -39,7 +39,7 @@ mat2tex(x, file= "mat.tex", envir = "tabular",
   Martin Maechler \email{maechler@stat.math.ethz.ch}.
 }
 \seealso{
-  \code{\link[Hmisc]{latex}} in package \pkg{Hmisc} is more flexible
+  \code{\link[Hmisc]{latex}} in package \CRANpkg{Hmisc} is more flexible
   (but may surprise by its auto-printing ..).
 }
 \examples{
