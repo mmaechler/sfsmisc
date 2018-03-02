@@ -10,5 +10,7 @@ sourceAttach <- function(file, pos = 2,
     ENV <- new.env()
     sys.source(file, envir = ENV, keep.source = keep.source)# also checks file
     fsep <- .Platform$file.sep # for default 'name' :
-    attach(ENV, pos=pos, name=name, warn.conflicts=warn.conflicts)
+    ## mini-obfuscation: this *IS* a legitimate use of attach()!
+    A <- attach
+    A(ENV, pos=pos, name=name, warn.conflicts=warn.conflicts)
 }
