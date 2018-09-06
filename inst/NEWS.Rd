@@ -8,6 +8,14 @@
       %% \item New \code{rDatetime()} for random date/time sequences
       %% within a specified time range.
 
+\section{CHANGES in sfsmisc VERSION 1.1-3 [2018-..-..]}{
+  \subsection{Tweaks}{
+    \itemize{
+      \item \file{DESCRIPTION} update %% ridiculousplace holder  <<< FIXME
+    }
+  }
+}
+
 \section{CHANGES in sfsmisc VERSION 1.1-2 [2018-03-01]}{
   \subsection{NEW FEATURES}{
     \itemize{
