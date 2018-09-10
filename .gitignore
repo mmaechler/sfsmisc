@@ -5,3 +5,4 @@ TAGS
 vignettes/cache/*
 .Rproj.user
 .Rhistory
+/DESCRIPTION_Author
