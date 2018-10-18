@@ -11,12 +11,18 @@
 \section{CHANGES in sfsmisc VERSION 1.1-3 [2018-..-..]}{
   \subsection{Tweaks}{
     \itemize{
-      \item \file{DESCRIPTION} update %% ridiculousplace holder  <<< FIXME
+      \item \file{DESCRIPTION} update, contains ORCID.
+      \item \file{README.md} links to blog post on (17 yr old -> GH)
+    }
+  }
+  \subsection{BUG FIXES}{
+    \itemize{
+      \item \code{read.org.table()} thinko (\code{grep()}).
     }
   }
 }
 
-\section{CHANGES in sfsmisc VERSION 1.1-2 [2018-03-01]}{
+\section{CHANGES in sfsmisc VERSION 1.1-2 [2018-03-05]}{
   \subsection{NEW FEATURES}{
     \itemize{
       \item new \code{funEnv()} utility: \code{list()}-like construction
