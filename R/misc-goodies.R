@@ -1030,7 +1030,7 @@ read.org.table <- function(file, header = TRUE, skip = 0, fileEncoding = "", tex
     ll <- readLines(file)
     close(file); on.exit()
     ## drop |--------+---------+--------+--|  :
-    if(any(i <- grep("---+\\+--", ll[1:3]))) ll <- ll[-i]
+    if(length(i <- grep("---+\\+--", ll[1:3]))) ll <- ll[-i]
     ## drop beginning and ending "|" :
     ll <- sub("^ *\\|", "",
               sub("\\| *$", "", ll))
