@@ -81,9 +81,11 @@ set.seed(17); lx <- rlnorm(10, m=8, s=6)
 pretty10exp(lx, digits = 3)
 pretty10exp(lx, digits = 3, sub10 = 2)
 
-unlist(pretty10exp(lx, digits = 3, lab.type="latex"))
-unlist(pretty10exp(lx, digits = 3, lab.type="latex",
-                   lab.sep="times", sub10=2))
+pretty10exp(lx, digits = 3, lab.type="latex")
+pretty10exp(lx, digits = 3, lab.type="latex", lab.sep="times", sub10=2)
+
+pretty10exp(3*10^(-3:4), sub10 = c(-2,2))
+pretty10exp(3*10^(-3:4), sub10 = c(-2,2), lab.type = "l")
 
 \dontshow{
 stopifnot(identical(pretty10exp(numeric(0)), expression()))

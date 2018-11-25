@@ -26,12 +26,13 @@ pretty10exp <- function(x, drop.1 = FALSE, sub10 = FALSE,
     eT <- floor(log10(abs(x)) + 10^-digits) # x == 0 case is dealt with below
     mT <- signif(x / 10^eT, digits) # m[antissa]
     ss <- vector("list", length(x))
-    if(sub.10 <- !identical(sub10, FALSE)) {
-	if(identical(sub10, TRUE))
-	    sub10 <- c(0,0)
-	else if(identical(sub10, "10"))
-	    sub10 <- 0:1
-	sub10 <- as.integer(sub10)
+    if(sub.10 <- !isFALSE(sub10)) {
+	sub10 <- if(isTRUE(sub10))
+                     c(0L,0L)
+                 else if(identical(sub10, "10"))
+                     0:1
+                 else
+                     as.integer(sub10)
 	noE <-
 	    if(length(sub10) == 1) {
 		if(sub10 < 0)
@@ -55,8 +56,8 @@ pretty10exp <- function(x, drop.1 = FALSE, sub10 = FALSE,
 	do.call("expression", ss)
     } else { ## lab.type=="latex"
 	## TO DO: allow format specifier??
-	mTf <- format(mT)
-	eTf <- format(eT)
+	mTf <- formatC(mT, width=1)
+	eTf <- formatC(eT, width=1)
 	for(i in seq(along = x))
 	    ss[[i]] <-
 		if(x[i] == 0) ""
@@ -64,7 +65,7 @@ pretty10exp <- function(x, drop.1 = FALSE, sub10 = FALSE,
 		else if(drop.1 && mT[i] ==  1) sprintf("$10^{%s}$", eTf[i])
 		else if(drop.1 && mT[i] == -1) sprintf("$-10^{%s}$",eTf[i])
 		else sprintf("$%s \\%s 10^{%s}$", mTf[i], lab.sep,  eTf[i])
-	ss  ## perhaps unlist(ss) ?
+	unlist(ss)
     }
 }
 

@@ -8,7 +8,7 @@
       %% \item New \code{rDatetime()} for random date/time sequences
       %% within a specified time range.
 
-\section{CHANGES in sfsmisc VERSION 1.1-3 [2018-..-..]}{
+\section{CHANGES in sfsmisc VERSION 1.1-3 [2018-..-..]}{% << Sync w/ ../DESCRIPTION
   \subsection{Tweaks}{
     \itemize{
       \item \file{DESCRIPTION} update, contains ORCID.
@@ -18,6 +18,9 @@
   \subsection{BUG FIXES}{
     \itemize{
       \item \code{read.org.table()} thinko (\code{grep()}).
+
+      \item \code{pretty10exp(*, lab.type="latex")} works better,
+      notably for non-trivial \code{sub10}.
     }
   }
 }
