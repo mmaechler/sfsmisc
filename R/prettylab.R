@@ -7,8 +7,8 @@
 
 pretty10exp <- function(x, drop.1 = FALSE, sub10 = FALSE,
                         digits = 7, digits.fuzz,
-                        lab.type = c("plotmath","latex"),
-                        lab.sep = c("cdot","times"))
+                        lab.type = c("plotmath", "latex"),
+                        lab.sep = c("cdot", "times"))
 {
     ## Purpose: produce "a 10^k"  label expressions instead of "a e<k>"
     ## ----------------------------------------------------------------------
@@ -17,9 +17,6 @@ pretty10exp <- function(x, drop.1 = FALSE, sub10 = FALSE,
     ## Author: Martin Maechler, Date: 7 May 2004; 24 Jan 2006
 
     if(!missing(digits.fuzz)) {
-	if(!missing(digits))
-	    stop("No sense to specify both 'digits' and 'digits.fuzz'")
-	## Later: use warning():
 	message("'digits.fuzz' is deprecated; use 'digits' instead")
 	digits <- digits.fuzz
     }
