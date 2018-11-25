@@ -1006,7 +1006,9 @@ prt.DEBUG <- function(..., LEVEL = 1) {
 
 ##' @title Read an Emacs Org Table by read.table()
 ## --> ../man/read.org.table.Rd
-read.org.table <- function(file, header = TRUE, skip = 0, fileEncoding = "", text, ...) {
+read.org.table <- function(file, header = TRUE, skip = 0,
+                           encoding = "native", fileEncoding = "",
+                           text, ...) {
     ## file - text   handling --- cut'n'paste from read.table()'s header
     if (missing(file) && !missing(text)) {
 	file <- textConnection(text, encoding = "UTF-8")
@@ -1023,11 +1025,8 @@ read.org.table <- function(file, header = TRUE, skip = 0, fileEncoding = "", tex
         open(file, "rt")
         on.exit(close(file))
     }
-    if("encoding" %in% names(list(...)))
-       warning("'encoding' does not make sense here")
-
     if(skip > 0L) readLines(file, skip)
-    ll <- readLines(file)
+    ll <- readLines(file, encoding=encoding)
     close(file); on.exit()
     ## drop |--------+---------+--------+--|  :
     if(length(i <- grep("---+\\+--", ll[1:3]))) ll <- ll[-i]
@@ -1045,8 +1044,8 @@ read.org.table <- function(file, header = TRUE, skip = 0, fileEncoding = "", tex
     }
     ## drop empty lines at end only
     while(grepl("^ *$", tail(ll, 1L))) ll <- ll[-length(ll)]
-    f.ll <- textConnection(ll, encoding = "UTF-8")
+    f.ll <- textConnection(ll)# , encoding = "UTF-8"  is *NOT* good
     on.exit(close(f.ll))
     read.table(f.ll, header=FALSE, sep = "|",
-               col.names = col.names, encoding = "UTF-8", ...)
+               col.names = col.names, ...) # , encoding = "UTF-8" *not* good
 }

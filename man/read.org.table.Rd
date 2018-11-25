@@ -7,14 +7,20 @@
   %% Markdown formats for tables.
 }
 \usage{
-read.org.table(file, header = TRUE, skip = 0, fileEncoding = "", text, \dots)
+read.org.table(file, header = TRUE, skip = 0,
+               encoding = "native", fileEncoding = "", text, \dots)
 }
 \arguments{
   \item{file}{a file name, a \code{\link{file}} or other connection.}
   \item{header}{logical indicating if the org table has header line (in
     the usual \code{"|"}-separated org table format).}
   \item{skip}{integer number of initial lines to skip.}
-  \item{fileEncoding}{see \code{\link{read.table}}}
+  \item{encoding}{to be used in the main
+    \code{\link{readLines}(file, encoding=encoding)} call.}
+  \item{fileEncoding}{if \code{file} is a file name, i.e., a
+    \code{\link{character}} string, and \code{fileEncoding} is not the
+    empty string, \code{file(file, "rt", encoding = fileEncoding)} will
+    be used.}
   \item{text}{instead of \code{file}, a \code{\link{character}} or
     string (of a few lines, typically).}
   \item{\dots}{further arguments passed to \code{\link{read.table}}.

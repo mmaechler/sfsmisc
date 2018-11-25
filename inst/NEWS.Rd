@@ -18,6 +18,7 @@
   \subsection{BUG FIXES}{
     \itemize{
       \item \code{read.org.table()} thinko (\code{grep()}).
+      \item \code{read.org.table(*, encoding=)} notably to work for UTF-8 files.
 
       \item \code{pretty10exp(*, lab.type="latex")} works better,
       notably for non-trivial \code{sub10}.
