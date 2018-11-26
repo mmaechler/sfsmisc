@@ -84,6 +84,7 @@ pretty10exp(lx, digits = 3, sub10 = 2)
 pretty10exp(lx, digits = 3, lab.type="latex")
 pretty10exp(lx, digits = 3, lab.type="latex", lab.sep="times", sub10=2)
 
+## use regular formatted numbers from 0.03 to 300 :
 pretty10exp(3*10^(-3:4), sub10 = c(-2,2))
 pretty10exp(3*10^(-3:4), sub10 = c(-2,2), lab.type = "l")
 
