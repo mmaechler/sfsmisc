@@ -19,7 +19,7 @@ mat2tex <- function(x, file = "mat.tex", envir = "tabular",
     if(has.collabs <- !is.null(dn.x[[2]]))        collabs <- dn.x[[2]]
 
     ## produce column specification
-    stopifnot(any(nam.center == c("l","r","c")))
+    stopifnot(any(nam.center  ==  c("l","r","c")))
     stopifnot(all(col.center %in% c("l","r","c")))
     col.center <- rep(col.center, length = nc.x)
     colspec <- "{|"
@@ -44,7 +44,7 @@ mat2tex <- function(x, file = "mat.tex", envir = "tabular",
         cat(collabline, "\n", file = file, append = TRUE)
     }
     ## output matrix entries
-    options(digits = digits)
+    op <- options(digits = digits); on.exit(op)
     for(i in 1:nr.x) {
         thisline <-
             if(has.rowlabs)
