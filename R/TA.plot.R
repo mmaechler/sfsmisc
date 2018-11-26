@@ -11,15 +11,12 @@ n.plot <-
     xlabel <- if (!missing(x)) deparse(substitute(x))
     ylabel <- if (!missing(y)) deparse(substitute(y))
     xy <- xy.coords(x, y, xlabel, ylabel, log)
-    xlab <- if (is.null(xlab)) xy$xlab else xlab
-    ylab <- if (is.null(ylab)) xy$ylab else ylab
+    xlab <- xlab %||% xy$xlab
+    ylab <- ylab %||% xy$ylab
     plot(xy, type = 'n', xlab = xlab, ylab = ylab, log = log, ...)
     n <- length(x)
-    if(is.null(nam)) {  nam <- rownames(x)
-     if (is.null(nam)) { nam <- names(x)
-      if (is.null(nam)) { nam <- names(y)
-       if (is.null(nam)) { nam <- paste(1:n) #- Use 1,2,.. if no names
-    }}}}
+    ## Use "any names", otherwise take  1,2,.. :
+    nam <- nam %||% rownames(x) %||% names(x) %||% names(y) %||% as.character(seq_len(n))
     if(abbr) nam <- abbreviate(nam, minlength=1)
     text(xy, labels=nam, cex=cex, col=col)
     invisible(nam)
