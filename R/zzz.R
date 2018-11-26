@@ -3,6 +3,10 @@
 
 ## }
 
+##' return 'x' unless it is NULL where you'd use 'orElse'
+`%||%` <- function(x, orElse) if(!is.null(x)) x else orElse
+
+
 ## if(!exists("rep_len", mode = "function")) # old R version
 ##     rep_len <- function(x, length.out) rep(x, length.out=length.out)
 
@@ -12,6 +16,7 @@ if(getRversion() < "3.5") {
     ## in funEnv() -- see ../R/misc-goodies.R
     ...length <- function() eval(quote(length(list(...))), envir = parent.frame())
 
+    isTRUE  <- function(x) is.logical(x) && length(x) == 1L && !is.na(x) && x
     isFALSE <- function(x) is.logical(x) && length(x) == 1L && !is.na(x) && !x
 }
 
