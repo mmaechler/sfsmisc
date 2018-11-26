@@ -8,7 +8,7 @@
       %% \item New \code{rDatetime()} for random date/time sequences
       %% within a specified time range.
 
-\section{CHANGES in sfsmisc VERSION 1.1-3 [2018-..-..]}{% << Sync w/ ../DESCRIPTION
+\section{CHANGES in sfsmisc VERSION 1.1-3 [2018-11-26]}{% << Sync w/ ../DESCRIPTION
   \subsection{Tweaks}{
     \itemize{
       \item \file{DESCRIPTION} update, contains ORCID.
