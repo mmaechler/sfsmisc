@@ -74,7 +74,7 @@ chk <- function(y) {
   stopifnot(all.equal(sum(r2 ), S),
             all.equal(sum(r2.), S),
             all.equal(sum(r2_), S))
-  all(r2 == r2. && r2. == r2_) # TRUE if all give the same result
+  all(r2 == r2. & r2. == r2_) # TRUE if all give the same result
 }
 
 makeIntSum <- function(y) {
