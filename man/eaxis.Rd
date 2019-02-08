@@ -14,6 +14,7 @@
 eaxis(side, at = if(log) axTicks(side, axp=axp, log=log, nintLog=nintLog)
                  else    axTicks(side, axp=axp, log=log),
       labels = NULL, log = NULL,
+      use.expr = log || format.info(as.numeric(at), digits=7)[3] > 0,
       f.smalltcl = 3/5, at.small = NULL, small.mult = NULL,
       small.args = list(),
       draw.between.ticks = TRUE, between.max = 4,
@@ -35,6 +36,10 @@ eaxis(side, at = if(log) axTicks(side, axp=axp, log=log, nintLog=nintLog)
     used.  Use \code{FALSE} to suppress any labeling.}
   \item{log}{logical or \code{NULL} specifying if log-scale should be
     used; the default depends on the current plot's axis.}
+  \item{use.expr}{logical specifying if \code{\link{pretty10exp}(.)} should
+    be used for constructing \code{labels} when they are \code{NULL}.  The
+    default is typically good enough, but you may occasionally \emph{force}
+    \code{use.expr = TRUE}.}
   \item{f.smalltcl}{factor specifying the lengths of the small ticks in
     proportion to the normalsized, labeled ticks.}
   \item{at.small}{locations of \emph{small} ticks; the default,
@@ -156,3 +161,5 @@ par(op)
        eaxis(1, at = axt, labels = pretty10exp(10^axt, drop.1=TRUE, sub10 = c(-2, 2)))
 }
 \keyword{aplot}
+
+%  LocalWords:  axp nintLog

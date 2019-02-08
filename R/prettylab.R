@@ -91,6 +91,9 @@ axTexpr <- function(side, at = axTicks(side, axp=axp, usr=usr, log=log),
 eaxis <- function(side, at = if(log) axTicks(side, axp=axp, log=log, nintLog=nintLog)
                              else    axTicks(side, axp=axp, log=log),
                   labels = NULL, log = NULL,
+                  ## use expression (plotmath/latex) if 'log' or exponential format:
+                  use.expr = log || format.info(as.numeric(at), digits=7)[3] > 0,
+
                   f.smalltcl = 3/5, at.small = NULL, small.mult = NULL,
                   small.args = list(),
                   draw.between.ticks = TRUE, between.max = 4,
@@ -125,8 +128,6 @@ eaxis <- function(side, at = if(log) axTicks(side, axp=axp, log=log, nintLog=nin
 	     any(abs(diff(d)) > 1e-3 * mean(d))}) ## at	 is not equidistant
 	    at.small <- FALSE
     }
-    ## use expression (i.e. plotmath/latex) if 'log' or exponential format:
-    use.expr <- log || format.info(as.numeric(at), digits=7)[3] > 0
     if(is.null(labels))
 	labels <- if(use.expr) {
             pretty10exp(at, drop.1=drop.1, sub10=sub10,
