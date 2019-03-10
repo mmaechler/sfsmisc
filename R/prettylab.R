@@ -80,7 +80,7 @@ axTexpr <- function(side, at = axTicks(side, axp=axp, usr=usr, log=log),
 
 ### TODO:
 ###
-### Myaxis(.)  function with at least two options ("engineering/not")
+### My axis(.)  function with at least two options ("engineering/not")
 ### Really wanted: allow   xaxt = "p" (pretty) or "P" (pretty, "Engineer")
 ### FIXME(2):  max.at is only needed because  axTicks() is sometimes too large
 ### FIXME(3): ??  axisTicks() instead of axTicks():
@@ -123,18 +123,17 @@ eaxis <- function(side, at = if(log) axTicks(side, axp=axp, log=log, nintLog=nin
 	if(max.at < 1) stop("'max.at' must be >= 1")
 	at <- quantile(at, (0:max.at)/max.at, names = FALSE,
 		       type = 3) ## <-- ensure that order statistics are used
-	if(!log && is.null(at.small) &&
-	   { d <- diff(at)
-	     any(abs(diff(d)) > 1e-3 * mean(d))}) ## at	 is not equidistant
+	if(!log && is.null(at.small) && { d <- diff(at)
+            any(abs(diff(d)) > 1e-3 * mean(d)) }) # at is not equidistant :
 	    at.small <- FALSE
     }
     if(is.null(labels))
 	labels <- if(use.expr) {
-            pretty10exp(at, drop.1=drop.1, sub10=sub10,
-                        lab.type=lab.type, lab.sep=lab.sep)
-        } else if(lab.type == "latex")
-            paste("$", at, "$", sep="")
-        else TRUE
+                      pretty10exp(at, drop.1=drop.1, sub10=sub10,
+                                  lab.type=lab.type, lab.sep=lab.sep)
+                  } else if(lab.type == "latex")
+                      paste("$", at, "$", sep="")
+                  else TRUE
     else if(length(labels) == 1 && is.na(labels)) # no 'plotmath'
 	labels <- TRUE
     axis(side, at = at, labels = labels, las=las, ...)

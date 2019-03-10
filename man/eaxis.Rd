@@ -51,7 +51,7 @@ eaxis(side, at = if(log) axTicks(side, axp=axp, log=log, nintLog=nintLog)
     \dQuote{small ticks}.  The default \code{NULL} will use \code{9} in
     the log case and a number in 2:5 otherwise.}% depending on scale details
   \item{small.args}{optional \code{\link{list}} of further arguments to
-    the \code{\link{axis}()} call which draws the small ticks.}
+    the (second) \code{\link{axis}()} call which draws the \emph{small} ticks.}
   \item{draw.between.ticks}{(only if \code{log} is true): logical indicating
     that possible (non-small) ticks between the labeled (via \code{at})
     ones should be drawn as well (and possibly also used for \code{at.small}
