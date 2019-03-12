@@ -6,11 +6,12 @@ sessionInfoX <- function(pkgs=NULL, list.libP = FALSE, extraR.env = TRUE) {
     si <- sessionInfo()
     Rver <- package_version(si$R.version)
     isRshared <- (.Platform $ OS.type == "windows") || {
-        ## works on Linux;  what about others, notably Mac ?
-        ldd.s <- try(system(paste("ldd", R.home("bin/exec/R"), "| head -5"), intern=TRUE))
-        ## If in doubt, here assume  R executable is linked to libR.{so,dylib} , i.e., "shared"
-        inherits(ldd.s, "try-error") || is.null(ldd.s) || is.na(ldd.s) ||
-            any(grepl(paste0("^.?libR", .Platform$dynlib.ext), ldd.s))
+	## works on Linux;  what about others, notably Mac ?
+	ldd.s <- try(system(paste("ldd", R.home("bin/exec/R"), "| head -5"), intern=TRUE))
+	## If in doubt (error etc), assume
+	## R executable to be linked to libR.{so,dylib} , i.e., "shared" :
+	inherits(ldd.s, "try-error") || is.null(ldd.s) || anyNA(ldd.s) ||
+	    any(grepl(paste0("^.?libR", .Platform$dynlib.ext), ldd.s))
     }
     structure(class = "sessionInfoX",
         list(sInfo  = si,
@@ -19,7 +20,7 @@ sessionInfoX <- function(pkgs=NULL, list.libP = FALSE, extraR.env = TRUE) {
 	     extSoft = if(Rver >= "3.2.0") extSoftVersion(),
 	     LAPACK  = if(Rver >= "3.0.3") La_version(),
 	     pcre    = if(Rver >= "3.1.3") pcre_config(),
-             isRshared = isRshared,
+	     isRshared = isRshared,
              pkgDescr = if(!is.null(pkgs)) sapply(pkgs, packageDescription, simplify=FALSE),
              libPath = lP, .Library = .Library, RLIBS = RLIBS, n.RLIBS = nRL,
              list.libP = if(list.libP) sapply(lP, list.files, simplify=FALSE),
@@ -49,7 +50,7 @@ print.sessionInfoX <- function(x, locale = TRUE, RLIBS = TRUE, Renv = TRUE, ...)
         print(structure(x$extSoft, class="Dlist"), ...)
     }
     if(!is.null(x$pcre))
-	cat("\nPCRE (regex) config.: ",
+	cat("\nPCRE (regex) config.:",
 	    sub("^c", "", deparse(x$pcre, width.cutoff=99)), "\n")
     cat("R executable linked against libR.* ['is R shared']:", x$isRshared, "\n")
     cat("\n")
