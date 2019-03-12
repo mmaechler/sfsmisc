@@ -49,7 +49,7 @@ print.sessionInfoX <- function(x, locale = TRUE, RLIBS = TRUE, Renv = TRUE, ...)
         print(structure(x$extSoft, class="Dlist"), ...)
     }
     if(!is.null(x$pcre))
-	cat("\nPCRE (regex) config.: "
+	cat("\nPCRE (regex) config.: ",
 	    sub("^c", "", deparse(x$pcre, width.cutoff=99)), "\n")
     cat("R executable linked against libR.* ['is R shared']:", x$isRshared, "\n")
     cat("\n")
