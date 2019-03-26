@@ -8,7 +8,7 @@ importFrom("graphics", abline, arrows, axTicks, axis, axis.POSIXct,
 
 importFrom("stats",
 	   IQR, approx, as.formula, as.ts, dchisq, dgamma, density.default,
-	   dnorm, dummy.coef, ecdf, end, fitted, formula, is.ts,
+	   dnorm, dummy.coef, ecdf, end, fitted, formula, getCall, is.ts,
 	   lm, lowess, loess, loess.control,
 	   mad, median, model.frame, na.exclude, na.omit, napredict,
 	   pchisq, pf, plot.ts, predict, qchisq, qgamma, qnorm, qt, quantile,

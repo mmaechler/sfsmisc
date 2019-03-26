@@ -47,7 +47,7 @@ TA.plot <-
   ## -------------------------------------------------------------------------
   ## Author: Martin Maechler, Date: Dec 92 / Nov.93;  for R: 1999/2000
   if(missing(main)) {
-    call <- lm.res $ call
+    call <- getCall(lm.res)
     if(is.call(call[["formula"]]) && any(c("lm", "aov") == call[[1]]))
       call <- call[["formula"]]
     else {  #-- only formula part; no extra  'data ='
@@ -78,8 +78,9 @@ TA.plot <-
       n.plot(fit, res, nam = labels, xlab = xlab, main = main, ...)
   } else {
       yl <- "Residuals"
-      if(!is.null(lm.res$weights) &&
-         any(abs(lm.res$resid- res) > 1e-6*mad(res)))
+      ## FIXME $weights, $resid -- not portable (e.g., to lmer obj!) ==> use extractors?
+      if(is.list(lm.res) && !is.null(lm.res$weights) && is.numeric(res0 <- lm.res$resid) &&
+         any(abs(res0 - res) > 1e-6*mad(res)))
           yl <- paste("WEIGHTED", yl)
       n.plot(fit, res, nam = labels, xlab = xlab, ylab = yl, main = main, ...)
   }
@@ -105,7 +106,7 @@ TA.plot <-
     if(!is.list(parSmooth)) stop("`parSmooth' must be a list")
     ##-- lo.iter: idea of Werner Stahel:  no robustness for 'glm'  residuals
     if (is.null(lo.iter))
-      lo.iter <- if(inherits(lm.res, "glm")&& lm.res$family[1]!="Gaussian")
+      lo.iter <- if(inherits(lm.res, "glm") && family(lm.res)$family[1] != "Gaussian")
 	0  else  3
     f <- max(0.2, 1.25 * n^-.2) #'-- Martin's very empirical formula...
     rlow <- lowess(fit, res, f = f, iter = lo.iter)

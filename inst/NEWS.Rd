@@ -17,6 +17,8 @@
       \item \code{sessionInfoX()} now also returns an element
       \code{isRshared}, and its \code{print()} method prints that and the
       \code{pcre_config()} information on the PCRE.
+
+      \item \code{TAplot()} now also works for \code{lmer()} results.
     }
   }
   \subsection{BUG FIXES}{
