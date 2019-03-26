@@ -28,6 +28,7 @@ stopifnot(pcl == diagDA(train,cl, test, pool = FALSE))
                                         # i.e. quadratic identical here
 
 ### Test 'NA' in predict dat.fr
+RNGversion("3.5.0")# -- so w/ sample() still stays unchanged:
 set.seed(753)
 itr <- sample(n, 0.9 * n)
 lrn <- m.iris[ itr,]
