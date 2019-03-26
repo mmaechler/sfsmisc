@@ -18,7 +18,8 @@
       \code{isRshared}, and its \code{print()} method prints that and the
       \code{pcre_config()} information on the PCRE.
 
-      \item \code{TAplot()} now also works for \code{lmer()} results.
+      \item \code{TA.plot()} now also works for \code{lmer()} results
+      (\code{S4} objects, not \code{list}s).
     }
   }
   \subsection{BUG FIXES}{
