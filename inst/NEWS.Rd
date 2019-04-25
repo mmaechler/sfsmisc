@@ -7,12 +7,12 @@
 %%% TODO:
       %% \item New \code{rDatetime()} for random date/time sequences
       %% within a specified time range.
-\section{CHANGES in sfsmisc VERSION 1.1-4 [2019-03-11]}{% << Sync w/ ../DESCRIPTION
+\section{CHANGES in sfsmisc VERSION 1.1-4 [2019-04-25]}{% << Sync w/ ../DESCRIPTION
   \subsection{NEW FEATURES}{
     \itemize{
       \item \code{eaxis()} gets new optional argument \code{use.expr} in
-      order force use of \code{pretty10exp()} (in a non-log case where
-      non-exponential format would be used).
+      order to force use of \code{pretty10exp()} in a non-log case where
+      non-exponential format would be used.
 
       \item \code{sessionInfoX()} now also returns an element
       \code{isRshared}, and its \code{print()} method prints that and the
@@ -20,11 +20,6 @@
 
       \item \code{TA.plot()} now also works for \code{lmer()} results
       (\code{S4} objects, not \code{list}s).
-    }
-  }
-  \subsection{BUG FIXES}{
-    \itemize{
-      \item [none yet]
     }
   }
 }

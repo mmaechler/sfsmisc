@@ -1,5 +1,5 @@
 
-R version 3.5.3 Patched (2019-03-11 r76268) -- "Great Truth"
+R Under development (unstable) (2019-04-24 r76419) -- "Unsuffered Consequences"
 Copyright (C) 2019 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
@@ -61,6 +61,9 @@ pcl  1  2  3
 > 
 > ### Test 'NA' in predict dat.fr
 > RNGversion("3.5.0")# -- so w/ sample() still stays unchanged:
+Warning message:
+In RNGkind("Mersenne-Twister", "Inversion", "Rounding") :
+  non-uniform 'Rounding' sampler used
 > set.seed(753)
 > itr <- sample(n, 0.9 * n)
 > lrn <- m.iris[ itr,]
