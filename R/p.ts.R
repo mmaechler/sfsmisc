@@ -50,18 +50,16 @@ p.ts <-
     else {                              # nrplots >= 2 :
         if(n <= 1) stop("`x' must have at least two points!")
         if(!is.ts(x)) x <- as.ts(x)
-        ##-  do.dates <- !is.null(class(x)) && class(x) == "cts"
+        ##-  do.dates <- inherits(x, "cts")
         ##-  if(do.dates) x <- as.rts(x)# dates() as below fails [S+ 3.4]
         ## NB: end() and start() are of length 1 _or_ 2 (!)
         scal <- (end(x) - (t1 <- start(x))) / (n-1)
         nk <- n %/% nrplots
         if(is.null(ylim))
             ylim <- range(pretty(range(x, na.rm = TRUE)))
-        ##    --------
         if(!quiet)
             Form <- function(x)
-                paste("(",paste(formatC(x, digits=6, width=1), collapse=", "),
-                      ")",sep='')
+                paste0("(",paste(formatC(x, digits=6, width=1), collapse=", "), ")")
         pp <- mult.fig(mfrow=c(nrplots,1), main = main.tit,
                        mgp = mgp, marP = c(-1,-1,-2,0))
         on.exit(par(pp $ old.par))
