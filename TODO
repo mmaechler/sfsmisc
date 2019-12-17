@@ -1,5 +1,6 @@
 ##-*- org -*-
-
+* TODO  more to sessionInfoX(); chk openBLAS etc, see more moreSessionInfo() in robustbase,
+  ~/R/Pkgs/robustbase/inst/xtraR/platform-sessionInfo.R
 * TODO finish and export pkgLibs() R/unix/package-props.R
 * TODO New utilities for MASS::boxcox() "diagnostics", notably histogram nicely labeled
 ** --> ~/R/MM/Pkg-ex/microbenchmark/seq-mb.R

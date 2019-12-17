@@ -7,6 +7,15 @@
 %%% TODO:
       %% \item New \code{rDatetime()} for random date/time sequences
       %% within a specified time range.
+\section{CHANGES in sfsmisc VERSION 1.1-5 [2019-..-..]}{
+  \subsection{Tweaks}{
+    \itemize{
+      \item replace \code{class(.) != ".."} in a \emph{comment}, just for
+      source code purity ;-)
+    }
+  }
+}
+
 \section{CHANGES in sfsmisc VERSION 1.1-4 [2019-04-25]}{% << Sync w/ ../DESCRIPTION
   \subsection{NEW FEATURES}{
     \itemize{
