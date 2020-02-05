@@ -1,8 +1,7 @@
 
-R version 2.15.2 beta (2012-10-16 r60951) -- "Trick or Treat"
-Copyright (C) 2012 The R Foundation for Statistical Computing
-ISBN 3-900051-07-0
-Platform: x86_64-unknown-linux-gnu (64-bit)
+R Under development (unstable) (2020-02-04 r77771) -- "Unsuffered Consequences"
+Copyright (C) 2020 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -52,28 +51,33 @@ Type 'q()' to quit R.
 +                0.826, 0.75,  0.742, 0.8,   0.798, 1),
 +              nrow = 6, ncol = 6)
 > 
-> nc. <- nearcor(pr, conv.tol = 1e-7) # default
-> nc.$iterations # 11
-[1] 11
-> str(ncr <- nearcor(pr, conv.tol = 1e-15))# 27 iterations (because of conv.tol)!
-List of 4
- $ cor       : num [1:6, 1:6] 1 0.488 0.643 0.491 0.644 ...
- $ fnorm     : num 0.0744
- $ iterations: num 28
- $ converged : logi TRUE
- - attr(*, "class")= chr "nearcor"
-> nr <- ncr$cor
+> nc.  <- nearcor(pr, conv.tol = 1e-7)  # default, 11 iter.
+> ncr  <- nearcor(pr, conv.tol = 1e-15) # 27-28 iterations (because of conv.tol)!
 > ncr0 <- nearcor(pr, conv.tol = 1e-15, posd.tol = 0)# -> no posdefify step
-> nr0 <- ncr0$cor
+> parts <- setdiff(names(nc.), "iterations")
+> str(ncr [parts])
+List of 3
+ $ cor      : num [1:6, 1:6] 1 0.488 0.643 0.491 0.644 ...
+ $ fnorm    : num 0.0744
+ $ converged: logi TRUE
+> str(ncr0[parts])# looks identical (with few digits accuracy)
+List of 3
+ $ cor      : num [1:6, 1:6] 1 0.488 0.643 0.491 0.644 ...
+ $ fnorm    : num 0.0744
+ $ converged: logi TRUE
+> nr <- ncr$cor
 > 
-> stopifnot(
+> stopifnot(exprs = {
++     nc.$iterations == 11
 +     all.equal(nr[lower.tri(nr)],
 + 	      c(0.48796803265083, 0.64265188295401, 0.49063868812228, 0.64409905497094,
 + 		0.80871120142824, 0.51411473401472, 0.25066882763262, 0.67235131534931,
 + 		0.72583206922437, 0.59682778611131, 0.58219178154582, 0.7449631866236,
-+ 		0.72988206459063, 0.77215024062758, 0.81319175546212), tol = 1e-12))
-> 
++ 		0.72988206459063, 0.77215024062758, 0.81319175546212), tol = 1e-12)
++     ncr$iterations %in% 27:28
++     all.equal(ncr, ncr0, tolerance = 6e-6)# seen 6.6676e-7
++ })
 > 
 > proc.time()
    user  system elapsed 
-  0.180   0.032   0.205 
+  0.144   0.041   0.239 

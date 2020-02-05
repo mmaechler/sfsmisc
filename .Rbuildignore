@@ -13,6 +13,7 @@ NOTES-I-know
 .*-ss
 .*mail
 .*-log
+sfsmisc.*\.out
 .*-used-grep
 man/.*\.d$
 SfS-changes
@@ -20,3 +21,4 @@ Done
 approx2.R
 Unused.R
 inst/doc/CHANGES-dummy
+
