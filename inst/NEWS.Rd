@@ -7,11 +7,17 @@
 %%% TODO:
       %% \item New \code{rDatetime()} for random date/time sequences
       %% within a specified time range.
-\section{CHANGES in sfsmisc VERSION 1.1-5 [2019-..-..]}{
+\section{CHANGES in sfsmisc VERSION 1.1-5 [2020-02-05]}{
   \subsection{Tweaks}{
     \itemize{
       \item replace \code{class(.) != ".."} in a \emph{comment}, just for
       source code purity ;-)
+    }
+  }
+  \subsection{BUG FIXES}{
+    \itemize{
+      \item Regression tests should not show differences, even when a
+      version of R crippled by \code{--no-long-double} is used.
     }
   }
 }
