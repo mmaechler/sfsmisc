@@ -1,4 +1,4 @@
-pkgLibs <- function(pkg) {
+pkgLibs <- function(pkg, cmd = "ldd") {
     stopifnot(is.character(pkg))
     lapply(setNames(pkg,
                     nm = vapply(pkg, function(p) system.file(package = p), " ")),
@@ -9,7 +9,7 @@ pkgLibs <- function(pkg) {
                    libs <- list.files(libD, full.names=TRUE)
                    lapply(setNames(libs, basename(libs)),
                           function(so) sub("^[ \t]*", "",
-                                           system(paste("ldd", so), intern=TRUE)))
+                                           system(paste(cmd, so), intern=TRUE)))
                    ##__TODO_ strsplit() into (2--)3 parts:
                    ##  "libgcc_s.so.1 => /usr/lib64/libgcc_s.so.1 (0x00007fe7ad090000)"
 
@@ -18,9 +18,15 @@ pkgLibs <- function(pkg) {
 }
 
 if(FALSE) {
-    ## Example:  "V8" is not working anymore in F26 when installed in Fedora F24
+    ip <- installed.packages() # can only look at installed pkgs
+    str(ip)
 
-    pl <- pkgLibs(c("sfsmisc", "Rmpfr", "pcalg", "V8", "lme4"))
+    pkgs <- intersect(c("sfsmisc", "MASS", "Matrix", "nlme",
+                        "Rmpfr", "pcalg", "V8", "lme4", "round"),
+                      ip)
+    pkgs
+
+    pl <- pkgLibs(pkgs) # needs  system("ldd" ..)  to work
     pl
     str(pl)
 

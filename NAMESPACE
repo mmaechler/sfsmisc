@@ -162,6 +162,8 @@ if(tools:::.OStype() == "unix") { ## those are inside R/unix/
     if(identical(1L, grep("linux", R.version[["os"]]))) { ##--- Linux - only ---
 	export("Sys.cpuinfo", "Sys.meminfo", "Sys.MIPS", "Sys.memGB")
     }
+
+    export("pkgLibs")
 }
 
 S3method(predict, dDA)

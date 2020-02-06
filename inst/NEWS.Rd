@@ -8,6 +8,12 @@
       %% \item New \code{rDatetime()} for random date/time sequences
       %% within a specified time range.
 \section{CHANGES in sfsmisc VERSION 1.1-5 [2020-02-06]}{
+  \subsection{NEW FEATURES}{
+    \itemize{
+      \item on Unix-alikes export new \code{pkgLibs()} utility even though
+      its API may change.
+    }
+  }
   \subsection{Tweaks}{
     \itemize{
       \item replace \code{class(.) != ".."} in a \emph{comment}, just for
