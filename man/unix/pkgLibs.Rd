@@ -1,10 +1,10 @@
 \name{pkgLibs}
 \alias{pkgLibs}
-\title{List Compiled Code Library Dependencies (on Unix-alikes)}
+\title{R Package Compiled Code Library Dependencies (on Unix-alikes)}
 \description{
-  List some system level information about compiled code library
-  (dependencies) for \R packages with compiled code; only on Unix-alikes,
-  or when \code{cmd} is installed locally.
+  List some system level information about the compiled code library,
+  typically its dependencies, for \R packages with compiled code; for
+  Unix-alikes or more generally when \code{cmd} is installed locally.
 }
 \usage{
 pkgLibs(pkg, cmd = "ldd")
@@ -13,14 +13,19 @@ pkgLibs(pkg, cmd = "ldd")
   \item{pkg}{\code{\link{character}} vector of package names of
     \emph{installed} \R packages.}
   \item{cmd}{a \code{character} string with the name of an OS / system
-    level program that gives information about a shared library (of
-    compiled code), also known as \dQuote{DLL} (dynamic-link library) or
+    level program (to be called via \code{\link{system}(cmd, ..)}) which
+    gives information about the shared  library (of compiled code), also
+    known as \dQuote{DLL} (dynamically loadable library) or
     \dQuote{so} ((dynamic) shared object) library.  The default,
     \command{"ldd"} is a standard binary utility on Unix-alike platforms
     such as Linux or macOS.}
 }
-%% \details{
-%% }
+\details{
+  Note that there seems some language confusion as \dQuote{DLL} on Windows
+  is \emph{also} used for \dQuote{Dynamic-link Library} and Wikipedia warns about
+  confusing the two concepts (\dQuote{dynamically loaded ..} vs
+  \dQuote{dynamic-link ..}).
+}
 \value{
   a named \code{\link{list}} with one entry per package in \code{pkg}, the
   \code{\link{names}} being the directory / folder names of the
@@ -30,8 +35,11 @@ pkgLibs(pkg, cmd = "ldd")
   you should not rely on its exact format for now.
 }
 \references{
-  Dynamic-link Library on Wikipedia,
-  \url{https://en.wikipedia.org/wiki/Dynamic-link_library}
+  Dynamic Loading Library on Wikipedia,
+  \url{https://en.wikipedia.org/wiki/Dynamic_Loading}
+
+  On Windows, DLL is also used for Dynamic-link library,
+  \url{https://en.wikipedia.org/wiki/Dynamic-link_library}.
 
   \command{man ldd} from a terminal on a valid OS.
 }
