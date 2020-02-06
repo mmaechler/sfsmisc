@@ -35,10 +35,10 @@ pkgLibs(pkg, cmd = "ldd")
   you should not rely on its exact format for now.
 }
 \references{
-  Dynamic Loading Library on Wikipedia,
-  \url{https://en.wikipedia.org/wiki/Dynamic_Loading}
+  \sQuote{Dynamic Loading} on Wikipedia,
+  \url{https://en.wikipedia.org/wiki/Dynamic_loading}
 
-  On Windows, DLL is also used for Dynamic-link library,
+  On Windows, \dQuote{DLL} is also used for Dynamic-link library,
   \url{https://en.wikipedia.org/wiki/Dynamic-link_library}.
 
   \command{man ldd} from a terminal on a valid OS.
