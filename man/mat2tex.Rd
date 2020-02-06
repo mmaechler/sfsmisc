@@ -44,10 +44,11 @@ mat2tex(x, file= "mat.tex", envir = "tabular",
 }
 \examples{
 mex <- matrix(c(pi,pi/2,pi/4,exp(1),exp(2),exp(3)),nrow=2, byrow=TRUE,
-               dimnames = list(c("$\\\\pi$","$e$"),c("a","b","c")))
-mat2tex( mex, title="$\\\\pi, e$, etc." )% double-esc -> 4 x backslash
+               dimnames = list(c("$\\\\pi$","$e$"), c("a","b","c")))
+mat2tex(mex, file = print(tf <- tempfile("mat", , ".tex")),
+        title="$\\\\pi, e$, etc." )% double-esc -> 4 x backslash
 
-## The last command produces the file "mat.tex" containing
+## The last command produces the file "mat<xyz>.tex" containing
 
 ##>  \\begin{tabular} {| l|| c| c| c|}
 ##>  \\multicolumn{ 4 }{c}{ $\\pi, e$, etc. } \\\\ \\hline

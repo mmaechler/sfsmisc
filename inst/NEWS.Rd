@@ -7,7 +7,7 @@
 %%% TODO:
       %% \item New \code{rDatetime()} for random date/time sequences
       %% within a specified time range.
-\section{CHANGES in sfsmisc VERSION 1.1-5 [2020-02-05]}{
+\section{CHANGES in sfsmisc VERSION 1.1-5 [2020-02-06]}{
   \subsection{Tweaks}{
     \itemize{
       \item replace \code{class(.) != ".."} in a \emph{comment}, just for
@@ -18,11 +18,13 @@
     \itemize{
       \item Regression tests should not show differences, even when a
       version of R crippled by \code{--no-long-double} is used.
+
+      \item examples now use \code{tempfile()}.
     }
   }
 }
 
-\section{CHANGES in sfsmisc VERSION 1.1-4 [2019-04-25]}{% << Sync w/ ../DESCRIPTION
+\section{CHANGES in sfsmisc VERSION 1.1-4 [2019-04-25]}{
   \subsection{NEW FEATURES}{
     \itemize{
       \item \code{eaxis()} gets new optional argument \code{use.expr} in

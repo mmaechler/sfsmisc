@@ -39,16 +39,18 @@ pdf.end(call.viewer= NULL, command = getOption("pdfviewer"),
 \examples{
 if(interactive() \dontshow{ || Sys.getenv("USER") == "maechler" }
   ) {
-    ps.do("ex.ps")
+    myPS <- tempfile("ex", fileext = ".ps")
+    ps.do(myPS)
     data(sunspots)
     plot(sunspots)
     ps.end()
 
-    pdf.latex("ex-sun.pdf")
+    tempfile("ex-sun", fileext = ".pdf") -> myPDF
+    pdf.latex(myPDF)
     plot(sunspots)
     pdf.end(call. = FALSE) # basically the same as dev.off()
   }
-  ps.latex("ex2.eps")
+  ps.latex(tempfile("ex2", fileext = ".eps"))
   plot(sunspots)
   ps.end(call.gv = FALSE) # basically the same as dev.off()
 }
