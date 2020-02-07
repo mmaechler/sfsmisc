@@ -110,7 +110,7 @@ ps.do <- local({
 
   if(is.null(title))
       title <- paste("R", paste(R.version[c("major", "minor")], collapse = "."),
-		     "plot:", file)
+		     "plot:", basename(file))
   postscript(file = file, width = width, height = height, horizontal=horizontal,
 	     onefile = onefile, title = title, print.it = FALSE, ...)
 }## ps.do()
@@ -200,7 +200,7 @@ pdf.do <- local({
 
   if(is.null(title))
       title <- paste("R", paste(R.version[c("major", "minor")], collapse = "."),
-		     "plot:", file)
+		     "plot:", basename(file))
   ## default for 'paper' is now 'missing'
   pdf(file = file, version = version, paper = paper,
       width = width, height = height,
