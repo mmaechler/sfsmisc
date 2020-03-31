@@ -59,13 +59,15 @@ primes(n, pSeq = NULL)
       main = quote("The prime number function " ~ pi(n)))
  eaxis(1); eaxis(2)
 }
-## Exploring  p(n) := the n-th prime number :
+
+## Exploring  p(n) := the n-th prime number  ~=~ n * pnn(n), where
 ## pnn(n) := log n + log log n
 pnn <- function(n) { L <- log(n); L + log(L) }
 n <- 6:(N <- length(PR <- primes(1e5)))
 m.pn <- cbind(l.pn = ceiling(n*(pnn(n)-1)), pn = PR[n], u.pn = floor(n*pnn(n)))
 matplot(n, m.pn, type="l", ylab = quote(p[n]), main = quote(p[n] ~~
         "with lower/upper bounds" ~ n*(log(n) + log(log(n)) -(1~"or"~0))))
+## (difference to the lower approximation) / n   --> ~ 0.0426  (?) :
 plot(n, PR[n]/n - (pnn(n)-1), type = 'l', cex = 1/8, log="x", xaxt="n")
 eaxis(1); abline(h=0, col=adjustcolor(1, 0.5))
 }
