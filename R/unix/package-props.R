@@ -1,4 +1,4 @@
-pkgLibs <- function(pkg, cmd = "ldd") {
+pkgLibs <- function(pkg, cmd = if(Sys.info()[["sysname"]] == "Darwin") "oTool -L" else "ldd") {
     stopifnot(is.character(pkg))
     lapply(setNames(pkg,
                     nm = vapply(pkg, function(p) system.file(package = p), " ")),

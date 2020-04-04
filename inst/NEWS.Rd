@@ -7,6 +7,21 @@
 %%% TODO:
       %% \item New \code{rDatetime()} for random date/time sequences
       %% within a specified time range.
+\section{CHANGES in sfsmisc VERSION 1.1-6 [2020-04-04]}{
+  %% \subsection{NEW FEATURES}{
+  %%   \itemize{
+  %%     \item
+  %%   }
+  %% }
+  \subsection{BUG FIXES}{
+    \itemize{
+      \item \code{pkgLibs()} now works on macOS, thanks to a hint by
+      Brian Ripley.
+    }
+  }
+}
+
+
 \section{CHANGES in sfsmisc VERSION 1.1-5 [2020-02-06]}{
   \subsection{NEW FEATURES}{
     \itemize{

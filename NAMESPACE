@@ -3,8 +3,12 @@ importFrom("grDevices", boxplot.stats, cairo_pdf,
 
 importFrom("graphics", abline, arrows, axTicks, axis, axis.POSIXct,
 	   boxplot, curve, frame, hist, lines, locator, matplot, mtext,
-	   par, plot, plot.new, points, polygon,
+	   par, plot.new, points, polygon,
 	   rug, segments, symbols, text, xyinch)
+
+if(getRversion() < "4.0.0")
+    importFrom("graphics", plot)
+
 
 importFrom("stats",
 	   IQR, approx, as.formula, as.ts, dchisq, dgamma, density.default,

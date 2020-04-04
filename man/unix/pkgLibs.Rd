@@ -7,7 +7,8 @@
   Unix-alikes or more generally when \code{cmd} is installed locally.
 }
 \usage{
-pkgLibs(pkg, cmd = "ldd")
+pkgLibs(pkg,
+        cmd = if(Sys.info()[["sysname"]] == "Darwin") "oTool -L" else "ldd")
 }
 \arguments{
   \item{pkg}{\code{\link{character}} vector of package names of
@@ -18,7 +19,7 @@ pkgLibs(pkg, cmd = "ldd")
     known as \dQuote{DLL} (dynamically loadable library) or
     \dQuote{so} ((dynamic) shared object) library.  The default,
     \command{"ldd"} is a standard binary utility on Unix-alike platforms
-    such as Linux or macOS.}
+    such as Linux.  On macOS, \command{"oTool -L"} is used by default.}
 }
 \details{
   Note that there seems some language confusion as \dQuote{DLL} on Windows
