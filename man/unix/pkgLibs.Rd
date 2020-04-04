@@ -8,7 +8,7 @@
 }
 \usage{
 pkgLibs(pkg,
-        cmd = if(Sys.info()[["sysname"]] == "Darwin") "oTool -L" else "ldd")
+        cmd = if(Sys.info()[["sysname"]] == "Darwin") "otool -L" else "ldd")
 }
 \arguments{
   \item{pkg}{\code{\link{character}} vector of package names of
