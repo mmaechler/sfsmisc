@@ -1,6 +1,6 @@
 Package: sfsmisc
 Title: Utilities from 'Seminar fuer Statistik' ETH Zurich
-Version: 1.1-6
+Version: 1.1-7
 Date: 2020-04-27
 Authors@R: c(person("Martin","Maechler", role=c("aut","cre"), email="maechler@stat.math.ethz.ch",
 	                                 comment = c(ORCID = "0000-0002-8685-9910"))
