@@ -93,8 +93,7 @@ eaxis <- function(side, at = if(log) axTicks(side, axp=axp, log=log, nintLog=nin
                   labels = NULL, log = NULL,
                   ## use expression (plotmath/latex) if 'log' or exponential format:
                   use.expr = log || format.info(as.numeric(at), digits=7)[3] > 0,
-
-                  f.smalltcl = 3/5, at.small = NULL, small.mult = NULL,
+                  f.smalltcl = 3/5, at.small = NULL, small.mult = NULL, equidist.at.tol = 0.002,
                   small.args = list(),
                   draw.between.ticks = TRUE, between.max = 4,
                   outer.at = TRUE, drop.1 = TRUE, sub10 = FALSE, las = 1,
@@ -124,7 +123,7 @@ eaxis <- function(side, at = if(log) axTicks(side, axp=axp, log=log, nintLog=nin
 	at <- quantile(at, (0:max.at)/max.at, names = FALSE,
 		       type = 3) ## <-- ensure that order statistics are used
 	if(!log && is.null(at.small) && { d <- diff(at)
-            any(abs(diff(d)) > 1e-3 * mean(d)) }) # at is not equidistant :
+            any(abs(diff(d)) > equidist.at.tol * mean(d)) }) # at is not equidistant :
 	    at.small <- FALSE
     }
     if(is.null(labels))
@@ -169,21 +168,23 @@ eaxis <- function(side, at = if(log) axTicks(side, axp=axp, log=log, nintLog=nin
 	    } else {
                 ## assumes that 'at' is equidistant
                 d <- diff(at <- sort(at))
-                if(any(abs(diff(d)) > 1e-3 * (dd <- mean(d))))
-                    stop("'at' is not equidistant")
-                if(is.null(small.mult)) {
-                    ## look at 'dd' , e.g. in {5, 50, 0.05, 0.02 ..}
-                    d. <- dd / 10^floor(log10(dd))
-                    small.mult <- {
-                        if(d. %% 5 == 0) 5
-                        else if(d. %% 4 == 0) 4
-                        else if(d. %% 2 == 0) 2
-                        else if(d. %% 3 == 0) 3
-                        else if(d. %% 0.5 == 0) 5
-                        else 2 }
+                if(any(abs(diff(d)) > equidist.at.tol * (dd <- mean(d))))
+                    FALSE ## 'at' is not equidistant"
+                else {
+                    if(is.null(small.mult)) {
+                        ## look at 'dd' , e.g. in {5, 50, 0.05, 0.02 ..}
+                        d. <- dd / 10^floor(log10(dd))
+                        small.mult <- {
+                            if(d. %% 5 == 0) 5
+                            else if(d. %% 4 == 0) 4
+                            else if(d. %% 2 == 0) 2
+                            else if(d. %% 3 == 0) 3
+                            else if(d. %% 0.5 == 0) 5
+                            else 2 }
+                    }
+                    outer(seq_len(small.mult-1)/small.mult * dd,
+                          c(if(outer.at) at[1]-dd, at), "+")
                 }
-                outer(1:(small.mult-1)/small.mult * dd,
-                      c(if(outer.at) at[1]-dd, at), "+")
             }
         ##
         if(outer.at) { # make sure 'at.small' remain inside "usr"

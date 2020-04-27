@@ -1,7 +1,7 @@
 \name{eaxis}
 \alias{eaxis}
 \title{Extended / Engineering Axis for Graphics}
-\description{
+\description{%% ---> ../R/prettylab.R
   An extended \code{\link[graphics]{axis}()} function which labels more
   prettily, in particular for log-scale axes.
 
@@ -15,7 +15,7 @@ eaxis(side, at = if(log) axTicks(side, axp=axp, log=log, nintLog=nintLog)
                  else    axTicks(side, axp=axp, log=log),
       labels = NULL, log = NULL,
       use.expr = log || format.info(as.numeric(at), digits=7)[3] > 0,
-      f.smalltcl = 3/5, at.small = NULL, small.mult = NULL,
+      f.smalltcl = 3/5, at.small = NULL, small.mult = NULL, equidist.at.tol = 0.002,
       small.args = list(),
       draw.between.ticks = TRUE, between.max = 4,
       outer.at = TRUE, drop.1 = TRUE, sub10 = FALSE, las = 1,
@@ -50,6 +50,9 @@ eaxis(side, at = if(log) axTicks(side, axp=axp, log=log, nintLog=nintLog)
     \code{at} (typically \code{\link{axTicks}()}) should be used as
     \dQuote{small ticks}.  The default \code{NULL} will use \code{9} in
     the log case and a number in 2:5 otherwise.}% depending on scale details
+  \item{equidist.at.tol}{a small positive number, a tolerance to be used
+    for checking equidistant \code{at} values.  Used to be hardwired at
+    \code{.001} which was seen to be too small; increase it when necessary.}
   \item{small.args}{optional \code{\link{list}} of further arguments to
     the (second) \code{\link{axis}()} call which draws the \emph{small} ticks.}
   \item{draw.between.ticks}{(only if \code{log} is true): logical indicating
