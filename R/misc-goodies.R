@@ -671,10 +671,7 @@ seqXtend <- function(x, length., method = c("simple","aim","interpolate"),
                     from = NULL, to = NULL)
 {
   ## Purpose: produce a seq(.) covering the range of 'x' and INCLUDING x
-  ## ----------------------------------------------------------------------
-  ## Arguments:
-  ## ----------------------------------------------------------------------
-  ## Author: Martin Maechler, Date: 28 Nov 2007, 11:09
+  ## Author: Martin Maechler, Date: 28 Nov 2007 =======> ../man/seqXtend.Rd
     x <- unique(sort(x))
     n <- length(x)
     method <- match.arg(method)
@@ -705,8 +702,9 @@ seqXtend <- function(x, length., method = c("simple","aim","interpolate"),
             ## now "round" the k1[] such that sum(.) remains == nn
             k <- roundfixS(k1) ## keep the right border, drop the left
             seqI <- function(i) seq(x[i], x[i+1], length.out=k[i]+2)[-1]
-            c(x[1], unlist(lapply(1:(n-1), seqI)))
-
+            l.seq <- lapply(1:(n-1), seqI)
+            ## do.call(c, *), e.g. for new (R-devel 4.1.x) c.Date() [KH]:
+            c(x[1], if(is.object(x)) do.call(c, l.seq) else unlist(l.seq))
         } else {
             nn <- switch(method, "simple" = length.,
                          "aim" = length. - n + from_is1 + from_isL)
