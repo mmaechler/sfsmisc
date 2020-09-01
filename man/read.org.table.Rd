@@ -38,9 +38,9 @@ read.org.table(file, header = TRUE, skip = 0,
   github issue if you are interested.
 }
 \references{
-  Org-Mode \emph{Manual} on tables, \url{http://orgmode.org/manual/Tables.html}
+  Org-Mode \emph{Manual} on tables, \url{https://orgmode.org/manual/Tables.html}
 
-  Org \emph{tutorial} for tables, \url{http://orgmode.org/worg/org-tutorials/tables.html}
+  Org \emph{tutorial} for tables, \url{https://orgmode.org/worg/org-tutorials/tables.html}
 }
 \seealso{
   CRAN package \CRANpkg{ascii} % \CRANpkg{ascii} % <- needs R >= 3.2.0

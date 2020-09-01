@@ -1,3 +1,15 @@
+isRshared <- function(platform = .Platform) {
+    platform$ OS.type == "windows" || {
+	## works on Linux;  what about others, notably Mac ?
+	ldd.s <- try(Rcmd(paste("ldd", R.home("bin/exec/R"), "| head -5"),
+			  stdout=TRUE))
+	## If in doubt (error etc), assume
+	## R executable to be linked to libR.{so,dylib} , i.e., "shared" :
+	inherits(ldd.s, "try-error") || is.null(ldd.s) || anyNA(ldd.s) ||
+	    any(grepl(paste0("^.?libR", platform$dynlib.ext), ldd.s))
+    }
+}
+
 sessionInfoX <- function(pkgs=NULL, list.libP = FALSE, extraR.env = TRUE) {
     ## return an object; then print() via method
     if(!is.null(pkgs)) stopifnot(is.character(pkgs), length(pkgs) > 0)
@@ -5,14 +17,6 @@ sessionInfoX <- function(pkgs=NULL, list.libP = FALSE, extraR.env = TRUE) {
     nRL <- normalizePath(RLIBS <- strsplit(Sys.getenv("R_LIBS"), ":")[[1]])
     si <- sessionInfo()
     Rver <- package_version(si$R.version)
-    isRshared <- (.Platform $ OS.type == "windows") || {
-	## works on Linux;  what about others, notably Mac ?
-	ldd.s <- try(system(paste("ldd", R.home("bin/exec/R"), "| head -5"), intern=TRUE))
-	## If in doubt (error etc), assume
-	## R executable to be linked to libR.{so,dylib} , i.e., "shared" :
-	inherits(ldd.s, "try-error") || is.null(ldd.s) || anyNA(ldd.s) ||
-	    any(grepl(paste0("^.?libR", .Platform$dynlib.ext), ldd.s))
-    }
     structure(class = "sessionInfoX",
         list(sInfo  = si,
              sysInf = Sys.info(),
@@ -20,7 +24,7 @@ sessionInfoX <- function(pkgs=NULL, list.libP = FALSE, extraR.env = TRUE) {
 	     extSoft = if(Rver >= "3.2.0") extSoftVersion(),
 	     LAPACK  = if(Rver >= "3.0.3") La_version(),
 	     pcre    = if(Rver >= "3.1.3") pcre_config(),
-	     isRshared = isRshared,
+	     isRshared = isRshared(),
              pkgDescr = if(!is.null(pkgs)) sapply(pkgs, packageDescription, simplify=FALSE),
              libPath = lP, .Library = .Library, RLIBS = RLIBS, n.RLIBS = nRL,
              list.libP = if(list.libP) sapply(lP, list.files, simplify=FALSE),

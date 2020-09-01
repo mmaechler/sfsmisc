@@ -29,5 +29,4 @@ if(FALSE) {
     pl <- pkgLibs(pkgs) # needs  system("ldd" ..)  to work
     pl
     str(pl)
-
 }

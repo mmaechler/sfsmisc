@@ -25,6 +25,8 @@ importFrom("utils", head, tail, toLatex, #<- S3 generics !
 	   capture.output, data, packageDescription, read.table,
 	   sessionInfo, str)
 
+importFrom("tools", Rcmd)
+
 ## Using "::" in code -> no need here:
 importFrom("methods", existsFunction)
 
@@ -73,6 +75,7 @@ export (
 	"ichar",
 	"integrate.xy",
 	"inv.seq",
+    isRshared,
 	"is.whole",
 	"iterate.lin.recursion",
 	"KSd",

@@ -1,7 +1,7 @@
 Package: sfsmisc
 Title: Utilities from 'Seminar fuer Statistik' ETH Zurich
-Version: 1.1-7
-Date: 2020-05-05
+Version: 1.1-8
+Date: 2020-09-01
 Authors@R: c(person("Martin","Maechler", role=c("aut","cre"), email="maechler@stat.math.ethz.ch",
 	                                 comment = c(ORCID = "0000-0002-8685-9910"))
 	   , person("Werner", "Stahel", role = "ctb",
@@ -39,7 +39,7 @@ Authors@R: c(person("Martin","Maechler", role=c("aut","cre"), email="maechler@st
  )
 Maintainer: Martin Maechler <maechler@stat.math.ethz.ch>
 Description: Useful utilities ['goodies'] from Seminar fuer Statistik ETH Zurich,
-   some of which were ported from S-plus in the 1990's.
+   some of which were ported from S-plus in the 1990s.
  For graphics, have pretty (Log-scale) axes, an enhanced Tukey-Anscombe
    plot, combining histogram and boxplot, 2d-residual plots, a 'tachoPlot()',
    pretty arrows, etc.
@@ -49,7 +49,7 @@ Description: Useful utilities ['goodies'] from Seminar fuer Statistik ETH Zurich
  Finally, miscellaneous utilities such as simple efficient prime numbers,
    integer codes, Duplicated(), toLatex.numeric() and is.whole().
 Depends: R (>= 3.2.0)
-Imports: grDevices, methods, utils, stats
+Imports: grDevices, methods, utils, stats, tools
 Suggests: datasets, tcltk, cluster, lattice, MASS, Matrix, nlme, lokern
 Enhances: mgcv, rpart, nor1mix, polycor, sm, tikzDevice
 Encoding: latin1
