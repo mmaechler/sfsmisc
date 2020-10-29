@@ -16,7 +16,7 @@ hatMat <- function(x, trace = FALSE,
         stop("`pred.sm' does not return a numeric length n vector")
     H <- if(trace) 0 else matrix(as.numeric(NA), n,n)
     for (i in 1:n) {
-        y <- numeric(n) ; y[i] <- 1
+        y <- numeric(n) ; y[i] <- 1 # y := e_i ; (e_i)_j = 1_[i=j]
         y <- pred.sm(x, y, ...)
         if(trace) H <- H + y[i] else H[,i] <- y
     }

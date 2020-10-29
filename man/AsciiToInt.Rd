@@ -68,24 +68,24 @@ $ch
 $place
 [1]  90 252 114 105  99 104
 }
- myloc <- Sys.getlocale()
 
-if(.Platform $ OS.type == "unix") { # ''should work'' here
+myloc <- Sys.getlocale()
+
+if(.Platform $ OS.type == "unix") withAutoprint({ # ''should work'' here
   try( Sys.setlocale(locale = "de_CH") )# "try": just in case
-  print(strcodes(c(a= "ABC", ch="1234", place = "Zürich"))) # no NA hopefully
-  print(AsciiToInt(chars8bit()))# -> 1:255  {if setting latin1 succeeded above}
+  strcodes(c(a= "ABC", ch="1234", place = "Zürich")) # no NA hopefully
+  AsciiToInt(chars8bit()) # -> 1:255  {if setting latin1 succeeded above}
 
-  print(chars8bit(97:140))
+  chars8bit(97:140)
   try( Sys.setlocale(locale = "de_CH.utf-8") )# "try": just in case
-  print(chars8bit(97:140)) ## typically looks different than above
-}
+  chars8bit(97:140) ## typically looks different than above
+})
 
 ## Resetting to original locale .. works "mostly":
 lapply(strsplit(strsplit(myloc, ";")[[1]], "="),
        function(cc) try(Sys.setlocale(cc[1], cc[2]))) -> .scratch
 
 Sys.getlocale() == myloc # TRUE if we have succeeded to reset it
-
 }
 \keyword{manip}
-%\keyword{utilities}
+
