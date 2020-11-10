@@ -7,7 +7,7 @@
 %%% TODO:
       %% \item New \code{rDatetime()} for random date/time sequences
       %% within a specified time range.
-\section{CHANGES in sfsmisc VERSION 1.1-8 [2020-09-xx]}{
+\section{CHANGES in sfsmisc VERSION 1.1-8 [2020-11-10]}{
   \subsection{NEW FEATURES}{
     \itemize{
       \item \code{isRshared()} has been \dQuote{factorized out} of
@@ -20,6 +20,8 @@
       \item \code{sessionInfoX()}'s \code{isRshared()} is now based on
       \code{tools::Rcmd()} instead of \code{system()}, so possibly slightly
       more portable.
+
+      \item Fixed not-yet--as-cran \file{NOTE} about undeclared packages in Rd xrefs.
     }
   }
 }
