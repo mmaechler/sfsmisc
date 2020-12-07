@@ -788,7 +788,7 @@ diagX <- function(n)
   ## Arguments: n: integer dimension of matrix
   ## ----------------------------------------------------------------
     m <- numeric(n * n)
-    m[1+ (n-1)* (1:n)] <- 1
+    m[1L+ (n-1L)* seq_len(n)] <- 1
     dim(m) <- c(n,n)
     m
 }
