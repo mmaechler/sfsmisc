@@ -7,12 +7,15 @@
 %%% TODO:
       %% \item New \code{rDatetime()} for random date/time sequences
       %% within a specified time range.
-\section{CHANGES in sfsmisc VERSION 1.1-8 [2020-11-10]}{
+\section{CHANGES in sfsmisc VERSION 1.1-8 [2021-01-06]}{
   \subsection{NEW FEATURES}{
     \itemize{
       \item \code{isRshared()} has been \dQuote{factorized out} of
       \code{sessionInfoX()}, as it maybe useful elsewhere, e.g., in
       \code{\link{Startup}} code setting \code{\link{.libPaths}()}.
+
+      \item New utilities \code{pkgDesc()} and \code{pkgBuilt()}, giving
+      named \code{character} result of \code{packageDescription()}.
     }
   }
   \subsection{BUG FIXES}{

@@ -122,6 +122,8 @@ export (
 	## "predict.dDA",
         ## "print.basedInt", "print.dDA", "print.margin2table",
 
+    pkgDesc, pkgBuilt,
+
 	"printTable2",
 	"prt.DEBUG",
 
