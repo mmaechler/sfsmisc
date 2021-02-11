@@ -40,8 +40,14 @@ str(pd <- pkgDesc("sfsmisc"))
 pd[c("Date","Packaged", "Built","file")]
 
 pkgBuilt("sfsmisc")
+
+## Show "Built" (and "file") for all packages whose namespaces are loaded:
+lNs <- loadedNamespaces()
+mlNs <- sapply(lNs, pkgBuilt)
+t(mlNs) # typically prints nicely
+
 pkgs <- c("grid", "lattice", "MASS", "Matrix", "nlme", "lme4", "sfsmisc")
-pkgs <- c("foobar", "barbar", pkgs, "kitty")
+pkgs <- c("foobar", "barbar", pkgs, "kitty") # + names that typically don't exist
 pkgsOk <- basename(find.package(pkgs, quiet=TRUE))
 mpkg <- sapply(pkgsOk, pkgBuilt)
 stopifnot(is.matrix(mpkg), nrow(mpkg) == 2)
