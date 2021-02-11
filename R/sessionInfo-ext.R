@@ -17,11 +17,16 @@ sessionInfoX <- function(pkgs=NULL, list.libP = FALSE, extraR.env = TRUE) {
     nRL <- normalizePath(RLIBS <- strsplit(Sys.getenv("R_LIBS"), ":")[[1]])
     si <- sessionInfo()
     Rver <- package_version(si$R.version)
+    ## typically the "same" [ setequal(.,.) ] as loadedNamespaces() :
+    pkgs <- c(si[["basePkgs"]],
+              unlist(lapply(si[c("otherPkgs", "loadedOnly")], names), use.names=FALSE))
     structure(class = "sessionInfoX",
         list(sInfo  = si,
              sysInf = Sys.info(),
 	     capabilities = capabilities(),
 	     extSoft = if(Rver >= "3.2.0") extSoftVersion(),
+	     grSoft  = if(Rver >= "3.2.0") grSoftVersion(),
+	     tclVersion=if(Rver >= "3.2.0" && "tcltk" %in% pkgs) tcltk::tclVersion(),
 	     LAPACK  = if(Rver >= "3.0.3") La_version(),
 	     pcre    = if(Rver >= "3.1.3") pcre_config(),
 	     isRshared = isRshared(),
@@ -53,6 +58,12 @@ print.sessionInfoX <- function(x, locale = TRUE, RLIBS = TRUE, Renv = TRUE, ...)
         cat("External software (versions):\n")
         print(structure(x$extSoft, class="Dlist"), ...)
     }
+    if(!is.null(x$grSoft)) {
+        cat("Graphical software (versions):\n")
+        print(structure(x$grSoft, class="Dlist"), ...)
+    }
+    if(!is.null(x$tclVersion))
+        cat("Tcl version:", x$tclVersion, "\n")
     if(!is.null(x$pcre))
 	cat("\nPCRE (regex) config.:",
 	    sub("^c", "", deparse(x$pcre, width.cutoff=99)), "\n")

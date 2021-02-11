@@ -7,7 +7,7 @@
 %%% TODO:
       %% \item New \code{rDatetime()} for random date/time sequences
       %% within a specified time range.
-\section{CHANGES in sfsmisc VERSION 1.1-8 [2021-01-06]}{
+\section{CHANGES in sfsmisc VERSION 1.1-8 [2021-02-11]}{
   \subsection{NEW FEATURES}{
     \itemize{
       \item \code{isRshared()} has been \dQuote{factorized out} of
@@ -16,6 +16,9 @@
 
       \item New utilities \code{pkgDesc()} and \code{pkgBuilt()}, giving
       named \code{character} result of \code{packageDescription()}.
+
+      \item \code{sessionInfoX()} now also reports \code{grSoftVersion()}
+      and, when \pkg{tcltk} is loaded, \code{tclVersion()}.
     }
   }
   \subsection{BUG FIXES}{

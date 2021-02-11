@@ -50,6 +50,9 @@ isRshared(platform = .Platform)
  \item{sysInf}{the value of \code{\link{Sys.info}()}.}
  \item{capabilities}{the value of \code{\link{capabilities}()}.}
  \item{extSoft}{for \R 3.2.0 and newer, the value of \code{\link{extSoftVersion}()}.}
+ \item{grSoft}{for \R 3.2.0 and newer, the value of \code{\link{grSoftVersion}()}.}
+ \item{tclVersion}{for \R 3.2.0 and newer and when \pkg{tcltk} is loaded,
+   the Tcl version (\code{\link[tcltk]{tclVersion}()}).}
  \item{LAPACK}{for \R 3.0.3 and newer, the value of \code{\link{La_version}()}.}
  \item{pcre}{for \R 3.1.3 and newer, the value of \code{\link{pcre_config}()}.}
  \item{pkgDescr}{If \code{pkgs} was non-empty, a named
