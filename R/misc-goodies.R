@@ -235,6 +235,8 @@ paste.vec <- function(name, digits = options()$digits)
 }
 signi <- function(x, digits = 6) round(x, digits - trunc(log10(abs(x))))
 
+##' NB:  Since ~ R 3.3.0 (May 2016),  use base R's "new"   strrep(x, times)  instead
+
 repChar <- function(char, no) paste(rep.int(char, no), collapse = "")
 ## correct, but slower than the next one:
 bl.string <- function(no) repChar(" ", no)

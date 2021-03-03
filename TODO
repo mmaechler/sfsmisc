@@ -1,4 +1,5 @@
 ##-*- org -*-
+* TODO *formally* deprecate repChar() and bl.string() in favor of R (>= 3.3.0)  strrep()
 * TODO  more to sessionInfoX(); chk openBLAS etc, see more moreSessionInfo() in robustbase,
   ~/R/Pkgs/robustbase/inst/xtraR/platform-sessionInfo.R
 * TODO finish and export pkgLibs() R/unix/package-props.R

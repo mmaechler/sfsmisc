@@ -7,7 +7,20 @@
 %%% TODO:
       %% \item New \code{rDatetime()} for random date/time sequences
       %% within a specified time range.
-\section{CHANGES in sfsmisc VERSION 1.1-8 [2021-02-11]}{
+\section{CHANGES in sfsmisc VERSION 1.1-9 [2021-03-03]}{
+  \subsection{NEW FEATURES}{
+    \itemize{
+      \item \code{sessionInfoX()} now also reports \code{grSoftVersion()}
+      and, when \pkg{tcltk} is loaded, \code{tclVersion()}.
+
+      %% partly TODO: not yet giving deprecation warning
+      \item \code{repChar()} is deprecated in favour of \R (>= 3.3.0)'s
+      \code{\link{strrep}()}.
+    }
+  }
+}
+
+\section{CHANGES in sfsmisc VERSION 1.1-8 [2021-01-06]}{
   \subsection{NEW FEATURES}{
     \itemize{
       \item \code{isRshared()} has been \dQuote{factorized out} of
@@ -16,9 +29,6 @@
 
       \item New utilities \code{pkgDesc()} and \code{pkgBuilt()}, giving
       named \code{character} result of \code{packageDescription()}.
-
-      \item \code{sessionInfoX()} now also reports \code{grSoftVersion()}
-      and, when \pkg{tcltk} is loaded, \code{tclVersion()}.
     }
   }
   \subsection{BUG FIXES}{
