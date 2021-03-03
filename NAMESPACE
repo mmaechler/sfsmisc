@@ -1,5 +1,9 @@
 importFrom("grDevices", boxplot.stats, cairo_pdf,
-	   dev.cur, dev.off, n2mfrow, pdf, postscript, xy.coords)
+	   dev.cur, dev.off
+         , grSoftVersion
+         , n2mfrow, pdf, postscript
+         , xy.coords)
+
 
 importFrom("graphics", abline, arrows, axTicks, axis, axis.POSIXct,
 	   boxplot, curve, frame, hist, lines, locator, matplot, mtext,
