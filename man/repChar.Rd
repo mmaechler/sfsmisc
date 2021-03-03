@@ -13,7 +13,7 @@
   \code{\link{strrep}()} was introduced; it is faster typically, and more
   flexible, e.g. accepting a \emph{vector} for the 2nd argument.
   \cr
-  This (for now informally) deprecates all uses of \code{{repChar()} and \code{bl.string()}
+  This (for now informally) deprecates all uses of \code{repChar()} and \code{bl.string()}.
 }
 \usage{
 repChar(char, no)
