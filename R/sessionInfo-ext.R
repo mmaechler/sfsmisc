@@ -94,3 +94,27 @@ print.sessionInfoX <- function(x, locale = TRUE, RLIBS = TRUE, Renv = TRUE, ...)
     print(x$sInf, locale=locale, ...)
     invisible(x)
 }
+
+shortRversion <- function(Rv = R.version,
+                          Rst = Rv$status,
+                          Rvstring = if(!is.null(s <- Rv$version.string))
+                                         ## in R 0.90.1 had no $version.string
+                                         s else R.version.string,
+                          date = Rst != "",
+                          spaces = TRUE)
+{
+    pat <- paste0("\\(", if(date) "([^)]+)" else "[0-9]{4}-[0-9]{2}-[0-9]{2} *(.+)",
+                  "\\)$")
+    r <-
+        if(Rst == "Under development (unstable)")
+            ## "R Under development (unstable) (2017-10-16 r73554)"
+            paste("R devel", sub(paste0(".*",pat), "\\1", Rvstring))
+        else if(Rst == "Patched") # "R version 3.4.2 Patched (2017-10-12 r73556)"
+            sub(pat, "\\1", sub(" version", "", Rvstring))
+        else if(Rst == "") # "R version 3.2.5 (2016-04-14)"  (regular release)
+            gsub(if(date) "[()]" else " \\(.*", "", sub(" version", "", Rvstring))
+        else
+            stop("invalid R.version $ status: ", sQuote(Rst))
+
+    if(spaces) r else gsub(" ", "_", sub("^R ", "R-", r))
+}

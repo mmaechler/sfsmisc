@@ -148,6 +148,7 @@ export (
 	"sHalton",
 	"seqXtend",
     sessionInfoX,
+    shortRversion,
 	"signi",
         "sourceAttach",
 	"strcodes",
