@@ -7,7 +7,7 @@
 %%% TODO:
       %% \item New \code{rDatetime()} for random date/time sequences
       %% within a specified time range.
-\section{CHANGES in sfsmisc VERSION 1.1-9 [2021-03-03]}{
+\section{CHANGES in sfsmisc VERSION 1.1-9 [2021-03-10]}{
   \subsection{NEW FEATURES}{
     \itemize{
       \item \code{sessionInfoX()} now also reports \code{grSoftVersion()}
@@ -16,6 +16,11 @@
       %% partly TODO: not yet giving deprecation warning
       \item \code{repChar()} is deprecated in favour of \R (>= 3.3.0)'s
       \code{\link{strrep}()}.
+
+      \item new \code{shortRversion()} (from an old \R script of mine).
+
+      \item new \code{relErrV()} and \code{relErr()}, improved from the
+      \CRANpkg{Matrix} package \file{test-tools.R}
     }
   }
 }
