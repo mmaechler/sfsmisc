@@ -7,7 +7,7 @@
 %%% TODO:
       %% \item New \code{rDatetime()} for random date/time sequences
       %% within a specified time range.
-\section{CHANGES in sfsmisc VERSION 1.1-9 [2021-03-10]}{
+\section{CHANGES in sfsmisc VERSION 1.1-9 [2021-03-22]}{
   \subsection{NEW FEATURES}{
     \itemize{
       \item \code{sessionInfoX()} now also reports \code{grSoftVersion()}

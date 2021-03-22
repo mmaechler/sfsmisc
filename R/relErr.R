@@ -9,7 +9,7 @@ relErr <- function(target, current) { ## make this work, also for 'Matrix' ==> n
 
 ## Componentwise aka "Vectorized" relative error:
 ## Must not be NA/NaN unless one of the components is  ==> deal with {0, Inf, NA}
-relErrV <- function(target, current) {
+relErrV <- function(target, current, eps0 = .Machine$double.xmin) {
     n <- length(target <- as.vector(target))
     ## assert( <length current> is multiple of <length target>) :
     if(length(current) %% n)
@@ -17,7 +17,7 @@ relErrV <- function(target, current) {
     R <- target # (possibly "mpfr")
     R[] <- 0
     ## use *absolute* error when target is zero {and deal with NAs}:
-    t0 <- target == 0 & !(na.t <- is.na(target))
+    t0 <- abs(target) < eps0 & !(na.t <- is.na(target))
     R[t0] <- current[t0]
     ## absolute error also when it is infinite, as (-Inf, Inf) would give NaN:
     dInf <- is.infinite(E <- current - target)
@@ -26,5 +26,3 @@ relErrV <- function(target, current) {
     R[useRE] <- (current/target)[useRE] - 1
     R
 }
-
-
