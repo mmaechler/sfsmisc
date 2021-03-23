@@ -58,3 +58,5 @@ EnhancesNote: 2nd line: packages mentioned in Rd xrefs
 Encoding: latin1
 ByteCompile: yes
 License: GPL (>= 2)
+URL: https://github.com/mmaechler/sfsmisc
+BugReports: https://github.com/mmaechler/sfsmisc/issues
