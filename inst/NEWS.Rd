@@ -22,6 +22,11 @@
       \item The \code{nearcor()} tests are less platform dependent.
     }
   }
+  \subsection{DEPRECATED & DEFUNCT}{
+    \itemize{
+      \item \code{u.assign0()} and \code{u.get0()} are defunct now.
+    }
+  }
 }
 
 \section{CHANGES in sfsmisc VERSION 1.1-10 [2021-03-29]}{
