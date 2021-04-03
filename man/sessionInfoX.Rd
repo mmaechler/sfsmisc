@@ -18,8 +18,10 @@ sessionInfoX(pkgs = NULL, list.libP = FALSE, extraR.env = TRUE)
 isRshared(platform = .Platform)
 }
 \arguments{
-  \item{pkgs}{an optional \code{\link{character}} vector of \R packages,
-    whose \code{\link{packageDescription}()}s are wanted.}
+  \item{pkgs}{\code{NULL} (default), \code{TRUE} or a
+    \code{\link{character}} vector of \R package names, whose
+    \code{\link{packageDescription}()}s are wanted.  No packages by
+    default, \code{TRUE} takes all currently loaded pkgs.}
   \item{list.libP}{a logical indicating if for all
     \code{\link{.libPaths}} entries, the files should be listed via
     \code{\link{list.files}}.}

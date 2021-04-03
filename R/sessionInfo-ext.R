@@ -12,21 +12,23 @@ isRshared <- function(platform = .Platform) {
 
 sessionInfoX <- function(pkgs=NULL, list.libP = FALSE, extraR.env = TRUE) {
     ## return an object; then print() via method
-    if(!is.null(pkgs)) stopifnot(is.character(pkgs), length(pkgs) > 0)
     lP <- .libPaths() # *is* normalized in the sense of normalizePath()
     nRL <- normalizePath(RLIBS <- strsplit(Sys.getenv("R_LIBS"), ":")[[1]])
     si <- sessionInfo()
-    Rver <- package_version(si$R.version)
     ## typically the "same" [ setequal(.,.) ] as loadedNamespaces() :
-    pkgs <- c(si[["basePkgs"]],
-              unlist(lapply(si[c("otherPkgs", "loadedOnly")], names), use.names=FALSE))
+    sessionPkgs <- c(si[["basePkgs"]],
+                    unlist(lapply(si[c("otherPkgs", "loadedOnly")], names), use.names=FALSE))
+    if(isTRUE(pkgs))
+        pkgs <- sessionPkgs
+    else if(!is.null(pkgs)) stopifnot(is.character(pkgs), length(pkgs) > 0)
+    Rver <- package_version(si$R.version)
     structure(class = "sessionInfoX",
         list(sInfo  = si,
              sysInf = Sys.info(),
 	     capabilities = capabilities(),
 	     extSoft = if(Rver >= "3.2.0") extSoftVersion(),
 	     grSoft  = if(Rver >= "3.2.0") grSoftVersion(),
-	     tclVersion=if(Rver >= "3.2.0" && "tcltk" %in% pkgs) tcltk::tclVersion(),
+	     tclVersion=if(Rver >= "3.2.0" && "tcltk" %in% sessionPkgs) tcltk::tclVersion(),
 	     LAPACK  = if(Rver >= "3.0.3") La_version(),
 	     pcre    = if(Rver >= "3.1.3") pcre_config(),
 	     isRshared = isRshared(),

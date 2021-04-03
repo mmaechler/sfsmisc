@@ -9,6 +9,21 @@
       %% within a specified time range.
 
 
+\section{CHANGES in sfsmisc VERSION 1.1-11 [2021-04-03]}{
+  \subsection{NEW FEATURES}{
+    \itemize{
+      \item \code{sessionInfoX(TRUE)} now choose chooses \emph{all} loaded
+      packages (which were accidentally chosen since 1.1-9, see the bug fixes).
+    }
+  }
+  \subsection{BUG FIXES}{
+    \itemize{
+      \item \code{sessionInfoX()} no longer (since 1.1-9, accidentally) chooses \emph{all} packages.
+      \item The \code{nearcor()} tests are less platform dependent.
+    }
+  }
+}
+
 \section{CHANGES in sfsmisc VERSION 1.1-10 [2021-03-29]}{
   \subsection{BUG FIXES}{
     \itemize{
@@ -16,7 +31,6 @@
     }
   }
 }
-
 
 \section{CHANGES in sfsmisc VERSION 1.1-9 [2021-03-22]}{
   \subsection{NEW FEATURES}{
