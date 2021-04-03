@@ -1,9 +1,21 @@
-### Functions moved from  ./Deprecated.R
+b### Functions moved from  ./Deprecated.R
 ###                       ~~~~~~~~~~~~~~~
 ###--- remove things from here to ../Old_Defunct/ex-Deprecated.R
 ###      ====                  == ==============================
 
 ###___ add on top ___
+
+
+## Deprecation of these on 2013-08-03, defunct since 2021-04-03
+u.assign0 <- function(x, value, immediate = FALSE)
+    ## Purpose: Simple function with identical UI for both R & S
+    ## Author: Martin Maechler, Date: 7 Jul 1999
+    stop("u.assign0(..) is deprecated, use assign(.., , envir = .GlobalEnv)\n",
+            "   {if you really must; that is deprecated in packages as well}")
+
+u.get0 <- function(x)
+    stop("u.get0(x) is deprecated, use get(x, envir = .GlobalEnv)")
+
 
 ## Deprecated in 2005; defunctified 2016-12-01 :
 list2mat <- function(x, check = TRUE)
