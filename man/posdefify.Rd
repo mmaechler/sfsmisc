@@ -46,6 +46,7 @@ posdefify(m, method = c("someEVadd", "allEVadd"),
 \note{As we found out, there are more sophisticated algorithms to solve
   this and related problems.  See the references and the
   \code{\link[Matrix]{nearPD}()} function in the \CRANpkg{Matrix} package.
+  We consider \code{nearPD()} to also be the successor of this package's \code{\link{nearcor}()}.
 }
 \references{
   Section 4.4.2 of
@@ -72,6 +73,7 @@ posdefify(m, method = c("someEVadd", "allEVadd"),
 }
 \seealso{\code{\link{eigen}} on which the current methods rely.
   \code{\link[Matrix]{nearPD}()} in the \CRANpkg{Matrix} package.
+  (Further, the deprecated \code{\link{nearcor}()} from this package.)
 }
 \examples{
  set.seed(12)
