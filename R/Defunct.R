@@ -1,4 +1,4 @@
-b### Functions moved from  ./Deprecated.R
+### Functions moved from  ./Deprecated.R
 ###                       ~~~~~~~~~~~~~~~
 ###--- remove things from here to ../Old_Defunct/ex-Deprecated.R
 ###      ====                  == ==============================
