@@ -111,7 +111,7 @@ shortRversion <- function(Rv = R.version,
         if(Rst == "Under development (unstable)")
             ## "R Under development (unstable) (2017-10-16 r73554)"
             paste("R devel", sub(paste0(".*",pat), "\\1", Rvstring))
-        else if(tolower(Rst) %in% c("patched", "alpha", "beta", "RC"))
+        else if(tolower(Rst) %in% c("patched", "alpha", "beta", "rc"))
             ## "R version 3.4.2 Patched (2017-10-12 r73556)"
             sub(pat, "\\1", sub(" version", "", Rvstring))
         else if(Rst == "") # "R version 3.2.5 (2016-04-14)"  (regular release)

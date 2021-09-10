@@ -8,6 +8,26 @@
       %% \item New \code{rDatetime()} for random date/time sequences
       %% within a specified time range.
 
+\section{CHANGES in sfsmisc VERSION 1.1-12 [2021-09-10]}{
+  \subsection{NEW FEATURES}{
+    \itemize{
+      \item new \code{helppdf(topic)} mostly for interactive use.
+    }
+  }
+  \subsection{BUG FIXES}{
+    \itemize{
+      \item \code{shortRversion()} \emph{still} failed with \code{"RC"}.
+
+      \item \code{relErrV(x1, x2)} now works when both objects are of
+      length zero, but no longer when only one of them is.
+    }
+  }
+  %% \subsection{DEPRECATED & DEFUNCT}{
+  %%   \itemize{
+  %%     \item
+  %%   }
+  %% }
+}
 
 \section{CHANGES in sfsmisc VERSION 1.1-11 [2021-04-03]}{
   \subsection{NEW FEATURES}{
