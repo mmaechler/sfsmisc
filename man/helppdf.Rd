@@ -30,9 +30,9 @@ if(interactive()) {
   helppdf(Normal)
   helppdf("NegBinomial")
 } else { #  batch mode
-  ff <- helppdf(Normal)
+  setwd(tempdir())
+  ff <- helppdf(Normal, viewer=NULL)
   stopifnot(file.exists(ff))
-  remove(ff)# cleanup
 }
 }
 \keyword{utilities}

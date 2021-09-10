@@ -26,6 +26,7 @@ importFrom("stats",
 	   terms, time, update.formula, var, window)
 
 importFrom("utils", head, tail, toLatex, #<- S3 generics !
+           help,
 	   capture.output, data, packageDescription, read.table,
 	   sessionInfo, str)
 

@@ -468,7 +468,7 @@ strcodes <- function(x, table = chars8bit(1:255))
 ## S-PLUS has  AsciiToInt() officially, and   ichar() in  library(examples):
 AsciiToInt <- ichar <- function(strings) unname(unlist(strcodes(strings)))
 
-helppdf <- function(topic, viewer = getOption("pdfviewer"), quiet=interactive(),
+helppdf <- function(topic, viewer = getOption("pdfviewer"), quiet=!interactive(),
                     ...) {
     if(!tryCatch(is.character(topic) && length(topic) == 1L,
 		 error = function(e) FALSE))
