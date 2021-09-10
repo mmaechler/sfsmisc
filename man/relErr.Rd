@@ -56,8 +56,8 @@ stopifnot(exprs = {
   target==current | isFr == is.finite(aF <- M[,"absE"])
   identical(aF[!isFr] , rF[!isFr])
   identical(numeric(), relErrV(numeric(), integer())) # length 0 {used to fail}
-  tools::assertError(relErrV(1, numeric())) # no longer allowed
 })
+tools::assertError(relErrV(1, numeric()), verbose=TRUE) # no longer allowed
 ## relErr() is pretty simple --- (possibly too simple, currently)
 relErr
 relErr(target, current) # NA (of course)
