@@ -468,18 +468,19 @@ strcodes <- function(x, table = chars8bit(1:255))
 ## S-PLUS has  AsciiToInt() officially, and   ichar() in  library(examples):
 AsciiToInt <- ichar <- function(strings) unname(unlist(strcodes(strings)))
 
-helppdf <- function(topic, viewer = getOption("pdfviewer"), quiet=!interactive(),
+helppdf <- function(topic, viewer = getOption("pdfviewer"), quiet = !interactive(),
                     ...) {
     if(!tryCatch(is.character(topic) && length(topic) == 1L,
 		 error = function(e) FALSE))
 	topic <- deparse1(substitute(topic))
     hh <- help(topic, help_type = "pdf", ...)
     pdfile <- with(attributes(hh), paste(topic, type, sep="."))
-    if(!quiet) print(hh)
+    ## almost all rendering & pdf creation happens here:
+    print(hh, msg=!quiet)# utils:::print.help_files_with_topic() |--> .show_help_on_topic_offline()
     if(length(viewer))
-	system(paste(viewer, pdfile, "&"))
-    II <- if(quiet) invisible else identity
-    II(file.path(getwd(), pdfile))
+	system(paste(viewer, pdfile), wait = FALSE)
+    ans <- file.path(getwd(), pdfile)
+    if(quiet) invisible(ans) else ans
 }
 
 
