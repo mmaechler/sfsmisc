@@ -76,6 +76,7 @@ export (
     funEnv,
 	"hatMat",
         "histBxp", # defunct: "hist.bxp"
+    helppdf,
 	"ichar",
 	"integrate.xy",
 	"inv.seq",
