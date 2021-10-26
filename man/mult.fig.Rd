@@ -63,5 +63,10 @@ str(rr)
 par(rr$old.par)
 ## The *restored* par settings:
 str(do.call("par", as.list(names(rr$new.par))))
+
+## Manual setting of `tit.wid`  in case subsequent code also manages par():
+mult.fig(4, tit.wid = 2)$old.par -> opar
+plot(lm(sr ~ pop15 + pop75 + dpi + ddpi, data = LifeCycleSavings))
+par(opar) # reset
 }
 \keyword{hplot}
