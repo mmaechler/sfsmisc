@@ -21,7 +21,8 @@ relErrV <- function(target, current, eps0 = .Machine$double.xmin) {
     ## else n, lc  > 0
     if(lc %% n)
 	stop("length(current) must be a multiple of length(target)")
-    R <- if(lc != n) # explicitly recycle
+    recycle <- (lc != n) # explicitly recycle
+    R <- if(recycle)
 	     target[rep(seq_len(n), length.out=lc)]
 	 else
 	     target # (possibly "mpfr")
@@ -34,5 +35,12 @@ relErrV <- function(target, current, eps0 = .Machine$double.xmin) {
     R[dInf] <- E[dInf]
     useRE <- !dInf & !t0 & (na.t | is.na(current) | (current != target))
     R[useRE] <- (current/target)[useRE] - 1
-    R
+    if(recycle) { # should also work when target is mpfrArray
+        if(!is.null(d <- dim(current)))
+            array(R, dim=d, dimnames=dimnames(current))
+        else if(!is.null(nm <- names(current)) && is.null(names(R))) # not needed for mpfr
+            `names<-`(R, nm)
+        else R
+    }
+    else R
 }
