@@ -32,8 +32,6 @@ importFrom("utils", head, tail, toLatex, #<- S3 generics !
 
 importFrom("tools", Rcmd)
 
-## Using "::" in code -> no need here:
-importFrom("methods", existsFunction)
 
 
 ### Export almost all

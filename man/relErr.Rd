@@ -10,9 +10,10 @@
       using the \emph{absolute} error, i.e., the difference
       in case the relative error is not well defined, i.e., when \code{target}
       is zero or infinite.}
-    \item{\code{relErr()}:}{simply the \emph{mean} absolute value of the relative
-      errors between \code{target} and \code{current} vectors; typically
-      the \dQuote{same} as \code{\link{all.equal.numeric}(target, vector, tolerance=0, countEQ=TRUE)}.
+    \item{\code{relErr()}:}{simply the \emph{mean} absolute value of the
+      relative errors between \code{target} and \code{current} vectors;
+      typically the \dQuote{same} as
+      \code{\link{all.equal.numeric}(target, vector, tolerance=0, countEQ=TRUE)}.
 
       Currently useful only when both vectors are finite.
     }
@@ -23,7 +24,8 @@ relErrV(target, current, eps0 = .Machine$double.xmin)
 relErr (target, current)
 }
 \arguments{
-  \item{target}{numeric, possibly scalar.}
+  \item{target}{numeric, possibly scalar; if an \code{\link{array}} (incl
+    \code{matrix}), dimensions are preserved.}
   \item{current}{numeric vector of \code{\link{length}()} a multiple of
     \code{length(target)}.}
   \item{eps0}{non-negative number; values \code{abs(target) < eps0} should
@@ -33,7 +35,8 @@ relErr (target, current)
 }
 \value{
   \describe{
-    \item{\code{relErrV()}:}{a numeric vector of the same length as \code{current}.}
+    \item{\code{relErrV()}:}{a numeric vector of the same length (or array
+    of the same dimension) as \code{current}.}% target can be scalar
     \item{\code{relErr()}:}{a single number.}
   }
 }
