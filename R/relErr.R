@@ -35,12 +35,10 @@ relErrV <- function(target, current, eps0 = .Machine$double.xmin) {
     R[dInf] <- E[dInf]
     useRE <- !dInf & !t0 & (na.t | is.na(current) | (current != target))
     R[useRE] <- (current/target)[useRE] - 1
-    if(recycle) { # should also work when target is mpfrArray
-        if(!is.null(d <- dim(current)))
-            array(R, dim=d, dimnames=dimnames(current))
-        else if(!is.null(nm <- names(current)) && is.null(names(R))) # not needed for mpfr
-            `names<-`(R, nm)
-        else R
-    }
+    ## preserve {dim, dimnames, names}  from 'current' :
+    if(!is.null(d <- dim(current)))
+	array(R, dim=d, dimnames=dimnames(current))
+    else if(!is.null(nm <- names(current)) && is.null(names(R))) # not needed for mpfr
+	`names<-`(R, nm)
     else R
 }

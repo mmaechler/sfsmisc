@@ -24,10 +24,11 @@ relErrV(target, current, eps0 = .Machine$double.xmin)
 relErr (target, current)
 }
 \arguments{
-  \item{target}{numeric, possibly scalar; if an \code{\link{array}} (incl
-    \code{matrix}), dimensions are preserved.}
+  \item{target}{numeric, possibly scalar.}
   \item{current}{numeric vector of \code{\link{length}()} a multiple of
-    \code{length(target)}.}
+    \code{length(target)}; if an \code{\link{array}} (incl
+    \code{matrix}), dimensions are preserved; for vectors,
+    \code{names(target)} are preserved.}
   \item{eps0}{non-negative number; values \code{abs(target) < eps0} should
     be treated as zero (and hence \emph{absolute} instead of relative error
     be computed).  This may be crucial when \code{target} is an
