@@ -29,7 +29,7 @@ TA.plot(lm.res,
     Use, e.g., "*" to get simple \code{*} symbols.
   }
   \item{main}{main title to plot. Default: sophisticated, resulting in
-    something like "Tukey-Anscombe Plot of :   y \~ x"  constructed from
+    something like "Tukey-Anscombe Plot of :   y ~ x"  constructed from
     \code{lm.res $ call}.
   }
   \item{xlab}{x-axis label for plot.}

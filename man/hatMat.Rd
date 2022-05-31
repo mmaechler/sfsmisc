@@ -32,7 +32,7 @@ hatMat(x, trace= FALSE,
 \references{
   Hastie and Tibshirani (1990).
   \emph{Generalized Additive Models}.
-  Chapman \& Hall.
+  Chapman & Hall.
 }
 \author{Martin Maechler \email{maechler@stat.math.ethz.ch}}
 \seealso{\code{\link{smooth.spline}}, etc.

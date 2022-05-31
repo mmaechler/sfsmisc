@@ -48,7 +48,7 @@ diagDA(ls, cll, ts, pool = TRUE)
   S. Dudoit, J. Fridlyand, and T. P. Speed. (2000)
   Comparison of Discrimination Methods for the Classification of Tumors
   Using Gene Expression Data.
-  (Statistics, UC Berkeley, June 2000, Tech Report \#576)
+  (Statistics, UC Berkeley, June 2000, Tech Report #576)
 }
 \author{% grep:   Sandrine Dudoit, Jane Fridlyand, and Martin Maechler
   Sandrine Dudoit, \email{sandrine@stat.berkeley.edu}  and\cr

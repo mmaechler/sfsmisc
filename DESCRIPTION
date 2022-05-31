@@ -1,8 +1,8 @@
 Package: sfsmisc
 Title: Utilities from 'Seminar fuer Statistik' ETH Zurich
-Version: 1.1-13
-VersionNote: Last CRAN: 1.1-12 on 2021-09-10
-Date: 2022-04-02
+Version: 1.1-14
+VersionNote: Last CRAN: 1.1-13 on 2022-04-02
+Date: 2022-05-31
 Authors@R: c(person("Martin","Maechler", role=c("aut","cre"), email="maechler@stat.math.ethz.ch",
 	                                 comment = c(ORCID = "0000-0002-8685-9910"))
 	   , person("Werner", "Stahel", role = "ctb",

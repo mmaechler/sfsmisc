@@ -28,9 +28,9 @@ ellipsePoints(a, b, alpha = 0, loc = c(0, 0), n = 201, keep.ab.order=FALSE)
   (x,y) coordinates of a point.
 }
 \author{Martin Maechler, March 2002.}
-\seealso{the \file{ellipse} package and \code{\link[cluster]{ellipsoidhull}}
+\seealso{the \CRANpkg{ellipse} package and \code{\link[cluster]{ellipsoidhull}}
  and \code{\link[cluster]{ellipsoidPoints}}
-  in the \file{cluster} package.
+  in the \CRANpkg{cluster} package.
 }
 \examples{
 ## Simple Ellipse, centered at (0,0), x-/y- axis parallel:
