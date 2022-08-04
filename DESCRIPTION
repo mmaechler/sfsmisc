@@ -2,7 +2,7 @@ Package: sfsmisc
 Title: Utilities from 'Seminar fuer Statistik' ETH Zurich
 Version: 1.1-14
 VersionNote: Last CRAN: 1.1-13 on 2022-04-02
-Date: 2022-05-31
+Date: 2022-08-04
 Authors@R: c(person("Martin","Maechler", role=c("aut","cre"), email="maechler@stat.math.ethz.ch",
 	                                 comment = c(ORCID = "0000-0002-8685-9910"))
 	   , person("Werner", "Stahel", role = "ctb",
@@ -51,7 +51,7 @@ Description: Useful utilities ['goodies'] from Seminar fuer Statistik ETH Zurich
    integer codes, Duplicated(), toLatex.numeric() and is.whole().
 Depends: R (>= 3.3.0)
 Imports: grDevices, utils, stats, tools
-Suggests: datasets, tcltk, cluster, lattice, MASS, Matrix, nlme, lokern
+Suggests: datasets, tcltk, cluster, lattice, MASS, Matrix, nlme, lokern, Rmpfr, gmp
 Enhances: mgcv, rpart, nor1mix, polycor, sm, tikzDevice,
   e1071, Hmisc, gmp, pastecs, polynom, robustbase
 EnhancesNote: 2nd line: packages mentioned in Rd xrefs
