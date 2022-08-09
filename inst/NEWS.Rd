@@ -7,7 +7,7 @@
 %%% TODO:
       %% \item New \code{rDatetime()} for random date/time sequences
       %% within a specified time range.
-\section{CHANGES in sfsmisc VERSION 1.1-14 [2022-05-31]}{
+\section{CHANGES in sfsmisc VERSION 1.1-14 [2022-08-09]}{
   \subsection{Tweaks}{
     \itemize{
       \item \file{man/*.Rd}: remove some extraneous \code{\\}.

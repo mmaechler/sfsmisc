@@ -18,7 +18,7 @@ polyn.eval(coef, x)
     is a matrix of dimension \code{length(x) * nrow(coef)}.
 
     Note that \code{coef} can also be \code{\link{complex}} or bigrational
-    (\code{as.bigq(.)} from \CRANpkg{gmp}, or arbitrary precision 
+    (\code{as.bigq(.)} from \CRANpkg{gmp}, or arbitrary precision
     (\code{"mpfr"}) from \CRANpkg{Rmpfr}, or similar number-like objects
     for which basic arithmetic is defined.
 }
@@ -46,18 +46,20 @@ polyn.eval(cf, 0:5)
 
 x  <- seq(-3,7, by=1/4)
 cf <- 4:1
-(px <- polyn.eval(cf, x)) # is exact 
-if(requireNamespace("gmp")) withAutoprint({
+(px <- polyn.eval(cf, x)) # is exact
+if((gmpT <-"package:gmp" \%in\% search()) || require("gmp")) withAutoprint({
  pxq <- polyn.eval(coef = as.bigq(cf, 1), x=x)
  pxq
  stopifnot(pxq == px)
+ if(!gmpT) detach("package:gmp")
 })
 
-if(requireNamespace("Rmpfr")) withAutoprint({ 
+if((RmpfrT <-"package:Rmpfr" \%in\% search()) || require("Rmpfr")) withAutoprint({
  pxM <- polyn.eval(coef = mpfr(cf, 80), x=x) # 80 bits accuracy
  pxM
  stopifnot(pxM == px)
-}
+ if(!RmpfrT) detach("package:Rmpfr")
+})
 
 }
 \keyword{arith}
