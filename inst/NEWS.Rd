@@ -11,6 +11,8 @@
   \subsection{Tweaks}{
     \itemize{
       \item \file{man/*.Rd}: remove some extraneous \code{\\}.
+
+      \item \code{TA.plot()} now works also with NA residuals.
     }
   }
 }

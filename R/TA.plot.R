@@ -93,8 +93,8 @@ TA.plot <-
   m.line <- if(par("mfg")[4]==1) .2+ p.mgp[1] else
                               max(p.mgp[1] - .2*lo.cex, sum(p.mgp)/2)
   if(show.2sigma) {
-    s2 <- c(-2,2) * mad(res, center=0)
-    rr <- range(res)
+    s2 <- c(-2,2) * mad(res, center=0, na.rm=TRUE) # NA's possible in residuals
+    rr <- range(res, na.rm=TRUE)
     if(s2[1] < rr[1] || s2[2] > rr[2])
       mtext(paste("2 sigma = ", format(s2[2])),
 	    side= 1, line= m.line, adj = 0, cex= lo.cex)
@@ -108,6 +108,12 @@ TA.plot <-
     if (is.null(lo.iter))
       lo.iter <- if(inherits(lm.res, "glm") && family(lm.res)$family[1] != "Gaussian")
 	0  else  3
+    if(anyNA(res) && anyNA(fit)) {
+        i.ok <- !is.na(res) & !is.na(fit)
+        res <- res[i.ok]
+        fit <- fit[i.ok]
+        n <- sum(i.ok)
+    }
     f <- max(0.2, 1.25 * n^-.2) #'-- Martin's very empirical formula...
     rlow <- lowess(fit, res, f = f, iter = lo.iter)
     do.call("lines",c(rlow, parSmooth))
