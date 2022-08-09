@@ -53,7 +53,7 @@ Depends: R (>= 3.3.0)
 Imports: grDevices, utils, stats, tools
 Suggests: datasets, tcltk, cluster, lattice, MASS, Matrix, nlme, lokern, Rmpfr, gmp
 Enhances: mgcv, rpart, nor1mix, polycor, sm, tikzDevice,
-  e1071, Hmisc, gmp, pastecs, polynom, robustbase
+  e1071, Hmisc, pastecs, polynom, robustbase
 EnhancesNote: 2nd line: packages mentioned in Rd xrefs
 Encoding: latin1
 ByteCompile: yes
