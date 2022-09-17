@@ -19,7 +19,7 @@ eaxis(side, at = if(log) axTicks(side, axp=axp, log=log, nintLog=nintLog)
       small.args = list(),
       draw.between.ticks = TRUE, between.max = 4,
       outer.at = TRUE, drop.1 = TRUE, sub10 = FALSE, las = 1,
-      nintLog = max(10, par("lab")[2 - is.x]),
+      nintLog = max(12, par("lab")[2 - is.x]),
       axp = NULL, n.axp = NULL, max.at = Inf,
       lab.type = "plotmath", lab.sep = "cdot",
       \dots)

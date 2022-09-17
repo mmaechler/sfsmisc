@@ -97,7 +97,7 @@ eaxis <- function(side, at = if(log) axTicks(side, axp=axp, log=log, nintLog=nin
                   small.args = list(),
                   draw.between.ticks = TRUE, between.max = 4,
                   outer.at = TRUE, drop.1 = TRUE, sub10 = FALSE, las = 1,
-                  nintLog = max(10, par("lab")[2L - is.x]), axp = NULL, n.axp = NULL,
+                  nintLog = max(12L, par("lab")[2L - is.x]), axp = NULL, n.axp = NULL,
                   max.at = Inf, lab.type="plotmath", lab.sep="cdot", ...)
 {
     ## Purpose: "E"xtended, "E"ngineer-like (log-)axis

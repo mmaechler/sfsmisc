@@ -7,9 +7,12 @@
 %%% TODO:
       %% \item New \code{rDatetime()} for random date/time sequences
       %% within a specified time range.
-\section{CHANGES in sfsmisc VERSION 1.1-14 [2022-08-09]}{
+\section{CHANGES in sfsmisc VERSION 1.1-14 [2022-09-17]}{
   \subsection{Tweaks}{
     \itemize{
+      \item \code{eaxis()} has a larger default, \code{12} instead of 10,
+      for \code{nintLog}.
+
       \item \file{man/*.Rd}: remove some extraneous \code{\\}.
 
       \item \code{TA.plot()} now works also with NA residuals.
