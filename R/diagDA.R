@@ -126,9 +126,9 @@ dDA <- function(x, cll, pool= TRUE)
         if(nk[k] > 1)
             v[,k] <- colVars (lsk, na.rm = TRUE, means = m[,k]) ## else 0
     }
-    structure(list(call = match.call(), cl0 = cl0, n=n, p=p, K=K,
-                   means=m, vars=v, nk=nk, pool=pool),
-              class = "dDA")
+    struct(list(call = match.call(), cl0 = cl0, n=n, p=p, K=K,
+                means=m, vars=v, nk=nk, pool=pool),
+           class = "dDA")
 }
 
 print.dDA <- function(x, ...)

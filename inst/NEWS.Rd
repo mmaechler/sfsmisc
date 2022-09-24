@@ -16,6 +16,9 @@
       \item \file{man/*.Rd}: remove some extraneous \code{\\}.
 
       \item \code{TA.plot()} now works also with NA residuals.
+
+      \item use new internal \code{struct()} as fast substitute of
+      \code{structure()}.
     }
   }
 }

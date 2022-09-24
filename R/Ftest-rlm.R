@@ -39,12 +39,12 @@ f.robftest <- function(object, var = -1)
     df <- c(t.nv, t.r$df[2])
 
     ## MM: Return an object of class "htest"  ---> nice print.*() method !
-    structure(list(statistic = c(F = t.f), df = df,
+    struct(list(statistic = c(F = t.f), df = df,
                    data.name = paste("from", deparse(object$call)),
                    method = "robust F-test (as if non-random weights)",
                    alternative = "two.sided",
                    null.value = {c0 <- cf; c0[] <- 0; c0},
                    p.value = pf(t.f, df[1], df[2], lower.tail = FALSE)),
-              class = "htest")
+           class = "htest")
 }
 

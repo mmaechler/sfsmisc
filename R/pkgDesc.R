@@ -3,7 +3,7 @@
 pkgDesc <- function (pkg, lib.loc = NULL, fields = NULL, ...) {
     pd <- packageDescription(pkg, lib.loc=lib.loc, fields=fields, drop=FALSE, ...)
     file <- attr(pd, "file")
-    structure(class = "Dlist", c(unlist(pd), c(file=file)))
+    struct(class = "Dlist", c(unlist(pd), c(file=file)))
 }
 
 ##' useful: e.g. as  sapply( pkgs, pkgBuilt)

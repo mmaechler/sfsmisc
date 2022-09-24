@@ -13,6 +13,9 @@
 ### ___Note___ we have some of these headers __MESS__
 ### But we leave it because of RCS {rather dismantle everything into 4-6 pieces
 
+## A fast substitute for structure() *when* we don't need to special case for factor, .Dim, ...
+struct <- function(x, ...) `attributes<-`(x, c(attributes(x), list(...)))
+
 ##-#### Vector, Matrix (or higher Array) stuff ########
 ##-###  -------------------------------------- ########
 
@@ -564,8 +567,8 @@ rDatetime <- function(n, min = "1900-01-01", max = "2100-12-31") {
         max <- as.POSIXct(max)
     else stop("'max' must be string (coercable to \"POSIXct\") or \"POSIXt\" object")
     stopifnot(length(min) == 1, length(max) == 1)
-    structure(runif(n, as.numeric(min), as.numeric(max)),
-              class = c("POSIXct", "POSIXt"), tzone = "")
+    struct(runif(n, as.numeric(min), as.numeric(max)),
+           class = c("POSIXct", "POSIXt"), tzone = "")
 }
 
 ###

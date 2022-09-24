@@ -22,7 +22,7 @@ sessionInfoX <- function(pkgs=NULL, list.libP = FALSE, extraR.env = TRUE) {
         pkgs <- sessionPkgs
     else if(!is.null(pkgs)) stopifnot(is.character(pkgs), length(pkgs) > 0)
     Rver <- package_version(si$R.version)
-    structure(class = "sessionInfoX",
+    struct(class = "sessionInfoX",
         list(sInfo  = si,
              sysInf = Sys.info(),
 	     capabilities = capabilities(),
@@ -53,16 +53,16 @@ print.sessionInfoX <- function(x, locale = TRUE, RLIBS = TRUE, Renv = TRUE, ...)
     cat("Capabilities:\n")
     print(symnum(x$capabilities, symbols = c("-", "X")), ...)
     cat("Sys.info:\n")
-    print(structure(x$sysInf[c("nodename", "user")], class="Dlist"), ...)
+    print(struct(x$sysInf[c("nodename", "user")], class="Dlist"), ...)
     cat("\n")
     if(!is.null(x$LAPACK)) cat("LAPACK version:", x$LAPACK, "\n")
     if(!is.null(x$extSoft)) {
         cat("External software (versions):\n")
-        print(structure(x$extSoft, class="Dlist"), ...)
+        print(struct(x$extSoft, class="Dlist"), ...)
     }
     if(!is.null(x$grSoft)) {
         cat("Graphical software (versions):\n")
-        print(structure(x$grSoft, class="Dlist"), ...)
+        print(struct(x$grSoft, class="Dlist"), ...)
     }
     if(!is.null(x$tclVersion))
         cat("Tcl version:", x$tclVersion, "\n")
