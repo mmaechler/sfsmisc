@@ -8,7 +8,7 @@
 }
 \usage{
 read.org.table(file, header = TRUE, skip = 0,
-               encoding = "native", fileEncoding = "", text, \dots)
+               encoding = "native", fileEncoding = "", text, quiet=FALSE, \dots)
 }
 \arguments{
   \item{file}{a file name, a \code{\link{file}} or other connection.}
@@ -23,6 +23,10 @@ read.org.table(file, header = TRUE, skip = 0,
     be used.}
   \item{text}{instead of \code{file}, a \code{\link{character}} or
     string (of a few lines, typically).}
+  \item{quiet}{\code{\link{logical}} to suppress the \code{\link{message}}
+    which is signalled when no \code{nrows=*} has been specified and the
+    automatic number of rows is smaller than 95\% of the rows / non-header
+    lines of the \code{file}.}
   \item{\dots}{further arguments passed to \code{\link{read.table}}.
     You should \emph{not} use \code{encoding} (but possibly
     \code{fileEncoding}!) here, as we do not call
@@ -60,6 +64,7 @@ d
 stopifnot(dim(d) == c(2, 3),
           identical(names(d), c("a", "var2", "C")),
           d[,"a"] == c(2,7))
+%% TODO: 2nd example similar with a *closing* "|----+......|" line !!!
 }
 \keyword{file}
 \keyword{utilities}

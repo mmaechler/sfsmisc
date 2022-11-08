@@ -10,11 +10,20 @@
 ## if(!exists("rep_len", mode = "function")) # old R version
 ##     rep_len <- function(x, length.out) rep(x, length.out=length.out)
 
-if(getRversion() < "4.0.0") {
+## For backwards compatibility with earlier versions of R,
+## at least until x.y.z if we have Depends: R (>= x.y.z)
+if((Rv <- getRversion()) < "4.1.0") {
+    if(## Namespace not locked yet, but being defensive here:
+       !environmentIsLocked(Mns <- parent.env(environment()))) {
+        assign("...names", envir = Mns, inherits = FALSE,
+               function() eval(quote(names(list(...))), sys.frame(-1L)))
+    }
+
+ if(Rv < "4.0.0") {
   deparse1 <- function (expr, collapse = " ", width.cutoff = 500L, ...)
       paste(deparse(expr, width.cutoff, ...), collapse = collapse)
 
-if(getRversion() < "3.5") {
+  if(Rv < "3.5") {
 ## if(!is.function(.BaseNamespaceEnv$...length)) # ...length() only in R >= 3.5.0
     ## This substitute is kludgy  by using parent.env() -- but it works (sometimes)
     ## in funEnv() -- see ../R/misc-goodies.R
@@ -22,9 +31,11 @@ if(getRversion() < "3.5") {
 
     isTRUE  <- function(x) is.logical(x) && length(x) == 1L && !is.na(x) && x
     isFALSE <- function(x) is.logical(x) && length(x) == 1L && !is.na(x) && !x
-}
+  }
 
-}## Rv < 4.0.0
+ }## Rv < 4.0.0
+
+}## Rv < 4.1.0
 
 .set.eps_view <- function() {
     ## This assumes  "gv"  in your path --- ideally this would be configured!

@@ -1025,7 +1025,7 @@ prt.DEBUG <- function(..., LEVEL = 1) {
 ## --> ../man/read.org.table.Rd
 read.org.table <- function(file, header = TRUE, skip = 0,
                            encoding = "native", fileEncoding = "",
-                           text, ...) {
+                           text, quiet=FALSE, ...) {
     ## file - text   handling --- cut'n'paste from read.table()'s header
     if (missing(file) && !missing(text)) {
 	file <- textConnection(text, encoding = "UTF-8")
@@ -1061,8 +1061,18 @@ read.org.table <- function(file, header = TRUE, skip = 0,
     }
     ## drop empty lines at end only
     while(grepl("^ *$", tail(ll, 1L))) ll <- ll[-length(ll)]
+    nent <- count.fields(textConnection(ll), sep="|")
+    ok <- nent == (p <- length(col.names))
+    nrows <- if(all(ok)) length(ok)
+             else match(FALSE, ok) - 1L # 1..n, where n+1 contains the first non-match
+    if(has.nr <-  "nrows" %in% ...names())
+        nrows <- min(nrows, list(...)$nrows)
+    else if(!quiet && nrows < 0.95*length(nent))
+        message(
+            sprintf("Will read the first %d rows (of each %d columns) of %d (non-empty non-header) lines",
+                    nrows, p, length(nent)))
     f.ll <- textConnection(ll)# , encoding = "UTF-8"  is *NOT* good
     on.exit(close(f.ll))
     read.table(f.ll, header=FALSE, sep = "|",
-               col.names = col.names, ...) # , encoding = "UTF-8" *not* good
+               col.names = col.names, nrows=nrows, ...) # , encoding = "UTF-8" *not* good
 }

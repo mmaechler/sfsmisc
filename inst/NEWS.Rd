@@ -7,7 +7,13 @@
 %%% TODO:
       %% \item New \code{rDatetime()} for random date/time sequences
       %% within a specified time range.
-\section{CHANGES in sfsmisc VERSION 1.1-14 [2022-09-17]}{
+\section{CHANGES in sfsmisc VERSION 1.1-14 [2022-11-08]}{
+  \subsection{NEW FEATURES}{
+    \itemize{
+      \item \code{read.org.table()} now determines a reasonable
+      \code{nrows} automatically.
+    }
+  }
   \subsection{Tweaks}{
     \itemize{
       \item \code{eaxis()} has a larger default, \code{12} instead of 10,
