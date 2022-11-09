@@ -7,7 +7,7 @@
 %%% TODO:
       %% \item New \code{rDatetime()} for random date/time sequences
       %% within a specified time range.
-\section{CHANGES in sfsmisc VERSION 1.1-14 [2022-11-08]}{
+\section{CHANGES in sfsmisc VERSION 1.1-14 [2022-11-09]}{
   \subsection{NEW FEATURES}{
     \itemize{
       \item \code{read.org.table()} now determines a reasonable
@@ -20,6 +20,8 @@
       for \code{nintLog}.
 
       \item \file{man/*.Rd}: remove some extraneous \code{\\}.
+
+      \item \file{man/helppdf.Rd}: skip example on Windows (too slow).
 
       \item \code{TA.plot()} now works also with NA residuals.
 

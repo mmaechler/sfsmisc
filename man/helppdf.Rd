@@ -25,14 +25,14 @@ helppdf(topic, viewer = getOption("pdfviewer"), quiet = !interactive(), ...)
   \code{\link{help}}, \code{\link{system}}.
 }
 \examples{
-## Both calls work :
 if(interactive()) {
+  ## Both calls work :
   helppdf(Normal)
   helppdf("NegBinomial")
-} else { #  batch mode
+} else if(.Platform$OS.type != "windows") { # batch mode (Windows often too slow for this)
   od <- setwd(tempdir())
   ff <- helppdf(Normal, viewer=NULL)
-  stopifnot(file.exists(ff))
+  stopifnot(file.exists(ff)) ; print(ff)
   setwd(od)# revert to previous dir.
 }
 }
