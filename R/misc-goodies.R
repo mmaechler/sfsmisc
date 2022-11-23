@@ -1065,7 +1065,7 @@ read.org.table <- function(file, header = TRUE, skip = 0,
     ok <- nent == (p <- length(col.names))
     nrows <- if(all(ok)) length(ok)
              else match(FALSE, ok) - 1L # 1..n, where n+1 contains the first non-match
-    if(has.nr <-  "nrows" %in% ...names())
+    if("nrows" %in% ...names())
         nrows <- min(nrows, list(...)$nrows)
     else if(!quiet && nrows < 0.95*length(nent))
         message(
