@@ -27,7 +27,7 @@ importFrom("stats",
 
 importFrom("utils", head, tail, toLatex, #<- S3 generics !
            help,
-	   capture.output, data, packageDescription, read.table,
+	   capture.output, count.fields, data, packageDescription, read.table,
 	   sessionInfo, str)
 
 importFrom("tools", Rcmd)
