@@ -35,12 +35,10 @@ last <- function(x, length.out = 1, na.rm = FALSE)
     x[sign(length.out)*(n-abs(length.out)+1):n]
 }
 
-empty.dimnames <- function(a)
-{
+empty.dimnames <- function(a) {
     ## 'Remove' all dimension names from an array for compact printing.
     n <- length(da <- dim(a))
-    if(n == 0) return(a)
-    dimnames(a) <- lapply(1:n, function(i) rep.int("", da[i]))
+    if(n) dimnames(a) <- lapply(1:n, function(i) rep.int("", da[i]))
     a
 }
 
