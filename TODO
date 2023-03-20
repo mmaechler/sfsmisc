@@ -1,5 +1,6 @@
 ##-*- org -*-
 * TODO *formally* deprecate repChar() and bl.string() in favor of R (>= 3.3.0)  strrep()
+* TODO maybe add  deparse1seq() from ~/R/Pkgs/DPQmpfr/R/dpoisEr.R ?
 * TODO  more to sessionInfoX(); chk openBLAS etc, see more moreSessionInfo() in robustbase,
   ~/R/Pkgs/robustbase/inst/xtraR/platform-sessionInfo.R
 * TODO finish and export pkgLibs() R/unix/package-props.R
@@ -28,8 +29,8 @@
   *does* work properly
 * TODO eaxis() [ ./R/prettylab.R ] :
 ** TODO allow  log2-scale and "2^..." labelling --- or log_k and 'k^..'
-** TODO this is a range where the *defaults* of eaxis are completely bad
-      --> but really it is because  axTicks(*, log=TRUE) can be bad:
+** DONE a range where the *defaults* of eaxis were completely bad
+     because of axTicks(*, log=TRUE) can be bad:
     curve(qgamma(1e-100, x, lower.tail=FALSE), 1e-110, 1e-70, log="xy", col=2, axes=FALSE)
     eaxis(1);eaxis(2)
 * TODO Work on R/approx2.R, for now [[approx2.R]] -- implement remaining "vectorized" part

@@ -12,6 +12,15 @@ Sys.ps.cmd <- function() {
     else struct("/bin/ps w", type="BSD")
   }
   else if(sys == "SunOS") "/usr/bin/ps"
+  else if(sys == "Darwin") { # macOS
+    cmd <- struct("/bin/ps w", type="Darwin/macOS")
+    ## test if it *works* (to some extent) {"sandboxed" did not allow /bin/ps to run}
+    tmp <- tryCatch(u.sys(cmd, " | grep 'grep'"), error=identity)
+    if(!inherits(tmp, "error"))
+        cmd
+    else
+        stop(cmd," is not working: ", conditionMessage(tmp))
+  }
   else {
     warning("Unknown OS [Operating System]; 'ps' may not be compatible")
     "ps"

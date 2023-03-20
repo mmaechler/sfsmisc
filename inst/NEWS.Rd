@@ -7,6 +7,14 @@
 %%% TODO:
       %% \item New \code{rDatetime()} for random date/time sequences
       %% within a specified time range.
+\section{CHANGES in sfsmisc VERSION 1.1-15 [2023-03-20]}{
+  \subsection{NEW FEATURES}{
+    \itemize{
+      \item improved \code{Sys.ps.cmd()} for macOS
+    }
+  }
+}
+
 \section{CHANGES in sfsmisc VERSION 1.1-14 [2022-11-09]}{
   \subsection{NEW FEATURES}{
     \itemize{

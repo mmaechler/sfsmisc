@@ -4,7 +4,7 @@
 
 ## I would really like builtin   Sys.ps() for these
 
-### Sys.ps.cmd() ---> now moved to ../R/
+### Sys.ps.cmd() ---> now moved to ../u.goodies.R
 
 ## These only apply to "System V" compatible `ps', not to BSD ones
 .Sys.ps.fields <-
