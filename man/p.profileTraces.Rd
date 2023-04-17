@@ -1,5 +1,4 @@
 \name{p.profileTraces}
-\encoding{latin1}
 \alias{p.profileTraces}
 \title{Plot a profile.nls Object With Profile Traces}
 \description{
@@ -24,7 +23,7 @@ p.profileTraces(x, cex = 1,
 %- \details{
 % .........
 %- }
-\author{Andreas Ruckstuhl, \R port by Isabelle Flückiger and Marcel Wolbers}
+\author{Andreas Ruckstuhl, \R port by Isabelle FlÃ¼ckiger and Marcel Wolbers}
 \note{the \pkg{stats}-internal \code{stats:::plot.profile.nls} plot
   method just does \dQuote{the diagonals}.
 }

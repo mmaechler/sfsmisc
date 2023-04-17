@@ -1,5 +1,4 @@
 \name{AsciiToInt}
-\encoding{latin1}
 \alias{AsciiToInt}
 \alias{ichar}
 \alias{chars8bit}
@@ -54,9 +53,9 @@ chars8bit(65:70)#-> "A" "B" .. "F"
 stopifnot(identical(LETTERS,   chars8bit(65:90)),
           identical(AsciiToInt(LETTERS), 65:90))
 
-% In R 2.1.0, the "ü" could not even be parsed in UTF-8; now gives NA
+% In R 2.1.0, the "Ã¼" could not even be parsed in UTF-8; now gives NA
 ## may only work in ISO-latin1 locale (not in UTF-8):
-try( strcodes(c(a= "ABC", ch="1234", place = "Zürich")) )
+try( strcodes(c(a= "ABC", ch="1234", place = "ZÃ¼rich")) )
 ## in "latin-1" gives  {otherwise should give NA instead of 252}:
 \dontrun{
 $a
@@ -73,7 +72,7 @@ myloc <- Sys.getlocale()
 
 if(.Platform $ OS.type == "unix") withAutoprint({ # ''should work'' here
   try( Sys.setlocale(locale = "de_CH") )# "try": just in case
-  strcodes(c(a= "ABC", ch="1234", place = "Zürich")) # no NA hopefully
+  strcodes(c(a= "ABC", ch="1234", place = "ZÃ¼rich")) # no NA hopefully
   AsciiToInt(chars8bit()) # -> 1:255  {if setting latin1 succeeded above}
 
   chars8bit(97:140)

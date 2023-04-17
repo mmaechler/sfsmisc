@@ -1,5 +1,5 @@
 ### Port to R and a few small improvements:
-### Copyright © 2000 Martin Maechler, ETH Zurich
+### Copyright Â© 2000--2023 Martin Maechler, ETH Zurich
 
 mat2tex <- function(x, file = "mat.tex", envir = "tabular",
                     nam.center = "l", col.center = "c",

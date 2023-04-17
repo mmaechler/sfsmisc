@@ -1,5 +1,4 @@
 \name{errbar}
-\encoding{latin1}
 \title{Scatter Plot with Error Bars}
 \alias{errbar}
 \description{
@@ -24,7 +23,7 @@ errbar(x, y, yplus, yminus, cap = 0.015,
   \item{\dots}{Graphical parameters (see \code{\link{par}}) may also
     be supplied as arguments to this function.}
 }
-\author{Originally Charles Geyer, U.Chicago, early 1991; then Martin Mächler.}
+\author{Originally Charles Geyer, U.Chicago, early 1991; then Martin MÃ¤chler.}
 \seealso{\code{\link[Hmisc]{errbar}} in package \CRANpkg{Hmisc} is similar.
 %% maybe deprecate ours?  FIXME
 }
@@ -33,4 +32,3 @@ y <- rnorm(10); d <- 1 + .1*rnorm(10)
 errbar(1:10, y, y + d, y - d, main="Error Bars example")
 }
 \keyword{hplot}
-

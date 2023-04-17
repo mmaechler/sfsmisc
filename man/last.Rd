@@ -1,5 +1,4 @@
 \name{last}
-\encoding{latin1}
 \alias{last}
 \title{Get Last Elements of a Vector}
 \description{
@@ -23,7 +22,7 @@ last(x, length.out = 1, na.rm = FALSE)
 }
 \author{Werner Stahel (\email{stahel@stat.math.ethz.ch}), and independently,
         Philippe Grosjean (\email{phgrosjean@sciviews.org}),
-        Frédéric Ibanez (\email{ibanez@obs-vlfr.fr}).}
+        FrÃ©dÃ©ric Ibanez (\email{ibanez@obs-vlfr.fr}).}
 \note{
   This function may eventually be deprecated for the standard \R
   function \code{\link{tail}()}.

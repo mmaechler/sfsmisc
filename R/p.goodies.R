@@ -1,7 +1,7 @@
 #### Original is /u/sfs/S/p.goodies.S  [v 1.12 1999/05/06 10:17:00 sfs Exp ]
 ####
 ### p.goodies.S ---- SfS- S(plus) - Funktionen, welche
-### ---------------- mit  'p.' (für "Plot") beginnen  [alte SfS-Tradition ..]
+### ---------------- mit  'p.' (fÃ¼r "Plot") beginnen  [alte SfS-Tradition ..]
 ###                        ==        =
 ###
 ### see also    "/u/sfs/S/u.goodies.S"
@@ -143,7 +143,7 @@ p.profileTraces <-
         }
       }
     }
-    if (i < np) # frame()s:  S-plus braucht häufig eines mehr :
+    if (i < np) # frame()s:  S-plus braucht hÃ¤ufig eines mehr :
       for (k in 1:(np - i + if(is.R()) 0 else 1)) frame()
   }
   mtext(side = 3, line = 0.2, text = subtitle,

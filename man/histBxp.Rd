@@ -1,5 +1,4 @@
 \name{histBxp}
-\encoding{latin1}
 \alias{histBxp}
 \title{Plot a Histogram and a Boxplot}
 \description{
@@ -87,7 +86,7 @@ histBxp(x, nclass, breaks, probability=FALSE, include.lowest=TRUE,
   the increasingly strong CRAN policies required a new name (which could not
   be confused with an S3 method name).
 }
-\author{S-Plus: Markus Keller, Christian Keller; port to \R in 1990's: Martin Mächler.}
+\author{S-Plus: Markus Keller, Christian Keller; port to \R in 1990's: Martin MÃ¤chler.}
 
 \seealso{\code{\link{hist}}, \code{\link{barplot}},
   \code{\link{boxplot}}, \code{\link{rug}} and

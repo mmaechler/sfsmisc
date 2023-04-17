@@ -2,7 +2,7 @@ Package: sfsmisc
 Title: Utilities from 'Seminar fuer Statistik' ETH Zurich
 Version: 1.1-15
 VersionNote: Last CRAN: 1.1-14 on 2022-11-23
-Date: 2023-03-20
+Date: 2023-04-17
 Authors@R: c(person("Martin","Maechler", role=c("aut","cre"), email="maechler@stat.math.ethz.ch",
 	                                 comment = c(ORCID = "0000-0002-8685-9910"))
 	   , person("Werner", "Stahel", role = "ctb",
@@ -23,7 +23,7 @@ Authors@R: c(person("Martin","Maechler", role=c("aut","cre"), email="maechler@st
 	   	   comment = "Functions: empty.dimnames(), primes()")
 	   , person("Tony", "Plate", role = "ctb", comment = "to inv.seq()")
 	   # minor contributors:
-	   , person("Isabelle", "Flückiger", role = "ctb")
+	   , person("Isabelle", "FlÃ¼ckiger", role = "ctb")
 	   , person("Marcel", "Wolbers", role = "ctb")
 	   , person("Markus", "Keller", role = "ctb")
 	   , person("Sandrine", "Dudoit", role = "ctb")
@@ -33,15 +33,15 @@ Authors@R: c(person("Martin","Maechler", role=c("aut","cre"), email="maechler@st
 	   , person("Vincent", "Carey", role = "ctb")
 	   , person("Ben", "Bolker", role = "ctb")
 	   , person("Philippe", "Grosjean", role = "ctb")
-	   , person("Frédéric", "Ibanez", role = "ctb")
+	   , person("FrÃ©dÃ©ric", "Ibanez", role = "ctb")
 	   , person("Caterina", "Savi", role = "ctb")
 	   , person("Charles", "Geyer", role = "ctb")
-	   , person("Jens", "Oehlschlägel", role = "ctb")
+	   , person("Jens", "OehlschlÃ¤gel", role = "ctb")
  )
 Maintainer: Martin Maechler <maechler@stat.math.ethz.ch>
 Description: Useful utilities ['goodies'] from Seminar fuer Statistik ETH Zurich,
    some of which were ported from S-plus in the 1990s.
- For graphics, have pretty (Log-scale) axes, an enhanced Tukey-Anscombe
+ For graphics, have pretty (Log-scale) axes eaxis(), an enhanced Tukey-Anscombe
    plot, combining histogram and boxplot, 2d-residual plots, a 'tachoPlot()',
    pretty arrows, etc.
  For robustness, have a robust F test and robust range().
@@ -55,7 +55,7 @@ Suggests: datasets, tcltk, cluster, lattice, MASS, Matrix, nlme, lokern, Rmpfr, 
 Enhances: mgcv, rpart, nor1mix, polycor, sm, tikzDevice,
   e1071, Hmisc, pastecs, polynom, robustbase
 EnhancesNote: 2nd line: packages mentioned in Rd xrefs
-Encoding: latin1
+Encoding: UTF-8
 ByteCompile: yes
 License: GPL (>= 2)
 URL: https://github.com/mmaechler/sfsmisc

@@ -236,7 +236,7 @@ factorizeBV <- function(n) {
 ##-
 ##- I use the following factors(), which uses the enclosed primes():
 ##
-## MMä: mv'ed all examples to file ... (now ../demo/prime-numbers.R )
+## MMÃ¤: mv'ed all examples to file ... (now ../demo/prime-numbers.R )
 
 factors <- function(x)
 {

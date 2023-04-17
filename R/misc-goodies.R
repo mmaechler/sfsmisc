@@ -16,6 +16,10 @@
 ## A fast substitute for structure() *when* we don't need to special case for factor, .Dim, ...
 struct <- function(x, ...) `attributes<-`(x, c(attributes(x), list(...)))
 
+##' list_(a, b, cc)  creates a *named* list  using the actual arguments' names
+list_ <- function(...)
+   `names<-`(list(...), vapply(sys.call()[-1L], as.character, ""))
+
 ##-#### Vector, Matrix (or higher Array) stuff ########
 ##-###  -------------------------------------- ########
 

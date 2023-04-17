@@ -1,5 +1,5 @@
 \name{rot2}
-\encoding{latin1}% "^o" (degree) below
+%no longer \encoding{latin1}% "^o" (degree) below
 \alias{rot2}
 \title{Rotate Planar Points by Angle}
 \description{
@@ -22,7 +22,7 @@ rot2(xy, phi)
 (xy0 <- rbind(c(1,0.5), c(1,1), c(0,1)))
 (Txy <- rot2(xy0, phi = 60 * pi/180))
 plot(xy0, col = 2, type = "b", asp = 1,
-     xlim=c(-1,1), ylim=c(0,1.5), main = "rot2(*, pi/3) : 2d rotation by 60°")
+     xlim=c(-1,1), ylim=c(0,1.5), main = "rot2(*, pi/3) : 2d rotation by 60Â°")
 points(Txy, col = 3, type = "b")
 O <- rep(0,2); P2 <- rbind(xy0[2,], Txy[2,])
 arrows(O,O,P2[,1],P2[,2], col = "dark gray")

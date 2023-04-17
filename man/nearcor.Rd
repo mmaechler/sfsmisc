@@ -1,9 +1,8 @@
-% Copyright (2007) Jens Oehlschl‰gel
+% Copyright (2007) Jens Oehlschl√§gel
 % GPL licence, no warranty, use at your own risk
 % Copyright (2007-2010) Martin Maechler
 \name{nearcor}
 \alias{nearcor}
-\encoding{latin1}
 \title{Find the Nearest Proper Correlation Matrix}
 \description{
   This function \dQuote{smoothes} an improper correlation matrix as it can result
@@ -14,13 +13,13 @@
   \code{\link[Matrix]{nearPD}()} from package \CRANpkg{Matrix}.% 2013-01-16
 }
 \usage{
-nearcor(R, eig.tol = 1e-06, conv.tol = 1e-07, posd.tol = 1e-08,
+nearcor(R, eig.tol = 1e-6, conv.tol = 1e-07, posd.tol = 1e-8,
         maxits = 100, verbose = FALSE)
 }
 \arguments{
   \item{R}{a square symmetric approximate correlation matrix}
   \item{eig.tol}{defines relative positiveness of eigenvalues compared
-  to largest, default=1.0e-6.}
+  to largest, default=1e-6.}
   \item{conv.tol}{convergence tolerance for algorithm, default=1.0e-7  }
   \item{posd.tol}{tolerance for enforcing positive definiteness, default=1.0e-8}
   \item{maxits}{maximum number of iterations}
@@ -46,7 +45,7 @@ nearcor(R, eig.tol = 1e-06, conv.tol = 1e-07, posd.tol = 1e-08,
 }
 \references{See those in \code{\link[sfsmisc]{posdefify}}.
 }
-\author{ Jens Oehlschl‰gel }
+\author{ Jens Oehlschl√§gel }
 \seealso{the slightly more flexible \code{\link[Matrix]{nearPD}} which also
   returns a \emph{classed} matrix (class \code{dpoMatrix}).
   For new code, \code{nearPD()} is really preferred to \code{nearcor()},

@@ -1,7 +1,7 @@
 	-- this file should contain things that were in ./TODO-MM
 
 1) [Juni 2002]:
-  getint() Dinge sind eigentlich ¸berfl¸ssig, seit ich's ins R getan habe:
+  getint() Dinge sind eigentlich √ºberfl√ºssig, seit ich's ins R getan habe:
   in R haben wir jetzt findInterval()  {*mit* C API!}
 
   ==> In src/getint.c entfernen;
@@ -14,13 +14,13 @@
 	    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   ==>  Haben ``R only'' Package, welches auch unter Windows leicht
-       installierbar w‰re ---> CRAN package ?
+       installierbar w√§re ---> CRAN package ?
 
 
 2) [Juni 2002]:
 
   Etliche der "R CMD check"  Warnungen ( --> /u/sfs/R/SfS.Rcheck/00check.log )
-  w‰ren zu beheben durch Umnennen von Funktionen
+  w√§ren zu beheben durch Umnennen von Funktionen
 
   boxplot.matrix()  {oder ?}
   plot.step()

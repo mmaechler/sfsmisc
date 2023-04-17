@@ -1,11 +1,10 @@
 \name{printTable2}
-\encoding{latin1}
 % source in ../R/printTable.R
 \alias{printTable2}
 \alias{margin2table}
 \alias{print.margin2table}
 \title{Add and Print Marginals for 2-way Contingency Tables}
-%\title{Berechne und Drucke Randtotale etc für 2-weg Kontingenz Tafeln}
+%\title{Berechne und Drucke Randtotale etc fÃ¼r 2-weg Kontingenz Tafeln}
 \description{
   \code{printTable2()} prints a 2-way contingency table \dQuote{with all
     bells and whistles} (currently using German labeling).
@@ -23,7 +22,7 @@ margin2table(x, totName = "sum", name.if.empty=FALSE)
   \item{table2}{a matrix with non-negative integer entries, i.e. the
   contingency table.}%Matrix mit Anzahlen, die Kontingenztafel.
   \item{x}{a matrix; for \code{print()}, the result of \code{margin2table}.}
-  \item{digits}{Anzahl Dezimalstellen, auf die die Häufigkeiten gerundet
+  \item{digits}{Anzahl Dezimalstellen, auf die die HÃ¤ufigkeiten gerundet
     werden sollen.}
   \item{quote, right}{logicals passed to \code{\link{print.default}()},
     but with different default values.}

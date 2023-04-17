@@ -1,4 +1,4 @@
-#### Copyright (2007) Jens Oehlschl‰gel
+#### Copyright (2007) Jens Oehlschl√§gel
 #### GPL licence, no warranty, use at your own risk
 
 ### NOTA BENE: nearPD() in package Matrix is a new version, slightly more elegant

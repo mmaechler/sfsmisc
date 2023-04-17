@@ -2,7 +2,6 @@
 % Copyright (c), 1991, 1997 Martin Maechler, Statistik, ETH Zurich
 %		Martin Maechler <maechler@stat.math.ethz.ch>
 \name{plotStep}
-\encoding{latin1}
 \alias{plotStep}
 \title{Plot a Step Function}
 \description{
@@ -26,8 +25,8 @@ plotStep(ti, y,
   \item{ti}{numeric vector = \code{X[1:N]} or  \code{t[0:n]}.}
   \item{y}{numeric vector \code{y[1:n]}; if omitted take y = k/N
     for empirical CDF.}
-  \item{cad.lag}{logical: Draw 'cad.lag', i.e., \dQuote{\emph{continue à
-	droite, limite à gauche}}.  Default = TRUE.}
+  \item{cad.lag}{logical: Draw 'cad.lag', i.e., \dQuote{\emph{continue Ã 
+	droite, limite Ã  gauche}}.  Default = TRUE.}
   \item{verticals}{logical: Draw vertical lines?  Default= \code{! cad.lag}}
   \item{left.points}{logical: Draw left points?     Default= \code{cad.lag}}
   \item{right.points}{logical: Draw right points?    Default= \code{FALSE}}

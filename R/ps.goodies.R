@@ -1,4 +1,4 @@
-#### PostScript Goodies für R --- `a la /u/sfs/S/ps.goodies.S
+#### PostScript Goodies fÃ¼r R --- `a la /u/sfs/S/ps.goodies.S
 ####
 ####
 

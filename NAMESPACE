@@ -83,6 +83,7 @@ export (
 	"is.whole",
 	"iterate.lin.recursion",
 	"KSd",
+    list_,
 	"last",
 	"linesHyperb.lm",
 	"list2mat",
