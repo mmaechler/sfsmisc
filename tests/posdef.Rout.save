@@ -63,86 +63,12 @@ List of 4
  $ iterations: num 27
  $ converged : logi TRUE
  - attr(*, "class")= chr "nearcor"
-> if(ncr$iterations != 28) {
-+     cat(sprintf("On this platform, the number of iterations (for tol 1e-15) is not 28, but %d;\n",
+> if(ncr$iterations != 27) {
++     cat(sprintf("On this platform, the number of iterations (for tol 1e-15) is not 27, but %d;\n",
 +                 ncr$iterations))
 +     cat("sessionInfoX() :\n")
 +     print(sessionInfoX())
 + }
-On this platform, the number of iterations (for tol 1e-15) is not 28, but 27;
-sessionInfoX() :
-Extended  sessionInfo():
------------------------
-Capabilities:
-       jpeg         png        tiff       tcltk         X11        aqua 
-          X           X           X           X           X           - 
-   http/ftp     sockets      libxml        fifo      cledit       iconv 
-          X           X           -           X           -           X 
-        NLS       Rprof     profmem       cairo         ICU long.double 
-          X           X           -           X           X           X 
-    libcurl 
-          X 
-Sys.info:
-nodename                lynne
-user                    maechler
-
-LAPACK version: 3.10.1 
-External software (versions):
-zlib                    1.2.11
-bzlib                   1.0.8, 13-Jul-2019
-xz                      5.4.1
-PCRE                    10.40 2022-04-14
-ICU                     69.1
-TRE                     TRE 0.8.0 R_fixes (BSD)
-iconv                   glibc 2.35
-readline                8.2
-BLAS                    /u/maechler/R/D/r-pre-rel/64-linux-inst/lib/libRblas.so
-Graphical software (versions):
-cairo                   1.17.6
-cairoFT                 
-pango                   1.50.9
-libpng                  1.6.37
-jpeg                    6.2
-libtiff                 LIBTIFF, Version 4.4.0
-
-PCRE (regex) config.: ("UTF-8" = TRUE, "Unicode properties" = TRUE, JIT = TRUE, stack = FALSE) 
-R executable linked against libR.* ['is R shared']: FALSE 
-
-R_LIBS:
-libPath contains not more than RLIBS and .Library (normalized)
-Main R env. variables (for more, inspect the 'xR.env' component):
-                [,1]                           
-R_ENVIRON       ""                             
-R_PROFILE       ""                             
-R_CHECK_ENVIRON "/u/maechler/.R/check.Renviron"
----------------- standard sessionInfo():
-R version 4.3.0 RC (2023-04-13 r84270)
-Platform: x86_64-pc-linux-gnu (64-bit)
-Running under: Fedora Linux 36 (Thirty Six)
-
-Matrix products: default
-BLAS:   /u/maechler/R/D/r-pre-rel/64-linux-inst/lib/libRblas.so 
-LAPACK: /usr/lib64/liblapack.so.3.10.1
-
-locale:
- [1] LC_CTYPE=de_CH.UTF-8       LC_NUMERIC=C              
- [3] LC_TIME=en_US.UTF-8        LC_COLLATE=C              
- [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=de_CH.UTF-8   
- [7] LC_PAPER=de_CH.UTF-8       LC_NAME=C                 
- [9] LC_ADDRESS=C               LC_TELEPHONE=C            
-[11] LC_MEASUREMENT=de_CH.UTF-8 LC_IDENTIFICATION=C       
-
-time zone: Europe/Zurich
-tzcode source: system (glibc)
-
-attached base packages:
-[1] stats     graphics  grDevices utils     datasets  methods   base     
-
-other attached packages:
-[1] sfsmisc_1.1-15
-
-loaded via a namespace (and not attached):
-[1] compiler_4.3.0 tools_4.3.0   
 > ## IGNORE_RDIFF_END
 > str(ncr0[parts])# looks identical (with few digits accuracy)
 List of 3
@@ -163,4 +89,4 @@ List of 3
 > 
 > proc.time()
    user  system elapsed 
-  0.408   0.229   0.696 
+  0.120   0.044   0.210 
