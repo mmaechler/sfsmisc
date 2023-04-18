@@ -28,8 +28,8 @@ ncr0 <- nearcor(pr, conv.tol = 1e-15, posd.tol = 0)# -> no posdefify step
 parts <- setdiff(names(nc.), "iterations")
 ## IGNORE_RDIFF_BEGIN
 str(ncr)
-if(ncr$iterations != 28) {
-    cat(sprintf("On this platform, the number of iterations (for tol 1e-15) is not 28, but %d;\n",
+if(ncr$iterations != 27) {
+    cat(sprintf("On this platform, the number of iterations (for tol 1e-15) is not 27, but %d;\n",
                 ncr$iterations))
     cat("sessionInfoX() :\n")
     print(sessionInfoX())
