@@ -7,18 +7,21 @@
 %%% TODO:
       %% \item New \code{rDatetime()} for random date/time sequences
       %% within a specified time range.
-\section{CHANGES in sfsmisc VERSION 1.1-15 [2023-08-08]}{
+\section{CHANGES in sfsmisc VERSION 1.1-16 [2023-08-08]}{
+  \subsection{Misc}{
+    \itemize{
+      \item \file{NEWS.Rd} work around "not yet done"-entries.
+    }
+  }
+}
+
+\section{CHANGES in sfsmisc VERSION 1.1-15 [2023-04-18]}{
   \subsection{NEW FEATURES}{
     \itemize{
       \item New \code{list_()} (from my pkg tools) to create auto-named
       \code{list()}s easily.
 
       \item improved \code{Sys.ps.cmd()} for macOS.
-    }
-  }
-  \subsection{Misc}{
-    \itemize{
-      \item \file{NEWS.Rd} work around "not yet done"-entries.
     }
   }
 }
