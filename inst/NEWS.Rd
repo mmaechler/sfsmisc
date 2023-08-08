@@ -438,16 +438,15 @@
 }
 
 \section{CHANGES in sfsmisc VERSION 1.0-9  [2009-11-18]}{
-  (maintenance)
+  \subsection{Misc}{ \itemize{ \item maintenance } }
 }
 
 \section{CHANGES in sfsmisc VERSION 1.0-8  [2009-08-10]}{
-  (maintenance)
-
+  \subsection{Misc}{ \itemize{ \item maintenance } }
 }
 
 \section{CHANGES in sfsmisc VERSION 1.0-7  [2009-01-10]}{
-  (maintenance)
+  \subsection{Misc}{ \itemize{ \item maintenance } }
 }
 
 \section{CHANGES in sfsmisc VERSION 1.0-6  [2008-11-25]}{
@@ -458,7 +457,6 @@
     }
   }
 }
-
 
 \section{CHANGES in sfsmisc VERSION 1.0-5  [2008-11-01]}{
   \subsection{NEW FEATURES}{
@@ -476,7 +474,7 @@
 }
 
 \section{CHANGES in sfsmisc VERSION 1.0-4  [2008-07-31]}{
-  (maintenance)
+  \subsection{Misc}{ \itemize{ \item maintenance } }
 }
 
 \section{CHANGES in sfsmisc VERSION 1.0-3  [2008-06-26]}{
@@ -488,7 +486,7 @@
 }
 
 \section{CHANGES in sfsmisc VERSION 1.0-2  [2008-05-03]}{
-  (maintenance)
+  \subsection{Misc}{ \itemize{ \item maintenance } }
 }
 
 \section{CHANGES in sfsmisc VERSION 1.0-1  [2008-01-30]}{
@@ -499,7 +497,6 @@
     }
   }
 }
-
 
 \section{CHANGES in sfsmisc VERSION 1.0-0  [2007-12-10]}{
   \subsection{NEW FEATURES}{
@@ -523,11 +520,10 @@
   }
 }
 
-
 \section{CHANGES in sfsmisc VERSION 0.95-13  [2007-09-13]}{
   \subsection{NEW FEATURES}{
     \itemize{
-      \item new function nearcor() {find nearest correlation matrix};
+      \item new function nearcor() to find nearest correlation matrix;
       almost as donated by Jens Oehlschlaegel.
     }
   }
@@ -559,50 +555,30 @@
   }
 }
 
-\section{CHANGES in sfsmisc VERSION 0.95-9  [2007-03-15]}{
-  (some)
-}
-
-\section{CHANGES in sfsmisc VERSION 0.95-8  [2007-01-18]}{
-  (some)
-}
-
-\section{CHANGES in sfsmisc VERSION 0.95-7  [2006-10-19]}{
-  (some)
-}
-
-\section{CHANGES in sfsmisc VERSION 0.95-6  [2006-06-26]}{
-  (some)
-}
-
-\section{CHANGES in sfsmisc VERSION 0.95-5  [2006-06-22]}{
-  (some)
-}
-
-
-\section{CHANGES in sfsmisc VERSION 0.95-4  [2006-02-26]}{
-  (some)
-}
-
-\section{CHANGES in sfsmisc VERSION 0.95-3  [2006-01-25]}{
-  (some)
-}
-
-\section{CHANGES in sfsmisc VERSION 0.95-2  [2005-11-03]}{
-  (mainteance)
-}
-
-
-\section{CHANGES in sfsmisc VERSION 0.95-1  [2005-04-25]}{
-  \subsection{NEW FEATURES}{
+\section{CHANGES in sfsmisc VERSION 0.95-2 to *-9}{
+  \subsection{Version and Date (Latest First)}{
     \itemize{
-    \item rnls() for robust nonlinear regression;
-   	lseq() {seq() on log scale} utility
-    \item now has a NAMESPACE
+      \item 0.95-9 : 2007-03-15
+      \item 0.95-8 : 2007-01-18
+      \item 0.95-7 : 2006-10-19
+      \item 0.95-6 : 2006-06-26
+      \item 0.95-5 : 2006-06-22
+      \item 0.95-4 : 2006-02-26
+      \item 0.95-3 : 2006-01-25
+      \item 0.95-2 : 2005-11-03
     }
   }
 }
 
+\section{CHANGES in sfsmisc VERSION 0.95-1  [2005-04-25]}{
+  \subsection{NEW FEATURES}{
+    \itemize{
+    \item 'rnls()' for robust nonlinear regression;
+    'lseq()' for [l]og scale 'seq()'
+    \item now has a NAMESPACE
+    }
+  }
+}
 
 \section{CHANGES in sfsmisc VERSION 0.9-8  [2004-12-14]}{
   \subsection{BUG FIXES}{
