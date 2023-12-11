@@ -191,7 +191,7 @@ factorizeBV <- function(n) {
 	stop("cannot factorize non-numeric arguments")
     if(length(n) > 1) {
 	l <- list()
-	for(i in seq(along = n))
+	for(i in seq_along(n))
 	    l[[i]] <- Recall(n[i])
 	return(l)
     }

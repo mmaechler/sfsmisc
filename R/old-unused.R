@@ -57,12 +57,12 @@ p.t <- function(x,y,...) {
   ## ----------------------------------------------------------------
   ## Arguments: As with plot; e.g.  p.t(sin(pi/10*1:99), main = "Sine")
   ## ----------------------------------------------------------------
-  if(missing(y)) { y <- x; x <- seq(along=y) }
+  if(missing(y)) { y <- x; x <- seq_along(y) }
   plot(x, y, ..., type='b', pch=' ', xlab='', ylab='')
   text(x,y, cex=.8*par("cex"))
 }
 
-p.plot.text <- function(x, y, labels = seq(along = x),
+p.plot.text <- function(x, y, labels = seq_along(x),
                         xlab = deparse(substitute(x)),
                         ylab = deparse(substitute(y)),
                         col = par("col"), textcex = 0.7, ...)

@@ -46,7 +46,7 @@ pretty10exp <- function(x, drop.1 = FALSE, sub10 = FALSE,
 	mT[noE] <- mT[noE] * 10^eT[noE]
     }
     if (lab.type == "plotmath") {
-	for(i in seq(along = x))
+	for(i in seq_along(x))
 	    ss[[i]] <-
 		if(x[i] == 0) quote(0)
 		else if(sub.10 &&  noE[i]    ) substitute( A, list(A = mT[i]))
@@ -58,7 +58,7 @@ pretty10exp <- function(x, drop.1 = FALSE, sub10 = FALSE,
 	## TO DO: allow format specifier??
 	mTf <- formatC(mT, width=1)
 	eTf <- formatC(eT, width=1)
-	for(i in seq(along = x))
+	for(i in seq_along(x))
 	    ss[[i]] <-
 		if(x[i] == 0) ""
 		else if(sub.10 &&  noE[i]    ) mTf[i]

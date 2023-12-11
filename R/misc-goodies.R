@@ -216,7 +216,7 @@ histBxp <-
   ##-- but you should leave some white space -> scale down
   ##-- The scaling factor is really a  KLUDGE but works for a wide range!
   p.hboxp(x, scale.r(par("usr")[3], 0, ## ph, 8.5.00: changed f=.9 to f=.8
-		     f = .8 - max(0, .15 - width)*(1+(par("mfg")[3] >= 3))),
+		     fact = .8 - max(0, .15 - width)*(1+(par("mfg")[3] >= 3))),
 	  boxcol = boxcol, medcol = medcol,
 	  medlwd = medlwd, whisklty = whisklty, staplelty = staplelty)
 }

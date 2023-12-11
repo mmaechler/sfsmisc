@@ -10,6 +10,7 @@ isRshared <- function(platform = .Platform) {
     }
 }
 
+## MM: cf. ~/R/Pkgs/robustbase/inst/xtraR/more
 sessionInfoX <- function(pkgs=NULL, list.libP = FALSE, extraR.env = TRUE) {
     ## return an object; then print() via method
     lP <- .libPaths() # *is* normalized in the sense of normalizePath()

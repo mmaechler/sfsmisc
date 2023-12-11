@@ -7,6 +7,15 @@
 %%% TODO:
       %% \item New \code{rDatetime()} for random date/time sequences
       %% within a specified time range.
+\section{CHANGES in sfsmisc VERSION 1.1-17 [2023-12-11]}{
+  \subsection{Misc}{
+    \itemize{
+      \item  \code{seq_along(.)} instead of (partial arg)
+      \code{seq(along=.)}; fix other partial arg.
+    }
+  }
+}
+
 \section{CHANGES in sfsmisc VERSION 1.1-16 [2023-08-08]}{
   \subsection{Misc}{
     \itemize{
