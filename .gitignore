@@ -1,9 +1,11 @@
 Old_Defunct/*
 TAGS*
 git-*
+*.out
 *~
 *,v
 vignettes/cache/*
 .Rproj.user
 .Rhistory
+M1mac*
 /DESCRIPTION_Author
