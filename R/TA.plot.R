@@ -57,7 +57,7 @@ TA.plot <-
         }
     }
     mk.main <- function() {
-      cal <- call ## if(is.R()) call else get("call", frame = sys.parent())
+      cal <- call
       if(is.null(cal))
         "Tukey-Anscombe plot of ???"
       else {

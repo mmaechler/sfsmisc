@@ -65,10 +65,8 @@ D1D2(x, y, xout = x, spar.offset = 0.1384, deriv = 1:2, spl.spar = NULL)
  plot(x,y)
  lines(ss <- smooth.spline(x,y), col = 4)
  str(ss[c("df", "spar")])
- if(is.R()) plot(cos, 0, 10, ylim = c(-1.5,1.5), lwd=2) else { # Splus
-   xx <- seq(0,10, len=201); plot(xx, cos(xx), type = 'l', ylim = c(-1.5,1.5))
- }
- title(expression("Estimating f'() :  " * frac(d,dx) * sin(x) == cos(x)))
+ plot(cos, 0, 10, ylim = c(-1.5,1.5), lwd=2,
+      main = expression("Estimating f'() : "~~ frac(d,dx) * sin(x) == cos(x)))
  offs <- c(-0.1, 0, 0.1, 0.2, 0.3)
  i <- 1
  for(off in offs) {

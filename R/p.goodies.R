@@ -113,19 +113,10 @@ p.profileTraces <-
                cex = 0.5 * cex)
           points(xx[tau == 0], 0, pch = 3)
           pusr <- par("usr")
-          ## "at = " muss anders sein R & SPlus
-          if(is.R()) { ## mtext(outer = TRUE, at= <NICHT "usr" Koord>):
             mtext(side = 1, line = 0.8, at = -1/(2*np)+i/np,
                   text = nx[j] , outer = TRUE, cex = cex)
             mtext(side = 2, line = 0.8, at = 1+1/(2*np)-i/np,
                   text = nx[i], outer = TRUE, cex = cex)
-          }
-          else {
-            mtext(side = 1, line = 0.8, at = mean(pusr[1:2]),
-                  text = nx[j] , outer = TRUE, cex = cex)
-            mtext(side = 2, line = 0.8, at = mean(pusr[3:4]),
-                  text = nx[i], outer = TRUE, cex = cex)
-          }
         }
       }
       else { ## j < i : Likelihood Profilspuren
@@ -143,8 +134,8 @@ p.profileTraces <-
         }
       }
     }
-    if (i < np) # frame()s:  S-plus braucht häufig eines mehr :
-      for (k in 1:(np - i + if(is.R()) 0 else 1)) frame()
+    if (i < np)
+      for (k in 1:(np - i)) frame()
   }
   mtext(side = 3, line = 0.2, text = subtitle,
         outer = TRUE, cex = 1.2 * cex)
@@ -209,7 +200,7 @@ p.arrows <- function(x1, y1, x2, y2,
   ## Author: Andreas Ruckstuhl, Date: 19 May 94;   Cosmetic by MM: June'98
   ## -------------------------------------------------------------------------
   cin <- size*par("cin")[2] ## vertical symbol size in inches
-  uin <-  if(is.R()) 1/xyinch() else par("uin") ## inches per usr unit
+  uin <-  1/xyinch() # inches per usr unit
 
   segments(x1, y1, x2, y2, ...)
 

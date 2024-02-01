@@ -27,15 +27,13 @@ function(nr.plots, mfrow, mfcol,
     if(use.row) par(mfrow = mfrow, oma = oma, mar = mar, mgp= mgp)
     else        par(mfcol = mfcol, oma = oma, mar = mar, mgp= mgp)
   ##---- now go ahead :
-  if(!is.R())
-      frame()
   if (!is.null(main)) {# Do title *before* first plot!
-      if(is.R()) plot.new()
+      plot.new()
       mtext(main, side = 3, outer = TRUE,
             line = line.main,
             cex = cex.main,
             font = font.main, col = col.main, ...)
-      if(is.R()) par(new=TRUE)# reverse `plot.new()' above
+      par(new=TRUE)# reverse `plot.new()' above
   }
   invisible(list(new.par = par(c("mfrow","mfcol","oma","mar","mgp")),
                  old.par = old.par))
