@@ -28,6 +28,10 @@ polyn.eval(coef, x)
 }
 \details{
   The stable \dQuote{Horner rule} is used for evaluation in any case.
+
+  When \code{length(coef) == 1L}, \code{polyn.eval(coef, x)} now returns a
+  vector of \code{length(x)} whereas previously, it just gave the number
+  \code{coef} independent of \code{x}.
 }
 \value{
   numeric vector or array, depending on input dimensionalities, see above.
@@ -61,5 +65,7 @@ if((RmpfrT <-"package:Rmpfr" \%in\% search()) || require("Rmpfr")) withAutoprint
  if(!RmpfrT) detach("package:Rmpfr")
 })
 
+stopifnot(identical(polyn.eval(12, x),      rep(12, length(x))),
+          identical(polyn.eval(7, diag(3)), matrix(7, 3,3)))
 }
 \keyword{arith}

@@ -322,11 +322,15 @@ polyn.eval <- function(coef, x)
   ## Author: Martin Maechler <maechler@stat.math.ethz.ch>
   if(is.null(dim(coef))) {
     lc <- length(coef)
-    if (lc == 0) 0  else {
+    if (lc == 0L) 0
+    else {
       r <- coef[lc]
-      if (lc > 1)
+      if (lc == 1L)
+        r + 0*x # keep dim(x) 
+      else { # lc > 1
 	for (i in (lc-1):1) r <- coef[i] + r*x
-      r
+        r
+      }
     }
   } else { #-- coef is MATRIX --
     dc <- dim(coef)
