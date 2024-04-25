@@ -51,6 +51,7 @@ isRshared(platform = .Platform)
  \item{sInfo}{simply the value of \code{\link{sessionInfo}()}.}
  \item{sysInf}{the value of \code{\link{Sys.info}()}.}
  \item{capabilities}{the value of \code{\link{capabilities}()}.}
+ \item{Machine}{the value of \code{\link{.Machine}}.}
  \item{extSoft}{for \R 3.2.0 and newer, the value of \code{\link{extSoftVersion}()}.}
  \item{grSoft}{for \R 3.2.0 and newer, the value of \code{\link{grSoftVersion}()}.}
  \item{tclVersion}{for \R 3.2.0 and newer and when \pkg{tcltk} is loaded,

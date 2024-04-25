@@ -27,6 +27,7 @@ sessionInfoX <- function(pkgs=NULL, list.libP = FALSE, extraR.env = TRUE) {
         list(sInfo  = si,
              sysInf = Sys.info(),
 	     capabilities = capabilities(),
+             Machine = .Machine,
 	     extSoft = if(Rver >= "3.2.0") extSoftVersion(),
 	     grSoft  = if(Rver >= "3.2.0") grSoftVersion(),
 	     tclVersion=if(Rver >= "3.2.0" && "tcltk" %in% sessionPkgs) tcltk::tclVersion(),
@@ -55,6 +56,7 @@ print.sessionInfoX <- function(x, locale = TRUE, RLIBS = TRUE, Renv = TRUE, ...)
     print(symnum(x$capabilities, symbols = c("-", "X")), ...)
     cat("Sys.info:\n")
     print(struct(x$sysInf[c("nodename", "user")], class="Dlist"), ...)
+    cat(".Machine:  "); str(x$Machine)
     cat("\n")
     if(!is.null(x$LAPACK)) cat("LAPACK version:", x$LAPACK, "\n")
     if(!is.null(x$extSoft)) {
@@ -98,6 +100,9 @@ print.sessionInfoX <- function(x, locale = TRUE, RLIBS = TRUE, Renv = TRUE, ...)
     invisible(x)
 }
 
+## "FIXME"/"TODO":
+## used in  mtextVersion() in  ~/R/Pkgs/DPQ/inst/extraR/relErr-plots.R
+##  which mentions myRversion {long.double, non-{'x86_64'}}
 shortRversion <- function(Rv = R.version,
                           Rst = Rv$status,
                           Rvstring = if(!is.null(s <- Rv$version.string))
