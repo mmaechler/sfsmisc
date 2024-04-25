@@ -112,7 +112,6 @@ p.profileTraces <-
                type = "l", las = 1, mgp = c(3, 0.8, 0),
                cex = 0.5 * cex)
           points(xx[tau == 0], 0, pch = 3)
-          pusr <- par("usr")
             mtext(side = 1, line = 0.8, at = -1/(2*np)+i/np,
                   text = nx[j] , outer = TRUE, cex = cex)
             mtext(side = 2, line = 0.8, at = 1+1/(2*np)-i/np,

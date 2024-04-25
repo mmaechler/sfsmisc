@@ -1,6 +1,6 @@
 \name{f.robftest}
 \alias{f.robftest}
-\title{Robust F-Test: Wald test for multiple coefficients of rlm() Object.}
+\title{Robust F-Test: Wald test for multiple coefficients of rlm() Object}
 \description{
   Compute a robust F-Test, i.e., a Wald test for multiple coefficients
   of an \code{\link[MASS]{rlm}} object.

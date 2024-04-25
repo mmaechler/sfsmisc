@@ -1,6 +1,6 @@
 \name{xy.grid}
 \alias{xy.grid}
-\title{Produce regular grid matrix.}
+\title{Produce Regular Grid Matrix}
 \description{
   Produce the grid used by \code{\link{persp}}, \link{contour}, etc, as
   an \code{N x 2} matrix.

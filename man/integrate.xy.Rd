@@ -1,6 +1,6 @@
 \name{integrate.xy}
 \alias{integrate.xy}
-\title{Cheap Numerical Integration through Data points.}
+\title{Cheap Numerical Integration through Data Points}
 \description{
   Given \eqn{(x_i, f_i)} where \eqn{f_i = f(x_i)}, compute a cheap
   approximation of \eqn{\int_a^b f(x) dx}{integral(a .. b) f(x) dx}.
