@@ -7,6 +7,7 @@
 }
 \usage{
 pretty10exp(x, drop.1 = FALSE, sub10 = FALSE, digits = 7, digits.fuzz,
+            off = pmax(10^-digits, 2^-(l10x*log2(10)+1075)),
             lab.type = c("plotmath","latex"),
             lab.sep = c("cdot", "times"))
 }
@@ -31,6 +32,11 @@ pretty10exp(x, drop.1 = FALSE, sub10 = FALSE, digits = 7, digits.fuzz,
   \item{digits}{number of digits for mantissa (\eqn{a}) construction;
     the number of \emph{significant} digits, see \code{\link{signif}}.}
   \item{digits.fuzz}{the old deprecated name for \code{digits}.}
+  \item{off}{a numeric offset in \code{eT <- floor(l10x + off)} where
+    \code{l10x <- log10(abs(x))} and \code{eT} are the exponents \eqn{k}
+    for label factors \eqn{10^k}.  Previously hardcoded to
+    \code{10^-digits}, the new default provides better results for
+    subnormal \code{abs(x)} values.}
   \item{lab.type}{a string indicating how the result should look like.
     By default, (\code{\link{plotmath}}-compatible)
     \code{\link{expression}}s are returned. Alternatively,
@@ -100,5 +106,26 @@ pretty10exp(ax, drop.1=TRUE, sub10=c(-2,2))
 ## i.e., implicitly had  digits := #{double precision digits} ==
 (dig. <- .Machine$double.digits * log10(2)) # 15.95
 pretty10exp(ax, drop.1=TRUE, digits= dig.)  # ''ugly''
+
+## Subnormal numbers
+x <- sort(c(outer(10^-(323:305), 1:9))); x <- c(x[1]/2, x)
+tail(x, 12) # nice
+head(x, 6)  # "ugly" (they are multiple's of 2^-1074):
+head(x, 6) / 2^-1074  # nice
+
+head(p0 <- pretty10exp(x, off = 10^-7), 30) # previous behavior {before 'off' existed}
+str(head(pTen <- lapply(p0, `[[`, 3L)))
+str(exTen <- sapply(pTen, `[[`, 3L)) # -324 -324 ..
+head(f0 <- sapply(p0, `[[`, 2L), 17)
+
+head(p1 <- pretty10exp(x))# new default
+str(head(pTen1 <- lapply(p1, `[[`, 3L)))
+str(exTen1 <- sapply(pTen1, `[[`, 3L)) # -324 -324 ..
+head(f1 <- sapply(p1, `[[`, 2L), 17)   #
+
+head(cbind(x, f0, f1, exTen, exTen1), 80)
+(nEQ <- which(sapply(1:length(p0), function(i) p0[[i]] != p1[[i]])))
+cbind(x, f0, f1, exTen, exTen1)[nEQ,]
+stopifnot(is.finite(f1), 0.5 <= f1, f1 <= 9)
 }
 \keyword{dplot}

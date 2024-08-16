@@ -1,6 +1,9 @@
+## NB: patterns are matched case insensitively
+
 CODE.*CONDUCT\.md
-DESCRIPTION_Author
+^DESCRIPTION_Author
 MathnR_.*.html
+^M1mac_
 Contributors
 CRAN
 Older

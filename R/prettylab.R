@@ -7,6 +7,8 @@
 
 pretty10exp <- function(x, drop.1 = FALSE, sub10 = FALSE,
                         digits = 7, digits.fuzz,
+                        ## default `off` corrects for subnormal |x| {on x86_64 ..}:;
+                        off = pmax(10^-digits, 2^-(l10x*log2(10)+1075)),
                         lab.type = c("plotmath", "latex"),
                         lab.sep = c("cdot", "times"))
 {
@@ -23,7 +25,9 @@ pretty10exp <- function(x, drop.1 = FALSE, sub10 = FALSE,
     lab.type <- match.arg(lab.type)
     lab.sep <- match.arg(lab.sep)
 
-    eT <- floor(log10(abs(x)) + 10^-digits) # x == 0 case is dealt with below
+    l10x <- log10(abs(x))
+    eT <- floor(l10x + off) # x == 0 case is dealt with below
+    ##    ^^^^^ round() would be better, e.g., when  x <- 10^-(323:300)  <--> "subnormal" rounding
     mT <- signif(x / 10^eT, digits) # m[antissa]
     ss <- vector("list", length(x))
     if(sub.10 <- !isFALSE(sub10)) {
