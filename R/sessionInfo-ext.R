@@ -28,6 +28,7 @@ sessionInfoX <- function(pkgs=NULL, list.libP = FALSE, extraR.env = TRUE) {
              sysInf = Sys.info(),
 	     capabilities = capabilities(),
              Machine = .Machine,
+             compiledBy= if(Rver >= "4.3.0") R_compiled_by(),
 	     extSoft = if(Rver >= "3.2.0") extSoftVersion(),
 	     grSoft  = if(Rver >= "3.2.0") grSoftVersion(),
 	     tclVersion=if(Rver >= "3.2.0" && "tcltk" %in% sessionPkgs) tcltk::tclVersion(),
@@ -58,6 +59,8 @@ print.sessionInfoX <- function(x, locale = TRUE, RLIBS = TRUE, Renv = TRUE, ...)
     print(struct(x$sysInf[c("nodename", "user")], class="Dlist"), ...)
     cat(".Machine:  "); str(x$Machine)
     cat("\n")
+    if(!is.null(cby <- x$compiledBy)) {
+        cat("R was compiled by:\n"); print(struct(cby, class="Dlist"), ...) }
     if(!is.null(x$LAPACK)) cat("LAPACK version:", x$LAPACK, "\n")
     if(!is.null(x$extSoft)) {
         cat("External software (versions):\n")

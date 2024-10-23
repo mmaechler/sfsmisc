@@ -7,6 +7,15 @@
 %%% TODO:
       %% \item New \code{rDatetime()} for random date/time sequences
       %% within a specified time range.
+\section{CHANGES in sfsmisc VERSION 1.1-20 [2024-10-23]}{
+  \subsection{NEW FEATURES}{
+    \itemize{
+      \item \code{sessionInfoX()} now reports \code{R_compiled_by()} when
+      that exists.
+    }
+  }
+}
+
 \section{CHANGES in sfsmisc VERSION 1.1-19 [2024-08-16]}{
   \subsection{NEW FEATURES}{
     \itemize{
