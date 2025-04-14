@@ -1,8 +1,8 @@
-## NB: patterns are matched case insensitively
+## -*-sh-*-  using reg.exp (==> no initial or final '.*'),  but case is ignored!
 
-CODE.*CONDUCT\.md
+CODE.*CONDUCT\.md$
 ^DESCRIPTION_Author
-MathnR_.*.html
+MathnR_.*.html$
 ^M1mac_
 Contributors
 CRAN
@@ -12,17 +12,17 @@ TAGS
 LICENSE.md
 NOTES-I-know
 .travis.yml
-^git.*
-.*,v
-.*-ss
-.*mail
-.*-log
+^git
+,v$
+-ss$
+mail
+-log
 sfsmisc.*\.out
-.*-used-grep
+-used-grep
 man/.*\.d$
 SfS-changes
 Done
-approx2.R
-Unused.R
+approx2\.R$
+Unused\.R$
 inst/doc/CHANGES-dummy
 

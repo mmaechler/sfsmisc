@@ -16,11 +16,10 @@ ccat(...)
   \item{vec, \dots}{any vector and other arguments to be pasted to together.}
   \item{sep}{the separator to use, see the \emph{Details} section.}
 }
-\details{The functions are really just defined as\cr
- vcat :=  \code{function(vec, sep = " ") paste(vec, collapse = sep)}
-
- ccat :=  \code{function(...)            paste(..., collapse = "", sep = "")}
-}
+\details{The functions are really just defined as \preformatted{
+ vcat :=  function(vec, sep = " ") paste(vec, collapse = sep)
+ ccat :=  function(...)           paste0(..., collapse = "")
+}}
 \value{
   a character string (of length 1) with the concatenated arguments.
 }

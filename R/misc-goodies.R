@@ -485,7 +485,8 @@ helppdf <- function(topic, viewer = getOption("pdfviewer"), quiet = !interactive
     hh <- help(topic, help_type = "pdf", ...)
     pdfile <- with(attributes(hh), paste(topic, type, sep="."))
     ## almost all rendering & pdf creation happens here:
-    print(hh, msg=!quiet)# utils:::print.help_files_with_topic() |--> .show_help_on_topic_offline()
+    print(hh, msg=!quiet)# utils:::print.help_files_with_topic() |--> .show_help_on_topic_offline(<texf>, ..)
+                                        #                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~ ..........
     if(length(viewer))
 	system(paste(viewer, pdfile), wait = FALSE)
     ans <- file.path(getwd(), pdfile)
