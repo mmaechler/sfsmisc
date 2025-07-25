@@ -335,9 +335,6 @@ DIV <- function(N) {
     N.seq[(N %% N.seq) == 0]
 }
 
-
-
-
 ##- From: "Frank E Harrell Jr" <fharrell@virginia.edu>
 ##- To: "s-news" <s-news@wubios.wustl.edu>
 ##- Subject: [S] An improved factorize()
@@ -393,3 +390,31 @@ pfac <- function(n, nn = 0)
 
 ##-   -- Paul Tukey
 ##-      Bellcore
+
+##-------------------  GCD and LCM ----------------------> ../man/gcd.Rd
+
+##' Greatest Common Divisor  of 2
+GCD <- function (a, b) {
+    stopifnot(a == (a <- floor(a)), b == (b <- floor(b)), length(a) == 1L, length(b) == 1L,
+              a > 0L, b > 0L)
+    while (b != 0) {
+        q <- a %/% b
+        R <- a - b * q
+        a <- b
+        b <- R
+    }
+    a
+}
+
+##' Least Common Multiple of _several_ integers
+LCM <- function(n, ...) { # least common multiple of *several* integer numbers in n,...
+    if(...length()) n <- c(n, as.integer(unlist(list(...))))
+    stopifnot(n == (n <- as.integer(n)))
+    ## LCM(a, b, c, ...) = LCM(...., LCM(LCM(a, b), c), ...);  LCM(a,b) = a*b / GCD(a,b)
+    N <- length(n)
+    if(!N) return(1)
+    p <- as.double(n[1L]) # numeric because of "easy" overflow
+    if(N > 1L) for(j in 2L:N)
+        p <- (p * n[j]) %/% GCD(p, n[j])
+    p
+}

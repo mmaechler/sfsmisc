@@ -41,6 +41,7 @@ importFrom("tools", Rcmd)
 export (
         ## ./R/prime-numbers-fn.R :
         primes, factorize,
+	GCD, LCM,
 
 	"AsciiToInt",
 	"as.intBase", "bi2int",
