@@ -7,7 +7,7 @@
 %%% TODO:
       %% \item New \code{rDatetime()} for random date/time sequences
       %% within a specified time range.
-\section{CHANGES in sfsmisc VERSION 1.1-22 [2025-08-..]}{
+\section{CHANGES in sfsmisc VERSION 1.1-22 [2025-07-30]}{
   \subsection{NEW FEATURES}{
     \itemize{
       \item \code{pretty10exp()} and hence \code{eaxis()} get new behaviour

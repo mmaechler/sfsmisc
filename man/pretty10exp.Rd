@@ -34,6 +34,8 @@ pretty10exp(x, drop.1 = FALSE, sub10 = FALSE, digits = 7, digits.fuzz,
       \item{\code{sub10 = "1000"}:}{short for \code{c(-2,3)}, using
 	\eqn{0.01}, \eqn{0.1}, \dots, \eqn{1000} for \code{10^{-2},\dots, 10^3}.}
     }
+    If it would not break back compatibility, the author would nowadays
+    choose the default as \code{sub10 = "1000"}.
   }
   \item{digits}{number of digits for mantissa (\eqn{a}) construction;
     the number of \emph{significant} digits, see \code{\link{signif}}.}
