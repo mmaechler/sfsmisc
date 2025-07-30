@@ -67,7 +67,8 @@ eaxis(side, at = if(log) axTicks(side, axp=axp, log=log, nintLog=nintLog)
     corresponding \code{\link{par}("usr")}.}
   \item{drop.1}{logical specifying if \eqn{1 \times}{1 *} should be dropped
     from labels, passed to \code{\link{pretty10exp}()}.}
-  \item{sub10}{logical, integer (of length 1 or 2) or \code{"10"}, indicating if
+  \item{sub10}{logical, integer (of length 1 or 2), \code{"10"} or \code{"100"},
+    indicating if
     some \eqn{10^k} should be simplified to \dQuote{traditional}
     formats, see \code{\link{pretty10exp}}.}
   \item{nintLog}{only used in \R > 2.13.x, when \code{log} is true:

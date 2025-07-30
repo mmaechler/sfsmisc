@@ -5,7 +5,7 @@
   Produce nice \eqn{a \times 10^k}{a * 10^k} expressions to be used
   instead of the scientific notation  \code{"a E<k>"}.
 }
-\usage{
+\usage{% ../R/prettylab.R
 pretty10exp(x, drop.1 = FALSE, sub10 = FALSE, digits = 7, digits.fuzz,
             off = pmax(10^-digits, 2^-(l10x*log2(10)+1075)),
             lab.type = c("plotmath","latex"),
@@ -15,19 +15,25 @@ pretty10exp(x, drop.1 = FALSE, sub10 = FALSE, digits = 7, digits.fuzz,
   \item{x}{numeric vector (e.g. axis tick locations)}
   \item{drop.1}{logical indicating if \eqn{1 \times}{1 *} should be
     dropped from the resulting expressions.}
-  \item{sub10}{logical, \code{"10"}, a non-negative integer number or
-    an integer vector of length two, say \eqn{(k_1,k_2)}{(k1,k2)}, indicating if some
+  \item{sub10}{logical, \code{"10"}, \code{"100"}, an integer number or
+    vector of length two, say \eqn{(k_1,k_2)}{(k1,k2)}, indicating if some
     \eqn{10^j} expressions for \eqn{j \in J}{j in J} should be formatted
     traditionally, notably e.g., \eqn{10^0 \equiv 1}{10^0 == 1}.
     \cr
-    When a (non-negative) number, say \eqn{k}, \eqn{J = \{j; j \le k\}}{%
+    When a number, say \eqn{k}, \eqn{J = \{j; j \le k\}}{%
       J = {j; j \le k}} are all simplified, when a length--2 vector,
     \eqn{J = \{j; k_1 \le j \le k_2\}}{J = {j; k1 \le j \le k2}} are.
 
-    Special cases: \code{sub10 = TRUE} means to use
-    \eqn{1} instead of \eqn{10^0} and \code{sub10 = "10"} uses both
-    \eqn{1} for \eqn{10^0} and \eqn{10} for \eqn{10^1}; these are short
-    forms of \code{sub10 = c(0,0)} and \code{sub10 = c(0,1)} respectively.
+    Special cases:
+    \describe{
+      \item{\code{sub10 = TRUE}:}{use \eqn{1} instead of \eqn{10^0},}
+      \item{\code{sub10 = "10"}:}{short for \code{c(-1,1)}, i.e., uses
+	\eqn{0.1} for \code{10^{-1}}, \eqn{1} for \eqn{10^0} and \eqn{10} for \eqn{10^1};}
+      \item{\code{sub10 = "100"}:}{short for \code{c(-1,2)}, i.e., uses
+	\eqn{0.1}, \eqn{1}, \eqn{10}, and \eqn{100} for \code{10^{-1},\dots, 10^2}.}
+      \item{\code{sub10 = "1000"}:}{short for \code{c(-2,3)}, using
+	\eqn{0.01}, \eqn{0.1}, \dots, \eqn{1000} for \code{10^{-2},\dots, 10^3}.}
+    }
   }
   \item{digits}{number of digits for mantissa (\eqn{a}) construction;
     the number of \emph{significant} digits, see \code{\link{signif}}.}

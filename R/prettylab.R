@@ -16,14 +16,14 @@ pretty10exp <- function(x, drop.1 = FALSE, sub10 = FALSE,
     ## ----------------------------------------------------------------------
     ## Arguments: x: numeric vector (e.g. axis tick locations)
     ## ----------------------------------------------------------------------
-    ## Author: Martin Maechler, Date: 7 May 2004; 24 Jan 2006
+    ## Author: Martin Maechler, Date: 7 May 2004, Jan 2006, ...
 
     if(!missing(digits.fuzz)) {
 	message("'digits.fuzz' is deprecated; use 'digits' instead")
 	digits <- digits.fuzz
     }
     lab.type <- match.arg(lab.type)
-    lab.sep <- match.arg(lab.sep)
+    lab.sep  <- match.arg(lab.sep)
 
     l10x <- log10(abs(x))
     eT <- floor(l10x + off) # x == 0 case is dealt with below
@@ -33,14 +33,16 @@ pretty10exp <- function(x, drop.1 = FALSE, sub10 = FALSE,
     if(sub.10 <- !isFALSE(sub10)) {
 	sub10 <- if(isTRUE(sub10))
                      c(0L,0L)
-                 else if(identical(sub10, "10"))
-                     0:1
+                 else if(identical(sub10,  "10")) c(-1L,1L)
+                 else if(identical(sub10, "100")) c(-1L,2L)
+                 else if(identical(sub10,"1000")) c(-2L,3L)
                  else
                      as.integer(sub10)
 	noE <-
-	    if(length(sub10) == 1) {
-		if(sub10 < 0)
-		    stop("'sub10' must not be negative if a single number")
+	    if(length(sub10) == 1) {                               ### FIXME
+                ## *Not* really sensible -- was active till 2025-08... [sfsmisc version <= 1.1-21]
+		## if(sub10 < 0)
+		##     stop("'sub10' must not be negative if a single number")
 		eT <= sub10
 	    } else if(length(sub10) == 2) {
 		stopifnot(sub10[1] <= sub10[2])

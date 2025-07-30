@@ -7,15 +7,29 @@
 %%% TODO:
       %% \item New \code{rDatetime()} for random date/time sequences
       %% within a specified time range.
-\section{CHANGES in sfsmisc VERSION 1.1-21 [2025-07-25]}{
+\section{CHANGES in sfsmisc VERSION 1.1-22 [2025-08-..]}{
   \subsection{NEW FEATURES}{
     \itemize{
-      \item New \code{GCD(m,n)} and \code{LCM(...)}
+      \item \code{pretty10exp()} and hence \code{eaxis()} get new behaviour
+      for non-default \code{sub10 = nn}; notably, \code{nn} may now be a
+      negative integer; \code{sub10 = "10"} is now equivalent to
+      \code{sub10 = c(-1,1)}, and newly, \code{sub10 = "100"} and
+      \code{"1000"} as "mnemonic" for \code{sub10 = c(-1, 2)} or
+      \code{c(-2, 3)}, respectively.
     }
   }
   \subsection{BUG FIXES}{
     \itemize{
       \item .
+    }
+  }
+}
+
+
+\section{CHANGES in sfsmisc VERSION 1.1-21 [2025-07-25]}{
+  \subsection{NEW FEATURES}{
+    \itemize{
+      \item New \code{GCD(m,n)} and \code{LCM(...)}
     }
   }
 }
@@ -32,7 +46,7 @@
 \section{CHANGES in sfsmisc VERSION 1.1-19 [2024-08-16]}{
   \subsection{NEW FEATURES}{
     \itemize{
-      \item pretty10exp() gets new offset arg \code{} and now works
+      \item pretty10exp() gets new offset arg \code{off} and now works
       correctly even for subnormal numbers.
     }
   }
