@@ -39,8 +39,8 @@ pretty10exp <- function(x, drop.1 = FALSE, sub10 = FALSE,
                  else
                      as.integer(sub10)
 	noE <-
-	    if(length(sub10) == 1) {                               ### FIXME
-                ## *Not* really sensible -- was active till 2025-08... [sfsmisc version <= 1.1-21]
+	    if(length(sub10) == 1) {
+                ## *Not* really sensible -- was active till 2025-07-26 [sfsmisc version <= 1.1-21]
 		## if(sub10 < 0)
 		##     stop("'sub10' must not be negative if a single number")
 		eT <= sub10
