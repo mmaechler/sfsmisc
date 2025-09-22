@@ -141,6 +141,12 @@ eaxis <- function(side, at = if(log) axTicks(side, axp=axp, log=log, nintLog=nin
                   else TRUE
     else if(length(labels) == 1 && is.na(labels)) # no 'plotmath'
 	labels <- TRUE
+    if(getOption("digits") > 16 &&
+       (isTRUE(labels) || (is.expression(labels) && "numeric" %in% vapply(labels, mode, "")))) {
+        ## options(digits = 17) leads to ugly decimal formatting
+        op <- options(digits = 15); on.exit(options(op))
+        message("temporarily lower \"digits\" option to 15 ..")
+    }
     axis(side, at = at, labels = labels, las=las, ...)
     if(log) {
 	if(any(at <= 0)) stop("invalid 'log=TRUE' for at <= 0: not a true log scale plot?")
