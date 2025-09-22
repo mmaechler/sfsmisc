@@ -7,6 +7,20 @@
 %%% TODO:
       %% \item New \code{rDatetime()} for random date/time sequences
       %% within a specified time range.
+\section{CHANGES in sfsmisc VERSION 1.1-23 [2025-09-22]}{
+  \subsection{NEW FEATURES}{
+    \itemize{
+      \item \code{pkgDesc()} gets a new option \code{onlyLT = <num>} which
+      by default skips longish \code{Author} and \code{Description} fields.
+    }
+  }
+  \subsection{BUG FIXES}{
+    \itemize{
+      \item \code{eaxis()} is now "protected" against large
+      \code{options("digits")} which may give badly formatted tick "labels".
+    }
+  }
+}
 \section{CHANGES in sfsmisc VERSION 1.1-22 [2025-08-30]}{
   \subsection{NEW FEATURES}{
     \itemize{

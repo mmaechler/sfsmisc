@@ -9,7 +9,7 @@
   method.
 }
 \usage{
-pkgDesc (pkg, lib.loc = NULL, fields = NULL, ...)
+pkgDesc (pkg, lib.loc = NULL, fields = NULL, onlyLT = 99, ...)
 pkgBuilt(pkg, lib.loc = NULL, ...)
 }
 \arguments{
@@ -17,6 +17,8 @@ pkgBuilt(pkg, lib.loc = NULL, ...)
   \item{lib.loc}{library location to find the package in; the default
     \code{NULL} uses the full \code{\link{.libPaths}()}.}
   \item{fields}{a character vector (or \code{NULL}) specifying fields to be returned.}
+  \item{onlyLT}{positive integer specifying an upper limit on the number of
+    characters of fields to be returned and printed.}
   \item{...}{further optional arguments passed to \code{\link{packageDescription}()}.}
 }
 \value{
@@ -30,6 +32,9 @@ pkgBuilt(pkg, lib.loc = NULL, ...)
 \note{The \code{file} is always returned; not the least that the author
   wants to see it quite often as his \code{\link{.libPaths}()} is
   non-trivial and typically longer than 4 entries.
+
+  I started to hate screen fulls of Authors and/or Description; when I
+  wanted quite basic info, hence \code{onlyLT} with a reasonable default.
 }
 \seealso{
   \code{\link{packageDescription}},
@@ -38,6 +43,13 @@ pkgBuilt(pkg, lib.loc = NULL, ...)
 \examples{
 str(pd <- pkgDesc("sfsmisc"))
 pd[c("Date","Packaged", "Built","file")]
+
+## see the effects of  `onlyLT` :
+str(p1 <- pkgDesc("sfsmisc", onlyLT = Inf)) # .. [1:25] ..
+str(pD  <-pkgDesc("sfsmisc"              )) # .. [1:21] ..
+str(p50 <-pkgDesc("sfsmisc", onlyLT = 50 )) # .. [1:18] ..
+t(sapply(list(full = p1, def. = pD, p50 = p50),
+         \(pd) {n <- nchar(pd); c(summary(n)[-1], SUM = sum(n))}))
 
 pkgBuilt("sfsmisc")
 
