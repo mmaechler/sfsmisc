@@ -1,7 +1,7 @@
 n.plot <-
     function(x, y=NULL, nam = NULL, abbr = n >= 20 || max(nchar(nam))>=8,
-             xlab = NULL, ylab = NULL, log = "",
-             cex = par("cex"), col = par("col"), ...)
+             type = "n", xlab = NULL, ylab = NULL, log = "",
+             cex = par("cex"), col = par("col"), pt.col = par("col"), ...)
 {
     ## Purpose: "Name Plot"; Names (or numbers) instead of points in plot(..)
     ## --> help(n.plot) !
@@ -13,7 +13,7 @@ n.plot <-
     xy <- xy.coords(x, y, xlabel, ylabel, log)
     xlab <- xlab %||% xy$xlab
     ylab <- ylab %||% xy$ylab
-    plot(xy, type = 'n', xlab = xlab, ylab = ylab, log = log, ...)
+    plot(xy, type = type, xlab = xlab, ylab = ylab, log = log, col = pt.col, ...)
     n <- length(x)
     ## Use "any names", otherwise take  1,2,.. :
     nam <- nam %||% rownames(x) %||% names(x) %||% names(y) %||% as.character(seq_len(n))

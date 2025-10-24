@@ -7,11 +7,13 @@
 %%% TODO:
       %% \item New \code{rDatetime()} for random date/time sequences
       %% within a specified time range.
-\section{CHANGES in sfsmisc VERSION 1.1-23 [2025-09-22]}{
+\section{CHANGES in sfsmisc VERSION 1.1-23 [2025-10-24]}{
   \subsection{NEW FEATURES}{
     \itemize{
       \item \code{pkgDesc()} gets a new option \code{onlyLT = <num>} which
       by default skips longish \code{Author} and \code{Description} fields.
+
+      \item \code{n.plot()} gets new arguments \code{type} and \code{pt.col}.
     }
   }
   \subsection{BUG FIXES}{
