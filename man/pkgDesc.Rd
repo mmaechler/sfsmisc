@@ -49,7 +49,7 @@ str(p1 <- pkgDesc("sfsmisc", onlyLT = Inf)) # .. [1:25] ..
 str(pD  <-pkgDesc("sfsmisc"              )) # .. [1:21] ..
 str(p50 <-pkgDesc("sfsmisc", onlyLT = 50 )) # .. [1:18] ..
 t(sapply(list(full = p1, def. = pD, p50 = p50),
-         \(pd) {n <- nchar(pd); c(summary(n)[-1], SUM = sum(n))}))
+         function(pd) {n <- nchar(pd); c(summary(n)[-1], SUM = sum(n))}))
 
 pkgBuilt("sfsmisc")
 
