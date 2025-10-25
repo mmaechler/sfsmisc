@@ -10,6 +10,10 @@
 \section{CHANGES in sfsmisc VERSION 1.1-23 [2025-10-24]}{
   \subsection{NEW FEATURES}{
     \itemize{
+      \item New simple \code{formatN()} for formatting typically
+      exponentially formatted numbers more compactly than usually in \R, or
+      C, C++, etc.
+
       \item \code{pkgDesc()} gets a new option \code{onlyLT = <num>} which
       by default skips longish \code{Author} and \code{Description} fields.
 

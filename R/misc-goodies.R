@@ -1083,3 +1083,10 @@ read.org.table <- function(file, header = TRUE, skip = 0,
     read.table(f.ll, header=FALSE, sep = "|",
                col.names = col.names, nrows=nrows, ...) # , encoding = "UTF-8" *not* good
 }
+
+## as compact numeric format() as possible
+formatN <- function(x, digits = 1L) {
+    stopifnot(is.numeric(x) || is.complex(x))
+    op <- options(scipen = -2L); on.exit(options(op))
+    sub("e-0*", "e-", sub("e\\+0*","e", vapply(x, format, "", digits = digits) ))
+}

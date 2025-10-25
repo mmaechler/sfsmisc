@@ -73,6 +73,7 @@ export (
 	"empty.dimnames",
 	"errbar",
 	"f.robftest",
+    formatN,
     funEnv,
 	"hatMat",
         "histBxp", # defunct: "hist.bxp"
