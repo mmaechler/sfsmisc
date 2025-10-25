@@ -23,7 +23,7 @@ n.plot(x, y = NULL, nam = NULL, abbr = n >= 20 || max(nchar(nam))>=8,
   \item{abbr}{logical indicating if the \code{nam} labels should be
     abbreviated -- with a sensible default.}
   \item{type}{passed to \code{plot.default},a string denoting the type of
-    the initial \code{\link{plot()}} call; the default draws nothing but
+    the initial \code{\link{plot}()} call; the default draws nothing but
     the axes, etc; \code{type = "l"} maybe useful occasionally.}
   \item{xlab, ylab}{labels for the x- and y- axis, the latter being empty
     by default.}
