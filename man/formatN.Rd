@@ -6,7 +6,7 @@
   for \dQuote{exponential} aka \dQuote{scientific} format.
 }
 \usage{
-formatN(x, digits = 1L, sci = c(-2L, -1L))
+formatN(x, digits = 1L, sci = c(-1L, -2L))
 }
 \arguments{
   \item{x}{numeric or complex vector of numbers.}
