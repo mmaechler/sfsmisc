@@ -1085,8 +1085,10 @@ read.org.table <- function(file, header = TRUE, skip = 0,
 }
 
 ## as compact numeric format() as possible
-formatN <- function(x, digits = 1L) {
-    stopifnot(is.numeric(x) || is.complex(x))
-    op <- options(scipen = -2L); on.exit(options(op))
-    sub("e-0*", "e-", sub("e\\+0*","e", vapply(x, format, "", digits = digits) ))
+formatN <- function(x, digits = 1L, sci = c(-1L,-2L)) {
+    stopifnot(is.numeric(x) || is.complex(x), sci == as.integer(sci))
+    if(length(sci) == 1L) sci <- sci[c(1L,1L)]
+    sub("e-0*", "e-",
+        sub("e\\+0*","e",
+            vapply(x, function(u) format(u, digits=1, scientific = sci[if(abs(u) < 1) 1 else 2]), "")))
 }

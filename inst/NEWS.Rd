@@ -7,7 +7,7 @@
 %%% TODO:
       %% \item New \code{rDatetime()} for random date/time sequences
       %% within a specified time range.
-\section{CHANGES in sfsmisc VERSION 1.1-23 [2025-10-24]}{
+\section{CHANGES in sfsmisc VERSION 1.1-23 [2025-11-20]}{
   \subsection{NEW FEATURES}{
     \itemize{
       \item New simple \code{formatN()} for formatting typically
