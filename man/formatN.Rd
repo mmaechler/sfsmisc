@@ -13,7 +13,10 @@ formatN(x, digits = 1L, sci = c(-2L, -1L))
   \item{digits}{positive integer number of digits to use.}
   \item{sci}{one or two small integers specifying
     \code{\link{format.default}}'s \code{scientific} argument (see
-    \code{\link{options}("scipen")}) for \code{abs(x) < 1} and \eqn{\ge 1}{>= 1}.}
+    \code{\link{options}("scipen")}) for \code{abs(x) < 1} and \eqn{\ge 1}{>= 1}.
+    Note that the default \code{(-2. -1)} seems optimal; this argument
+    exists mostly to explore possibilities and to prove optimality of its
+    default.}
 }
 \value{
   a \code{\link{character}} vector of the same length as \code{x}.
