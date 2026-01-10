@@ -7,6 +7,19 @@
 %%% TODO:
       %% \item New \code{rDatetime()} for random date/time sequences
       %% within a specified time range.
+\section{CHANGES in sfsmisc VERSION 1.1-24 [2026-01-10]}{
+  \subsection{NEW FEATURES}{
+    \itemize{
+      \item .
+    }
+  }
+  \subsection{BUG FIXES}{
+    \itemize{
+      \item \code{formatN(*, digits)} now \emph{does} use \code{digits}.
+    }
+  }
+}
+
 \section{CHANGES in sfsmisc VERSION 1.1-23 [2025-11-20]}{
   \subsection{NEW FEATURES}{
     \itemize{
@@ -27,6 +40,7 @@
     }
   }
 }
+
 \section{CHANGES in sfsmisc VERSION 1.1-22 [2025-08-30]}{
   \subsection{NEW FEATURES}{
     \itemize{
