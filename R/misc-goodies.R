@@ -1090,5 +1090,5 @@ formatN <- function(x, digits = 1L, sci = c(-1L,-2L)) {
     if(length(sci) == 1L) sci <- c(sci,sci)
     sub("e-0*", "e-",
         sub("e\\+0*","e",
-            vapply(x, function(u) format(u, digits=1, scientific = sci[if(abs(u) < 1) 1 else 2]), "")))
+            vapply(x, function(u) format(u, digits=digits, scientific = sci[if(abs(u) < 1) 1 else 2]), "")))
 }
