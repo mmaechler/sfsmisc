@@ -63,5 +63,5 @@ pkgs <- c("foobar", "barbar", pkgs, "kitty") # + names that typically don't exis
 pkgsOk <- basename(find.package(pkgs, quiet=TRUE))
 mpkg <- sapply(pkgsOk, pkgBuilt)
 stopifnot(is.matrix(mpkg), nrow(mpkg) == 2)
-mpkg["Built",]
+t(mpkg["Built", , drop=FALSE]) # as 1-column matrix for readibility
 }

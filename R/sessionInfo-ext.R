@@ -114,6 +114,7 @@ shortRversion <- function(Rv = R.version,
                           date = Rst != "",
                           spaces = TRUE)
 {
+    ## for non-empty Rst (typically R.version$status), i.e., R-devel, ..:
     pat <- paste0("\\(", if(date) "([^)]+)" else "[0-9]{4}-[0-9]{2}-[0-9]{2} *(.+)",
                   "\\)$")
     r <-
