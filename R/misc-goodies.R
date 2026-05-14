@@ -326,7 +326,7 @@ polyn.eval <- function(coef, x)
     else {
       r <- coef[lc]
       if (lc == 1L)
-        r + 0*x # keep dim(x) 
+        r + 0*x # keep dim(x)
       else { # lc > 1
 	for (i in (lc-1):1) r <- coef[i] + r*x
         r
@@ -1091,4 +1091,23 @@ formatN <- function(x, digits = 1L, sci = c(-1L,-2L)) {
     sub("e-0*", "e-",
         sub("e\\+0*","e",
             vapply(x, function(u) format(u, digits=digits, scientific = sci[if(abs(u) < 1) 1 else 2]), "")))
+}
+
+## called this 'show01()` first --- useful to show long bit-strings / -vectors
+##' @example z <- rbinom(120, size = 1, prob = 1/2); compact01(z)  compact01(z, 40) ...
+compact01 <- function(z, ncol = 50L) {
+    stopifnot(ncol == (nc <- as.integer(ncol)), nc >= 1L)
+    if((lz <- length(z)) == 0L)
+        return(matrix(character(), 0L, 1L))
+    sn <- symnum(z == 1)# sn[]: character & 'noquote'
+    if (nc > lz)
+        nc <- lz
+    else if((r <- lz %% nc) != 0) # fill "remainder" with blanks
+        sn[lz + seq_len(nc - r)] <- " "
+    ss <- matrix(sn, ncol=nc, byrow=TRUE)
+    ## return character matrix  {K x 1} each row a string of length `nc`,
+    ##                                  with empty colname and 'bit counting' rownames):
+    ## if R >= 4.1.0  apply(ss, 1L, paste, collapse="") |> cbind(deparse.level = 0L) |> noquote(),
+    `dimnames<-`(noquote(cbind(apply(ss, 1L, paste, collapse=""), deparse.level = 0L)),
+                 list(format(1 + nc*(0:(nrow(ss)-1L))), ""))
 }
