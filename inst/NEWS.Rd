@@ -20,6 +20,8 @@
 
       \item \code{Sys.sizes( * )} example needs a \code{try( . )} because
       of Alpine Linux' possibility of a cheap \command{ps}.
+
+      \item remove `^L` from \file{man/Sys.ps.Rd} as it warns now.
     }
   }
 }

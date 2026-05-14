@@ -326,7 +326,7 @@ Sys.sizes(process = Sys.getpid(), ps.cmd = Sys.ps.cmd())
 %%  |__________________________________|___________________________________|
 %%
 
-
+
 %%--- Linux  man ps   has :
 
 %%  STANDARD FORMAT SPECIFIERS
