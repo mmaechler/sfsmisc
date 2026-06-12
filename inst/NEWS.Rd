@@ -7,6 +7,15 @@
 %%% TODO:
       %% \item New \code{rDatetime()} for random date/time sequences
       %% within a specified time range.
+\section{CHANGES in sfsmisc VERSION 1.1-25 [2026-06-12]}{
+  \subsection{NEW FEATURES}{
+    \itemize{
+      \item \code{shortRversion()} gets new option \code{dots}, with
+      \code{dots = FALSE} omitting \code{"."} from its result string.
+    }
+  }
+}
+
 \section{CHANGES in sfsmisc VERSION 1.1-24 [2026-05-14]}{
   \subsection{NEW FEATURES}{
     \itemize{

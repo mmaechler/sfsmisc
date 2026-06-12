@@ -11,7 +11,7 @@
 \usage{
 shortRversion(Rv = R.version, Rst = Rv$status,
               Rvstring = if (!is.null(s <- Rv$version.string)) s else R.version.string,
-              date = Rst != "", spaces = TRUE)
+              date = Rst != "", dots = TRUE, spaces = dots)
 }
 \arguments{
   \item{Rv}{a \code{\link{list}} with some of the same components as \code{\link{R.version}}.}
@@ -22,6 +22,11 @@ shortRversion(Rv = R.version, Rst = Rv$status,
   \item{date}{logical specifying if the date of the \R version should be
     included in the result; by default, this will be true only for
     non-released versions of \R.}
+  \item{dots}{logical indicating if \code{"."} may remain as in the
+    original \code{Rv}; if false, the \code{"."}s are \emph{omitted},
+    i.e., formally \code{\link{gsub}("\\.", "", *)}.
+    In \pkg{sfsmisc} versions, \code{dots} was no argument, with
+    behaviour corresponding to \code{dots = TRUE}.}
   \item{spaces}{logical indicating if the result may contain spaces (aka
     \sQuote{blanks}); setting it to false, replaces the blanks by \code{"-"} and \code{"_"}.}
 }
@@ -37,6 +42,7 @@ shortRversion() ## (including the date, typically for an R Core developer)
 ## but this is shorter:
 (Rver <- shortRversion(date=FALSE))
 shortRversion(spaces=FALSE)# e.g. for a file of even directory name
+shortRversion(dots = FALSE)# even shorter as it entails spaces=FALSE
 shortRversion(spaces=FALSE, date=FALSE)# even shorter, ditto
 
 ## If you want even shorter { abbreviate() will remove spaces, too }:

@@ -112,7 +112,7 @@ shortRversion <- function(Rv = R.version,
                                          ## in R 0.90.1 had no $version.string
                                          s else R.version.string,
                           date = Rst != "",
-                          spaces = TRUE)
+                          dots = TRUE, spaces = dots)
 {
     ## for non-empty Rst (typically R.version$status), i.e., R-devel, ..:
     pat <- paste0("\\(", if(date) "([^)]+)" else "[0-9]{4}-[0-9]{2}-[0-9]{2} *(.+)",
@@ -129,5 +129,6 @@ shortRversion <- function(Rv = R.version,
         else
             stop("invalid R.version $ status: ", sQuote(Rst))
 
+    if(!dots) r <- gsub("\\.", "", r)
     if(spaces) r else gsub(" ", "_", sub("^R ", "R-", r))
 }
