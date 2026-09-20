@@ -7,6 +7,17 @@
 %%% TODO:
       %% \item New \code{rDatetime()} for random date/time sequences
       %% within a specified time range.
+
+\section{CHANGES in sfsmisc VERSION 1.1-26 [2026-..-..]}{
+  \subsection{DEPRECATED & DEFUNCT}{
+    \itemize{
+      \item \code{formatN()} is deprecated, as it is relatively new, and
+      packages \pkg{Rmpfr} and \pkg{gmp} already have an S3 generic called
+      \code{formatN()} with several methods.
+    }
+  }
+}
+
 \section{CHANGES in sfsmisc VERSION 1.1-25 [2026-08-03]}{
   \subsection{NEW FEATURES}{
     \itemize{
@@ -203,11 +214,6 @@
       length zero, but no longer when only one of them is.
     }
   }
-  %% \subsection{DEPRECATED & DEFUNCT}{
-  %%   \itemize{
-  %%     \item
-  %%   }
-  %% }
 }
 
 \section{CHANGES in sfsmisc VERSION 1.1-11 [2021-04-03]}{

@@ -74,7 +74,8 @@ export (
 	"empty.dimnames",
 	"errbar",
 	"f.robftest",
-    formatN,
+    frmtNum,
+    formatN, # deprecated in favor of 'frmtNum'
     funEnv,
 	"hatMat",
         "histBxp", # defunct: "hist.bxp"
